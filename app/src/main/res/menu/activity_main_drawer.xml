@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_Componylist"
+            android:icon="@drawable/ic_flag"
+            android:title="Pages" />
+        <item
+            android:id="@+id/nav_topperform"
+            android:icon="@drawable/ic_settings_icon"
+            android:title="Setting" />
+        <item
+            android:id="@+id/nav_spill"
+            android:icon="@drawable/ic_happy_faces_icon"
+            android:title="Community" />
+        <item
+            android:id="@+id/nav_dash"
+            android:icon="@drawable/ic_newsfeed_icon"
+            android:title="Account Dashboard" />
+        <item
+            android:id="@+id/nav_rewards"
+            android:icon="@drawable/ic_trophy_icon"
+            android:title="Rewards" />
+        <item
+            android:id="@+id/support"
+            android:icon="@drawable/ic_phone"
+            android:title="+91 90049 01264" />
+        <item
+            android:id="@+id/nav_wallet"
+            android:icon="@drawable/ic_coin"
+            android:title="Fund Transfer" />
+    </group>
+    <item android:title="YOUR ACCOUNT">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@android:drawable/ic_lock_power_off"
+                android:title="@string/logout" />
+        </menu>
+    </item>
+</menu>

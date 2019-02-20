@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/upDp" android:visible="true" android:title="Update Profile Photo" app:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/upBp" android:visible="true" android:title="Update Header Photo" app:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/upAccountsetting" android:visible="true" android:title="Account Settings" app:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/upCApingLimit" android:visible="false" android:title="Upgrade Capping Limit" app:showAsAction="ifRoom|withText" />
+</menu>

@@ -1,0 +1,565 @@
+package com.digital.gnsbook.Activity;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.PorterDuff.Mode;
+import android.net.Uri;
+import android.net.Uri.Builder;
+import android.os.AsyncTask;
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
+import android.support.design.widget.TabLayout;
+import android.support.design.widget.TabLayout.Tab;
+import android.support.design.widget.TabLayout.ViewPagerOnTabSelectedListener;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.WindowManager.LayoutParams;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.TextView;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.load.Key;
+import com.digital.gnsbook.Config.APIs;
+import com.digital.gnsbook.Config.AppController;
+import com.digital.gnsbook.Config.DbHelper;
+import com.digital.gnsbook.Config.SQLiteHandler;
+import com.digital.gnsbook.Config.SessionManager;
+import com.digital.gnsbook.Fragment.ProfileFragment;
+import com.digital.gnsbook.Fragment.ThreeFragment;
+import com.digital.gnsbook.Fragment.WallPostFragment;
+import com.digital.gnsbook.FragmentViewPagerAdapter;
+import com.digital.gnsbook.Global;
+import com.digital.gnsbook.Payment.LoadMoney;
+import com.digital.gnsbook.Payment.Manual_Payment;
+import com.digital.gnsbook.Payment_corpoarate.Corporate_Agent_Signup;
+import com.digital.gnsbook.Payment_corpoarate.Corporate_BenificiaryList;
+import com.digital.gnsbook.UserVerification;
+import com.digital.gnsbook.ViewDialog;
+import com.httpgnsbook.gnsbook.R;
+import com.mikelau.croperino.Croperino;
+import com.mikelau.croperino.CroperinoConfig;
+import com.mikelau.croperino.CroperinoFileUtil;
+import com.squareup.picasso.Picasso;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class MainActivity extends AppCompatActivity implements OnNavigationItemSelectedListener {
+    private FragmentViewPagerAdapter adapter;
+    Bitmap bitmap;
+    SQLiteHandler db;
+    ViewDialog dialog;
+    private List<Fragment> fragments = new ArrayList();
+    ImageView profileImage;
+    SessionManager session;
+    private int[] tabIcons = new int[]{R.drawable.ic_newsfeed_icon, R.drawable.ic_user_avatar, R.drawable.ic_stats_icon};
+    private TabLayout tabLayout;
+    private List<String> titles = new ArrayList();
+    HashMap<String, String> user;
+    private ViewPager viewPager;
+
+    /* renamed from: com.digital.gnsbook.Activity.MainActivity$5 */
+    class C04225 implements OnClickListener {
+        C04225() {
+        }
+
+        public void onClick(View view) {
+            if (Global.A_status.equals("0")) {
+                MainActivity.this.startActivity(new Intent(MainActivity.this.getApplicationContext(), Corporate_Agent_Signup.class));
+            } else if (Global.A_status.equals("1")) {
+                MainActivity.this.startActivity(new Intent(MainActivity.this.getApplicationContext(), Corporate_BenificiaryList.class));
+            } else if (Global.A_status.equals("-1")) {
+                Global.diloge(MainActivity.this, "Pending", "Your GNSBOOK wallet is in under verification");
+            }
+        }
+    }
+
+    /* renamed from: com.digital.gnsbook.Activity.MainActivity$6 */
+    class C04236 implements OnClickListener {
+        C04236() {
+        }
+
+        public void onClick(View view) {
+            if (Global.verify_sms.equals("1")) {
+                Global.diloge(MainActivity.this, "User not verified", "For Fund Transfer from GnsBook you have to verify your mobile no.");
+            } else if (Global.A_status.equals("0") ) {
+                MainActivity.this.startActivity(new Intent(MainActivity.this.getApplicationContext(), Corporate_Agent_Signup.class));
+            } else if (Global.A_status.equals("1")) {
+                MainActivity.this.startActivity(new Intent(MainActivity.this.getApplicationContext(), Manual_Payment.class));
+            } else if (Global.A_status.equals("-1")) {
+                Global.diloge(MainActivity.this, "Pending", "Your GNSBOOK wallet is in under verification");
+            }
+        }
+    }
+
+    /* renamed from: com.digital.gnsbook.Activity.MainActivity$7 */
+    class C04247 implements DialogInterface.OnClickListener {
+        C04247() {
+        }
+
+        public void onClick(DialogInterface dialogInterface, int i) {
+            dialogInterface.dismiss();
+        }
+    }
+
+    public class UserDetailTask extends AsyncTask<String, String, String> {
+        ///   ProgressDialog pdLoading = new ProgressDialog(MainActivity.this);
+        HttpURLConnection conn;
+        URL url = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            //this method will be running on UI thread
+            // pdLoading.setMessage("\tLoading...");
+            dialog.show();
+
+        }
+
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                // Enter URL address where your php file resides
+                //url = new URL("http://192.168.2.2:80/pro/login.inc.php");
+                url = new URL(APIs.ProfileDetail);
+                //url = new URL("http://www.sd-constructions.com/bhushan/login.inc.php");
+
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "exception";
+            }
+            try {
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection)url.openConnection();
+                conn.setReadTimeout(Global.READ_TIMEOUT);
+                conn.setConnectTimeout(Global.CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                // Append parameters to URL
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("customer_id", params[0]);
+                String query = builder.build().getEncodedQuery();
+
+                // Open connection for sending data
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return "exception";
+            }
+
+            try {
+
+                int response_code = conn.getResponseCode();
+
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
+
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+
+                    // Pass data to onPostExecute method
+                    return(result.toString());
+
+                }else{
+
+                    return("unsuccessful");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+
+            dialog.dismiss();
+            try {
+
+                JSONObject jsonObject = new JSONObject(result);
+
+                if (jsonObject.getBoolean("status")){
+
+
+
+                    JSONArray jsonArray = jsonObject.getJSONArray("result");
+                    JSONObject object = jsonArray.getJSONObject(0);
+                    Global.name = object.getString("name") + object.getString("last_name");
+
+                    Global.DP = object.getString("d_pic");
+                    Global.Banner = object.getString("b_pic");
+                    Global.City = object.getString("city");
+                    Global.premium_status = object.getInt("premium_status");
+                    Picasso.get().load(APIs.Dp + Global.DP).into(profileImage);
+
+
+
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+        @Override
+        protected void onCancelled() {
+
+        }
+    }
+
+    /* renamed from: com.digital.gnsbook.Activity.MainActivity$2 */
+    class C08902 implements Listener<String> {
+        C08902() {
+        }
+
+        public void onResponse(String str) {
+            try {
+                JSONObject jSONObject = new JSONObject(str);
+                if (jSONObject.getBoolean("status")) {
+                    Global.A_status = jSONObject.getJSONArray("result").getJSONObject(0).getString("agent_status");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /* renamed from: com.digital.gnsbook.Activity.MainActivity$3 */
+    class C08913 implements ErrorListener {
+        public void onErrorResponse(VolleyError volleyError) {
+        }
+
+        C08913() {
+        }
+    }
+
+    /* renamed from: com.digital.gnsbook.Activity.MainActivity$9 */
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+        setContentView((int) R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.maintoolbar);
+        setSupportActionBar(toolbar);
+        this.dialog = new ViewDialog(this);
+        setTitle("");
+        this.session = new SessionManager(this);
+        this.db = new SQLiteHandler(this);
+        this.user = this.db.getUserDetails();
+        String str = (String) this.user.get("name");
+        Global.Email = (String) this.user.get(NotificationCompat.CATEGORY_EMAIL);
+        Global.mobile = (String) this.user.get("mobile");
+        Global.customerid = (String) this.user.get("customer_id");
+        Global.userid = (String) this.user.get("customer_id");
+        Global.refferalid = (String) this.user.get("referral_id");
+        Global.agentid = (String) this.user.get("aid");
+        Global.name = str;
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        new UserDetailTask().execute(new String[]{Global.customerid});
+        navigationView.setItemIconTintList(null);
+
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUsername = headerView.findViewById(R.id.navUserName);
+        navUsername.setText(Global.name);
+        profileImage = headerView.findViewById(R.id.profileImage);
+        TextView NavEmail = headerView.findViewById(R.id.navEmail);
+        NavEmail.setText(Global.Email);
+
+        viewPager = (ViewPager) findViewById(R.id.container);
+        viewPager.setOffscreenPageLimit(3);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        prepareDataResource();
+        this.adapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), this.fragments, this.titles);
+
+        viewPager.setAdapter(this.adapter);
+        tabLayout.setupWithViewPager(this.viewPager);
+        tabLayout.setOnTabSelectedListener(new ViewPagerOnTabSelectedListener(this.viewPager) {
+            public void onTabSelected(Tab tab) {
+                super.onTabSelected(tab);
+                tab.getIcon().setColorFilter(ContextCompat.getColor(MainActivity.this.getApplicationContext(), R.color.white), Mode.SRC_IN);
+            }
+
+            public void onTabUnselected(Tab tab) {
+                super.onTabUnselected(tab);
+                tab.getIcon().setColorFilter(ContextCompat.getColor(MainActivity.this.getApplicationContext(), R.color.colorPrimaryDark), Mode.SRC_IN);
+            }
+
+            public void onTabReselected(Tab tab) {
+                super.onTabReselected(tab);
+            }
+        });
+        setTabIcons();
+        new UserVerification(MainActivity.this);
+        getAgentStatus();
+    }
+
+    private void getAgentStatus() {
+        AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.AgenStatus, new C08902(), new C08913()) {
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> hashMap = new HashMap();
+                hashMap.put("customer_id", Global.customerid);
+                return hashMap;
+            }
+        });
+    }
+
+    private void setTabIcons() {
+        this.tabLayout.getTabAt(0).setIcon(this.tabIcons[0]);
+        this.tabLayout.getTabAt(1).setIcon(this.tabIcons[1]);
+        this.tabLayout.getTabAt(2).setIcon(this.tabIcons[2]);
+    }
+
+    private void prepareDataResource() {
+        this.fragments = new ArrayList();
+        this.fragments.add(new WallPostFragment());
+        this.fragments.add(new ProfileFragment());
+        this.fragments.add(new ThreeFragment());
+        this.titles.add("");
+        this.titles.add("");
+        this.titles.add("");
+        this.viewPager.setAdapter(new FragmentViewPagerAdapter(getSupportFragmentManager(), this.fragments, this.titles));
+        this.tabLayout.setupWithViewPager(this.viewPager);
+        this.viewPager.setCurrentItem(1);
+        this.viewPager.setCurrentItem(0);
+    }
+
+    public void onBackPressed() {
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawerLayout.isDrawerOpen((int) GravityCompat.START)) {
+            drawerLayout.closeDrawer((int) GravityCompat.START);
+        } else {
+            finish();
+        }
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() != R.id.mnAdd) {
+            return super.onOptionsItemSelected(menuItem);
+        }
+        return true;
+    }
+
+    public boolean onNavigationItemSelected(MenuItem Item) {
+        int menuItem = Item.getItemId();
+        if (menuItem == R.id.nav_dash) {
+            startActivity(new Intent(getApplicationContext(), Account.class));
+        } else if (menuItem == R.id.nav_spill) {
+            startActivity(new Intent(getApplicationContext(), SpillTree.class));
+        } else if (menuItem == R.id.nav_Componylist) {
+            startActivity(new Intent(getApplicationContext(), Compony_list.class));
+        } else if (menuItem == R.id.nav_topperform) {
+            startActivity(new Intent(getApplicationContext(), ProfilePage.class));
+        } else if (menuItem == R.id.nav_rewards) {
+            startActivity(new Intent(getApplicationContext(), Pool_Rewards.class));
+        } else if (menuItem == R.id.support) {
+            callPhoneNumber();
+        } else if (menuItem == R.id.nav_wallet) {
+            fundTransfer();
+        } else if (menuItem == R.id.nav_logout) {
+            Logout();
+        }
+        ((DrawerLayout) findViewById(R.id.drawer_layout)).closeDrawer((int) GravityCompat.START);
+        return true;
+    }
+
+    private void fundTransfer() {
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        View inflate = getLayoutInflater().inflate(R.layout.transactionmode, null);
+        builder.setView(inflate);
+        TextView textView = (TextView) inflate.findViewById(R.id.new_FundTrans);
+        TextView textView2 = (TextView) inflate.findViewById(R.id.old_FundTrans);
+        builder.create().show();
+        textView.setOnClickListener(new C04225());
+        textView2.setOnClickListener(new C04236());
+    }
+
+    private void Logout() {
+        this.session.setLogin(false);
+        this.db.deleteUsers();
+        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+    }
+
+    public void onRequestPermissionsResult(int i, String[] strArr, int[] iArr) {
+        if (i == 101 && iArr[0] == 0) {
+            callPhoneNumber();
+        }
+    }
+
+    public void callPhoneNumber() {
+        try {
+            if (VERSION.SDK_INT <= 22) {
+                startActivity(new Intent("android.intent.action.CALL", Uri.parse("tel:9004901264")));
+            } else if (ContextCompat.checkSelfPermission(this, "android.permission.CALL_PHONE") != 0) {
+                ActivityCompat.requestPermissions(this, new String[]{"android.permission.CALL_PHONE"}, 101);
+            } else {
+                startActivity(new Intent("android.intent.action.CALL", Uri.parse("tel:9004901264")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case CroperinoConfig.REQUEST_TAKE_PHOTO:
+                if (resultCode == Activity.RESULT_OK) {
+                    Croperino.runCropImage(CroperinoFileUtil.getTempFile(), MainActivity.this, true, 1, 1, R.color.nav_textcolor, R.color.nav_textcolor);
+                }
+                break;
+            case CroperinoConfig.REQUEST_PICK_FILE:
+                if (resultCode == Activity.RESULT_OK) {
+                    CroperinoFileUtil.newGalleryFile(data, MainActivity.this);
+                    Croperino.runCropImage(CroperinoFileUtil.getTempFile(), MainActivity.this, true, 3, 1, R.color.nav_textcolor, R.color.nav_textcolor);
+                }
+                break;
+            case CroperinoConfig.REQUEST_CROP_PHOTO:
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri i = Uri.fromFile(CroperinoFileUtil.getTempFile());
+                    bitmap = Global.uriToBitmap(i,MainActivity.this);
+                    Log.d("bit", String.valueOf(bitmap));
+                    // ivMain.setImageBitmap(getRoundedCroppedBitmap(uriToBitmap(i)));
+                    UploadProfile(Global.encodeTobase64(bitmap));
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void UploadProfile(final String Base64) {
+        dialog.show();
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, APIs.uploadbanner, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                dialog.dismiss();
+
+                try {
+                    JSONObject object = new JSONObject(response);
+
+                    if (object.getBoolean("status")){
+                        Global.successDilogue(MainActivity.this,object.getString("result"));
+                    }else {
+                        Global.failedDilogue(MainActivity.this,object.getString("result"));
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> param = new HashMap<>();
+
+                param.put("customer_id",Global.customerid);
+                param.put("string",Base64);
+
+                return param;
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+
+}

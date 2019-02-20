@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16.0dip">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="4.0dip">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sourcesanspro_regular"
+                    android:text="Enter Your Personal Details : "
+                    android:textSize="@dimen/activity_horizontal_margin" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16">
+
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="2.0dip"
+                        android:layout_weight="1.0">
+
+                        <EditText
+                            android:id="@+id/prname"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_light"
+                            android:hint="First Name"
+                            android:inputType="text"
+                            android:maxLength="14"
+                            android:padding="12.0dip"
+                            android:singleLine="true"
+                            android:textColor="@android:color/background_dark" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2.0dip"
+                        android:layout_weight="1.0">
+
+                        <EditText
+                            android:id="@+id/prlname"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_light"
+                            android:hint="Last Name"
+                            android:inputType="text"
+                            android:maxLength="14"
+                            android:padding="12.0dip"
+                            android:singleLine="true"
+                            android:textColor="@android:color/background_dark" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16.0dip"
+                    android:background="@drawable/border">
+
+                    <org.angmarch.views.NiceSpinner
+                        android:id="@+id/prgender_spinner"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2.0dip"
+                        android:background="@drawable/border"
+                        android:gravity="left"
+                        android:hint="Gender"
+                        app:fontFamily="@font/roboto_light" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16.0dip"
+                    android:background="@drawable/border"
+                    android:gravity="center">
+
+                    <EditText
+                        android:id="@+id/DOB"
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="8.0"
+                        android:background="@drawable/border"
+                        android:focusable="false"
+                        android:fontFamily="@font/roboto_light"
+                        android:hint="DOB"
+                        android:padding="12.0dip"
+                        android:singleLine="true"
+                        android:textColor="@android:color/background_dark" />
+
+                    <ImageView
+                        android:id="@+id/picdate"
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2.0"
+                        android:src="@drawable/ic_calendar_icon" />
+                </LinearLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16.0dip">
+
+                    <EditText
+                        android:id="@+id/proccupation"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_light"
+                        android:hint="Your Occupation"
+                        android:padding="12.0dip"
+                        android:singleLine="true"
+                        android:textColor="@android:color/background_dark" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16.0dip">
+
+                    <EditText
+                        android:id="@+id/prDesc"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_light"
+                        android:hint="Write a little description about you"
+                        android:padding="12.0dip"
+                        android:singleLine="true"
+                        android:textColor="@android:color/background_dark" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16"
+            android:fontFamily="@font/sourcesanspro_regular"
+            android:text="Enter Your Personal Details : "
+            android:textSize="@dimen/activity_horizontal_margin" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16"
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="4.0dip">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:orientation="vertical">
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16.0dip">
+
+                    <EditText
+                        android:id="@+id/prstate"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_light"
+                        android:hint="State"
+                        android:padding="12.0dip"
+                        android:singleLine="true"
+                        android:textColor="@android:color/background_dark" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16.0dip">
+
+                    <EditText
+                        android:id="@+id/prCity"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_light"
+                        android:hint="City"
+                        android:padding="12.0dip"
+                        android:singleLine="true"
+                        android:textColor="@android:color/background_dark" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16.0dip">
+
+                    <EditText
+                        android:id="@+id/prpincode"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_light"
+                        android:hint="Pincode"
+                        android:padding="12.0dip"
+                        android:singleLine="true"
+                        android:textColor="@android:color/background_dark" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16.0dip">
+
+                    <EditText
+                        android:id="@+id/prwebsite"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_light"
+                        android:hint="WebSite"
+                        android:padding="12.0dip"
+                        android:singleLine="true"
+                        android:textColor="@android:color/background_dark" />
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/passwordmessage"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:text="Password must contain one capital letter,one small letter,one special character and one number."
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="10.0sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <Button
+            android:id="@+id/updatedata"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:background="@color/colorPrimary"
+            android:text="Save  Changes"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16"
+            android:fontFamily="@font/sourcesanspro_regular"
+            android:text="Contact Details :"
+            android:textSize="@dimen/activity_horizontal_margin" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16"
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="4.0dip">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16"
+                    android:fontFamily="@font/sourcesanspro_regular"
+                    android:text="Mobile Number:"
+                    android:textSize="@dimen/activity_horizontal_margin" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:gravity="center"
+                    android:padding="@dimen/fragment_title_padding_10">
+
+                    <EditText
+                        android:id="@+id/prvmobile"
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8.0dip"
+                        android:layout_weight="8.0"
+                        android:background="@android:color/transparent"
+                        android:fontFamily="@font/roboto_light"
+                        android:hint="Mobile No"
+                        android:inputType="number"
+                        android:textSize="@dimen/margin_16" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16">
+
+                    <Button
+                        android:id="@+id/vrmb"
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:layout_weight="2.0"
+                        android:gravity="center"
+                        android:text="Verify Number"
+                        android:textColor="@color/white"
+                        android:textSize="10.0dip" />
+
+                    <Button
+                        android:id="@+id/vrmbstst"
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:layout_weight="2.0"
+                        android:gravity="center"
+                        android:text="Update Number"
+                        android:textColor="@color/white"
+                        android:textSize="10.0dip" />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16"
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="4.0dip">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16"
+                    android:fontFamily="@font/sourcesanspro_regular"
+                    android:text="Email Address:"
+                    android:textSize="@dimen/activity_horizontal_margin" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fragment_title_padding_10"
+                    android:background="@drawable/border"
+                    android:gravity="center"
+                    android:padding="@dimen/fragment_title_padding_10">
+
+                    <EditText
+                        android:id="@+id/prvemail"
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="8.0"
+                        android:background="@android:color/transparent"
+                        android:fontFamily="@font/roboto_light"
+                        android:hint="Email ID"
+                        android:inputType="textEmailAddress"
+                        android:textSize="@dimen/margin_16" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16">
+
+                    <Button
+                        android:id="@+id/vrem"
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:layout_weight="2.0"
+                        android:gravity="center"
+                        android:text="Verify Email"
+                        android:textColor="@color/white"
+                        android:textSize="10.0dip" />
+
+                    <Button
+                        android:id="@+id/vremstst"
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:layout_weight="2.0"
+                        android:gravity="center"
+                        android:text="Update Email"
+                        android:textColor="@color/white"
+                        android:textSize="10.0dip" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/prverify"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fragment_title_padding_10"
+                    android:clickable="true"
+                    android:text="Click here to verify your contact detail."
+                    android:textColor="@color/holo_blue_light"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</ScrollView>

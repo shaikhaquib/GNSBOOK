@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8.0dip">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="@dimen/activity_vertical_margin"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8.0dip"
+                        android:fontFamily="@font/roboto_light"
+                        android:gravity="center"
+                        android:text="It seem you have not register as a agent \n Plese Enter Pincode of your location"
+                        android:textSize="@dimen/activity_vertical_margin" />
+
+                    <EditText
+                        android:id="@+id/agPincode"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_vertical_margin"
+                        android:layout_marginTop="8.0dip"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:background="@drawable/border"
+                        android:fontFamily="@font/sourcesanspro_regular"
+                        android:gravity="center"
+                        android:hint="Address"
+                        android:padding="8.0dip"
+                        android:textSize="@dimen/activity_vertical_margin" />
+
+                    <Button
+                        android:id="@+id/btnAgentsignup"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/activity_vertical_margin"
+                        android:background="@color/colorPrimary"
+                        android:fontFamily="@font/sourcesanspro_regular"
+                        android:maxLength="11"
+                        android:text="submit"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/activity_vertical_margin" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

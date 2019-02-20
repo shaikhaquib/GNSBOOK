@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginStart="10.0sp"
+    android:layout_marginEnd="10.0sp">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25.0sp">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4.0dip"
+            app:cardCornerRadius="5.0sp"
+            app:cardElevation="4.0dip">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30.0dip"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/relEmail"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4.0dip"
+                    android:padding="4.0dip">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="30.0dip"
+                        android:src="@drawable/ic_not_verfied" />
+
+                    <Button
+                        android:id="@+id/vrEmail"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#00ffffff"
+                        android:fontFamily="@font/sourcesanspro_regular"
+                        android:text="Email Verification"
+                        android:textColor="@color/text" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relMobile"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="4.0dip">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="30.0dip"
+                        android:src="@drawable/ic_not_verfied" />
+
+                    <Button
+                        android:id="@+id/vrMobile"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:background="#00ffffff"
+                        android:fontFamily="@font/sourcesanspro_regular"
+                        android:text="Mobile Verification"
+                        android:textColor="@color/text" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/rmdlater"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/vrMobile"
+                    android:layout_marginTop="8.0dip"
+                    android:layout_marginRight="@dimen/margin_16"
+                    android:layout_marginBottom="@dimen/margin_16"
+                    android:gravity="end"
+                    android:text="Remind me Later"
+                    android:textColor="#ffff4000"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </FrameLayout>
+
+    <RelativeLayout
+        android:id="@+id/head"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6.0dip"
+        android:background="@drawable/btn_gradient"
+        android:padding="4.0dip">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="36.0dip"
+            android:src="@drawable/ic_alarm" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#00ffffff"
+            android:text="Verification Pending "
+            android:textColor="@color/white" />
+    </RelativeLayout>
+</FrameLayout>

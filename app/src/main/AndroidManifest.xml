@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.httpgnsbook.gnsbook"
+    platformBuildVersionCode="20"
+    platformBuildVersionName="2.1"
+    android:compileSdkVersion="28"
+    android:compileSdkVersionCodename="9">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <permission android:name="com.httpgnsbook.gnsbook.provider.READ" />
+
+    <uses-permission android:name="com.httpgnsbook.gnsbook.provider.READ" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <application
+        android:name="com.digital.gnsbook.Config.AppController"
+        android:allowBackup="false"
+        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
+        android:hardwareAccelerated="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        tools:replace="android:allowBackup"
+        android:theme="@style/AppTheme">
+        <provider
+            android:name="com.digital.gnsbook.Config.MyContentProvider"
+            android:authorities="com.gnsbook.digital.provider"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="signature"
+            android:protectionLevel="signature" />
+
+        <activity android:name="com.digital.gnsbook.Activity.New_Post" />
+        <activity
+            android:name="com.digital.gnsbook.Activity.LoginActivity"
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.digital.gnsbook.Activity.MainActivity"
+            android:label="GNSBOOK"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.digital.gnsbook.Activity.Compony_list"
+            android:label="Company list"
+            android:parentActivityName="com.digital.gnsbook.Activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.digital.gnsbook.Activity.TopPerformer"
+            android:label="Top Performer"
+            android:parentActivityName="com.digital.gnsbook.Activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.digital.gnsbook.Activity.SpillTree"
+            android:label="Spill Tree"
+            android:parentActivityName="com.digital.gnsbook.Activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.digital.gnsbook.Activity.ProfilePage"
+            android:label="  "
+            android:parentActivityName="com.digital.gnsbook.Activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+
+        <meta-data
+            android:name="instamojo.orderauth.url"
+            android:value="http://api2.atscart.com/access_token.php" />
+
+        <activity
+            android:name="com.digital.gnsbook.Payment.Agent_Signup"
+            android:label="Agent_Signup"
+            android:parentActivityName="com.digital.gnsbook.Activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.digital.gnsbook.Payment.BenificiaryList"
+            android:label="Beneficiary List"
+            android:parentActivityName="com.digital.gnsbook.Activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.digital.gnsbook.Payment.AddBeneficiary"
+            android:label="Add Beneficiary"
+            android:parentActivityName="com.digital.gnsbook.Activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.digital.gnsbook.Payment.FundTransfer"
+            android:label="Fund Transfer"
+            android:parentActivityName="com.digital.gnsbook.Activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.digital.gnsbook.Payment.LoadMoney"
+            android:label="Load Money"
+            android:parentActivityName="com.digital.gnsbook.Activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.digital.gnsbook.Activity.TabActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.digital.gnsbook.Activity.OTPview"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.digital.gnsbook.Activity.UpdateProfile"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.digital.gnsbook.Payment.ManualTransaction"
+            android:windowSoftInputMode="stateHidden" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.httpgnsbook.gnsbook.provider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            android:readPermission="com.httpgnsbook.gnsbook.provider.READ">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <activity android:name="com.digital.gnsbook.Activity.Account" />
+        <activity
+            android:name="com.digital.gnsbook.Activity.Pool_Rewards"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.digital.gnsbook.Activity.Companypage"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.digital.gnsbook.Payment.Manual_Payment"
+            android:label="ManualTransfer"
+            android:parentActivityName="com.digital.gnsbook.Activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.digital.gnsbook.Payment_corpoarate.Corporate_Agent_Signup"
+            android:parentActivityName="com.digital.gnsbook.Activity.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.digital.gnsbook.Payment_corpoarate.Corporate_BenificiaryList"
+            android:parentActivityName="com.digital.gnsbook.Activity.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.digital.gnsbook.Payment_corpoarate.Corporate_AddBeneficiary"
+            android:parentActivityName="com.digital.gnsbook.Activity.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.digital.gnsbook.Payment_corpoarate.Corporate_FundTransfer"
+            android:parentActivityName="com.digital.gnsbook.Activity.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="instamojo.library.Instamojo" />
+    </application>
+</manifest>

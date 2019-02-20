@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:icon="@drawable/ic_user_avatar" android:id="@+id/se_personalsetting" android:title="Personal Information" />
+        <item android:icon="@drawable/juspay_ic_lock" android:id="@+id/se_changepassword" android:title="Change Password" />
+        <item android:icon="@drawable/ic_add_circle" android:id="@+id/se_createcomponypage" android:title="Create Company Page" />
+    </group>
+</menu>

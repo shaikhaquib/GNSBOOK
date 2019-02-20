@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            app:cardElevation="4.0dip">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:orientation="horizontal">
+
+                <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                    android:id="@+id/balanecustomer"
+                    android:layout_width="50.0dip"
+                    android:layout_height="50.0dip"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    app:cpb_background_progressbar_color="#fff2f2f2"
+                    app:cpb_background_progressbar_width="5.0dip"
+                    app:cpb_progress="40"
+                    app:cpb_progressbar_color="@android:color/holo_blue_light"
+                    app:cpb_progressbar_width="5.0dip" />
+
+                <LinearLayout
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    android:layout_weight="7.0"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/withBalance"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/sourcesanspro_regular"
+                        android:text="  -"
+                        android:textSize="20.0dip"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Available Balance" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/icaddmoneytr"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="3.0"
+                    android:src="@drawable/ic_add_circle" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <RelativeLayout
+            android:id="@+id/Remainlayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:gravity="center"
+                    android:text="₹ 100000"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="25.0dip"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="8.0dip"
+                    android:text="Withdrawal\nBalance" />
+            </LinearLayout>
+
+            <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                android:layout_width="170.0dip"
+                android:layout_height="170.0dip"
+                app:cpb_background_progressbar_color="#fff2f2f2"
+                app:cpb_background_progressbar_width="15.0dip"
+                app:cpb_progress="20"
+                app:cpb_progressbar_color="@android:color/holo_blue_dark"
+                app:cpb_progressbar_width="15.0dip" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Remainlayout"
+            android:layout_marginTop="5.0dip"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="5.0"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                        android:id="@+id/remainProgress"
+                        android:layout_width="80.0dip"
+                        android:layout_height="80.0dip"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        app:cpb_background_progressbar_color="#fff2f2f2"
+                        app:cpb_background_progressbar_width="10.0dip"
+                        app:cpb_progress="40"
+                        app:cpb_progressbar_color="@android:color/holo_blue_light"
+                        app:cpb_progressbar_width="10.0dip" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/remainlimit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4.0dip"
+                        android:gravity="center_vertical"
+                        android:text="₹ 1000000"
+                        android:textColor="@android:color/holo_blue_dark"
+                        android:textSize="18.0dip"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Remaining\nLimit" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="5.0"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical">
+
+                    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                        android:id="@+id/consumprogrss"
+                        android:layout_width="80.0dip"
+                        android:layout_height="80.0dip"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        app:cpb_background_progressbar_color="#fff2f2f2"
+                        app:cpb_background_progressbar_width="10.0dip"
+                        app:cpb_progress="40"
+                        app:cpb_progressbar_color="@android:color/holo_blue_light"
+                        app:cpb_progressbar_width="10.0dip" />
+
+                    <ImageView
+                        android:layout_width="0.0dip"
+                        android:layout_height="60.0dip"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:paddingTop="20.0dip"
+                        android:src="@drawable/ic_noun_504631_cc" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/consumlimit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4.0dip"
+                        android:gravity="center_vertical"
+                        android:text="₹ 1000000"
+                        android:textColor="@android:color/holo_blue_dark"
+                        android:textSize="18.0dip"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Consumed\nLimit" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            app:cardElevation="4.0dip">
+
+            <LinearLayout
+                android:id="@+id/fundlayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <EditText
+                    android:id="@+id/funAccount"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:layout_marginTop="25.0dip"
+                    android:background="@drawable/border"
+                    android:drawableRight="@drawable/ic_account_balance_black_24dp"
+                    android:focusable="false"
+                    android:fontFamily="@font/sourcesanspro_regular"
+                    android:gravity="center_vertical"
+                    android:hint="Account No"
+                    android:padding="12.0dip"
+                    android:textSize="@dimen/activity_vertical_margin" />
+
+                <EditText
+                    android:id="@+id/funIfsc"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    android:layout_marginRight="@dimen/activity_vertical_margin"
+                    android:background="@drawable/border"
+                    android:drawableRight="@drawable/ic_account_balance_black_24dp"
+                    android:focusable="false"
+                    android:fontFamily="@font/sourcesanspro_regular"
+                    android:gravity="center_vertical"
+                    android:hint="Ifsc code"
+                    android:padding="12.0dip"
+                    android:textSize="@dimen/activity_vertical_margin" />
+
+                <EditText
+                    android:id="@+id/fundamount"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginRight="@dimen/activity_vertical_margin"
+                    android:background="@drawable/border"
+                    android:drawableRight="@drawable/ic_account_balance_black_24dp"
+                    android:fontFamily="@font/sourcesanspro_regular"
+                    android:gravity="center_vertical"
+                    android:hint="Enter Amount"
+                    android:inputType="number"
+                    android:maxLength="6"
+                    android:padding="12.0dip"
+                    android:textSize="@dimen/activity_vertical_margin" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8.0dip">
+
+                    <TextView
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.0"
+                        android:gravity="center"
+                        android:text="Surcharge" />
+
+                    <EditText
+                        android:id="@+id/fundsurcharge"
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/activity_vertical_margin"
+                        android:layout_weight="1.0"
+                        android:focusable="false"
+                        android:fontFamily="@font/sourcesanspro_regular"
+                        android:gravity="center"
+                        android:hint="Surcharge"
+                        android:padding="12.0dip"
+                        android:textSize="@dimen/activity_vertical_margin" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8.0dip">
+
+                    <TextView
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.0"
+                        android:gravity="center"
+                        android:text="TDS" />
+
+                    <EditText
+                        android:id="@+id/tds"
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/activity_vertical_margin"
+                        android:layout_weight="1.0"
+                        android:focusable="false"
+                        android:fontFamily="@font/sourcesanspro_regular"
+                        android:gravity="center"
+                        android:hint="TDS"
+                        android:padding="12.0dip"
+                        android:textSize="@dimen/activity_vertical_margin" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8.0dip">
+
+                    <TextView
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.0"
+                        android:gravity="center"
+                        android:text="ADMIN CHARGE" />
+
+                    <EditText
+                        android:id="@+id/admincharge"
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/activity_vertical_margin"
+                        android:layout_weight="1.0"
+                        android:focusable="false"
+                        android:fontFamily="@font/sourcesanspro_regular"
+                        android:gravity="center"
+                        android:hint="Admin Charge"
+                        android:padding="12.0dip"
+                        android:textSize="@dimen/activity_vertical_margin" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.8000001dip"
+                    android:layout_margin="8.0dip"
+                    android:background="@color/black" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.0"
+                        android:gravity="center"
+                        android:text="NET PAYOUT" />
+
+                    <EditText
+                        android:id="@+id/fundToatal"
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/activity_vertical_margin"
+                        android:layout_weight="1.0"
+                        android:focusable="false"
+                        android:fontFamily="@font/sourcesanspro_regular"
+                        android:gravity="center"
+                        android:hint="Net payout"
+                        android:padding="12.0dip"
+                        android:textSize="@dimen/activity_vertical_margin" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnTrans"
+                    android:layout_width="fill_parent"
+                    android:layout_height="60.0dip"
+                    android:layout_margin="8.0dip"
+                    android:fontFamily="@font/sourcesanspro_regular"
+                    android:padding="@dimen/activity_vertical_margin"
+                    android:text="Transfer"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/activity_vertical_margin" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/txtError"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:paddingTop="20.0dip"
+            android:text="Sorry for inconvenience ! Fund transfer currently unavailable. Please try after some time"
+            android:textSize="@dimen/activity_vertical_margin"
+            android:visibility="gone" />
+    </LinearLayout>
+</ScrollView>

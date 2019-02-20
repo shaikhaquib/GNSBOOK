@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10.0dip"
+                android:layout_marginTop="16.0dip"
+                android:layout_marginBottom="16.0dip"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Register to GNSBook"
+                android:textColor="@color/textcolorr"
+                android:textSize="16.0sp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dip"
+                android:background="@color/disable" />
+
+            <LinearLayout
+                android:id="@+id/spProfileDetaile"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16.0dip"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="2.0dip"
+                        android:layout_weight="1.0">
+
+                        <EditText
+                            android:id="@+id/fname"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/border"
+                            android:fontFamily="@font/roboto_light"
+                            android:hint="First Name"
+                            android:inputType="text"
+                            android:maxLength="14"
+                            android:padding="12.0dip"
+                            android:singleLine="true"
+                            android:textColor="@android:color/background_dark" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2.0dip"
+                        android:layout_weight="1.0">
+
+                        <EditText
+                            android:id="@+id/lname"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/border"
+                            android:fontFamily="@font/roboto_light"
+                            android:hint="Last Name"
+                            android:inputType="text"
+                            android:maxLength="14"
+                            android:padding="12.0dip"
+                            android:singleLine="true"
+                            android:textColor="@android:color/background_dark" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16.0dip">
+
+                    <EditText
+                        android:id="@+id/email"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border"
+                        android:fontFamily="@font/roboto_light"
+                        android:hint="Email"
+                        android:inputType="textEmailAddress"
+                        android:padding="12.0dip"
+                        android:singleLine="true"
+                        android:textColor="@android:color/background_dark" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8.0dip">
+
+                    <EditText
+                        android:id="@+id/mobile"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8.0dip"
+                        android:background="@drawable/border"
+                        android:fontFamily="@font/roboto_light"
+                        android:hint="Mobile"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:padding="12.0dip"
+                        android:singleLine="true"
+                        android:textColor="@android:color/background_dark" />
+                </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16.0dip"
+                    android:background="@drawable/border">
+
+                    <org.angmarch.views.NiceSpinner
+                        android:id="@+id/gender_spinner"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2.0dip"
+                        android:background="@drawable/border"
+                        android:gravity="left"
+                        android:hint="Gender"
+                        app:fontFamily="@font/roboto_light" />
+                </LinearLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8.0dip">
+
+                    <EditText
+                        android:id="@+id/password"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8.0dip"
+                        android:background="@drawable/border"
+                        android:fontFamily="@font/roboto_light"
+                        android:hint="Password"
+                        android:inputType="textPassword"
+                        android:padding="12.0dip"
+                        android:singleLine="true"
+                        android:textColor="@android:color/background_dark" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16.0dip">
+
+                    <EditText
+                        android:id="@+id/referralid"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border"
+                        android:fontFamily="@font/roboto_light"
+                        android:hint="Referral Id "
+                        android:inputType="number"
+                        android:padding="12.0dip"
+                        android:singleLine="true"
+                        android:textColor="@android:color/background_dark" />
+                </android.support.design.widget.TextInputLayout>
+
+                <Button
+                    android:id="@+id/spsignup"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20.0dip"
+                    android:background="@color/colorPrimary"
+                    android:text="SUBMIT"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
