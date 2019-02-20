@@ -7,8 +7,11 @@
     <color name="white">#ffffff</color>
     <color name="textcolorr">#888da8</color>
     <color name="bgcolor">#f4fafa</color>
+    <color name="borderline">#E4E2E9</color>
     <color name="nav_textcolor">#9a9fbf</color>
     <color name="black">#000000</color>
-    <color name="borderline">#ffe4e2e9</color>
+    <color name="tabindiactor">#f4511e</color>
+    <color name="orange">#ff6e40</color>
     <color name="background">#edf2f6</color>
+
 </resources>

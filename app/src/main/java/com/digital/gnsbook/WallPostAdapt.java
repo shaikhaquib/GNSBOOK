@@ -19,13 +19,22 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.digital.gnsbook.Config.APIs;
+import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Model.WallPostmodel;
 import com.digital.gnsbook.Payment.OverlapDecoration;
 import com.httpgnsbook.gnsbook.R;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class WallPostAdapt extends Adapter<ViewHolder> {
     Context context;
@@ -179,6 +188,9 @@ public class WallPostAdapt extends Adapter<ViewHolder> {
         holder.BtnLike.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton compoundButton, boolean z) {
                 if (z) {
+
+                    DoLike(postmodel.id);
+
                     if (postmodel.selfLike == 1) {
                         postmodel.selfLike = 0;
                         postmodel.likecount --;
@@ -190,6 +202,9 @@ public class WallPostAdapt extends Adapter<ViewHolder> {
                         holder.likeCount.setText(String.valueOf(postmodel.likecount));
                         getText(postmodel, holder.likename);}
                 } else if (postmodel.selfLike == 1) {
+
+                    UnLike(postmodel.id);
+
                     postmodel.selfLike = 0;
                     postmodel.likecount --;
                     holder.likeCount.setText(String.valueOf(postmodel.likecount));
@@ -201,8 +216,58 @@ public class WallPostAdapt extends Adapter<ViewHolder> {
                     getText(postmodel, holder.likename);
                 }
             }
+
+            private void DoLike(final String id) {
+
+                StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, APIs.Dolike, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }){
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map <String,String> param = new HashMap<String,String>();
+                        param.put("customer_id",Global.customerid);
+                        param.put("post_id",id);
+                        return param;
+                    }
+                };
+                AppController.getInstance().addToRequestQueue(stringRequest);
+            }
         });
     }
+
+    private void UnLike(final String id) {
+
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, APIs.Unlike, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map <String,String> param = new HashMap<String,String>();
+                param.put("customer_id",Global.customerid);
+                param.put("post_id",id);
+                return param;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+
+
 
     private String getText(WallPostmodel wallPostmodel, TextView textView) {
         if (wallPostmodel.Like_name.length == 1) {
@@ -248,4 +313,6 @@ public class WallPostAdapt extends Adapter<ViewHolder> {
     public void Update() {
         notifyItemInserted(this.postmodels.size() - 1);
     }
+
+
 }
