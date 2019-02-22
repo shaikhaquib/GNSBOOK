@@ -15,9 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.digital.gnsbook.Activity.Companypage;
 import com.digital.gnsbook.Activity.New_Post;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
@@ -25,6 +27,7 @@ import com.digital.gnsbook.Global;
 import com.digital.gnsbook.Model.ComponyModel;
 import com.digital.gnsbook.Model.WallPostmodel;
 import com.digital.gnsbook.ViewDialog;
+import com.digital.gnsbook.WallPostAdapt;
 import com.httpgnsbook.gnsbook.R;
 import com.squareup.picasso.Picasso;
 
@@ -33,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,17 +52,18 @@ public class Fragement_companypost extends Fragment {
     private String TAG = "WallPostFragment";
     private int offset = 0;
     CardView porogress;
-
+    String Cid;
+    Companypage activity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_comapnypost, container, false);
 
+
+        activity = (Companypage) getActivity();
         wallPost = view.findViewById(R.id.wallPost);
         porogress = view.findViewById(R.id.compprogrssview);
-
         NewPost = view.findViewById(R.id.adminnewpost);
-
         if (Global.Company_Admin_Id != Integer.parseInt(Global.customerid)){
             NewPost.setVisibility(View.GONE);
         }
@@ -73,173 +78,104 @@ public class Fragement_companypost extends Fragment {
         Logo = view.findViewById(R.id.componyLogo);
         Picasso.get().load(APIs.Dp + Global.Company_Logo).into(Logo);
 
-
         wallPost.setLayoutManager(new LinearLayoutManager(getActivity()));
+        wallPost.setItemAnimator(null);
         dialog = new ViewDialog(getActivity());
 
         getTimelinePost();
-        NestedScrollView scroller = view.findViewById(R.id.comyScroll);
-
-        if (scroller != null) {
-
-            scroller.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-                @Override
-                public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-
-
-
-                    if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
-
-                        if (count > 0){
-
-                            offset = offset + 10 ;
-                            getTimelinePost();
-                            porogress.setVisibility(View.VISIBLE);}
-                    }
-                }
-            });
+        wallPost.setAdapter(new WallPostAdapt(this.postmodels, getActivity()));
+        NestedScrollView nestedScrollView = (NestedScrollView) view.findViewById(R.id.comyScroll);
+        if (nestedScrollView != null) {
+            nestedScrollView.setOnScrollChangeListener(new C09321());
         }
-        wallPost.setAdapter(new RecyclerView.Adapter() {@NonNull
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View view = LayoutInflater.from(getActivity()).inflate(R.layout.wallpostadapter, viewGroup, false);
-            return new Holder(view);
-        }
-
-            @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-
-                Holder holder = (Holder) viewHolder;
-                final WallPostmodel postmodel = postmodels.get(i);
-
-                holder.name.setText(postmodel.name);
-                holder.date.setText(postmodel.created_at);
-                holder.textPost.setText(postmodel.description);
-                holder.title.setText(postmodel.title);
-                holder.share.setTag(postmodel);
-
-                holder.share.setOnClickListener(new View.OnClickListener() {@Override
-                public void onClick(View v) {
-                    String shareBody = postmodel.title;
-                    Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                    sharingIntent.setType("text/plain");
-                    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, shareBody);
-                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, postmodel.description);
-                    startActivity(Intent.createChooser(sharingIntent, "https://www.gnsbook.com"));
-                }
-                });
-
-                if (postmodel.description.equals("") || postmodel.description.isEmpty()) {
-                    holder.textPost.setVisibility(View.GONE);
-                } else {
-                    holder.textPost.setVisibility(View.VISIBLE);
-                }
-                if (postmodel.description.equals("") || postmodel.description.isEmpty()) {
-                    holder.imgPost.setVisibility(View.GONE);
-                } else {
-                    holder.imgPost.setVisibility(View.VISIBLE);
-                }
-                Picasso.get().load(APIs.Dp + postmodel.logo).into(holder.dp);
-                Picasso.get().load(APIs.postImg + postmodel.images).into(holder.imgPost);
-            }
-
-            @Override
-            public int getItemCount() {
-                return postmodels.size();
-            }
-            @Override
-            public long getItemId(int position) {
-                return position;
-            }
-
-            @Override
-            public int getItemViewType(int position) {
-                return position;
-            }
-            class Holder extends RecyclerView.ViewHolder {
-                ImageView dp, imgPost, share;
-                TextView name, date, textPost,title;
-                public Holder(@NonNull View itemView) {
-                    super(itemView);
-
-                    dp = itemView.findViewById(R.id.wpDP);
-                    imgPost = itemView.findViewById(R.id.wpImage);
-                    share = itemView.findViewById(R.id.wpShare);
-                    name = itemView.findViewById(R.id.wpcname);
-                    date = itemView.findViewById(R.id.wpDate);
-                    textPost = itemView.findViewById(R.id.wpText);
-                    title = itemView.findViewById(R.id.wpTexttitile);
-
-                }
-            }
-        });
-
         return view;
     }
-    private void getTimelinePost() {
+    class C09321 implements NestedScrollView.OnScrollChangeListener {
+        C09321() {
+        }
 
-        AppController.getInstance().addToRequestQueue(new StringRequest(StringRequest.Method.POST, APIs.timelineAPI_byid, new Response.Listener < String > () {@Override
-        public void onResponse(String response) {
-            //     dialog.dismiss();
-            porogress.setVisibility(View.GONE);
-            try {
-                JSONObject jsonObject = new JSONObject(response);
-
-                if (jsonObject.getBoolean("status")) {
-
-                    JSONArray jsonArray = jsonObject.getJSONArray("result");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-
-                        JSONObject object = jsonArray.getJSONObject(i);
-                        WallPostmodel WallPost = new WallPostmodel();
-
-                        // WallPost.working_hours = object.getString("working_hours");
-                        WallPost.logo = object.getString("logo");
-                        WallPost.company_id = object.getString("customer_id");
-                        WallPost.title = object.getString("title");
-                        //  WallPost.updated_at = object.getString("updated_at");
-                        WallPost.description = object.getString("description");
-                        WallPost.name = object.getString("name");
-                        WallPost.images = object.getString("images");
-                        WallPost.created_at = object.getString("created_at");
-
-                        postmodels.add(WallPost);
-                        //  wallPost.getItemAnimator().endAnimations();
-                        //  wallPost.getAdapter().notifyDataSetChanged();
-                        wallPost.getAdapter().notifyItemRangeInserted(wallPost.getAdapter().getItemCount(), postmodels.size() - 1);
-
-                    }
-
-                }else {
-                    count =  jsonObject.getInt("count");
-                }
-
-            } catch(JSONException e) {
-                e.printStackTrace();
+        public void onScrollChange(NestedScrollView nestedScrollView, int i, int i2, int i3, int i4) {
+            if (i2 == nestedScrollView.getChildAt(0).getMeasuredHeight() - nestedScrollView.getMeasuredHeight() && count > 0) {
+                offset = offset + 10;
+                getTimelinePost();
+                porogress.setVisibility(View.VISIBLE);
             }
-
         }
-        },
-                new Response.ErrorListener() {@Override
-                public void onErrorResponse(VolleyError error) {
-                    String body = null;
-                    porogress.setVisibility(View.GONE);
-
-                }
-                }) {@Override
-        protected Map< String,
-                String > getParams() throws AuthFailureError {
-            Map < String,
-                    String > param = new HashMap< String,
-                    String >();
-            param.put("company_id", "1");
-            param.put("limit", "10");
-            param.put("offset", String.valueOf(offset));
-            return param;
-        }
-        });
-
     }
 
+    private void getTimelinePost() {
+        AppController.getInstance().addToRequestQueue(new StringRequest(StringRequest.Method.POST, APIs.company_timeline, new C09332(), new C09343()) {
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> hashMap = new HashMap();
+                hashMap.put("company_id",activity.getIntent().getStringExtra("id"));
+                hashMap.put("customer_id", Global.customerid);
+                hashMap.put("limit", "10");
+                hashMap.put("offset", String.valueOf(offset));
+                return hashMap;
+            }
+        });
+    }
+
+
+
+    /* renamed from: com.digital.gnsbook.Fragment.WallPostFragment$2 */
+    class C09332 implements Response.Listener<String> {
+        C09332() {
+        }
+
+        public void onResponse(String s) {
+            porogress.setVisibility(View.GONE);
+            try {
+                JSONObject jSONObject = new JSONObject(s);
+                if (jSONObject.getBoolean("status")) {
+                    JSONArray str = jSONObject.getJSONArray("result");
+                    for (int i = 0; i < str.length(); i++) {
+                        JSONObject jSONObject2 = str.getJSONObject(i);
+                        ArrayList arrayList = new ArrayList();
+                        ArrayList arrayList2 = new ArrayList();
+                        ArrayList arrayList3 = new ArrayList();
+                        WallPostmodel wallPostmodel = new WallPostmodel();
+                        wallPostmodel.logo = jSONObject2.getString("logo");
+                        wallPostmodel.company_id = jSONObject2.getString("customer_id");
+                        wallPostmodel.title = jSONObject2.getString("title");
+                        wallPostmodel.description = jSONObject2.getString("description");
+                        wallPostmodel.name = jSONObject2.getString("name");
+                        wallPostmodel.images = jSONObject2.getString("images");
+                        wallPostmodel.created_at = jSONObject2.getString("created_at");
+                        wallPostmodel.likecount = jSONObject2.getInt("like_count");
+                        wallPostmodel.commentCount = jSONObject2.getInt("comment_count");
+                        wallPostmodel.selfLike = jSONObject2.getInt("Self_Likes");
+                        for (int i2 = 0; i2 < jSONObject2.getJSONArray("Likes").length(); i2++) {
+                            JSONObject jSONObject3 = jSONObject2.getJSONArray("Likes").getJSONObject(i2);
+                            arrayList.add(jSONObject3.getString("d_pic"));
+                            arrayList2.add(jSONObject3.getString("name"));
+                            arrayList3.add(jSONObject3.getString("customer_id"));
+                        }
+                        Object[] toArray = arrayList.toArray();
+                        Object[] toArray2 = arrayList2.toArray();
+                        arrayList3.toArray();
+                        wallPostmodel.Like_imges = (String[]) Arrays.copyOf(toArray, toArray.length, String[].class);
+                        wallPostmodel.Like_name = (String[]) Arrays.copyOf(toArray2, toArray2.length, String[].class);
+                        postmodels.add(wallPostmodel);
+                        wallPost.getAdapter().notifyItemRangeInserted(wallPost.getAdapter().getItemCount(), postmodels.size() - 1);
+                    }
+                }else {
+                    count = 0 ;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /* renamed from: com.digital.gnsbook.Fragment.WallPostFragment$3 */
+    class C09343 implements Response.ErrorListener {
+        C09343() {
+        }
+
+        public void onErrorResponse(VolleyError volleyError) {
+            porogress.setVisibility(View.GONE);
+        }
+    }
 
 }

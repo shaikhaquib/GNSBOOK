@@ -94,6 +94,8 @@ public class WallPostFragment extends Fragment {
                         WallPostFragment.this.postmodels.add(wallPostmodel);
                         wallPost.getAdapter().notifyItemRangeInserted(WallPostFragment.this.wallPost.getAdapter().getItemCount(), WallPostFragment.this.postmodels.size() - 1);
                     }
+                }else {
+                    count = 0 ;
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -107,7 +109,7 @@ public class WallPostFragment extends Fragment {
         }
 
         public void onErrorResponse(VolleyError volleyError) {
-            WallPostFragment.this.porogress.setVisibility(View.GONE);
+            porogress.setVisibility(View.GONE);
         }
     }
 
@@ -117,13 +119,13 @@ public class WallPostFragment extends Fragment {
 
     public View onCreateView(LayoutInflater lnflater, ViewGroup viewGroup, Bundle bundle) {
         View layoutInflater = lnflater.inflate(R.layout.fragment_wallpost, viewGroup, false);
-        this.wallPost = (RecyclerView) layoutInflater.findViewById(R.id.wallPostmain);
-        this.wallPost.setItemAnimator(null);
-        this.porogress = (CardView) layoutInflater.findViewById(R.id.progrssview);
-        this.wallPost.setLayoutManager(new LinearLayoutManager(getActivity()));
-        this.dialog = new ViewDialog(getActivity());
+        wallPost = (RecyclerView) layoutInflater.findViewById(R.id.wallPostmain);
+        wallPost.setItemAnimator(null);
+        porogress = (CardView) layoutInflater.findViewById(R.id.progrssview);
+        wallPost.setLayoutManager(new LinearLayoutManager(getActivity()));
+        dialog = new ViewDialog(getActivity());
         getTimelinePost();
-        this.wallPost.setAdapter(new WallPostAdapt(this.postmodels, getActivity()));
+        wallPost.setAdapter(new WallPostAdapt(this.postmodels, getActivity()));
         NestedScrollView nestedScrollView = (NestedScrollView) layoutInflater.findViewById(R.id.myScroll);
         if (nestedScrollView != null) {
             nestedScrollView.setOnScrollChangeListener(new C09321());
@@ -132,13 +134,13 @@ public class WallPostFragment extends Fragment {
     }
 
     private void getTimelinePost() {
-        AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.company_timeline, new C09332(), new C09343()) {
+        AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.timelineAPI, new C09332(), new C09343()) {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> hashMap = new HashMap();
                 hashMap.put("company_id", "1");
                 hashMap.put("customer_id", Global.customerid);
                 hashMap.put("limit", "10");
-                hashMap.put("offset", String.valueOf(WallPostFragment.this.offset));
+                hashMap.put("offset", String.valueOf(offset));
                 return hashMap;
             }
         });

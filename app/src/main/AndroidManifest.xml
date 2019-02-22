@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.httpgnsbook.gnsbook"
-    platformBuildVersionCode="20"
-    platformBuildVersionName="2.1"
     android:compileSdkVersion="28"
     android:compileSdkVersionCodename="9">
 
@@ -15,10 +13,8 @@
 
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <permission android:name="com.httpgnsbook.gnsbook.provider.READ" />
-
     <uses-permission android:name="com.httpgnsbook.gnsbook.provider.READ" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
 
     <application
         android:name="com.digital.gnsbook.Config.AppController"
@@ -31,7 +27,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         tools:replace="android:allowBackup"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <provider
             android:name="com.digital.gnsbook.Config.MyContentProvider"
             android:authorities="com.gnsbook.digital.provider"

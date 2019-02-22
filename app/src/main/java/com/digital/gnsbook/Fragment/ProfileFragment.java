@@ -46,6 +46,7 @@ import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Global;
 import com.digital.gnsbook.Model.WallPostmodel;
 import com.digital.gnsbook.ViewDialog;
+import com.digital.gnsbook.WallPostAdapt;
 import com.httpgnsbook.gnsbook.R;
 import com.mikelau.croperino.Croperino;
 import com.mikelau.croperino.CroperinoConfig;
@@ -104,7 +105,7 @@ public class ProfileFragment extends Fragment {
         }
 
         public void onClick(View view) {
-            ProfileFragment.this.startActivity(new Intent(ProfileFragment.this.getActivity(), SpillTree.class).addFlags(268435456));
+           startActivity(new Intent(ProfileFragment.this.getActivity(), SpillTree.class));
         }
     }
 
@@ -240,121 +241,6 @@ public class ProfileFragment extends Fragment {
     }
 
     /* renamed from: com.digital.gnsbook.Fragment.ProfileFragment$3 */
-    class C09253 extends Adapter {
-
-        /* renamed from: com.digital.gnsbook.Fragment.ProfileFragment$3$Holder */
-        class Holder extends ViewHolder {
-            TextView date;
-            ImageView dp;
-            ImageView imgPost;
-            TextView name;
-            ImageView share;
-            TextView textPost;
-            TextView wpTexttitile;
-
-            public Holder(@NonNull View view) {
-                super(view);
-                this.dp = (ImageView) view.findViewById(R.id.wpDP);
-                this.imgPost = (ImageView) view.findViewById(R.id.wpImage);
-                this.share = (ImageView) view.findViewById(R.id.wpShare);
-                this.name = (TextView) view.findViewById(R.id.wpcname);
-                this.date = (TextView) view.findViewById(R.id.wpDate);
-                this.textPost = (TextView) view.findViewById(R.id.wpText);
-                this.wpTexttitile = (TextView) view.findViewById(R.id.wpTexttitile);
-            }
-        }
-
-        C09253() {
-        }
-
-        @NonNull
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            return new Holder(LayoutInflater.from(ProfileFragment.this.getActivity()).inflate(R.layout.wallpostadapter, viewGroup, false));
-        }
-
-        public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-            Picasso picasso;
-            StringBuilder stringBuilder;
-            Holder holder = (Holder) viewHolder;
-            final WallPostmodel wallPostmodel = (WallPostmodel) ProfileFragment.this.postmodels.get(i);
-            holder.name.setText(wallPostmodel.name);
-            holder.date.setText(wallPostmodel.created_at);
-            holder.textPost.setText(wallPostmodel.description);
-            holder.wpTexttitile.setText(wallPostmodel.title);
-            holder.share.setTag(wallPostmodel);
-            holder.share.setOnClickListener(new OnClickListener() {
-                public void onClick(View view) {
-                    String shareBody = wallPostmodel.title;
-                    Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                    sharingIntent.setType("text/plain");
-                    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, shareBody);
-                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, wallPostmodel.description);
-                    startActivity(Intent.createChooser(sharingIntent, "https://www.gnsbook.com").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));     }
-            });
-            if (!wallPostmodel.description.equals("")) {
-                if (!wallPostmodel.description.isEmpty()) {
-                    holder.textPost.setVisibility(0);
-                    if (!wallPostmodel.description.equals("")) {
-                        if (wallPostmodel.description.isEmpty()) {
-                            holder.imgPost.setVisibility(0);
-                            picasso = Picasso.get();
-                            stringBuilder = new StringBuilder();
-                            stringBuilder.append(APIs.Dp);
-                            stringBuilder.append(wallPostmodel.logo);
-                            picasso.load(stringBuilder.toString()).into(holder.dp);
-                            picasso = Picasso.get();
-                            stringBuilder = new StringBuilder();
-                            stringBuilder.append(APIs.postImg);
-                            stringBuilder.append(wallPostmodel.images);
-                            picasso.load(stringBuilder.toString()).into(holder.imgPost);
-                        }
-                    }
-                    holder.imgPost.setVisibility(8);
-                    picasso = Picasso.get();
-                    stringBuilder = new StringBuilder();
-                    stringBuilder.append(APIs.Dp);
-                    stringBuilder.append(wallPostmodel.logo);
-                    picasso.load(stringBuilder.toString()).into(holder.dp);
-                    picasso = Picasso.get();
-                    stringBuilder = new StringBuilder();
-                    stringBuilder.append(APIs.postImg);
-                    stringBuilder.append(wallPostmodel.images);
-                    picasso.load(stringBuilder.toString()).into(holder.imgPost);
-                }
-            }
-            holder.textPost.setVisibility(8);
-            if (wallPostmodel.description.equals("")) {
-                if (wallPostmodel.description.isEmpty()) {
-                    holder.imgPost.setVisibility(0);
-                    picasso = Picasso.get();
-                    stringBuilder = new StringBuilder();
-                    stringBuilder.append(APIs.Dp);
-                    stringBuilder.append(wallPostmodel.logo);
-                    picasso.load(stringBuilder.toString()).into(holder.dp);
-                    picasso = Picasso.get();
-                    stringBuilder = new StringBuilder();
-                    stringBuilder.append(APIs.postImg);
-                    stringBuilder.append(wallPostmodel.images);
-                    picasso.load(stringBuilder.toString()).into(holder.imgPost);
-                }
-            }
-            holder.imgPost.setVisibility(8);
-            picasso = Picasso.get();
-            stringBuilder = new StringBuilder();
-            stringBuilder.append(APIs.Dp);
-            stringBuilder.append(wallPostmodel.logo);
-            picasso.load(stringBuilder.toString()).into(holder.dp);
-            picasso = Picasso.get();
-            stringBuilder = new StringBuilder();
-            stringBuilder.append(APIs.postImg);
-            stringBuilder.append(wallPostmodel.images);
-            picasso.load(stringBuilder.toString()).into(holder.imgPost);
-        }
-
-        public int getItemCount() {
-            return ProfileFragment.this.postmodels.size();
-        }
-    }
 
     /* renamed from: com.digital.gnsbook.Fragment.ProfileFragment$4 */
     class C09264 implements OnScrollChangeListener {
@@ -363,58 +249,14 @@ public class ProfileFragment extends Fragment {
 
         public void onScrollChange(NestedScrollView nestedScrollView, int i, int i2, int i3, int i4) {
             if (i2 == nestedScrollView.getChildAt(0).getMeasuredHeight() - nestedScrollView.getMeasuredHeight() && count > 0) {
-                ProfileFragment.this.offset = ProfileFragment.this.offset + 10;
-                ProfileFragment.this.getTimelinePost();
-                ProfileFragment.this.porogress.setVisibility(0);
+                offset = ProfileFragment.this.offset + 10;
+                getTimelinePost();
+                porogress.setVisibility(View.VISIBLE);
             }
         }
     }
 
-    /* renamed from: com.digital.gnsbook.Fragment.ProfileFragment$5 */
-    class C09275 implements Listener<String> {
-        C09275() {
-        }
 
-        public void onResponse(String s) {
-           porogress.setVisibility(View.GONE);
-            try {
-                JSONObject jSONObject = new JSONObject(s);
-                int i = 0;
-                if (jSONObject.getBoolean("status")) {
-                  JSONArray str = jSONObject.getJSONArray("result");
-                    while (i < str.length()) {
-                        jSONObject = str.getJSONObject(i);
-                        WallPostmodel wallPostmodel = new WallPostmodel();
-                        wallPostmodel.logo = jSONObject.getString("d_pic");
-                        wallPostmodel.company_id = jSONObject.getString("customer_id");
-                        wallPostmodel.title = jSONObject.getString("title");
-                        wallPostmodel.updated_at = jSONObject.getString("updated_at");
-                        wallPostmodel.description = jSONObject.getString("description");
-                        wallPostmodel.name = jSONObject.getString("name");
-                        wallPostmodel.images = jSONObject.getString("images");
-                        wallPostmodel.created_at = jSONObject.getString("created_at");
-                        ProfileFragment.this.postmodels.add(wallPostmodel);
-                        ProfileFragment.this.wallPost.getAdapter().notifyItemRangeInserted(ProfileFragment.this.wallPost.getAdapter().getItemCount(), ProfileFragment.this.postmodels.size() - 1);
-                        i++;
-                    }
-                }else {
-                ProfileFragment.this.count = 0;}
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    /* renamed from: com.digital.gnsbook.Fragment.ProfileFragment$6 */
-    class C09286 implements ErrorListener {
-        C09286() {
-        }
-
-        public void onErrorResponse(VolleyError volleyError) {
-            ProfileFragment.this.porogress.setVisibility(8);
-        }
-    }
 
     private class OnDismissListener implements PopupMenu.OnDismissListener {
         public void onDismiss(PopupMenu popupMenu) {
@@ -434,25 +276,25 @@ public class ProfileFragment extends Fragment {
                     ProfileFragment.this.startActivity(new Intent(ProfileFragment.this.getActivity(), ProfilePage.class));
                     break;
                 case R.id.upBp:
-                   /* StringBuilder stringBuilder = new StringBuilder();
+                    StringBuilder stringBuilder = new StringBuilder();
                     stringBuilder.append("IMG_");
                     stringBuilder.append(System.currentTimeMillis());
                     stringBuilder.append(".jpg");
-                    menuItem = new CroperinoConfig(stringBuilder.toString(), "/gnsbook/Pictures", "/sdcard/gnsbook/Pictures");
+                    CroperinoConfig cp = new CroperinoConfig(stringBuilder.toString(), "/gnsbook/Pictures", "/sdcard/gnsbook/Pictures");
                     CroperinoFileUtil.setupDirectory(ProfileFragment.this.getActivity());
-                    if (CroperinoFileUtil.verifyStoragePermissions(ProfileFragment.this.getActivity()).booleanValue() != null) {
+                    if (CroperinoFileUtil.verifyStoragePermissions(ProfileFragment.this.getActivity()) != null) {
                         Croperino.prepareGallery(ProfileFragment.this.getActivity());
-                    }*/
+                    }
                     return true;
                 case R.id.upCApingLimit:
+                    CapingLimit();
                     break;
                 case R.id.upDp:
-                    ProfileFragment.this.showDialoge();
+                    showDialoge();
                     return true;
                 default:
                     break;
             }
-            CapingLimit();
             return true;
         }
     }
@@ -461,20 +303,21 @@ public class ProfileFragment extends Fragment {
 
     public View onCreateView(LayoutInflater layoutinflater, ViewGroup viewGroup, Bundle bundle) {
        View layoutInflater = layoutinflater.inflate(R.layout.activity_profile_page, viewGroup, false);
-        this.wallPost = (RecyclerView) layoutInflater.findViewById(R.id.rvprofile_wire);
-        this.banner = (ImageView) layoutInflater.findViewById(R.id.prBanner);
-        this.porogress = (CardView) layoutInflater.findViewById(R.id.frgprogrssview);
-        this.DP = (ImageView) layoutInflater.findViewById(R.id.prDP);
-        this.Name = (TextView) layoutInflater.findViewById(R.id.prName);
-        this.city = (TextView) layoutInflater.findViewById(R.id.prcity);
-        this.wallPost.setLayoutManager(new LinearLayoutManager(getActivity()));
-        this.dialog = new ViewDialog(getActivity());
-        this.fab = (FloatingActionButton) layoutInflater.findViewById(R.id.fabSetting);
-        this.fabcommunity = (FloatingActionButton) layoutInflater.findViewById(R.id.fabcommunity);
-        this.fab.setOnClickListener(new C04541());
-        this.fabcommunity.setOnClickListener(new C04552());
+        wallPost = (RecyclerView) layoutInflater.findViewById(R.id.rvprofile_wire);
+        banner = (ImageView) layoutInflater.findViewById(R.id.prBanner);
+        porogress = (CardView) layoutInflater.findViewById(R.id.frgprogrssview);
+        DP = (ImageView) layoutInflater.findViewById(R.id.prDP);
+        Name = (TextView) layoutInflater.findViewById(R.id.prName);
+        city = (TextView) layoutInflater.findViewById(R.id.prcity);
+        wallPost.setLayoutManager(new LinearLayoutManager(getActivity()));
+        dialog = new ViewDialog(getActivity());
+        fab = (FloatingActionButton) layoutInflater.findViewById(R.id.fabSetting);
+        fabcommunity = (FloatingActionButton) layoutInflater.findViewById(R.id.fabcommunity);
+        fab.setOnClickListener(new C04541());
+        fabcommunity.setOnClickListener(new C04552());
+        wallPost.setAdapter(new WallPostAdapt(this.postmodels, getActivity()));
+
         getTimelinePost();
-        this.wallPost.setAdapter(new C09253());
         new UserDetailTask().execute(new String[]{Global.customerid});
         NestedScrollView nestedScrollView = (NestedScrollView) layoutInflater.findViewById(R.id.profilefrgScroll);
         if (nestedScrollView != null) {
@@ -483,17 +326,6 @@ public class ProfileFragment extends Fragment {
         return layoutInflater;
     }
 
-    private void getTimelinePost() {
-        AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.timelineAPI, new C09275(), new C09286()) {
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> hashMap = new HashMap();
-                hashMap.put("company_id", "1");
-                hashMap.put("limit", "10");
-                hashMap.put("offset", String.valueOf(ProfileFragment.this.offset));
-                return hashMap;
-            }
-        });
-    }
 
     private void CapingLimit() {
         View inflate = LayoutInflater.from(getActivity()).inflate(R.layout.capping_limit, null);
@@ -572,7 +404,7 @@ public class ProfileFragment extends Fragment {
                 ProfileFragment.this.dialog.dismiss();
                 try {
                     JSONObject jSONObject = new JSONObject(s);
-                    if (jSONObject.getBoolean("status") ) {
+                    if (!jSONObject.getBoolean("status") ) {
                         Global.Cappinglimt = jSONObject.getJSONArray("result").getJSONObject(0).getInt("capping");
                         popupMenu = new PopupMenu(ProfileFragment.this.getContext(), view, 17);
                         popupMenu.setOnDismissListener(new OnDismissListener());
@@ -630,4 +462,75 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
+
+
+    private void getTimelinePost() {
+        AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.timelineAPI, new C09332(), new C09343()) {
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> hashMap = new HashMap();
+                hashMap.put("company_id", "1");
+                hashMap.put("customer_id", Global.customerid);
+                hashMap.put("limit", "10");
+                hashMap.put("offset", String.valueOf(offset));
+                return hashMap;
+            }
+        });
+    }
+    class C09343 implements ErrorListener {
+        C09343() {
+        }
+
+        public void onErrorResponse(VolleyError volleyError) {
+            porogress.setVisibility(View.GONE);
+        }
+    }
+    class C09332 implements Listener<String> {
+        C09332() {
+        }
+
+        public void onResponse(String s) {
+            porogress.setVisibility(View.GONE);
+            try {
+                JSONObject jSONObject = new JSONObject(s);
+                if (jSONObject.getBoolean("status")) {
+                    JSONArray str = jSONObject.getJSONArray("result");
+                    for (int i = 0; i < str.length(); i++) {
+                        JSONObject jSONObject2 = str.getJSONObject(i);
+                        ArrayList arrayList = new ArrayList();
+                        ArrayList arrayList2 = new ArrayList();
+                        ArrayList arrayList3 = new ArrayList();
+                        WallPostmodel wallPostmodel = new WallPostmodel();
+                        wallPostmodel.logo = jSONObject2.getString("logo");
+                        wallPostmodel.company_id = jSONObject2.getString("customer_id");
+                        wallPostmodel.title = jSONObject2.getString("title");
+                        wallPostmodel.description = jSONObject2.getString("description");
+                        wallPostmodel.name = jSONObject2.getString("name");
+                        wallPostmodel.images = jSONObject2.getString("images");
+                        wallPostmodel.created_at = jSONObject2.getString("created_at");
+                        wallPostmodel.likecount = jSONObject2.getInt("like_count");
+                        wallPostmodel.commentCount = jSONObject2.getInt("comment_count");
+                        wallPostmodel.selfLike = jSONObject2.getInt("Self_Likes");
+                        for (int i2 = 0; i2 < jSONObject2.getJSONArray("Likes").length(); i2++) {
+                            JSONObject jSONObject3 = jSONObject2.getJSONArray("Likes").getJSONObject(i2);
+                            arrayList.add(jSONObject3.getString("d_pic"));
+                            arrayList2.add(jSONObject3.getString("name"));
+                            arrayList3.add(jSONObject3.getString("customer_id"));
+                        }
+                        Object[] toArray = arrayList.toArray();
+                        Object[] toArray2 = arrayList2.toArray();
+                        arrayList3.toArray();
+                        wallPostmodel.Like_imges = (String[]) Arrays.copyOf(toArray, toArray.length, String[].class);
+                        wallPostmodel.Like_name = (String[]) Arrays.copyOf(toArray2, toArray2.length, String[].class);
+                        postmodels.add(wallPostmodel);
+                        wallPost.getAdapter().notifyItemRangeInserted(wallPost.getAdapter().getItemCount(), postmodels.size() - 1);
+                    }
+                }else {
+                    count = 0 ;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
