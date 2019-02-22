@@ -156,13 +156,13 @@ public class Corporate_FundTransfer extends AppCompatActivity {
                     layout.setVisibility(View.VISIBLE);
                     txtError.setVisibility(View.GONE);
 
-
+/*
                     if ( balance >= 115 && jolobalance >= 1000){
                         layout.setVisibility(View.VISIBLE);
                         txtError.setVisibility(View.GONE);
 
                     }else {layout.setVisibility(View.GONE);
-                        txtError.setVisibility(View.VISIBLE);}
+                        txtError.setVisibility(View.VISIBLE);}*/
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -437,7 +437,7 @@ public class Corporate_FundTransfer extends AppCompatActivity {
 
 
             try {
-                url = new URL(APIs.FundTransAPi);
+                url = new URL(APIs.Corporate_FundTransAPi);
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -521,7 +521,7 @@ public class Corporate_FundTransfer extends AppCompatActivity {
             try {
                 JSONObject jsonObject =new JSONObject(s);
 
-                if (jsonObject.getString("status").equals("SUCCESS")){
+                if (jsonObject.getBoolean("status")){
                         /*snackbar= Snackbar.make(layout,"Recharged Successfully",Snackbar.LENGTH_LONG);
                         snackbar.show();*/
 

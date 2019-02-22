@@ -19,7 +19,6 @@
     <application
         android:name="com.digital.gnsbook.Config.AppController"
         android:allowBackup="false"
-        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
         android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -28,7 +27,10 @@
         android:supportsRtl="true"
         tools:replace="android:allowBackup"
         android:theme="@style/AppTheme"
+        android:networkSecurityConfig="@xml/network_security_config"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <uses-library android:name="org.apache.http.legacy" android:required="false" />
         <provider
             android:name="com.digital.gnsbook.Config.MyContentProvider"
             android:authorities="com.gnsbook.digital.provider"
@@ -152,6 +154,9 @@
         <activity
             android:name="com.digital.gnsbook.Payment_corpoarate.Corporate_Agent_Signup"
             android:parentActivityName="com.digital.gnsbook.Activity.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.digital.gnsbook.Activity.Comment"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.digital.gnsbook.Payment_corpoarate.Corporate_BenificiaryList"

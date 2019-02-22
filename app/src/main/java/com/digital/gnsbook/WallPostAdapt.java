@@ -25,6 +25,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.digital.gnsbook.Activity.Comment;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Model.WallPostmodel;
@@ -44,7 +45,7 @@ public class WallPostAdapt extends Adapter<ViewHolder> {
         CheckBox BtnLike ;
         RecyclerView Overlapview;
         TextView date, commentCount;
-        ImageView dp;
+        ImageView dp,wpComment;
         ImageView imgPost;
         TextView likeCount;
         TextView likename;
@@ -67,6 +68,7 @@ public class WallPostAdapt extends Adapter<ViewHolder> {
             likename = (TextView) view.findViewById(R.id.nameLike);
             BtnLike = (CheckBox) view.findViewById(R.id.like);
             commentCount = view.findViewById(R.id.CommentCount);
+            wpComment = view.findViewById(R.id.wpComment);
         }
     }
 
@@ -140,6 +142,7 @@ public class WallPostAdapt extends Adapter<ViewHolder> {
         holder.date.setText(postmodel.created_at);
         holder.textPost.setText(postmodel.description);
         holder.share.setTag(postmodel);
+        holder.wpComment.setTag(postmodel);
         holder.title.setText(postmodel.title);
         holder.likeCount.setText(String.valueOf(postmodel.likecount));
         holder.commentCount.setText(String.valueOf(postmodel.commentCount));
@@ -173,6 +176,13 @@ public class WallPostAdapt extends Adapter<ViewHolder> {
         Picasso.get().load(APIs.Dp + postmodel.logo).into(holder.dp);
         Picasso.get().load(APIs.postImg + postmodel.images).transform(roundedCornersTransformation).into(holder.imgPost);
 
+
+        holder.wpComment.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, Comment.class).putExtra("pid",postmodel.id).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            }
+        });
 
         holder.Overlapview.setTag(postmodel);
         holder.Overlapview.setLayoutManager(new LinearLayoutManager(this.context, 0, false));

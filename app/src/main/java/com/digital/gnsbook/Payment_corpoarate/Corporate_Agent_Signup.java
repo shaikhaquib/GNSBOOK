@@ -106,7 +106,7 @@ public class Corporate_Agent_Signup extends AppCompatActivity implements OTPList
             try {
 
 
-                url = new URL(APIs.Addebenificiary);
+                url = new URL(APIs.Corporate_AgentVr);
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -241,12 +241,15 @@ public class Corporate_Agent_Signup extends AppCompatActivity implements OTPList
         }
 
         public void onResponse(String str) {
-            Corporate_Agent_Signup.this.progressDialog.dismiss();
+            progressDialog.dismiss();
             try {
                 JSONObject jSONObject = new JSONObject(str);
                 if (jSONObject.getBoolean("status")) {
-                    Global.failedDilogue(Corporate_Agent_Signup.this, jSONObject.getString("result"));
-                } else if (jSONObject.getString("desc").equals("Virtual account already exist & verified")) {
+                    Global.successDilogue(Corporate_Agent_Signup.this, jSONObject.getString("desc"));
+                } else if (jSONObject.has("error")){
+                    Global.failedDilogue(Corporate_Agent_Signup.this, jSONObject.getString("error"));
+
+                }else if (jSONObject.getString("desc").equals("Virtual account already exist & verified")) {
                     db.deleteUsers();
                     db.addUser(Global.customerid, Global.refferalid, Global.Email, Global.mobile, Global.name, Corporate_Agent_Signup.this.SDF.format(new Date()), "1", " ");
                     Global.successDilogue(Corporate_Agent_Signup.this, jSONObject.getString("desc"));

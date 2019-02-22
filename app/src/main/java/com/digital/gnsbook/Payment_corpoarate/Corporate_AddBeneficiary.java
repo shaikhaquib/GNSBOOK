@@ -137,23 +137,23 @@ public class Corporate_AddBeneficiary extends AppCompatActivity {
         }
 
         public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (Corporate_AddBeneficiary.this.Name.getText().toString().equals("")) {
-                Corporate_AddBeneficiary.this.Name.setError("Please Enter UserName");
-                Corporate_AddBeneficiary.this.focusView = Corporate_AddBeneficiary.this.Name;
-                Corporate_AddBeneficiary.this.Name.requestFocus();
-                Corporate_AddBeneficiary.this.cancel = true;
-            } else if (Corporate_AddBeneficiary.this.Mobile.getText().toString().equals("")) {
-                Corporate_AddBeneficiary.this.Mobile.setError("Please Enter STDcode");
-                Corporate_AddBeneficiary.this.focusView = Corporate_AddBeneficiary.this.Mobile;
-                Corporate_AddBeneficiary.this.Mobile.requestFocus();
-                Corporate_AddBeneficiary.this.cancel = true;
+            if (Name.getText().toString().equals("")) {
+                Name.setError("Please Enter UserName");
+                focusView = Corporate_AddBeneficiary.this.Name;
+                Name.requestFocus();
+                cancel = true;
+            } else if (Mobile.getText().toString().equals("")) {
+               Mobile.setError("Please Enter STDcode");
+               focusView = Corporate_AddBeneficiary.this.Mobile;
+               Mobile.requestFocus();
+               cancel = true;
             } else if (Corporate_AddBeneficiary.this.Mobile.getText().toString().length() != 10) {
-                Corporate_AddBeneficiary.this.Mobile.setError("Enter valid mobil no");
-                Corporate_AddBeneficiary.this.Mobile.requestFocus();
+                Mobile.setError("Enter valid mobil no");
+                Mobile.requestFocus();
             } else {
-                Corporate_AddBeneficiary.this.focusView = Corporate_AddBeneficiary.this.Accountno;
-                Corporate_AddBeneficiary.this.Accountno.requestFocus();
-                Corporate_AddBeneficiary.this.cancel = true;
+                focusView = Corporate_AddBeneficiary.this.Accountno;
+                Accountno.requestFocus();
+                cancel = true;
             }
             return true;
         }
@@ -165,28 +165,28 @@ public class Corporate_AddBeneficiary extends AppCompatActivity {
         }
 
         public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (Corporate_AddBeneficiary.this.Name.getText().toString().equals("")) {
-                Corporate_AddBeneficiary.this.Name.setError("Please Enter UserName");
-                Corporate_AddBeneficiary.this.focusView = Corporate_AddBeneficiary.this.Name;
-                Corporate_AddBeneficiary.this.Name.requestFocus();
-                Corporate_AddBeneficiary.this.cancel = true;
-            } else if (Corporate_AddBeneficiary.this.Mobile.getText().toString().equals("")) {
-                Corporate_AddBeneficiary.this.Mobile.setError("Please Enter STDcode");
-                Corporate_AddBeneficiary.this.focusView = Corporate_AddBeneficiary.this.Mobile;
-                Corporate_AddBeneficiary.this.Mobile.requestFocus();
-                Corporate_AddBeneficiary.this.cancel = true;
-            } else if (Corporate_AddBeneficiary.this.Mobile.getText().toString().length() != 10) {
-                Corporate_AddBeneficiary.this.Mobile.setError("Enter valid mobil no");
-                Corporate_AddBeneficiary.this.Mobile.requestFocus();
-            } else if (Corporate_AddBeneficiary.this.Accountno.getText().toString().equals("")) {
-                Corporate_AddBeneficiary.this.Accountno.setError("Please Enter AccountNo");
-                Corporate_AddBeneficiary.this.focusView = Corporate_AddBeneficiary.this.Accountno;
-                Corporate_AddBeneficiary.this.Accountno.requestFocus();
-                Corporate_AddBeneficiary.this.cancel = true;
+            if (Name.getText().toString().equals("")) {
+                Name.setError("Please Enter UserName");
+                focusView = Corporate_AddBeneficiary.this.Name;
+                Name.requestFocus();
+                cancel = true;
+            } else if (Mobile.getText().toString().equals("")) {
+                Mobile.setError("Please Enter STDcode");
+                focusView = Corporate_AddBeneficiary.this.Mobile;
+                Mobile.requestFocus();
+                cancel = true;
+            } else if (Mobile.getText().toString().length() != 10) {
+               Mobile.setError("Enter valid mobil no");
+               Mobile.requestFocus();
+            } else if (Accountno.getText().toString().equals("")) {
+               Accountno.setError("Please Enter AccountNo");
+               focusView = Corporate_AddBeneficiary.this.Accountno;
+               Accountno.requestFocus();
+               cancel = true;
             } else {
-                Corporate_AddBeneficiary.this.focusView = Corporate_AddBeneficiary.this.Ifsc;
-                Corporate_AddBeneficiary.this.Ifsc.requestFocus();
-                Corporate_AddBeneficiary.this.cancel = true;
+                focusView = Corporate_AddBeneficiary.this.Ifsc;
+                Ifsc.requestFocus();
+                cancel = true;
             }
             return true;
         }
@@ -223,7 +223,7 @@ public class Corporate_AddBeneficiary extends AppCompatActivity {
             try {
 
 
-                url = new URL(APIs.Addebenificiary);
+                url = new URL(APIs.Corporate_Addebenificiary);
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -334,7 +334,7 @@ public class Corporate_AddBeneficiary extends AppCompatActivity {
     }
 
     private void onSubmit() {
-        this.AddBenificiarybtn.setOnClickListener(new C05341());
+        AddBenificiarybtn.setOnClickListener(new C05341());
     }
 
     @SuppressLint({"ClickableViewAccessibility"})
@@ -442,6 +442,7 @@ public class Corporate_AddBeneficiary extends AppCompatActivity {
         View inflate = LayoutInflater.from(this).inflate(R.layout.confimotp, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(inflate);
+        final AlertDialog alertDialog= builder.create();
         pinEntry = (PinEntryEditText) inflate.findViewById(R.id.otp);
         ProgressBar progressBar = (ProgressBar) inflate.findViewById(R.id.otpProgresss);
         Button button = (Button) inflate.findViewById(R.id.vrotp);
@@ -449,9 +450,10 @@ public class Corporate_AddBeneficiary extends AppCompatActivity {
         if (pinEntry != null) {
             pinEntry.setOnPinEnteredListener(new OnPinEnteredListener() {
                 public void onPinEntered(CharSequence charSequence) {
+                    alertDialog.dismiss();
                     InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Corporate_AddBeneficiary.this.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                    otp =  str.toString();
+                    otp =  charSequence.toString();
                     OtpValidation(Global.customerid, str, Global.mobile, Corporate_AddBeneficiary.this.otp, str2);
                 }
             });
@@ -476,7 +478,7 @@ public class Corporate_AddBeneficiary extends AppCompatActivity {
         final String str8 = str4;
         AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.Corporate_Benificiary_valid, new Listener<String>() {
             public void onResponse(String str) {
-                Corporate_AddBeneficiary.this.dialog.dismiss();
+                dialog.dismiss();
                 try {
                     JSONObject jSONObject = new JSONObject(str);
                     if (jSONObject.getBoolean("status")) {
@@ -490,7 +492,7 @@ public class Corporate_AddBeneficiary extends AppCompatActivity {
             }
         }, new ErrorListener() {
             public void onErrorResponse(VolleyError volleyError) {
-                Corporate_AddBeneficiary.this.dialog.dismiss();
+             dialog.dismiss();
             }
         }) {
             protected Map<String, String> getParams() throws AuthFailureError {
@@ -499,7 +501,7 @@ public class Corporate_AddBeneficiary extends AppCompatActivity {
                 hashMap.put("beneficiary_id", str6);
                 hashMap.put("mobile", Global.mobile);
                 hashMap.put("unique_id", str7);
-                hashMap.put(Constants.OTP, str8);
+                hashMap.put("otp", str8);
                 return hashMap;
             }
         });

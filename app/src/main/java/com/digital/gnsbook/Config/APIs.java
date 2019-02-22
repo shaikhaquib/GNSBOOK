@@ -71,4 +71,10 @@ public class APIs {
     public static String Dolike             = "https://www.gnsbook.com/api/add_like_by_post";
     public static String Unlike             = "https://www.gnsbook.com/api/remove_like_by_post";
 
+    public static String Corporate_AgentVr  = "https://www.gnsbook.com/api/cdmr_signup_verify";
+    public static String Comment_data       = "https://www.gnsbook.com/api/comment_data_display";
+    public static String DoComment          = "https://www.gnsbook.com/api/add_comment_by_post";
+
+
+
 }

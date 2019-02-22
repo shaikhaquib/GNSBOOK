@@ -234,5 +234,16 @@ public class Global {
         return formatedDate;
     }
 
-
+    public static String Time(String str) {
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+            SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("hh:mm a");
+            Date parse = simpleDateFormat.parse(str);
+            System.out.println(parse);
+            return simpleDateFormat2.format(parse);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return str;
+        }
+    }
 }
