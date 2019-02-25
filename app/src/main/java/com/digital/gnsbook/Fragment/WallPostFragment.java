@@ -71,6 +71,7 @@ public class WallPostFragment extends Fragment {
                         ArrayList arrayList3 = new ArrayList();
                         WallPostmodel wallPostmodel = new WallPostmodel();
                         wallPostmodel.logo = jSONObject2.getString("logo");
+                        wallPostmodel.id = jSONObject2.getString("id");
                         wallPostmodel.company_id = jSONObject2.getString("customer_id");
                         wallPostmodel.title = jSONObject2.getString("title");
                         wallPostmodel.description = jSONObject2.getString("description");

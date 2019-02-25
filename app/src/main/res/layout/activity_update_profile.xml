@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
             android:text="@string/cancel"
+            android:background="@color/colorPrimary"
             android:textColor="@color/white" />
 
         <Button
@@ -33,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
             android:text="@string/confirm"
+            android:background="@color/orange"
             android:textColor="@color/white" />
     </LinearLayout>
 </RelativeLayout>

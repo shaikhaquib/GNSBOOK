@@ -56,7 +56,7 @@ public class New_Post extends AppCompatActivity {
             try {
                 JSONObject jSONObject = new JSONObject(str);
                 if (jSONObject.getBoolean("status")) {
-                    Global.successDilogue(New_Post.this, jSONObject.getString("result"));
+                    Global.successDilogue(New_Post.this,"You have Successfully post.");
                 } else {
                     Global.failedDilogue(New_Post.this, jSONObject.getString("result"));
                 }

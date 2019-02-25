@@ -86,6 +86,6 @@
             android:background="@drawable/circle"
             android:padding="@dimen/fragment_title_padding_12"
             android:src="@drawable/ic_send_black_24dp"
-            android:visibility="visible" />
+            android:visibility="gone" />
     </LinearLayout>
 </RelativeLayout>

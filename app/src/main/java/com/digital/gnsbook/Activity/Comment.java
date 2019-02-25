@@ -1,50 +1,51 @@
 package com.digital.gnsbook.Activity;
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.Adapter;
-import android.support.v7.widget.RecyclerView.ViewHolder;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import com.android.volley.AuthFailureError;
-import com.android.volley.Response.ErrorListener;
-import com.android.volley.Response.Listener;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.digital.gnsbook.Config.APIs;
-import com.digital.gnsbook.Config.AppController;
-import com.digital.gnsbook.Config.PaginationScrollListener;
-import com.digital.gnsbook.DividerDecorator;
-import com.digital.gnsbook.Global;
-import com.digital.gnsbook.Model.CommentItem;
-import com.digital.gnsbook.Model.Comment_Response;
-import com.digital.gnsbook.ViewDialog;
-import com.github.vipulasri.timelineview.TimelineView;
-import com.google.gson.Gson;
-import com.httpgnsbook.gnsbook.R;
-import com.squareup.picasso.Picasso;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+        import android.os.Bundle;
+        import android.support.annotation.NonNull;
+        import android.support.v7.app.AppCompatActivity;
+        import android.support.v7.widget.LinearLayoutManager;
+        import android.support.v7.widget.RecyclerView;
+        import android.support.v7.widget.RecyclerView.Adapter;
+        import android.support.v7.widget.RecyclerView.ViewHolder;
+        import android.text.Editable;
+        import android.text.TextWatcher;
+        import android.view.LayoutInflater;
+        import android.view.MenuItem;
+        import android.view.View;
+        import android.view.View.OnClickListener;
+        import android.view.ViewGroup;
+        import android.widget.EditText;
+        import android.widget.ImageView;
+        import android.widget.LinearLayout;
+        import android.widget.TextView;
+        import com.android.volley.AuthFailureError;
+        import com.android.volley.Request;
+        import com.android.volley.Response.ErrorListener;
+        import com.android.volley.Response.Listener;
+        import com.android.volley.VolleyError;
+        import com.android.volley.toolbox.StringRequest;
+        import com.digital.gnsbook.Config.APIs;
+        import com.digital.gnsbook.Config.AppController;
+        import com.digital.gnsbook.Config.PaginationScrollListener;
+        import com.digital.gnsbook.DividerDecorator;
+        import com.digital.gnsbook.Global;
+        import com.digital.gnsbook.Model.CommentItem;
+        import com.digital.gnsbook.Model.Comment_Response;
+        import com.digital.gnsbook.ViewDialog;
+        import com.github.vipulasri.timelineview.TimelineView;
+        import com.google.gson.Gson;
+        import com.httpgnsbook.gnsbook.R;
+        import com.squareup.picasso.Picasso;
+        import java.text.ParseException;
+        import java.text.SimpleDateFormat;
+        import java.util.ArrayList;
+        import java.util.Date;
+        import java.util.HashMap;
+        import java.util.List;
+        import java.util.Map;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+        import org.json.JSONException;
+        import org.json.JSONObject;
 
 public class Comment extends AppCompatActivity {
     EditText EdtComment;
@@ -67,6 +68,9 @@ public class Comment extends AppCompatActivity {
     LinearLayout sendcommentprogress;
     TimelineView timelineView;
     int totalItems;
+
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
+    boolean loading = true;
 
     /* renamed from: com.digital.gnsbook.Activity.Comment$2 */
     class C04192 implements TextWatcher {
@@ -155,14 +159,16 @@ public class Comment extends AppCompatActivity {
                 JSONObject jSONObject = new JSONObject(str);
                 if (jSONObject.getBoolean("status")) {
                     Comment_Response comment_Response = (Comment_Response) new Gson().fromJson(str, Comment_Response.class);
-                   commentModel.addAll(comment_Response.getResult());
+                    commentModel.addAll(comment_Response.getResult());
                     Comment.this.Rv_Comment.getAdapter().notifyDataSetChanged();
-                    return;
+                    isLastPage = false;
+                }else {
+                    Comment.this.count = 0;
+                    Comment.this.isLastPage = true;
+                    isLoading = false;
+                    Comment.this.comment_Error.setVisibility(View.VISIBLE);
+                    Comment.this.comment_Error.setText(jSONObject.getString("result"));
                 }
-                Comment.this.count = 0;
-                Comment.this.isLastPage = true;
-                Comment.this.comment_Error.setVisibility(View.VISIBLE);
-                Comment.this.comment_Error.setText(jSONObject.getString("result"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -201,9 +207,9 @@ public class Comment extends AppCompatActivity {
                     Comment.this.commentModel.add(str);
                     Comment.this.Rv_Comment.scrollToPosition(Comment.this.commentModel.size() - 1);
                     Comment.this.Rv_Comment.getAdapter().notifyDataSetChanged();
-                    return;
-                }
+                }else {
                 Global.diloge(Comment.this, "Comment Error", jSONObject.getString("result"));
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -245,22 +251,27 @@ public class Comment extends AppCompatActivity {
         Picasso.get().load(stringBuilder.toString()).into(this.commentDP);
         this.EdtComment.addTextChangedListener(new C04192());
         this.addComment.setOnClickListener(new C04203());
-        this.Rv_Comment.addOnScrollListener(new PaginationScrollListener(this.layoutManager) {
-            protected void loadMoreItems() {
-                Comment.this.isLoading = true;
-                Comment.this.offset += 20;
-                Comment.this.getCommentData();
-            }
+        this.Rv_Comment.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                //    Log.e("test","reached the last element of recyclerview");
+                    visibleItemCount = layoutManager.getChildCount();
+                    totalItemCount = layoutManager.getItemCount();
+                    pastVisiblesItems = layoutManager.findFirstVisibleItemPosition();
 
-            public boolean isLastPage() {
-                return Comment.this.isLastPage;
-            }
-
-            public boolean isLoading() {
-                return Comment.this.isLoading;
+                    if (loading) {
+                        if ((visibleItemCount + pastVisiblesItems) >= totalItemCount && count > 0) {
+                            loading = false;
+                            Comment.this.isLoading = true;
+                            Comment.this.offset += 20;
+                            Comment.this.getCommentData();
+                        }
+                    }
+                }
             }
         });
-        getCommentData();
+                getCommentData();
     }
 
     public boolean onOptionsItemSelected(MenuItem menuItem) {
@@ -297,7 +308,7 @@ public class Comment extends AppCompatActivity {
 
     private void getCommentData() {
         this.porogress.show();
-        AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.Comment_data, new C08895(), new C08906()) {
+        AppController.getInstance().addToRequestQueue(new StringRequest(StringRequest.Method.POST, APIs.Comment_data, new C08895(), new C08906()) {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> hashMap = new HashMap();
                 hashMap.put("post_id",getIntent().getStringExtra("pid"));

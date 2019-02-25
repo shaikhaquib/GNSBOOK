@@ -556,7 +556,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
                     JSONObject object = new JSONObject(response);
 
                     if (object.getBoolean("status")){
-                        Global.successDilogue(MainActivity.this,object.getString("result"));
+                        Global.successDilogue(MainActivity.this,"You have Successfully updated your profile");
                     }else {
                         Global.failedDilogue(MainActivity.this,object.getString("result"));
 

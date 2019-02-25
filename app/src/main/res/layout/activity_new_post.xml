@@ -123,6 +123,7 @@
             android:background="@drawable/edt_rounded_corner"
             android:onClick="Picker"
             android:text="Post"
+            android:backgroundTint="@color/colorPrimary"
             android:textColor="@color/white" />
     </LinearLayout>
 </RelativeLayout>

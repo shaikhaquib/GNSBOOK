@@ -71,7 +71,7 @@ public class UpdateProfile extends AppCompatActivity {
             try {
                 JSONObject jSONObject = new JSONObject(str);
                 if (jSONObject.getBoolean("status")) {
-                    Global.successDilogue(UpdateProfile.this, jSONObject.getString("result"));
+                    Global.successDilogue(UpdateProfile.this,"You have Successfully updated your profile pick.");
                 } else {
                     Global.failedDilogue(UpdateProfile.this, jSONObject.getString("result"));
                 }

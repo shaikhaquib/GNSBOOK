@@ -155,7 +155,7 @@ public class ThreeFragment extends Fragment {
         AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.freinds, new C09302(), new C09313()) {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> hashMap = new HashMap();
-                hashMap.put("customer_id", Global.customerid);
+                hashMap.put("data", Global.customerid);
                 return hashMap;
             }
         });
