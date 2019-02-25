@@ -1,31 +1,39 @@
 package com.digital.gnsbook.Config;
 
 public class APIs {
-    public static String ACTIVEBenificiarylist = "https://www.gnsbook.com/api/c_activate_beneficiary";
-    public static String Addebenificiary = "https://www.gnsbook.com/api/dmr_beneficiary_reg";
-    public static String Addebenificiary_new = "https://www.gnsbook.com/api/beneficiary_check";
-    public static String Addebenificiaryotp = "https://www.gnsbook.com/api/dmr_beneficiary_reg_validate";
-    public static String AgenStatus = "https://www.gnsbook.com/api/agent_status_display";
-    public static String AgentSignup = "https://www.gnsbook.com/api/dmr_signup";
-    public static String Balance = "https://www.gnsbook.com/api/balance";
-    public static String Banner = "http://gnsbook.com/bpic/";
-    public static String BeniDelete = "";
-    public static String Benificiarylist = "https://www.gnsbook.com/api/dmr_detail";
-    public static String Binary = "https://www.gnsbook.com/api/binary_data";
-    public static String Corporate_ACTIVEBenificiarylist = "https://www.gnsbook.com/api/cdmr_detail";
-    public static String Corporate_Addebenificiary = "https://www.gnsbook.com/api/cdmr_beneficiary_reg";
-    public static String Corporate_Addebenificiaryotp = "https://www.gnsbook.com/api/cdmr_signup_verify";
-    public static String Corporate_AgentSignup = "https://www.gnsbook.com/api/cdmr_signup";
-    public static String Corporate_Benificiary_valid = "https://www.gnsbook.com/api/cdmr_beneficiary_verify";
-    public static String Corporate_Benificiarylist = "https://www.gnsbook.com/api/cdmr_detail";
-    public static String Corporate_FundTransAPi = "https://www.gnsbook.com/api/cdmr_transfer";
-    public static String Dp = "http://gnsbook.com/dpic/";
-    public static String EmailVerification = "https://www.gnsbook.com/api/mail_verification";
-    public static String FundTransAPi = "https://www.gnsbook.com/api/dmr_transfer";
-    public static String Jolo_Status = "https://www.gnsbook.com/api/jolo_status";
-    public static String Jolo_soft_balance = "https://www.gnsbook.com/api/jolo_soft_balance";
-    public static String Jolo_soft_dmr_beneficiary_reg = "https://www.gnsbook.com/api/jolo_soft_dmr_beneficiary_reg";
+    public static String ACTIVEBenificiarylist              = "https://www.gnsbook.com/api/c_activate_beneficiary";
+    public static String Addebenificiary                    = "https://www.gnsbook.com/api/dmr_beneficiary_reg";
+    public static String Addebenificiary_new                = "https://www.gnsbook.com/api/beneficiary_check";
+    public static String Addebenificiaryotp                 = "https://www.gnsbook.com/api/dmr_beneficiary_reg_validate";
+    public static String AgenStatus                         = "https://www.gnsbook.com/api/agent_status_display";
+    public static String AgentSignup                        = "https://www.gnsbook.com/api/dmr_signup";
+    public static String Balance                            = "https://www.gnsbook.com/api/balance";
+    public static String Banner                             = "http://gnsbook.com/bpic/";
+    public static String Binary                             = "https://www.gnsbook.com/api/binary_data";
+
+
+
+    public static String Corporate_ACTIVEBenificiarylist    = "https://www.gnsbook.com/api/cdmr_detail";
+    public static String Corporate_Addebenificiary          = "https://www.gnsbook.com/api/cdmr_beneficiary_reg";
+    public static String Corporate_AgentSignup              = "https://www.gnsbook.com/api/cdmr_signup";
+    public static String Corporate_Benificiary_valid        = "https://www.gnsbook.com/api/cdmr_beneficiary_verify";
+    public static String Corporate_Benificiarylist          = "https://www.gnsbook.com/api/cdmr_detail";
+    public static String Corporate_FundTransAPi             = "https://www.gnsbook.com/api/cdmr_transfer";
+    public static String Benificiarylist                    = "https://www.gnsbook.com/api/dmr_detail";
+
+
+
+    public static String Dp                                 = "http://gnsbook.com/dpic/";
+    public static String EmailVerification                  = "https://www.gnsbook.com/api/mail_verification";
+
+
+    public static String FundTransAPi                           = "https://www.gnsbook.com/api/dmr_transfer";
+    public static String Jolo_Status                            = "https://www.gnsbook.com/api/jolo_status";
+    public static String Jolo_soft_balance                      = "https://www.gnsbook.com/api/jolo_soft_balance";
+    public static String Jolo_soft_dmr_beneficiary_reg          = "https://www.gnsbook.com/api/jolo_soft_dmr_beneficiary_reg";
     public static String Jolo_soft_dmr_beneficiary_reg_validate = "https://www.gnsbook.com/api/jolo_soft_dmr_beneficiary_reg_validate";
+    public static String BeniDelete                             = "";
+
     public static String Jolo_soft_dmr_details              = "https://www.gnsbook.com/api/jolo_soft_dmr_detail";
     public static String Jolo_soft_dmr_signup               = "https://www.gnsbook.com/api/jolo_soft_dmr_signup";
     public static String Jolo_soft_dmr_signup_validation    = "https://www.gnsbook.com/api/jolo_soft_dmr_signup_validate";
@@ -75,6 +83,7 @@ public class APIs {
     public static String Comment_data       = "https://www.gnsbook.com/api/comment_data_display";
     public static String DoComment          = "https://www.gnsbook.com/api/add_comment_by_post";
 
+    public static final String SubPlan      = "https://www.gnsbook.com/api/display_subscription_data";
 
 
 }

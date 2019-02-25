@@ -2,7 +2,7 @@ package com.digital.gnsbook.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ResultItem {
+public class SubsResultItem {
     @SerializedName("collected_amount")
     private int collectedAmount;
     @SerializedName("details")
@@ -55,8 +55,9 @@ public class ResultItem {
     }
 
     public String toString() {
+
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("ResultItem{reward_amount = '");
+        stringBuilder.append("SubsResultItem{reward_amount = '");
         stringBuilder.append(this.rewardAmount);
         stringBuilder.append('\'');
         stringBuilder.append(",details = '");
@@ -73,5 +74,6 @@ public class ResultItem {
         stringBuilder.append('\'');
         stringBuilder.append("}");
         return stringBuilder.toString();
+
     }
 }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.httpgnsbook.gnsbook"
@@ -12,9 +12,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-feature android:name="android.hardware.camera.autofocus" />
-    <permission android:name="com.httpgnsbook.gnsbook.provider.READ" />
-    <uses-permission android:name="com.httpgnsbook.gnsbook.provider.READ" />
 
+    <permission android:name="com.httpgnsbook.gnsbook.provider.READ" />
+
+    <uses-permission android:name="com.httpgnsbook.gnsbook.provider.READ" />
 
     <application
         android:name="com.digital.gnsbook.Config.AppController"
@@ -23,14 +24,18 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        tools:replace="android:allowBackup"
         android:theme="@style/AppTheme"
-        android:networkSecurityConfig="@xml/network_security_config"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:allowBackup">
+        <activity android:name="com.digital.gnsbook.Activity.Subsription_plan"></activity>
 
-        <uses-library android:name="org.apache.http.legacy" android:required="false" />
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
         <provider
             android:name="com.digital.gnsbook.Config.MyContentProvider"
             android:authorities="com.gnsbook.digital.provider"
@@ -45,6 +50,7 @@
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -172,4 +178,5 @@
             android:screenOrientation="portrait" />
         <activity android:name="instamojo.library.Instamojo" />
     </application>
+
 </manifest>

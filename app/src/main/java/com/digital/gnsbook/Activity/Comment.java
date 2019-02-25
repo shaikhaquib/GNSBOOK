@@ -131,7 +131,7 @@ public class Comment extends AppCompatActivity {
 
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
             Holder holder = (Holder) viewHolder;
-            CommentItem commentItem = (CommentItem) Comment.this.commentModel.get(i);
+            CommentItem commentItem = (CommentItem)commentModel.get(i);
             String[] split = commentItem.getCreatedAt().split(" ");
             holder.Name.setText(commentItem.getName());
             holder.Comment.setText(commentItem.getComment());

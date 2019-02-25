@@ -3,17 +3,17 @@ package com.digital.gnsbook.Model;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
-public class Response {
+public class ResSubsItem {
     @SerializedName("result")
-    private List<ResultItem> result;
+    private List<SubsResultItem> result;
     @SerializedName("status")
     private boolean status;
 
-    public void setResult(List<ResultItem> list) {
+    public void setResult(List<SubsResultItem> list) {
         this.result = list;
     }
 
-    public List<ResultItem> getResult() {
+    public List<SubsResultItem> getResult() {
         return this.result;
     }
 
@@ -27,7 +27,7 @@ public class Response {
 
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Response{result = '");
+        stringBuilder.append("ResSubsItem{result = '");
         stringBuilder.append(this.result);
         stringBuilder.append('\'');
         stringBuilder.append(",status = '");

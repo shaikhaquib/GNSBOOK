@@ -83,7 +83,7 @@ public class BenificiaryList extends AppCompatActivity {
                         // response
                         Dissmiss();
                         dialog.dismiss();
-                        Log.d("Response", response);
+                        Log.d("ResSubsItem", response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                               /*JSONObject data = jsonObject.getJSONObject("result");
@@ -306,7 +306,7 @@ public class BenificiaryList extends AppCompatActivity {
                         // response
                         Dissmiss();
                         dialog.dismiss();
-                        Log.d("Response", response);
+                        Log.d("ResSubsItem", response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONObject data = jsonObject.getJSONObject("result");

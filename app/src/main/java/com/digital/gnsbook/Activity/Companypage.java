@@ -1,11 +1,14 @@
 package com.digital.gnsbook.Activity;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,6 +46,7 @@ public class Companypage extends AppCompatActivity {
     ViewDialog dialog;
     TextView name,desc;
     ImageView banner , logo;
+    CardView fabSubsCribe ,fabSetting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,21 @@ public class Companypage extends AppCompatActivity {
         desc = findViewById(R.id.compony_desc);
         banner = findViewById(R.id.company_banner);
         logo = findViewById(R.id.company_logo);
+        fabSubsCribe = findViewById(R.id.fabSubsCribe);
+        fabSetting = findViewById(R.id.fabAccountSetting);
 
+        fabSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),Subsription_plan.class));
+            }
+        });
+        fabSubsCribe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),Subsription_plan.class));
+            }
+        });
 
         adapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), fragments, titles);
         viewPager.setAdapter(adapter);
@@ -115,6 +133,14 @@ public class Companypage extends AppCompatActivity {
                 Global.Company_Name = dashResp.getResult().get(0).getName();
                 Global.Company_Logo = dashResp.getResult().get(0).getLogo();
                 Global.Company_Type = dashResp.getResult().get(0).getCompanyType();
+
+                if (Global.Company_Admin_Id == Integer.parseInt(Global.customerid)){
+                    fabSetting.setVisibility(View.VISIBLE);
+                    fabSubsCribe.setVisibility(View.GONE);
+                }else {
+                    fabSetting.setVisibility(View.GONE);
+                    fabSubsCribe.setVisibility(View.VISIBLE);
+                }
 
                 prepareDataResource();
 
