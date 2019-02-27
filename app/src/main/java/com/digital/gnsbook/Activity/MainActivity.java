@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -26,10 +28,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -44,6 +49,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
@@ -108,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
     private List<String> titles = new ArrayList();
     HashMap<String, String> user;
     private ViewPager viewPager;
+    RelativeLayout rvSearch;
 
     /* renamed from: com.digital.gnsbook.Activity.MainActivity$5 */
     class C04225 implements OnClickListener {
@@ -347,6 +354,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         TextView navUsername = headerView.findViewById(R.id.navUserName);
         navUsername.setText(Global.name);
         profileImage = headerView.findViewById(R.id.profileImage);
+        rvSearch = findViewById(R.id.rvSearch);
         TextView NavEmail = headerView.findViewById(R.id.navEmail);
         NavEmail.setText(Global.Email);
 
@@ -444,13 +452,37 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        // Assumes current activity is the searchable activity
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                rvSearch.setVisibility(View.GONE);
+                viewPager.setVisibility(View.GONE);
+                return false;
+            }
+        });
+
+        searchView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rvSearch.setVisibility(View.VISIBLE);
+                viewPager.setVisibility(View.GONE);
+
+            }
+        });
+
+
         return true;
     }
 
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        if (menuItem.getItemId() != R.id.mnAdd) {
+        if (menuItem.getItemId() == R.id.mnAdd) {
             return super.onOptionsItemSelected(menuItem);
-        }
+      }
         return true;
     }
 

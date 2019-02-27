@@ -1,89 +1,94 @@
 package com.digital.gnsbook.Config;
 
 public class APIs {
-    public static String ACTIVEBenificiarylist              = "https://www.gnsbook.com/api/c_activate_beneficiary";
-    public static String Addebenificiary                    = "https://www.gnsbook.com/api/dmr_beneficiary_reg";
-    public static String Addebenificiary_new                = "https://www.gnsbook.com/api/beneficiary_check";
-    public static String Addebenificiaryotp                 = "https://www.gnsbook.com/api/dmr_beneficiary_reg_validate";
-    public static String AgenStatus                         = "https://www.gnsbook.com/api/agent_status_display";
-    public static String AgentSignup                        = "https://www.gnsbook.com/api/dmr_signup";
-    public static String Balance                            = "https://www.gnsbook.com/api/balance";
-    public static String Banner                             = "http://gnsbook.com/bpic/";
-    public static String Binary                             = "https://www.gnsbook.com/api/binary_data";
+
+    public static String DevDomain  = "https://development.gnsbook.com/api/";
+    public static String Domain     = "https://development.gnsbook.com/";
+    public static String MainDomain = "https://www.gnsbook.com/";
+
+    public static String LoginAPI                               = Domain+"login";
+    public static String UpdatePassword                         = Domain+"update_password";
+    public static String RegisterAPI                            = Domain+"aap_signup";
+
+    public static String Banner                                 = Domain+"bpic/";
+    public static String Dp                                     = Domain+"dpic/";
+    public static String postImg                                = Domain+"dpic/";
+
+
+    public static String ACTIVEBenificiarylist                  = DevDomain+"c_activate_beneficiary";
+    public static String Addebenificiary                        = DevDomain+"dmr_beneficiary_reg";
+    public static String Addebenificiary_new                    = DevDomain+"beneficiary_check";
+    public static String Addebenificiaryotp                     = DevDomain+"dmr_beneficiary_reg_validate";
+    public static String AgenStatus                             = DevDomain+"agent_status_display";
+    public static String AgentSignup                            = DevDomain+"dmr_signup";
+    public static String Balance                                = DevDomain+"balance";
+    public static String Binary                                 = DevDomain+"binary_data";
 
 
 
-    public static String Corporate_ACTIVEBenificiarylist    = "https://www.gnsbook.com/api/cdmr_detail";
-    public static String Corporate_Addebenificiary          = "https://www.gnsbook.com/api/cdmr_beneficiary_reg";
-    public static String Corporate_AgentSignup              = "https://www.gnsbook.com/api/cdmr_signup";
-    public static String Corporate_Benificiary_valid        = "https://www.gnsbook.com/api/cdmr_beneficiary_verify";
-    public static String Corporate_Benificiarylist          = "https://www.gnsbook.com/api/cdmr_detail";
-    public static String Corporate_FundTransAPi             = "https://www.gnsbook.com/api/cdmr_transfer";
-    public static String Benificiarylist                    = "https://www.gnsbook.com/api/dmr_detail";
+    public static String Corporate_ACTIVEBenificiarylist        = DevDomain+"cdmr_detail";
+    public static String Corporate_Addebenificiary              = DevDomain+"cdmr_beneficiary_reg";
+    public static String Corporate_AgentSignup                  = DevDomain+"cdmr_signup";
+    public static String Corporate_Benificiary_valid            = DevDomain+"cdmr_beneficiary_verify";
+    public static String Corporate_Benificiarylist              = DevDomain+"cdmr_detail";
+    public static String Corporate_FundTransAPi                 = DevDomain+"cdmr_transfer";
+    public static String Benificiarylist                        = DevDomain+"dmr_detail";
 
 
 
-    public static String Dp                                 = "http://gnsbook.com/dpic/";
-    public static String EmailVerification                  = "https://www.gnsbook.com/api/mail_verification";
+    public static String EmailVerification                      = DevDomain+"mail_verification";
 
 
-    public static String FundTransAPi                           = "https://www.gnsbook.com/api/dmr_transfer";
-    public static String Jolo_Status                            = "https://www.gnsbook.com/api/jolo_status";
-    public static String Jolo_soft_balance                      = "https://www.gnsbook.com/api/jolo_soft_balance";
-    public static String Jolo_soft_dmr_beneficiary_reg          = "https://www.gnsbook.com/api/jolo_soft_dmr_beneficiary_reg";
-    public static String Jolo_soft_dmr_beneficiary_reg_validate = "https://www.gnsbook.com/api/jolo_soft_dmr_beneficiary_reg_validate";
-    public static String BeniDelete                             = "";
+    public static String FundTransAPi                           = DevDomain+"dmr_transfer";
+    public static String Jolo_Status                            = DevDomain+"jolo_status";
+    public static String Jolo_soft_balance                      = DevDomain+"jolo_soft_balance";
+    public static String Jolo_soft_dmr_beneficiary_reg          = DevDomain+"jolo_soft_dmr_beneficiary_reg";
+    public static String Jolo_soft_dmr_beneficiary_reg_validate = DevDomain+"jolo_soft_dmr_beneficiary_reg_validate";
+    public static String BeniDelete                             = DevDomain+"";
 
-    public static String Jolo_soft_dmr_details              = "https://www.gnsbook.com/api/jolo_soft_dmr_detail";
-    public static String Jolo_soft_dmr_signup               = "https://www.gnsbook.com/api/jolo_soft_dmr_signup";
-    public static String Jolo_soft_dmr_signup_validation    = "https://www.gnsbook.com/api/jolo_soft_dmr_signup_validate";
-    public static String LoginAPI                           = "https://www.gnsbook.com/login";
-    public static String Manultransfer                      = "https://www.gnsbook.com/api/manually_jolo_transfer";
-    public static String PhoneVerification                  = "https://www.gnsbook.com/api/sms_verification";
-    public static String Phoneotpverifie                    = "https://www.gnsbook.com/api/sms_check";
-    public static String PooLenter                          = "https://www.gnsbook.com/api/claime_pool";
-    public static String PoolDATA                           = "https://www.gnsbook.com/api/pool_data";
-    public static String ProfileDetail                      = "https://www.gnsbook.com/api/profile";
-    public static String RegisterAPI                        = "https://www.gnsbook.com/aap_signup";
-    public static String Statistics                         = "https://www.gnsbook.com/api/statistics_data";
-    public static String UpadteCapping                      = "https://www.gnsbook.com/api/claimcapping";
-    public static String UpdatePassword                     = "https://www.gnsbook.com/update_password";
-    public static String UpdateProfile                      = "https://www.gnsbook.com/api/profile_update";
-    public static String UploadPost                         = "https://www.gnsbook.com/api/add_timeline_by_companies";
-    public static String UserPoolDATA                       = "https://www.gnsbook.com/api/pool_participants_by_customer_id";
-    public static String Verificationstatus                 = "https://www.gnsbook.com/api/verify_data";
-    public static String addmoney                           = "https://www.gnsbook.com/api/add_balane_online";
-    public static String company_data_by_id                 = "https://www.gnsbook.com/api/company_data_by_id";
-    public static String company_timeline                   = "https://www.gnsbook.com/api/timeline_data_by_id";
-    public static String companydataAPI                     = "https://www.gnsbook.com/api/company_data";
-    public static String contactUpadte                      = "https://www.gnsbook.com/api/profile_update_verify";
-    public static String createpage                         = "https://www.gnsbook.com/api/add_company";
-    public static String freinds                            = "https://www.gnsbook.com/api/friends";
-    public static String jolo_soft_dmr_beneficiary_reg_otp  = "https://www.gnsbook.com/api/jolo_soft_dmr_beneficiary_reg_otp";
-    public static String jolo_soft_dmr_transfer             = "https://www.gnsbook.com/api/jolo_soft_dmr_transfer";
-    public static String offline                            = "https://www.gnsbook.com/api/add_balane_offline";
-    public static String postImg                            = "http://gnsbook.com/dpic/";
-    public static String reSendOtp                          = "https://www.gnsbook.com/api/dmr_beneficiary_reg_validate";
-    public static String timelineAPI                        = "https://www.gnsbook.com/api/timeline_data_selflike";
-    public static String timelineAPI_byid                   = "https://www.gnsbook.com/api/timeline_data_by_id";
-    public static String topperformerAPI                    = "https://www.gnsbook.com/api/top_performer";
-    public static String transaction_detail                 = "https://www.gnsbook.com/api/recent_transaction";
-    public static String update_email                       = "https://www.gnsbook.com/api/profile_update_verify_email";
-    public static String update_mobile                      = "https://www.gnsbook.com/api/profile_update_verify_mobile";
-    public static String uploadDP                           = "https://www.gnsbook.com/api/upload_profile_dpic";
-    public static String uploadbanner                       = "https://www.gnsbook.com/api/upload_profile_bpic";
-
+    public static String Jolo_soft_dmr_details                  = DevDomain+"jolo_soft_dmr_detail";
+    public static String Jolo_soft_dmr_signup                   = DevDomain+"jolo_soft_dmr_signup";
+    public static String Jolo_soft_dmr_signup_validation        = DevDomain+"jolo_soft_dmr_signup_validate";
+    public static String Manultransfer                          = DevDomain+"manually_jolo_transfer";
+    public static String PhoneVerification                      = DevDomain+"sms_verification";
+    public static String Phoneotpverifie                        = DevDomain+"sms_check";
+    public static String PooLenter                              = DevDomain+"claime_pool";
+    public static String PoolDATA                               = DevDomain+"pool_data";
+    public static String ProfileDetail                          = DevDomain+"profile";
+    public static String Statistics                             = DevDomain+"statistics_data";
+    public static String UpadteCapping                          = DevDomain+"claimcapping";
+    public static String UpdateProfile                          = DevDomain+"profile_update";
+    public static String UploadPost                             = DevDomain+"add_timeline_by_companies";
+    public static String UserPoolDATA                           = DevDomain+"pool_participants_by_customer_id";
+    public static String Verificationstatus                     = DevDomain+"verify_data";
+    public static String addmoney                               = DevDomain+"add_balane_online";
+    public static String company_data_by_id                     = DevDomain+"company_data_by_id";
+    public static String company_timeline                       = DevDomain+"timeline_data_by_id";
+    public static String companydataAPI                         = DevDomain+"company_data";
+    public static String contactUpadte                          = DevDomain+"profile_update_verify";
+    public static String createpage                             = DevDomain+"add_company";
+    public static String freinds                                = DevDomain+"friends";
+    public static String jolo_soft_dmr_beneficiary_reg_otp      = DevDomain+"jolo_soft_dmr_beneficiary_reg_otp";
+    public static String jolo_soft_dmr_transfer                 = DevDomain+"jolo_soft_dmr_transfer";
+    public static String offline                                = DevDomain+"add_balane_offline";
+    public static String reSendOtp                              = DevDomain+"dmr_beneficiary_reg_validate";
+    public static String timelineAPI                            = DevDomain+"timeline_data_selflike";
+    public static String timelineAPI_byid                       = DevDomain+"timeline_data_by_id";
+    public static String topperformerAPI                        = DevDomain+"top_performer";
+    public static String transaction_detail                     = DevDomain+"recent_transaction";
+    public static String update_email                           = DevDomain+"profile_update_verify_email";
+    public static String update_mobile                          = DevDomain+"profile_update_verify_mobile";
+    public static String uploadDP                               = DevDomain+"upload_profile_dpic";
+    public static String uploadbanner                           = DevDomain+"upload_profile_bpic";
 
     // Like Unlike
+    public static String Dolike                                 = DevDomain+"add_like_by_post";
+    public static String Unlike                                 = DevDomain+"remove_like_by_post";
+    public static String Corporate_AgentVr                      = DevDomain+"cdmr_signup_verify";
+    public static String Comment_data                           = DevDomain+"comment_data_display";
+    public static String DoComment                              = DevDomain+"add_comment_by_post";
 
-    public static String Dolike             = "https://www.gnsbook.com/api/add_like_by_post";
-    public static String Unlike             = "https://www.gnsbook.com/api/remove_like_by_post";
-
-    public static String Corporate_AgentVr  = "https://www.gnsbook.com/api/cdmr_signup_verify";
-    public static String Comment_data       = "https://www.gnsbook.com/api/comment_data_display";
-    public static String DoComment          = "https://www.gnsbook.com/api/add_comment_by_post";
-
-    public static final String SubPlan      = "https://www.gnsbook.com/api/display_subscription_data";
-
-
+    public static String SubPlan                                = DevDomain+"subscribe_plan";
+    public static String Createplane                            = DevDomain+"add_subscription_plan";
+    public static String Subscribe_plan                         = DevDomain+"display_subscription_data";
 }

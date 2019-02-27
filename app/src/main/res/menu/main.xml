@@ -2,4 +2,9 @@
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:icon="@drawable/ic_add_512" android:id="@+id/mnAdd" android:visible="false" android:orderInCategory="100" android:title="Add Money" app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_search"
+        android:title="Search"
+        android:icon="@drawable/ic_magnifying_glass_icon"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="android.support.v7.widget.SearchView" />
 </menu>

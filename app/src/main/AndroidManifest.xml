@@ -30,7 +30,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
-        <activity android:name="com.digital.gnsbook.Activity.Subsription_plan"></activity>
+        <activity android:name="com.digital.gnsbook.Activity.SearchActivity"></activity>
+        <activity android:name="com.digital.gnsbook.Activity.Subsription_plan" />
 
         <uses-library
             android:name="org.apache.http.legacy"
