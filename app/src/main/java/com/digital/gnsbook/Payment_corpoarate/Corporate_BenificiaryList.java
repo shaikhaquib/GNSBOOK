@@ -263,6 +263,7 @@ public class Corporate_BenificiaryList extends AppCompatActivity {
         setContentView((int) R.layout.activity_benificiary_list);
         initialize();
         getBenificarydata();
+        limitTransaction();
     }
 
     private void getBenificarydata() {
@@ -308,4 +309,28 @@ public class Corporate_BenificiaryList extends AppCompatActivity {
         super.onBackPressed();
         startActivity(new Intent(new Intent(getApplicationContext(), MainActivity.class)));
     }
+
+
+    private void limitTransaction() {
+        this.dialog.setMessage("Verifying...");
+        this.dialog.show();
+
+        AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.limitTransaction, new Listener<String>() {
+            public void onResponse(String str) {
+                dialog.dismiss();
+            }
+        }, new ErrorListener() {
+            public void onErrorResponse(VolleyError volleyError) {
+                dialog.dismiss();
+            }
+        }) {
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> hashMap = new HashMap();
+                hashMap.put("customer_id", Global.customerid);
+
+                return hashMap;
+            }
+        });
+    }
+
 }

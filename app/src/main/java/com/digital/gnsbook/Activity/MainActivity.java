@@ -17,6 +17,7 @@ import android.net.Uri.Builder;
 import android.os.AsyncTask;
 import android.os.Build.VERSION;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
@@ -24,6 +25,7 @@ import android.support.design.widget.TabLayout;
 import android.support.design.widget.TabLayout.Tab;
 import android.support.design.widget.TabLayout.ViewPagerOnTabSelectedListener;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -47,6 +49,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
@@ -453,29 +456,22 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
 
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        // Assumes current activity is the searchable activity
 
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+        new Handler().post(new Runnable() {
             @Override
-            public boolean onClose() {
-                rvSearch.setVisibility(View.GONE);
-                viewPager.setVisibility(View.GONE);
-                return false;
+            public void run() {
+                final View menuItemView = findViewById(R.id.action_search);
+                menuItemView.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        // TODO Auto-generated method stub
+                        presentActivity(v);
+                    }
+                });
+                // Assumes current activity is the searchable activi
             }
         });
-
-        searchView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rvSearch.setVisibility(View.VISIBLE);
-                viewPager.setVisibility(View.GONE);
-
-            }
-        });
-
-
         return true;
     }
 
@@ -501,7 +497,10 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         } else if (menuItem == R.id.support) {
             callPhoneNumber();
         } else if (menuItem == R.id.nav_wallet) {
-            fundTransfer();
+            if (Global.verify_sms.equals("1")) {
+                Global.diloge(MainActivity.this, "User not verified", "For Fund Transfer from GnsBook you have to verify your mobile no.");
+            }else {
+            fundTransfer();}
         } else if (menuItem == R.id.nav_logout) {
             Logout();
         }
@@ -620,4 +619,17 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         AppController.getInstance().addToRequestQueue(stringRequest);
     }
 
+
+    public void presentActivity(View view) {
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation(this, view, "transition");
+        int revealX = (int) (view.getX() + view.getWidth() / 2);
+        int revealY = (int) (view.getY() + view.getHeight() / 2);
+
+        Intent intent = new Intent(this, SearchActivity.class);
+        intent.putExtra(SearchActivity.EXTRA_CIRCULAR_REVEAL_X, revealX);
+        intent.putExtra(SearchActivity.EXTRA_CIRCULAR_REVEAL_Y, revealY);
+
+        ActivityCompat.startActivity(this, intent, options.toBundle());
+    }
 }

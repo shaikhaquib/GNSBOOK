@@ -359,13 +359,23 @@ public class Fragement_Setting extends Fragment {
         this.niceSpinner.addOnItemClickListener(new C04411());
         this.Update.setOnClickListener(new C04422());
         this.picdate.setOnClickListener(new C04433());
-        if (Global.verify_sms.equals("1") ) {
-            this.updMobile.setVisibility(View.GONE);
+        if (Global.verify_sms.equals("1")) {
             this.vrmb.setVisibility(View.GONE);
+            this.updMobile.setVisibility(View.GONE);
             this.mobile.setEnabled(false);
             this.strPhone = "";
         }
-        if (Global.verify_email.equals("1")) {
+
+        if (Global.A_status.equals("1")) {
+          //  this.vrmb.setVisibility(View.GONE);
+            this.updMobile.setVisibility(View.GONE);
+            this.mobile.setEnabled(false);
+            this.strPhone = "";
+        }
+
+
+
+        if (Global.verify_email.equals("1") ) {
             this.updEmail.setVisibility(View.GONE);
             this.vrem.setVisibility(View.GONE);
             this.email.setEnabled(false);

@@ -11,11 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.digital.gnsbook.Activity.Forgotpass;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Config.SQLiteHandler;
@@ -41,6 +43,7 @@ public class FragementLogin extends Fragment {
     EditText edtEmail ,edtPassword;
     String email,password;
     Button Login;
+    TextView frgPass;
     ViewDialog progressDialog;
     SQLiteHandler db;
     SessionManager session;
@@ -52,10 +55,18 @@ public class FragementLogin extends Fragment {
 
 
         edtEmail = view.findViewById(R.id.email);
+        frgPass = view.findViewById(R.id.frgPass);
         edtPassword = view.findViewById(R.id.lgPassword);
         Login = view.findViewById(R.id.btnLogin);
         session=new SessionManager(getActivity());
         db=new SQLiteHandler(getActivity());
+
+        frgPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), Forgotpass.class));
+            }
+        });
 
 
         progressDialog = new ViewDialog(getActivity());

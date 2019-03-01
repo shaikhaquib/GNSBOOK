@@ -5,6 +5,6 @@
     <item android:id="@+id/action_search"
         android:title="Search"
         android:icon="@drawable/ic_magnifying_glass_icon"
-        app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="android.support.v7.widget.SearchView" />
+        app:showAsAction="ifRoom"
+        />
 </menu>

@@ -91,4 +91,11 @@ public class APIs {
     public static String SubPlan                                = DevDomain+"subscribe_plan";
     public static String Createplane                            = DevDomain+"add_subscription_plan";
     public static String Subscribe_plan                         = DevDomain+"display_subscription_data";
+
+    public static String Search                                 = DevDomain+"search_result";
+
+
+    public static String frgpass                                = DevDomain+"forgot_password";
+    public static String limitTransaction                       = DevDomain+"check_entry_in_limit";
+    public static String display_specific_profile               = DevDomain+"display_specific_profile";
 }

@@ -338,6 +338,7 @@
                         android:layout_weight="2.0"
                         android:gravity="center"
                         android:text="Verify Number"
+                        android:background="@color/colorPrimary"
                         android:textColor="@color/white"
                         android:textSize="10.0dip" />
 
@@ -346,8 +347,10 @@
                         android:layout_width="0.0dip"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
+                        android:layout_marginLeft="4dp"
                         android:layout_marginTop="@dimen/margin_10"
                         android:layout_weight="2.0"
+                        android:background="@color/colorPrimary"
                         android:gravity="center"
                         android:text="Update Number"
                         android:textColor="@color/white"
@@ -409,6 +412,7 @@
                         android:layout_marginTop="@dimen/margin_10"
                         android:layout_weight="2.0"
                         android:gravity="center"
+                        android:background="@color/colorPrimary"
                         android:text="Verify Email"
                         android:textColor="@color/white"
                         android:textSize="10.0dip" />
@@ -418,9 +422,11 @@
                         android:layout_width="0.0dip"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
+                        android:background="@color/colorPrimary"
                         android:layout_marginTop="@dimen/margin_10"
                         android:layout_weight="2.0"
                         android:gravity="center"
+                        android:layout_marginLeft="4dp"
                         android:text="Update Email"
                         android:textColor="@color/white"
                         android:textSize="10.0dip" />
