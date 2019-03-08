@@ -136,6 +136,7 @@
             android:name="com.digital.gnsbook.Payment.ManualTransaction"
             android:windowSoftInputMode="stateHidden" />
 
+<!--
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.httpgnsbook.gnsbook.provider"
@@ -146,6 +147,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+-->
 
         <activity android:name="com.digital.gnsbook.Activity.Account" />
         <activity
@@ -183,7 +185,6 @@
             android:name="com.digital.gnsbook.Activity.Forgotpass"
             android:label="FORGOT PASSWORD"
             android:parentActivityName="com.digital.gnsbook.Activity.LoginActivity" />
-        <activity android:name="instamojo.library.Instamojo" />
     </application>
 
 </manifest>

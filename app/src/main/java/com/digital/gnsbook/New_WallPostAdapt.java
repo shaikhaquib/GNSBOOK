@@ -160,7 +160,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         holder.productLayout.setTag(postmodel);
         holder.wpComment.setTag(postmodel);
         holder.title.setText(postmodel.title);
-        holder.prdPrize.setText(postmodel.product_price);
+        holder.prdPrize.setText("₹"+postmodel.product_price);
         holder.Buynow.setTag(postmodel);
         holder.prdName.setText(postmodel.product_name);
         holder.prdDesc.setText(postmodel.product_desc);

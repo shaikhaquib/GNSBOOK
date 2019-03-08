@@ -111,7 +111,9 @@ public class WallPostFragment extends Fragment {
                         else {
                             wallPostmodel.logo = jSONObject2.getString("logo");
                             wallPostmodel.id = jSONObject2.getString("id");
-                          //  wallPostmodel.company_id = jSONObject2.getString("customer_id");
+                            wallPostmodel.name = jSONObject2.getString("name");
+
+                            //  wallPostmodel.company_id = jSONObject2.getString("customer_id");
                             wallPostmodel.product_name = jSONObject2.getString("product_name");
                             wallPostmodel.product_cat = jSONObject2.getString("product_cat");
                             wallPostmodel.product_price = jSONObject2.getString("product_price");
