@@ -104,4 +104,6 @@ public class APIs {
     public static String acceptRequest                          = DevDomain+"accept_friend_request";
     public static String RequestList                            = DevDomain+"frnd_req_notification";
     public static String removefriend                           =DevDomain+"";
+    public static String UploadProduct                          =DevDomain+"add_product_by_companies";
+    public static String new_timelineAPI                        =DevDomain+"newtimeline_data_selflike";
 }

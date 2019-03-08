@@ -18,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -53,6 +54,7 @@ public class WallPostAdapt extends Adapter<ViewHolder> {
         ImageView share;
         TextView textPost;
         TextView title;
+        LinearLayout layout;
 
         public Holder(@NonNull View view) {
             super(view);
@@ -69,6 +71,8 @@ public class WallPostAdapt extends Adapter<ViewHolder> {
             BtnLike = (CheckBox) view.findViewById(R.id.like);
             commentCount = view.findViewById(R.id.CommentCount);
             wpComment = view.findViewById(R.id.wpComment);
+            layout = view.findViewById(R.id.PostView);
+            layout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -180,7 +184,7 @@ public class WallPostAdapt extends Adapter<ViewHolder> {
         holder.wpComment.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, Comment.class).putExtra("pid",postmodel.id).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                context.startActivity(new Intent(context, Comment.class).putExtra("pid",postmodel.id).putExtra("type","1").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
 

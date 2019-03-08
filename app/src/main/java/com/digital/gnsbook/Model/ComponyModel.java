@@ -12,237 +12,289 @@ public class ComponyModel {
     @Expose
     private Boolean status;
 
-    public class Result {
-        @SerializedName("address")
-        @Expose
-        private String address;
-        @SerializedName("admin_id")
-        @Expose
-        private Integer adminId;
-        @SerializedName("banner")
-        @Expose
-        private String banner;
-        @SerializedName("city")
-        @Expose
-        private String city;
-        @SerializedName("company_id")
-        @Expose
-        private String companyId;
+    public class Result{
+
         @SerializedName("company_type")
-        @Expose
         private String companyType;
-        @SerializedName("created_at")
-        @Expose
-        private String createdAt;
-        @SerializedName("description")
-        @Expose
-        private String description;
-        @SerializedName("email")
-        @Expose
-        private String email;
-        @SerializedName("id")
-        @Expose
-        private Integer id;
-        @SerializedName("introduction")
-        @Expose
-        private String introduction;
-        @SerializedName("location_link")
-        @Expose
-        private Object locationLink;
-        @SerializedName("logo")
-        @Expose
-        private String logo;
-        @SerializedName("mobile")
-        @Expose
-        private String mobile;
-        @SerializedName("name")
-        @Expose
-        private String name;
+
         @SerializedName("social_networks")
-        @Expose
-        private Object socialNetworks;
-        @SerializedName("state")
-        @Expose
-        private String state;
-        @SerializedName("status")
-        @Expose
-        private Integer status;
+        private String socialNetworks;
+
+        @SerializedName("location_link")
+        private String locationLink;
+
+        @SerializedName("pdf_file")
+        private String pdfFile;
+
+        @SerializedName("company_cat")
+        private String companyCat;
+
+        @SerializedName("address")
+        private String address;
+
+        @SerializedName("company_id")
+        private String companyId;
+
+        @SerializedName("city")
+        private String city;
+
+        @SerializedName("mobile")
+        private String mobile;
+
+        @SerializedName("description")
+        private String description;
+
+        @SerializedName("banner")
+        private String banner;
+
+        @SerializedName("created_at")
+        private String createdAt;
+
         @SerializedName("updated_at")
-        @Expose
         private String updatedAt;
+
         @SerializedName("web")
-        @Expose
-        private Object web;
+        private String web;
+
         @SerializedName("working_hours")
-        @Expose
         private String workingHours;
 
-        public Integer getId() {
-            return this.id;
+        @SerializedName("admin_id")
+        private int adminId;
+
+        @SerializedName("name")
+        private String name;
+
+        @SerializedName("logo")
+        private String logo;
+
+        @SerializedName("id")
+        private int id;
+
+        @SerializedName("state")
+        private String state;
+
+        @SerializedName("email")
+        private String email;
+
+        @SerializedName("introduction")
+        private String introduction;
+
+        @SerializedName("status")
+        private int status;
+
+        public void setCompanyType(String companyType){
+            this.companyType = companyType;
         }
 
-        public void setId(Integer num) {
-            this.id = num;
+        public String getCompanyType(){
+            return companyType;
         }
 
-        public String getCompanyId() {
-            return this.companyId;
+        public void setSocialNetworks(String socialNetworks){
+            this.socialNetworks = socialNetworks;
         }
 
-        public void setCompanyId(String str) {
-            this.companyId = str;
+        public String getSocialNetworks(){
+            return socialNetworks;
         }
 
-        public String getCompanyType() {
-            return this.companyType;
+        public void setLocationLink(String locationLink){
+            this.locationLink = locationLink;
         }
 
-        public void setCompanyType(String str) {
-            this.companyType = str;
+        public String getLocationLink(){
+            return locationLink;
         }
 
-        public Integer getAdminId() {
-            return this.adminId;
+        public void setPdfFile(String pdfFile){
+            this.pdfFile = pdfFile;
         }
 
-        public void setAdminId(Integer num) {
-            this.adminId = num;
+        public String getPdfFile(){
+            return pdfFile;
         }
 
-        public String getMobile() {
-            return this.mobile;
+        public void setCompanyCat(String companyCat){
+            this.companyCat = companyCat;
         }
 
-        public void setMobile(String str) {
-            this.mobile = str;
+        public String getCompanyCat(){
+            return companyCat;
         }
 
-        public String getEmail() {
-            return this.email;
+        public void setAddress(String address){
+            this.address = address;
         }
 
-        public void setEmail(String str) {
-            this.email = str;
+        public String getAddress(){
+            return address;
         }
 
-        public String getDescription() {
-            return this.description;
+        public void setCompanyId(String companyId){
+            this.companyId = companyId;
         }
 
-        public void setDescription(String str) {
-            this.description = str;
+        public String getCompanyId(){
+            return companyId;
         }
 
-        public String getIntroduction() {
-            return this.introduction;
+        public void setCity(String city){
+            this.city = city;
         }
 
-        public void setIntroduction(String str) {
-            this.introduction = str;
+        public String getCity(){
+            return city;
         }
 
-        public String getName() {
-            return this.name;
+        public void setMobile(String mobile){
+            this.mobile = mobile;
         }
 
-        public void setName(String str) {
-            this.name = str;
+        public String getMobile(){
+            return mobile;
         }
 
-        public String getAddress() {
-            return this.address;
+        public void setDescription(String description){
+            this.description = description;
         }
 
-        public void setAddress(String str) {
-            this.address = str;
+        public String getDescription(){
+            return description;
         }
 
-        public String getState() {
-            return this.state;
+        public void setBanner(String banner){
+            this.banner = banner;
         }
 
-        public void setState(String str) {
-            this.state = str;
+        public String getBanner(){
+            return banner;
         }
 
-        public String getCity() {
-            return this.city;
+        public void setCreatedAt(String createdAt){
+            this.createdAt = createdAt;
         }
 
-        public void setCity(String str) {
-            this.city = str;
+        public String getCreatedAt(){
+            return createdAt;
         }
 
-        public Object getWeb() {
-            return this.web;
+        public void setUpdatedAt(String updatedAt){
+            this.updatedAt = updatedAt;
         }
 
-        public void setWeb(Object obj) {
-            this.web = obj;
+        public String getUpdatedAt(){
+            return updatedAt;
         }
 
-        public Object getLocationLink() {
-            return this.locationLink;
+        public void setWeb(String web){
+            this.web = web;
         }
 
-        public void setLocationLink(Object obj) {
-            this.locationLink = obj;
+        public String getWeb(){
+            return web;
         }
 
-        public Object getSocialNetworks() {
-            return this.socialNetworks;
+        public void setWorkingHours(String workingHours){
+            this.workingHours = workingHours;
         }
 
-        public void setSocialNetworks(Object obj) {
-            this.socialNetworks = obj;
+        public String getWorkingHours(){
+            return workingHours;
         }
 
-        public String getWorkingHours() {
-            return this.workingHours;
+        public void setAdminId(int adminId){
+            this.adminId = adminId;
         }
 
-        public void setWorkingHours(String str) {
-            this.workingHours = str;
+        public int getAdminId(){
+            return adminId;
         }
 
-        public String getLogo() {
-            return this.logo;
+        public void setName(String name){
+            this.name = name;
         }
 
-        public void setLogo(String str) {
-            this.logo = str;
+        public String getName(){
+            return name;
         }
 
-        public String getBanner() {
-            return this.banner;
+        public void setLogo(String logo){
+            this.logo = logo;
         }
 
-        public void setBanner(String str) {
-            this.banner = str;
+        public String getLogo(){
+            return logo;
         }
 
-        public Integer getStatus() {
-            return this.status;
+        public void setId(int id){
+            this.id = id;
         }
 
-        public void setStatus(Integer num) {
-            this.status = num;
+        public int getId(){
+            return id;
         }
 
-        public String getCreatedAt() {
-            return this.createdAt;
+        public void setState(String state){
+            this.state = state;
         }
 
-        public void setCreatedAt(String str) {
-            this.createdAt = str;
+        public String getState(){
+            return state;
         }
 
-        public String getUpdatedAt() {
-            return this.updatedAt;
+        public void setEmail(String email){
+            this.email = email;
         }
 
-        public void setUpdatedAt(String str) {
-            this.updatedAt = str;
+        public String getEmail(){
+            return email;
+        }
+
+        public void setIntroduction(String introduction){
+            this.introduction = introduction;
+        }
+
+        public String getIntroduction(){
+            return introduction;
+        }
+
+        public void setStatus(int status){
+            this.status = status;
+        }
+
+        public int getStatus(){
+            return status;
+        }
+
+        @Override
+        public String toString(){
+            return
+                    "ResultItem{" +
+                            "company_type = '" + companyType + '\'' +
+                            ",social_networks = '" + socialNetworks + '\'' +
+                            ",location_link = '" + locationLink + '\'' +
+                            ",pdf_file = '" + pdfFile + '\'' +
+                            ",company_cat = '" + companyCat + '\'' +
+                            ",address = '" + address + '\'' +
+                            ",company_id = '" + companyId + '\'' +
+                            ",city = '" + city + '\'' +
+                            ",mobile = '" + mobile + '\'' +
+                            ",description = '" + description + '\'' +
+                            ",banner = '" + banner + '\'' +
+                            ",created_at = '" + createdAt + '\'' +
+                            ",updated_at = '" + updatedAt + '\'' +
+                            ",web = '" + web + '\'' +
+                            ",working_hours = '" + workingHours + '\'' +
+                            ",admin_id = '" + adminId + '\'' +
+                            ",name = '" + name + '\'' +
+                            ",logo = '" + logo + '\'' +
+                            ",id = '" + id + '\'' +
+                            ",state = '" + state + '\'' +
+                            ",email = '" + email + '\'' +
+                            ",introduction = '" + introduction + '\'' +
+                            ",status = '" + status + '\'' +
+                            "}";
         }
     }
 

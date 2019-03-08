@@ -358,12 +358,16 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
                         tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
 
                         View view = tabLayout.getTabAt(2).getCustomView();
-                        ImageView img_title = (ImageView) view.findViewById(R.id.img_title );
-                        if (tab.getPosition() == 2){
-                            img_title.setColorFilter(Color.parseColor("#f4511e"));
-                        }else {
-                            img_title.setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.colorPrimaryDark), android.graphics.PorterDuff.Mode.MULTIPLY);
-                        }
+
+                       /* if (!notiCount.equals("")) {
+
+                            ImageView img_title = (ImageView) view.findViewById(R.id.img_title);
+                            if (tab.getPosition() == 2) {
+                                img_title.setColorFilter(Color.parseColor("#f4511e"));
+                            } else {
+                                img_title.setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.colorPrimaryDark), android.graphics.PorterDuff.Mode.MULTIPLY);
+                            }
+                        }*/
 
                     }
 
@@ -463,7 +467,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         } else if (menuItem == R.id.support) {
             callPhoneNumber();
         } else if (menuItem == R.id.nav_wallet) {
-            if (Global.verify_sms.equals("1")) {
+            if (!Global.verify_sms.equals("1")) {
                 Global.diloge(MainActivity.this, "User not verified", "For Fund Transfer from GnsBook you have to verify your mobile no.");
             }else {
             fundTransfer();}

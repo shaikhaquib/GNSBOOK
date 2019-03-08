@@ -6,8 +6,8 @@ android {
         applicationId "com.httpgnsbook.gnsbook"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 25
-        versionName "2.4"
+        versionCode 26
+        versionName "2.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

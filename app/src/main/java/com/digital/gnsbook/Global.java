@@ -56,6 +56,7 @@ public class Global {
     public static String Company_Logo = null;
     public static String Company_Name = null;
     public static String Company_Type = null;
+    public static String Company_Cate = null;
     public static String DP = null;
     public static String Email = null;
     public static final int READ_TIMEOUT = 15000;

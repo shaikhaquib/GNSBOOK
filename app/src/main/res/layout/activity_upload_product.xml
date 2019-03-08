@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context="com.digital.gnsbook.Activity.UploadProduct">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/clogo"
+                    android:layout_width="50.0dip"
+                    android:layout_height="50.0dip"
+                    android:src="@drawable/photo"
+                    app:civ_border_color="@color/borderline" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cmName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Virtual Shop"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                    <TextView
+                        android:id="@+id/cmHeading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/app_name"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="@dimen/margin_16">
+
+                    <EditText
+                        android:id="@+id/postTitle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Product Name" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="@dimen/margin_16">
+
+                    <EditText
+                        android:id="@+id/prdctCat"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Product Category" />
+                </android.support.design.widget.TextInputLayout>
+
+
+
+            </LinearLayout>
+            <android.support.design.widget.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <EditText
+                    android:id="@+id/prdctLink"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Product Link" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/Postdesc"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Product Description"
+                    android:lines="3"
+                    android:maxLines="5" />
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5">
+
+                    <EditText
+                        android:id="@+id/prdcPrize"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Product Price" />
+                </android.support.design.widget.TextInputLayout>
+
+                <Button
+                    android:id="@+id/pgallery"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edt_rounded_corner"
+                    android:onClick="PickerProduct"
+                    android:text="Upload Images"
+                    android:gravity="left|center_vertical"
+                    android:drawablePadding="@dimen/margin_10"
+                    android:paddingLeft="15dp"
+                    android:drawableLeft="@drawable/ic_menu_gallery"
+                    android:drawableTint="@color/white"
+                    android:backgroundTint="#009688"
+                    android:textColor="@color/white" />
+
+
+            </LinearLayout>
+
+
+
+            <ImageView
+                android:id="@+id/postimg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:adjustViewBounds="true"
+                android:cropToPadding="false" />
+
+        </LinearLayout>
+    </ScrollView>
+    <Button
+        android:id="@+id/UploadPost"
+        android:layout_width="fill_parent"
+        android:layout_height="55dp"
+        android:layout_weight="7.0"
+        android:onClick="PickerProduct"
+        android:layout_alignParentBottom="true"
+        android:text="Upload Product"
+        android:backgroundTint="#0277BD"
+        android:textColor="@color/white" />
+</RelativeLayout>
+
+
+
+<!--
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20.0dip"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3.0"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/pgallery"
+                android:layout_width="35.0dip"
+                android:layout_height="35.0dip"
+                android:onClick="Picker"
+                android:src="@drawable/ic_menu_gallery"
+                android:tint="@color/colorPrimary" />
+
+            <ImageView
+                android:id="@+id/pcamera"
+                android:layout_width="35.0dip"
+                android:layout_height="35.0dip"
+                android:layout_marginLeft="20.0dip"
+                android:onClick="Picker"
+                android:src="@drawable/ic_camera_alt_black_24dp"
+                android:tint="@color/colorPrimary" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/UploadPost"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="7.0"
+            android:background="@drawable/edt_rounded_corner"
+            android:onClick="Picker"
+            android:text="Post"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/white" />
+    </LinearLayout>
+-->

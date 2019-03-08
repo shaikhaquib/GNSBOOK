@@ -314,6 +314,7 @@ public class Comment extends AppCompatActivity {
                 hashMap.put("post_id",getIntent().getStringExtra("pid"));
                 hashMap.put("offset", String.valueOf(Comment.this.offset));
                 hashMap.put("limit", String.valueOf(Comment.this.limit));
+                hashMap.put("type", getIntent().getStringExtra("type"));
                 return hashMap;
             }
         });

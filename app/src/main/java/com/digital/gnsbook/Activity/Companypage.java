@@ -133,6 +133,7 @@ public class Companypage extends AppCompatActivity {
                 Global.Company_Name = dashResp.getResult().get(0).getName();
                 Global.Company_Logo = dashResp.getResult().get(0).getLogo();
                 Global.Company_Type = dashResp.getResult().get(0).getCompanyType();
+                Global.Company_Cate = dashResp.getResult().get(0).getCompanyCat();
 
                 if (Global.Company_Admin_Id == Integer.parseInt(Global.customerid)){
                     fabSetting.setVisibility(View.VISIBLE);

@@ -26,5 +26,12 @@ public class WallPostmodel {
     public String updated_at;
     public String web;
     public String working_hours;
+    public String product_name ;
+    public String product_cat  ;
+    public String product_price;
+    public String product_desc ;
+    public String product_link ;
+    public String type         ;
     public int commentCount;
+
 }

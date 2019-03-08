@@ -35,7 +35,6 @@
                 android:layout_width="125.0dip"
                 android:layout_height="125.0dip"
                 android:layout_margin="8.0dip"
-                android:src="@drawable/photo"
                 app:civ_border_color="@color/borderline"
                 app:civ_border_width="1.0dip" />
 
@@ -54,7 +53,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:singleLine="true"
-                    android:text="CHANDAN BHANDARI"
                     android:textColor="@android:color/black"
                     android:textSize="18.0sp" />
 
