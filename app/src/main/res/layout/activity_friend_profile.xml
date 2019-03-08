@@ -76,36 +76,94 @@
             android:gravity="center"
             android:paddingBottom="4.0dip">
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fabcommunity"
+            <android.support.v7.widget.CardView
+                android:id="@+id/fabaddfreind"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_happy_faces_icon"
-                android:tint="@color/white"
-                app:backgroundTint="#ff38a9ff"
-                app:elevation="0.0dip"
-                app:fabSize="mini" />
+                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="#2196F3">
 
-            <android.support.design.widget.FloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8.0dip"
-                android:src="@drawable/ic_chat_icon"
-                app:backgroundTint="#ff7c5ac2"
-                app:elevation="0.0dip"
-                app:fabSize="mini" />
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fabSetting"
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="4dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_happyface"/>
+
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:id="@+id/fabremoove"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8.0dip"
-                android:src="@drawable/ic_settings_icon"
-                android:tint="@color/white"
-                app:backgroundTint="#fff75e3a"
-                app:elevation="0.0dip"
-                app:fabSize="mini" />
+                app:cardCornerRadius="20dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="#6D2196F3">
+
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="4dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_happyface_minus"/>
+
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:id="@+id/fabAccept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="#F44336">
+
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="4dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_happyface"/>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/fabChat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                android:layout_marginLeft="@dimen/margin_16"
+                app:cardBackgroundColor="#FF5722">
+
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="9dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_chat_icon"/>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/fababout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                android:layout_marginLeft="@dimen/margin_16"
+                app:cardBackgroundColor="#673AB7">
+
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="11dp"
+                    android:layout_gravity="center"
+                    android:tint="@color/white"
+                    android:src="@drawable/ic_settings_icon"/>
+
+            </android.support.v7.widget.CardView>
         </LinearLayout>
 
 </LinearLayout>

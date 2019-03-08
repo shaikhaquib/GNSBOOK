@@ -13,5 +13,6 @@
     <color name="tabindiactor">#f4511e</color>
     <color name="orange">#ff6e40</color>
     <color name="background">#edf2f6</color>
+    <color name="icon_color">#edf2f6</color>
 
 </resources>

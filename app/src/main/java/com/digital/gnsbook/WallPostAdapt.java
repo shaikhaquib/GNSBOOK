@@ -174,7 +174,7 @@ public class WallPostAdapt extends Adapter<ViewHolder> {
         RoundedCornersTransformation roundedCornersTransformation = new RoundedCornersTransformation(15, 15);
 
         Picasso.get().load(APIs.Dp + postmodel.logo).into(holder.dp);
-        Picasso.get().load(APIs.postImg + postmodel.images).transform(roundedCornersTransformation).into(holder.imgPost);
+        Picasso.get().load(APIs.postImg + postmodel.images).into(holder.imgPost);
 
 
         holder.wpComment.setOnClickListener(new OnClickListener() {
@@ -282,16 +282,14 @@ public class WallPostAdapt extends Adapter<ViewHolder> {
     private String getText(WallPostmodel wallPostmodel, TextView textView) {
         if (wallPostmodel.Like_name.length == 1) {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("<b>");
             stringBuilder.append(wallPostmodel.Like_name[0]);
-            stringBuilder.append("</b> <br> liked.");
+            stringBuilder.append("<br> like.");
             Spanned spanned = Html.fromHtml(stringBuilder.toString());
             textView.setText(spanned);
         } else if (wallPostmodel.Like_name.length == 2) {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("<b>");
             stringBuilder.append(wallPostmodel.Like_name[0]);
-            stringBuilder.append("</b> and <br>one+ liked.");
+            stringBuilder.append("& <br>one+ like.");
             Spanned spanned = Html.fromHtml(stringBuilder.toString());
             textView.setText(spanned);
         } else if (wallPostmodel.Like_name.length <= 2) {
@@ -299,17 +297,15 @@ public class WallPostAdapt extends Adapter<ViewHolder> {
           //  wallPostmodel = null;
         } else if (wallPostmodel.likecount > 2) {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("<b>");
             stringBuilder.append(wallPostmodel.Like_name[0]);
-            stringBuilder.append("</b> and <br>");
+            stringBuilder.append(" and <br>");
             stringBuilder.append(wallPostmodel.likecount - 1);
-            stringBuilder.append("+ liked.");
+            stringBuilder.append("+ like.");
             Spanned spanned = Html.fromHtml(stringBuilder.toString());
             textView.setText(spanned);        } else {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("<b>");
             stringBuilder.append(wallPostmodel.Like_name[0]);
-            stringBuilder.append("</b> and <br>one+ liked.");
+            stringBuilder.append("& <br>one+ like.");
             Spanned spanned = Html.fromHtml(stringBuilder.toString());
             textView.setText(spanned);
         }

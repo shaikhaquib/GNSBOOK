@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.NestedScrollView.OnScrollChangeListener;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,6 +39,7 @@ public class WallPostFragment extends Fragment {
     CardView porogress;
     ArrayList<WallPostmodel> postmodels = new ArrayList();
     RecyclerView wallPost;
+    SwipeRefreshLayout swipeRefreshLayout ;
 
     /* renamed from: com.digital.gnsbook.Fragment.WallPostFragment$1 */
     class C09321 implements OnScrollChangeListener {
@@ -48,7 +50,7 @@ public class WallPostFragment extends Fragment {
             if (i2 == nestedScrollView.getChildAt(0).getMeasuredHeight() - nestedScrollView.getMeasuredHeight() && WallPostFragment.this.count > 0) {
                 WallPostFragment.this.offset = WallPostFragment.this.offset + 10;
                 WallPostFragment.this.getTimelinePost();
-                WallPostFragment.this.porogress.setVisibility(View.VISIBLE);
+               porogress.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -59,7 +61,10 @@ public class WallPostFragment extends Fragment {
         }
 
         public void onResponse(String s) {
-            WallPostFragment.this.porogress.setVisibility(View.GONE);
+           porogress.setVisibility(View.GONE);
+           if (swipeRefreshLayout.isRefreshing()){
+               swipeRefreshLayout.setRefreshing(false);
+           }
             try {
                 JSONObject jSONObject = new JSONObject(s);
                 if (jSONObject.getBoolean("status")) {
@@ -107,6 +112,9 @@ public class WallPostFragment extends Fragment {
     /* renamed from: com.digital.gnsbook.Fragment.WallPostFragment$3 */
     class C09343 implements ErrorListener {
         C09343() {
+            if (swipeRefreshLayout.isRefreshing()){
+                swipeRefreshLayout.setRefreshing(false);
+            }
         }
 
         public void onErrorResponse(VolleyError volleyError) {
@@ -120,17 +128,29 @@ public class WallPostFragment extends Fragment {
 
     public View onCreateView(LayoutInflater lnflater, ViewGroup viewGroup, Bundle bundle) {
         View layoutInflater = lnflater.inflate(R.layout.fragment_wallpost, viewGroup, false);
-        wallPost = (RecyclerView) layoutInflater.findViewById(R.id.wallPostmain);
+        wallPost =layoutInflater.findViewById(R.id.wallPostmain);
+        swipeRefreshLayout = layoutInflater.findViewById(R.id.mnSwipe);
         wallPost.setItemAnimator(null);
-        porogress = (CardView) layoutInflater.findViewById(R.id.progrssview);
+        porogress = layoutInflater.findViewById(R.id.progrssview);
         wallPost.setLayoutManager(new LinearLayoutManager(getActivity()));
         dialog = new ViewDialog(getActivity());
         getTimelinePost();
         wallPost.setAdapter(new WallPostAdapt(this.postmodels, getActivity()));
-        NestedScrollView nestedScrollView = (NestedScrollView) layoutInflater.findViewById(R.id.myScroll);
+        NestedScrollView nestedScrollView =  layoutInflater.findViewById(R.id.myScroll);
         if (nestedScrollView != null) {
             nestedScrollView.setOnScrollChangeListener(new C09321());
         }
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                offset = 0;
+                postmodels.clear();
+                wallPost.getAdapter().notifyDataSetChanged();
+                getTimelinePost();
+            }
+        });
         return layoutInflater;
     }
 

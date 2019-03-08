@@ -21,7 +21,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.DividerDecorator;
-import com.digital.gnsbook.HistAdapt;
+import com.digital.gnsbook.SearchAdapt;
 import com.digital.gnsbook.Model.SearchModel;
 import com.httpgnsbook.gnsbook.R;
 
@@ -141,12 +141,12 @@ public class SearchActivity extends AppCompatActivity {
 
         rootLayout = findViewById(R.id.root_layout);
 
-        if (savedInstanceState == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
+     /*   if (savedInstanceState == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
                     intent.hasExtra(EXTRA_CIRCULAR_REVEAL_X) &&
                 intent.hasExtra(EXTRA_CIRCULAR_REVEAL_Y)) {
         } else {
             rootLayout.setVisibility(View.VISIBLE);
-        }
+        }*/
 
     }
     private void getSearchresult() {
@@ -176,7 +176,7 @@ public class SearchActivity extends AppCompatActivity {
                             model.d_pic = jsonObj.getString("d_pic");
 
                             models.add(model);
-                            rvSearch.setAdapter(new HistAdapt(SearchActivity.this,models));
+                            rvSearch.setAdapter(new SearchAdapt(SearchActivity.this,models));
 
                         }
                     }

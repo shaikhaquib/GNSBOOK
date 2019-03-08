@@ -112,8 +112,6 @@ public class Fragement_companypost extends Fragment {
         });
     }
 
-
-
     /* renamed from: com.digital.gnsbook.Fragment.WallPostFragment$2 */
     class C09332 implements Response.Listener<String> {
         C09332() {

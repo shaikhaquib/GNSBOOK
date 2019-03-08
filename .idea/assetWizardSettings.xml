@@ -148,8 +148,11 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_left_arrow" />
-                            <entry key="sourceFile" value="C:\Users\Digital\Downloads\left-arrow.svg" />
+                            <entry key="height" value="62" />
+                            <entry key="outputName" value="ic_happyface_minus" />
+                            <entry key="overrideSize" value="true" />
+                            <entry key="sourceFile" value="C:\Users\Digital\Desktop\clipboard.svg" />
+                            <entry key="width" value="70" />
                           </map>
                         </option>
                       </PersistentState>

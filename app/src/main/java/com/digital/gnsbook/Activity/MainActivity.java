@@ -1,77 +1,55 @@
 package com.digital.gnsbook.Activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.app.DatePickerDialog.OnDateSetListener;
-import android.app.Dialog;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuff.Mode;
 import android.net.Uri;
-import android.net.Uri.Builder;
 import android.os.AsyncTask;
 import android.os.Build.VERSION;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.TabLayout.Tab;
-import android.support.design.widget.TabLayout.ViewPagerOnTabSelectedListener;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager.LayoutParams;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.bumptech.glide.load.Key;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
-import com.digital.gnsbook.Config.DbHelper;
 import com.digital.gnsbook.Config.SQLiteHandler;
 import com.digital.gnsbook.Config.SessionManager;
+import com.digital.gnsbook.Fragment.FreindRequests;
 import com.digital.gnsbook.Fragment.ProfileFragment;
 import com.digital.gnsbook.Fragment.ThreeFragment;
 import com.digital.gnsbook.Fragment.WallPostFragment;
 import com.digital.gnsbook.FragmentViewPagerAdapter;
 import com.digital.gnsbook.Global;
-import com.digital.gnsbook.Payment.LoadMoney;
 import com.digital.gnsbook.Payment.Manual_Payment;
 import com.digital.gnsbook.Payment_corpoarate.Corporate_Agent_Signup;
 import com.digital.gnsbook.Payment_corpoarate.Corporate_BenificiaryList;
@@ -82,6 +60,11 @@ import com.mikelau.croperino.Croperino;
 import com.mikelau.croperino.CroperinoConfig;
 import com.mikelau.croperino.CroperinoFileUtil;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -89,20 +72,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity implements OnNavigationItemSelectedListener {
     private FragmentViewPagerAdapter adapter;
@@ -112,13 +88,14 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
     private List<Fragment> fragments = new ArrayList();
     ImageView profileImage;
     SessionManager session;
-    private int[] tabIcons = new int[]{R.drawable.ic_newsfeed_icon, R.drawable.ic_user_avatar, R.drawable.ic_stats_icon};
+    private int[] tabIcons = new int[]{R.drawable.dash_selector , R.drawable.ic_user_avatar,R.drawable.ic_happy_faces_icon ,R.drawable.ic_stats_icon };
     private TabLayout tabLayout;
     private List<String> titles = new ArrayList();
     HashMap<String, String> user;
     private ViewPager viewPager;
     RelativeLayout rvSearch;
-
+    String notiCount ;
+    int tabIconColor ;
     /* renamed from: com.digital.gnsbook.Activity.MainActivity$5 */
     class C04225 implements OnClickListener {
         C04225() {
@@ -332,6 +309,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         Toolbar toolbar = (Toolbar) findViewById(R.id.maintoolbar);
         setSupportActionBar(toolbar);
         this.dialog = new ViewDialog(this);
+        tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.tabindiactor);
         setTitle("");
         this.session = new SessionManager(this);
         this.db = new SQLiteHandler(this);
@@ -362,37 +340,31 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         NavEmail.setText(Global.Email);
 
         viewPager = (ViewPager) findViewById(R.id.container);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(4);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         prepareDataResource();
+
         this.adapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), this.fragments, this.titles);
 
         viewPager.setAdapter(this.adapter);
         tabLayout.setupWithViewPager(this.viewPager);
-        tabLayout.setOnTabSelectedListener(new ViewPagerOnTabSelectedListener(this.viewPager) {
-            public void onTabSelected(Tab tab) {
-                super.onTabSelected(tab);
-                tab.getIcon().setColorFilter(ContextCompat.getColor(MainActivity.this.getApplicationContext(), R.color.white), Mode.SRC_IN);
-            }
-
-            public void onTabUnselected(Tab tab) {
-                super.onTabUnselected(tab);
-                tab.getIcon().setColorFilter(ContextCompat.getColor(MainActivity.this.getApplicationContext(), R.color.colorPrimaryDark), Mode.SRC_IN);
-            }
-
-            public void onTabReselected(Tab tab) {
-                super.onTabReselected(tab);
-            }
-        });
-
         tabLayout.setOnTabSelectedListener(
                 new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
 
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
                         super.onTabSelected(tab);
-                        int tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.tabindiactor);
+
                         tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+
+                        View view = tabLayout.getTabAt(2).getCustomView();
+                        ImageView img_title = (ImageView) view.findViewById(R.id.img_title );
+                        if (tab.getPosition() == 2){
+                            img_title.setColorFilter(Color.parseColor("#f4511e"));
+                        }else {
+                            img_title.setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.colorPrimaryDark), android.graphics.PorterDuff.Mode.MULTIPLY);
+                        }
+
                     }
 
                     @Override
@@ -407,11 +379,15 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
                         super.onTabReselected(tab);
                     }
                 }
+
+
+
         );
 
         setTabIcons();
         new UserVerification(MainActivity.this);
         getAgentStatus();
+        getFreindRequest();
     }
 
     private void getAgentStatus() {
@@ -422,19 +398,24 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
                 return hashMap;
             }
         });
+
+        tabLayout.getTabAt(0).getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
     }
 
     private void setTabIcons() {
         this.tabLayout.getTabAt(0).setIcon(this.tabIcons[0]);
         this.tabLayout.getTabAt(1).setIcon(this.tabIcons[1]);
         this.tabLayout.getTabAt(2).setIcon(this.tabIcons[2]);
+        this.tabLayout.getTabAt(3).setIcon(this.tabIcons[3]);
     }
 
     private void prepareDataResource() {
         this.fragments = new ArrayList();
         this.fragments.add(new WallPostFragment());
         this.fragments.add(new ProfileFragment());
+        this.fragments.add(new FreindRequests());
         this.fragments.add(new ThreeFragment());
+        this.titles.add("");
         this.titles.add("");
         this.titles.add("");
         this.titles.add("");
@@ -456,28 +437,13 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
 
-
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                final View menuItemView = findViewById(R.id.action_search);
-                menuItemView.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        // TODO Auto-generated method stub
-                        presentActivity(v);
-                    }
-                });
-                // Assumes current activity is the searchable activi
-            }
-        });
         return true;
     }
 
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        if (menuItem.getItemId() == R.id.mnAdd) {
-            return super.onOptionsItemSelected(menuItem);
+        if (menuItem.getItemId() == R.id.action_search) {
+            startActivity(new Intent(getApplicationContext(),SearchActivity.class));
+            return true;
       }
         return true;
     }
@@ -632,4 +598,53 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 
         ActivityCompat.startActivity(this, intent, options.toBundle());
     }
+
+    public View getTabView(int position, String request_count) {
+        View view = LayoutInflater.from(this).inflate(R.layout.customeview, null);
+        TextView txt_title = (TextView) view.findViewById(R.id.txt_title);
+        txt_title.setText(request_count);
+        ImageView img_title = (ImageView) view.findViewById(R.id.img_title);
+        img_title.setImageResource(tabIcons[position]);
+
+        return view;
+    }
+
+    private void getFreindRequest() {
+      //  dialog.show();
+        AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.RequestList, new Response.Listener<String>() {
+            public void onResponse(String str) {
+       //         dialog.dismiss();
+
+                try {
+                    JSONObject jsonObject = new JSONObject(str);
+
+                    if (jsonObject.getBoolean("status")){
+
+                        notiCount =jsonObject.getString("request_count");
+
+                        tabLayout.getTabAt(2).setCustomView(getTabView(2,notiCount));
+
+
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            public void onErrorResponse(VolleyError volleyError) {
+          //      dialog.dismiss();
+            }
+        }) {
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> hashMap = new HashMap();
+                hashMap.put("customerid_to", Global.customerid);
+                return hashMap;
+            }
+        });
+
+    }
+
 }

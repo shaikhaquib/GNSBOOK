@@ -152,13 +152,32 @@
             </TableRow>
         </TableLayout>
 
-        <Button
-            android:id="@+id/dgclose"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_margin="@dimen/margin_16"
-            android:text="close"
-            android:textColor="@color/white" />
+            android:gravity="end">
+            <Button
+                android:id="@+id/dispute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="@dimen/margin_16"
+                android:text="Dispute"
+                android:backgroundTint="#4CAF50"
+                android:textColor="@color/white" />
+            <Button
+                android:id="@+id/dgclose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="@dimen/margin_16"
+                android:text="close"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+
     </LinearLayout>
 </android.support.v7.widget.CardView>

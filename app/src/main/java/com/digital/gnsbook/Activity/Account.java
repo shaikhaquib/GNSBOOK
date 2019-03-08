@@ -1,6 +1,5 @@
 package com.digital.gnsbook.Activity;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,24 +27,15 @@ import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Global;
 import com.digital.gnsbook.Model.TransactionModel;
-import com.digital.gnsbook.Model.WallPostmodel;
 import com.httpgnsbook.gnsbook.R;
 import com.digital.gnsbook.ViewDialog;
-import com.squareup.picasso.Picasso;
 
-import org.angmarch.views.NiceSpinner;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -121,9 +110,9 @@ public class Account extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if (postmodel.credit > 0){
-                            CapingLimit(postmodel.credit,postmodel.beTrans,postmodel.afTrans,postmodel.surcharge,postmodel.date,postmodel.details);
+                            CapingLimit(postmodel.credit,postmodel.beTrans,postmodel.afTrans,postmodel.surcharge,postmodel.date,postmodel.details,postmodel.trID);
                         }else {
-                            CapingLimit(postmodel.debit,postmodel.beTrans,postmodel.afTrans,postmodel.surcharge,postmodel.date,postmodel.details);
+                            CapingLimit(postmodel.debit,postmodel.beTrans,postmodel.afTrans,postmodel.surcharge,postmodel.date,postmodel.details,postmodel.trID);
                         }
                     }
                 });
@@ -279,9 +268,6 @@ public class Account extends AppCompatActivity {
             }
 
         };
-        request.setRetryPolicy(new DefaultRetryPolicy(15000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(request);
 
     }
@@ -395,6 +381,87 @@ public class Account extends AppCompatActivity {
     }
 
 
-    private void CapingLimit(int credit, int beTrans, int afTrans, int surcharge, String date, String details) {}
+    private void CapingLimit(int credit, int beTrans, int afTrans, int surcharge, String date, String details, final String trID) {
+
+
+        LayoutInflater layoutInflaterAndroid = LayoutInflater.from(Account.this);
+        View mView = layoutInflaterAndroid.inflate(R.layout.transactiondetail, null);
+        final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(Account.this);
+        // builder.setCancelable(false);
+
+        final TextView amount =mView.findViewById(R.id.dgamount);
+        final TextView bt     =mView.findViewById(R.id.dgbt);
+        final TextView at     =mView.findViewById(R.id.dgat);
+        final TextView txtsurcharge =mView.findViewById(R.id.dgsur);
+        final TextView  description =mView.findViewById(R.id.dgdesc);
+        final TextView txtdate =mView.findViewById(R.id.dgdate);
+        Button close =mView.findViewById(R.id.dgclose);
+        final Button dispute =mView.findViewById(R.id.dispute);
+
+        dispute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dispute(trID);
+            }
+        });
+
+        amount.setText("₹ "+String.valueOf(credit));
+        bt.setText("₹ "+String.valueOf(beTrans));
+        at.setText("₹ "+String.valueOf(afTrans));
+        txtsurcharge.setText(String.valueOf(surcharge));
+        description.setText(details);
+        txtdate.setText(date);
+
+        builder.setView(mView);
+        final android.support.v7.app.AlertDialog dialog = builder.create();
+        Window window = dialog.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.show();
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+
+    }
+
+    private void dispute(final String trID) {
+        dialog.show();
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, APIs.change_dispute_status, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                dialog.dismiss();
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    if (jsonObject.getBoolean("status")){
+                        Global.successDilogue(Account.this,"You have successfully dispute this transaction.We will investigate this matter and correct the error as soon as possible.");
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("customer_id",Global.customerid);
+                params.put("transaction_id",trID);
+                params.put("status","10");
+                return params;            }
+
+        };
+        AppController.getInstance().addToRequestQueue(stringRequest);
+
+    }
 
 }

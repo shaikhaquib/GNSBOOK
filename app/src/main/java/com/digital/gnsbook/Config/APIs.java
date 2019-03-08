@@ -4,6 +4,7 @@ public class APIs {
 
     public static String DevDomain  = "https://development.gnsbook.com/api/";
     public static String Domain     = "https://development.gnsbook.com/";
+    /*   public static String DevDomain  = "https://www.gnsbook.com/api/";   */
     public static String MainDomain = "https://www.gnsbook.com/";
 
     public static String LoginAPI                               = Domain+"login";
@@ -94,8 +95,13 @@ public class APIs {
 
     public static String Search                                 = DevDomain+"search_result";
 
-
     public static String frgpass                                = DevDomain+"forgot_password";
     public static String limitTransaction                       = DevDomain+"check_entry_in_limit";
     public static String display_specific_profile               = DevDomain+"display_specific_profile";
+    public static String change_dispute_status                  = DevDomain+"change_dispute_status";
+    public static String declinefriend                          = DevDomain+"decline_friend_request";
+    public static String addfriend                              = DevDomain+"send_friend_request";
+    public static String acceptRequest                          = DevDomain+"accept_friend_request";
+    public static String RequestList                            = DevDomain+"frnd_req_notification";
+    public static String removefriend                           =DevDomain+"";
 }

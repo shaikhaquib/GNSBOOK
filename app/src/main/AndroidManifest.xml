@@ -12,9 +12,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-feature android:name="android.hardware.camera.autofocus" />
-
     <permission android:name="com.httpgnsbook.gnsbook.provider.READ" />
-
     <uses-permission android:name="com.httpgnsbook.gnsbook.provider.READ" />
 
     <application
@@ -30,7 +28,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
-        <activity android:name="com.digital.gnsbook.Activity.FriendProfile"></activity>
+        <activity android:name="com.digital.gnsbook.Activity.FriendProfile"/>
         <activity android:name="com.digital.gnsbook.Activity.SearchActivity" />
         <activity android:name="com.digital.gnsbook.Activity.Subsription_plan" />
 
