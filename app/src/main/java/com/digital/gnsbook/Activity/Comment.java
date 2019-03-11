@@ -328,6 +328,7 @@ public class Comment extends AppCompatActivity {
                 hashMap.put("post_id", Comment.this.getIntent().getStringExtra("pid"));
                 hashMap.put("customer_id", Global.customerid);
                 hashMap.put("comment", Comment.this.EdtComment.getText().toString());
+                hashMap.put("type", getIntent().getStringExtra("type"));
                 return hashMap;
             }
         });

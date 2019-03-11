@@ -2,11 +2,10 @@ package com.digital.gnsbook.Config;
 
 public class APIs {
 
-/*    public static String DevDomain  = "https://development.gnsbook.com/api/";
+    public static String DevDomain  = "https://development.gnsbook.com/api/";
     public static String Domain     = "https://development.gnsbook.com/";
-    */
-    public static String DevDomain  = "https://www.gnsbook.com/api/";
-    public static String Domain = "https://www.gnsbook.com/";
+/*    public static String DevDomain  = "https://www.gnsbook.com/api/";
+    public static String Domain = "https://www.gnsbook.com/";*/
 
     public static String LoginAPI                               = Domain+"login";
     public static String UpdatePassword                         = Domain+"update_password";
@@ -84,11 +83,11 @@ public class APIs {
     public static String uploadbanner                           = DevDomain+"upload_profile_bpic";
 
     // Like Unlike
-    public static String old_Dolike                             = DevDomain+"add_new_like_by_post";
-    public static String old_Unlike                             = DevDomain+"remove_new_like_by_post";
+    public static String Dolike                              = DevDomain+"add_new_like_by_post";
+    public static String Unlike                              = DevDomain+"remove_new_like_by_post";
 
-    public static String Dolike                                 = DevDomain+"add_like_by_post";
-    public static String Unlike                                 = DevDomain+"remove_like_by_post";
+    public static String oldDolike                           = DevDomain+"add_like_by_post";
+    public static String oldUnlike                           = DevDomain+"remove_like_by_post";
 
 
 
