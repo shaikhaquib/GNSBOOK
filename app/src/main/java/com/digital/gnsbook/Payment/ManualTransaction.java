@@ -263,15 +263,15 @@ public class ManualTransaction extends AppCompatActivity {
                 ManualTransaction.this.withdrawBalance.setText(jSONObject.getString("balance"));
                 double parseDouble = Double.parseDouble(jSONObject.getString("balance"));
                 double parseDouble2 = Double.parseDouble(jSONObject.getString("jolo_api_balance"));
-                ManualTransaction.this.layout.setVisibility(View.VISIBLE);
-                ManualTransaction.this.txtError.setVisibility(View.GONE);
-                if (parseDouble < 115.0d || parseDouble2 < 1500.0d) {
+               // ManualTransaction.this.layout.setVisibility(View.VISIBLE);
+                //ManualTransaction.this.txtError.setVisibility(View.GONE);
+               /* if (parseDouble < 115.0d || parseDouble2 < 1500.0d) {
                     ManualTransaction.this.layout.setVisibility(View.VISIBLE);
                     ManualTransaction.this.txtError.setVisibility(View.VISIBLE);
                 } else {
                     ManualTransaction.this.layout.setVisibility(View.VISIBLE);
                     ManualTransaction.this.txtError.setVisibility(View.GONE);
-                }
+                }*/
                int time = Calendar.getInstance().get(11);
                 PrintStream printStream = System.out;
                 StringBuilder stringBuilder = new StringBuilder();
@@ -279,13 +279,13 @@ public class ManualTransaction extends AppCompatActivity {
                 stringBuilder.append(str);
                 printStream.println(stringBuilder.toString());
                 if (time < 9 || time > 23) {
-                    ManualTransaction.this.layout.setVisibility(View.GONE);
-                    ManualTransaction.this.txtError.setVisibility(View.VISIBLE);
-                    ManualTransaction.this.txtError.setText("Fundtransfer is only available between 9 am to 6 pm.");
+                  //  ManualTransaction.this.layout.setVisibility(View.GONE);
+                 //   ManualTransaction.this.txtError.setVisibility(View.VISIBLE);
+                //    ManualTransaction.this.txtError.setText("Fundtransfer is only available between 9 am to 6 pm.");
                     return;
                 }
-                ManualTransaction.this.layout.setVisibility(View.GONE);
-                ManualTransaction.this.txtError.setVisibility(View.VISIBLE);
+               // ManualTransaction.this.layout.setVisibility(View.GONE);
+                //ManualTransaction.this.txtError.setVisibility(View.VISIBLE);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -309,6 +309,7 @@ public class ManualTransaction extends AppCompatActivity {
 
         public void onResponse(String s) {
             ManualTransaction.this.DissProgress();
+/*
             try {
                 JSONObject str = new JSONObject(s).getJSONObject("result").getJSONObject("fulldata").getJSONArray("remitter_limit").getJSONObject(0).getJSONObject("limit");
                 ManualTransaction.this.remain.setText(str.getString("remaining"));
@@ -323,6 +324,7 @@ public class ManualTransaction extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+*/
         }
     }
 
@@ -423,17 +425,15 @@ public class ManualTransaction extends AppCompatActivity {
         this.remainbar = (CircularProgressBar) findViewById(R.id.remainProgress);
         this.Transfer = (Button) findViewById(R.id.btnTrans);
         this.layout = (LinearLayout) findViewById(R.id.fundlayout);
-        this.txtError = (TextView) findViewById(R.id.txtError);
+     //   this.txtError = (TextView) findViewById(R.id.txtError);
         ((ImageView) findViewById(R.id.icaddmoneytr)).setOnClickListener(new C04998());
-        this.amount.setFocusable(false);
-        this.amount.setOnTouchListener(new C05009());
         this.Transfer.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
                 if (ManualTransaction.this.amount.getText().toString().isEmpty()) {
                     ManualTransaction.this.amount.setError("Enter valid amount");
                     ManualTransaction.this.amount.requestFocus();
-                } else if (Integer.parseInt(ManualTransaction.this.amount.getText().toString()) > 1500) {
-                    ManualTransaction.this.amount.setError("Amount must be less than or equal to 1500");
+                } else if (Integer.parseInt(ManualTransaction.this.amount.getText().toString()) > 1000) {
+                    ManualTransaction.this.amount.setError("Amount must be less than or equal to 1000");
                     ManualTransaction.this.amount.requestFocus();
                 } else {
                     new transferAPI().execute(ManualTransaction.this.amount.getText().toString(), Global.mobile, ManualTransaction.this.getIntent().getStringExtra("Bid"), Global.customerid);

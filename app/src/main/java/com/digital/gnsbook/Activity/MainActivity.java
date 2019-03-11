@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         }
 
         public void onClick(View view) {
-            if (Global.verify_sms.equals("1")) {
+            if (!Global.verify_sms.equals("1")) {
                 Global.diloge(MainActivity.this, "User not verified", "For Fund Transfer from GnsBook you have to verify your mobile no.");
             } else if (Global.A_status.equals("0") ) {
                 MainActivity.this.startActivity(new Intent(MainActivity.this.getApplicationContext(), Corporate_Agent_Signup.class));

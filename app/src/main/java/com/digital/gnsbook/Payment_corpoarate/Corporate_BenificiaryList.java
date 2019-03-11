@@ -327,7 +327,6 @@ public class Corporate_BenificiaryList extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> hashMap = new HashMap();
                 hashMap.put("customer_id", Global.customerid);
-
                 return hashMap;
             }
         });

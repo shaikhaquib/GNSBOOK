@@ -67,7 +67,6 @@ public class Corporate_AddBeneficiary extends AppCompatActivity {
     EditText Accountno;
     Button AddBenificiarybtn;
     EditText Ifsc;
-    EditText Mobile;
     EditText Name;
     ProgressBar OtpProgress;
     String benid;
@@ -89,11 +88,6 @@ public class Corporate_AddBeneficiary extends AppCompatActivity {
                 Corporate_AddBeneficiary.this.Name.setError("Please Enter Name");
                 Corporate_AddBeneficiary.this.focusView = Corporate_AddBeneficiary.this.Name;
                 Corporate_AddBeneficiary.this.Name.requestFocus();
-                Corporate_AddBeneficiary.this.cancel = true;
-            } else if (Corporate_AddBeneficiary.this.Mobile.getText().toString().equals("")) {
-                Corporate_AddBeneficiary.this.Mobile.setError("Please Enter Mobile No");
-                Corporate_AddBeneficiary.this.focusView = Corporate_AddBeneficiary.this.Mobile;
-                Corporate_AddBeneficiary.this.Mobile.requestFocus();
                 Corporate_AddBeneficiary.this.cancel = true;
             } else if (Corporate_AddBeneficiary.this.Accountno.getText().toString().equals("")) {
                 Corporate_AddBeneficiary.this.Accountno.setError("Please Enter AccountNo");
@@ -122,10 +116,6 @@ public class Corporate_AddBeneficiary extends AppCompatActivity {
                 Corporate_AddBeneficiary.this.focusView = Corporate_AddBeneficiary.this.Name;
                 Corporate_AddBeneficiary.this.Name.requestFocus();
                 Corporate_AddBeneficiary.this.cancel = true;
-            } else {
-                Corporate_AddBeneficiary.this.focusView = Corporate_AddBeneficiary.this.Mobile;
-                Corporate_AddBeneficiary.this.Mobile.requestFocus();
-                Corporate_AddBeneficiary.this.cancel = true;
             }
             return true;
         }
@@ -142,15 +132,7 @@ public class Corporate_AddBeneficiary extends AppCompatActivity {
                 focusView = Corporate_AddBeneficiary.this.Name;
                 Name.requestFocus();
                 cancel = true;
-            } else if (Mobile.getText().toString().equals("")) {
-               Mobile.setError("Please Enter STDcode");
-               focusView = Corporate_AddBeneficiary.this.Mobile;
-               Mobile.requestFocus();
-               cancel = true;
-            } else if (Corporate_AddBeneficiary.this.Mobile.getText().toString().length() != 10) {
-                Mobile.setError("Enter valid mobil no");
-                Mobile.requestFocus();
-            } else {
+            }  else {
                 focusView = Corporate_AddBeneficiary.this.Accountno;
                 Accountno.requestFocus();
                 cancel = true;
@@ -170,14 +152,6 @@ public class Corporate_AddBeneficiary extends AppCompatActivity {
                 focusView = Corporate_AddBeneficiary.this.Name;
                 Name.requestFocus();
                 cancel = true;
-            } else if (Mobile.getText().toString().equals("")) {
-                Mobile.setError("Please Enter STDcode");
-                focusView = Corporate_AddBeneficiary.this.Mobile;
-                Mobile.requestFocus();
-                cancel = true;
-            } else if (Mobile.getText().toString().length() != 10) {
-               Mobile.setError("Enter valid mobil no");
-               Mobile.requestFocus();
             } else if (Accountno.getText().toString().equals("")) {
                Accountno.setError("Please Enter AccountNo");
                focusView = Corporate_AddBeneficiary.this.Accountno;
@@ -339,7 +313,6 @@ public class Corporate_AddBeneficiary extends AppCompatActivity {
 
     @SuppressLint({"ClickableViewAccessibility"})
     private void onTouchField() {
-        this.Mobile.setOnTouchListener(new C05352());
         this.Accountno.setOnTouchListener(new C05363());
         this.Ifsc.setOnTouchListener(new C05374());
     }
@@ -417,7 +390,6 @@ public class Corporate_AddBeneficiary extends AppCompatActivity {
     private void InitializeObject() {
         this.dialog = new ProgressDialog(this);
         this.Name = (EditText) findViewById(R.id.bnfName);
-        this.Mobile = (EditText) findViewById(R.id.bnfMobile);
         this.Accountno = (EditText) findViewById(R.id.bnfAccountno);
         this.Ifsc = (EditText) findViewById(R.id.bnfifsc);
         this.AddBenificiarybtn = (Button) findViewById(R.id.Addbnf);

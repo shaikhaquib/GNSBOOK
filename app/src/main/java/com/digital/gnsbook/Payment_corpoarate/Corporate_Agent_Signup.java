@@ -244,9 +244,7 @@ public class Corporate_Agent_Signup extends AppCompatActivity implements OTPList
             progressDialog.dismiss();
             try {
                 JSONObject jSONObject = new JSONObject(str);
-                if (jSONObject.getBoolean("status")) {
-                    Global.successDilogue(Corporate_Agent_Signup.this, jSONObject.getString("desc"));
-                } else if (jSONObject.has("error")){
+               if (jSONObject.has("error")){
                     Global.failedDilogue(Corporate_Agent_Signup.this, jSONObject.getString("error"));
 
                 }else if (jSONObject.getString("desc").equals("Virtual account already exist & verified")) {
@@ -342,7 +340,7 @@ public class Corporate_Agent_Signup extends AppCompatActivity implements OTPList
                 hashMap.put("customer_id", Global.customerid);
                 hashMap.put("name", Global.name);
                 hashMap.put("mobile", Global.mobile);
-                hashMap.put(NotificationCompat.CATEGORY_EMAIL, Global.Email);
+                hashMap.put("email", Global.Email);
                 hashMap.put("address", Corporate_Agent_Signup.this.Pincode.getText().toString());
                 return hashMap;
             }

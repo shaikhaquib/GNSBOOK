@@ -2,10 +2,9 @@ package com.digital.gnsbook.Config;
 
 public class APIs {
 
-/*
-    public static String DevDomain  = "https://development.gnsbook.com/api/";
+/*    public static String DevDomain  = "https://development.gnsbook.com/api/";
     public static String Domain     = "https://development.gnsbook.com/";
-*/
+    */
     public static String DevDomain  = "https://www.gnsbook.com/api/";
     public static String Domain = "https://www.gnsbook.com/";
 
@@ -85,11 +84,18 @@ public class APIs {
     public static String uploadbanner                           = DevDomain+"upload_profile_bpic";
 
     // Like Unlike
+    public static String old_Dolike                             = DevDomain+"add_new_like_by_post";
+    public static String old_Unlike                             = DevDomain+"remove_new_like_by_post";
+
     public static String Dolike                                 = DevDomain+"add_like_by_post";
     public static String Unlike                                 = DevDomain+"remove_like_by_post";
+
+
+
     public static String Corporate_AgentVr                      = DevDomain+"cdmr_signup_verify";
     public static String Comment_data                           = DevDomain+"comment_data_display";
-    public static String DoComment                              = DevDomain+"add_comment_by_post";
+    public static String DoComment                              = DevDomain+"add_new_comment_by_post";
+    public static String old_DoComment                          = DevDomain+"add_comment_by_post";
 
     public static String SubPlan                                = DevDomain+"subscribe_plan";
     public static String Createplane                            = DevDomain+"add_subscription_plan";
@@ -105,7 +111,7 @@ public class APIs {
     public static String addfriend                              = DevDomain+"send_friend_request";
     public static String acceptRequest                          = DevDomain+"accept_friend_request";
     public static String RequestList                            = DevDomain+"frnd_req_notification";
-    public static String removefriend                           =DevDomain+"";
-    public static String UploadProduct                          =DevDomain+"add_product_by_companies";
-    public static String new_timelineAPI                        =DevDomain+"newtimeline_data_selflike";
+    public static String removefriend                           = DevDomain+"";
+    public static String UploadProduct                          = DevDomain+"add_product_by_companies";
+    public static String new_timelineAPI                        = DevDomain+"newtimeline_data_selflike";
 }

@@ -166,8 +166,8 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         holder.prdDesc.setText(postmodel.product_desc);
         holder.likeCount.setText(String.valueOf(postmodel.likecount));
         holder.commentCount.setText(String.valueOf(postmodel.commentCount));
-       // holder.likename.setTag(postmodel);
-      //  getText(postmodel, holder.likename);
+        holder.likename.setTag(postmodel);
+        getText(postmodel, holder.likename);
 
 
         holder.Buynow.setOnClickListener(new OnClickListener() {
@@ -216,7 +216,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         holder.Overlapview.setTag(postmodel);
         holder.Overlapview.setLayoutManager(new LinearLayoutManager(this.context, 0, false));
         holder.Overlapview.addItemDecoration(new OverlapDecoration());
-       // holder.Overlapview.setAdapter(new OverLapAdapt(postmodel.Like_imges));
+        holder.Overlapview.setAdapter(new OverLapAdapt(postmodel.Like_imges));
 
         if (postmodel.selfLike == 1) {
             holder.BtnLike.setChecked(true);
@@ -234,12 +234,12 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
                         postmodel.selfLike = 0;
                         postmodel.likecount --;
                         holder.likeCount.setText(String.valueOf(postmodel.likecount));
-                    //    getText(postmodel, holder.likename);
+                        getText(postmodel, holder.likename);
                     }else{
                         postmodel.selfLike = 1;
                         postmodel.likecount ++;
                         holder.likeCount.setText(String.valueOf(postmodel.likecount));
-                     //   getText(postmodel, holder.likename
+                        getText(postmodel, holder.likename);
                         }
                 } else if (postmodel.selfLike == 1) {
 
@@ -248,12 +248,12 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
                     postmodel.selfLike = 0;
                     postmodel.likecount --;
                     holder.likeCount.setText(String.valueOf(postmodel.likecount));
-                    //getText(postmodel, holder.likename);
+                    getText(postmodel, holder.likename);
                 } else {
                     postmodel.selfLike = 1;
                     postmodel.likecount ++;
                     holder.likeCount.setText(String.valueOf(postmodel.likecount));
-                  //  getText(postmodel, holder.likename);
+                    getText(postmodel, holder.likename);
                 }
             }
 
