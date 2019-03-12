@@ -94,7 +94,7 @@ public class WallPostFragment extends Fragment {
                             wallPostmodel.created_at = jSONObject2.getString("created_at");
                             wallPostmodel.likecount = jSONObject2.getInt("like_count");
                             wallPostmodel.commentCount = jSONObject2.getInt("comment_count");
-                          //  wallPostmodel.selfLike = jSONObject2.getInt("Self_Likes");
+                            wallPostmodel.selfLike = jSONObject2.getInt("Self_Likes");
 
                         for (int i2 = 0; i2 < jSONObject2.getJSONArray("Likes").length(); i2++) {
                             JSONObject jSONObject3 = jSONObject2.getJSONArray("Likes").getJSONObject(i2);
@@ -123,7 +123,8 @@ public class WallPostFragment extends Fragment {
                             wallPostmodel.created_at = jSONObject2.getString("created_at");
                             wallPostmodel.likecount = jSONObject2.getInt("like_count");
                             wallPostmodel.commentCount = jSONObject2.getInt("comment_count");
-                         //   wallPostmodel.selfLike = jSONObject2.getInt("Self_Likes");
+
+                            wallPostmodel.selfLike = jSONObject2.getInt("Self_Likes");
 
                             for (int i2 = 0; i2 < jSONObject2.getJSONArray("Likes").length(); i2++) {
                                 JSONObject jSONObject3 = jSONObject2.getJSONArray("Likes").getJSONObject(i2);

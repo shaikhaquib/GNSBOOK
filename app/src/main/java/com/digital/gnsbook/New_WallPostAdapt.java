@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -262,12 +263,12 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
                 StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, APIs.Dolike, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        Log.d("DoLike : ",response);
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Log.d("DoLike : ","ERROR");
                     }
                 }){
                     @Override
@@ -287,14 +288,13 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
     private void UnLike(final String id, final String type) {
 
         StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, APIs.Unlike, new Response.Listener<String>() {
-            @Override
             public void onResponse(String response) {
-
+                Log.d("UnLike : ",response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Log.d("UnLike : ","ERROR");
             }
         }){
             @Override

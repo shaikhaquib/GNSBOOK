@@ -5,7 +5,8 @@ public class APIs {
     public static String DevDomain  = "https://development.gnsbook.com/api/";
     public static String Domain     = "https://development.gnsbook.com/";
 /*    public static String DevDomain  = "https://www.gnsbook.com/api/";
-    public static String Domain = "https://www.gnsbook.com/";*/
+    public static String Domain = "https://www.gnsbook.com/";
+    */
 
     public static String LoginAPI                               = Domain+"login";
     public static String UpdatePassword                         = Domain+"update_password";

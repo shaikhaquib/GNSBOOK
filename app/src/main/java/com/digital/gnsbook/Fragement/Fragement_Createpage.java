@@ -10,8 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -22,11 +25,16 @@ import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Global;
 import com.digital.gnsbook.ViewDialog;
 import com.httpgnsbook.gnsbook.R;
+
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.angmarch.views.NiceSpinner;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -50,6 +58,7 @@ public class Fragement_Createpage extends Fragment {
     TextInputLayout lstate;
     TextInputLayout lweb;
     TextInputLayout lworking_hours;
+    NiceSpinner typeSpinner;
     EditText mobile;
     EditText name;
     String saddress;
@@ -62,10 +71,11 @@ public class Fragement_Createpage extends Fragment {
     String sname;
     String sstate;
     EditText state;
-    String sweb;
+    String sweb,type;
     String sworking_hours;
     EditText web;
     EditText working_hours;
+    List<String> dataset = new LinkedList<>(Arrays.asList("other", "ecommerce"));
 
     /* renamed from: com.digital.gnsbook.Fragement.Fragement_Createpage$1 */
     class C04401 implements OnClickListener {
@@ -137,6 +147,11 @@ public class Fragement_Createpage extends Fragment {
         this.semail = this.email.getText().toString();
         this.sweb = this.web.getText().toString();
         this.sworking_hours = this.working_hours.getText().toString();
+        type = dataset.get(typeSpinner.getSelectedIndex());
+
+
+
+
         Matcher matcher = Pattern.compile("\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*").matcher(this.semail);
         Object obj = 1;
         if (TextUtils.isEmpty(this.sname)) {
@@ -202,10 +217,11 @@ public class Fragement_Createpage extends Fragment {
                 hashMap.put("state", Fragement_Createpage.this.sstate);
                 hashMap.put("city", Fragement_Createpage.this.scity);
                 hashMap.put("mobile", Fragement_Createpage.this.smobile);
-                hashMap.put(NotificationCompat.CATEGORY_EMAIL, Fragement_Createpage.this.semail);
+                hashMap.put("email", Fragement_Createpage.this.semail);
                 hashMap.put("web", Fragement_Createpage.this.sweb);
                 hashMap.put("working_hours", Fragement_Createpage.this.sworking_hours);
                 hashMap.put("admin_id", Global.customerid);
+                hashMap.put("company_cat",type);
                 return hashMap;
             }
         });
@@ -235,5 +251,15 @@ public class Fragement_Createpage extends Fragment {
         this.lemail = (TextInputLayout) view.findViewById(R.id.lcemail);
         this.lweb = (TextInputLayout) view.findViewById(R.id.lcwebsite);
         this.lworking_hours = (TextInputLayout) view.findViewById(R.id.lcworkinghr);
+
+        typeSpinner =view.findViewById(R.id.ctype_spinner);
+        typeSpinner.attachDataSource(dataset);
+
+        typeSpinner.addOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getActivity(), dataset.get(position), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
