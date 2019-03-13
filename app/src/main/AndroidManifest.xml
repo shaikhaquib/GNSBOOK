@@ -39,14 +39,6 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <provider
-            android:name="com.digital.gnsbook.Config.MyContentProvider"
-            android:authorities="com.gnsbook.digital.provider"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="signature"
-            android:protectionLevel="signature" />
-
         <activity android:name="com.digital.gnsbook.Activity.New_Post" />
         <activity
             android:name="com.digital.gnsbook.Activity.LoginActivity"
@@ -136,18 +128,17 @@
             android:name="com.digital.gnsbook.Payment.ManualTransaction"
             android:windowSoftInputMode="stateHidden" />
 
-<!--
         <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.httpgnsbook.gnsbook.provider"
-            android:exported="false"
+            android:name="com.digital.gnsbook.Config.LocalStorageProvider"
+            android:authorities="{applicationId}.documents"
+            android:enabled="@bool/use_provider"
+            android:exported="true"
             android:grantUriPermissions="true"
-            android:readPermission="com.httpgnsbook.gnsbook.provider.READ">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
+            android:permission="android.permission.MANAGE_DOCUMENTS" >
+            <intent-filter>
+                <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
+            </intent-filter>
         </provider>
--->
 
         <activity android:name="com.digital.gnsbook.Activity.Account" />
         <activity

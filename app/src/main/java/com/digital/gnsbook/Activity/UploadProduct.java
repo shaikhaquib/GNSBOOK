@@ -1,26 +1,45 @@
 package com.digital.gnsbook.Activity;
 
+import android.Manifest;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
+import com.digital.gnsbook.Config.FileUtils;
+import com.digital.gnsbook.Config.MySingleton;
+import com.digital.gnsbook.Config.VolleyMultipartRequest;
 import com.digital.gnsbook.Global;
 import com.digital.gnsbook.ViewDialog;
+import com.digital.gnsbook.sample.MyAdapter;
 import com.httpgnsbook.gnsbook.R;
 import com.mikelau.croperino.Croperino;
 import com.mikelau.croperino.CroperinoConfig;
@@ -30,6 +49,12 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,12 +66,18 @@ public class UploadProduct extends AppCompatActivity {
     int Type = 0;
     ViewDialog dialog;
     TextView subheading,Name;
+    ListView listView;
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final int REQUEST_CODE = 6384;
+    private static final int REQUEST_CODE_ASK_PERMISSIONS = 124;
+    private ArrayList<Uri> arrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_product);
 
+        arrayList = new ArrayList<>();
 
         getSupportActionBar().hide();
         dialog      =  new ViewDialog(this);
@@ -59,6 +90,7 @@ public class UploadProduct extends AppCompatActivity {
         subheading  =  findViewById(R.id.cmHeading);
         prdName     =  findViewById(R.id.postTitle);
         Descreption = findViewById(R.id.Postdesc);
+        listView = findViewById(R.id.listView);
 
         Name.setText(Global.Company_Name);
         subheading.setText(Global.Company_Type);
@@ -72,12 +104,8 @@ public class UploadProduct extends AppCompatActivity {
 
         if (id == R.id.pgallery){
             Type = 1;
-            new CroperinoConfig("IMG_" + System.currentTimeMillis() + ".jpg", "/gnsbook/Pictures", "/sdcard/gnsbook/Pictures");
-            CroperinoFileUtil.setupDirectory(UploadProduct.this);
-
-            if (CroperinoFileUtil.verifyStoragePermissions(UploadProduct.this)) {
-                prepareChooser();
-            }
+            if (askForPermission())
+                showChooser();
         }else if (id == R.id.UploadPost){
 
             strPrdName = prdName.getText().toString();
@@ -113,7 +141,7 @@ public class UploadProduct extends AppCompatActivity {
                 focusView.requestFocus();
             }
             else {
-                UploadPost(strPrdName,strDescription,strCat,strLink,strPrize);
+                uploadFile(strPrdName,strDescription,strCat,strLink,strPrize);
             }
         }
     }
@@ -145,6 +173,7 @@ public class UploadProduct extends AppCompatActivity {
             Croperino.prepareCamera(this);
         }
     }
+/*
     public void onActivityResult(int i, int i2, Intent intent) {
         super.onActivityResult(i, i2, intent);
         switch (i) {
@@ -173,6 +202,7 @@ public class UploadProduct extends AppCompatActivity {
                 return;
         }
     }
+*/
     private void prepareChooser() {
         if (this.Type == 0) {
             if (ContextCompat.checkSelfPermission(this, "android.permission.CAMERA") != 0) {
@@ -227,4 +257,251 @@ public class UploadProduct extends AppCompatActivity {
         });
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE:
+                // If the file selection was successful
+                if (resultCode == RESULT_OK) {
+                    if(data.getClipData() != null) {
+                        int count = data.getClipData().getItemCount();
+                        int currentItem = 0;
+                        while(currentItem < count) {
+                            Uri imageUri = data.getClipData().getItemAt(currentItem).getUri();
+                            //do something with the image (save it to some directory or whatever you need to do with it here)
+                            currentItem = currentItem + 1;
+                            Log.d("Uri Selected", imageUri.toString());
+                            try {
+                                // Get the file path from the URI
+                                String path = FileUtils.getPath(this, imageUri);
+                                Log.d("Multiple File Selected", path);
+
+                                arrayList.add(imageUri);
+                                MyAdapter mAdapter = new MyAdapter(UploadProduct.this, arrayList);
+                                listView.setAdapter(mAdapter);
+
+                            } catch (Exception e) {
+                                Log.e(TAG, "File select error", e);
+                            }
+                        }
+                    } else if(data.getData() != null) {
+                        //do something with the image (save it to some directory or whatever you need to do with it here)
+                        final Uri uri = data.getData();
+                        Log.i(TAG, "Uri = " + uri.toString());
+                        try {
+                            // Get the file path from the URI
+                            final String path = FileUtils.getPath(this, uri);
+                            Log.d("Single File Selected", path);
+
+                            arrayList.add(uri);
+                            MyAdapter mAdapter = new MyAdapter(UploadProduct.this, arrayList);
+                            listView.setAdapter(mAdapter);
+
+                        } catch (Exception e) {
+                            Log.e(TAG, "File select error", e);
+                        }
+                    }
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    private boolean askForPermission() {
+        int currentAPIVersion = Build.VERSION.SDK_INT;
+        if (currentAPIVersion >= Build.VERSION_CODES.M) {
+            int hasCallPermission = ContextCompat.checkSelfPermission(UploadProduct.this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE);
+            if (hasCallPermission != PackageManager.PERMISSION_GRANTED) {
+                // Ask for permission
+                // need to request permission
+                if (ActivityCompat.shouldShowRequestPermissionRationale(UploadProduct.this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    // explain
+                    showMessageOKCancel(
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    ActivityCompat.requestPermissions(UploadProduct.this,
+                                            new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
+                                            REQUEST_CODE_ASK_PERMISSIONS);
+                                }
+                            });
+                    // if denied then working here
+                } else {
+                    // Request for permission
+                    ActivityCompat.requestPermissions(UploadProduct.this,
+                            new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
+                            REQUEST_CODE_ASK_PERMISSIONS);
+                }
+
+                return false;
+            } else {
+                // permission granted and calling function working
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
+    private void showChooser() {
+        // Use the GET_CONTENT intent from the utility class
+        Intent target = FileUtils.createGetContentIntent();
+        // Create the chooser Intent
+        Intent intent = Intent.createChooser(
+                target, getString(R.string.chooser_title));
+        try {
+            startActivityForResult(intent, REQUEST_CODE);
+        } catch (ActivityNotFoundException e) {
+            // The reason for the existence of aFileChooser
+        }
+    }
+    private void showMessageOKCancel(DialogInterface.OnClickListener okListener) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(UploadProduct.this);
+        final AlertDialog dialog = builder.setMessage("You need to grant access to Read External Storage")
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface arg0) {
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(
+                        ContextCompat.getColor(UploadProduct.this, android.R.color.holo_blue_light));
+                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(
+                        ContextCompat.getColor(UploadProduct.this, android.R.color.holo_red_light));
+            }
+        });
+
+        dialog.show();
+
+    }
+
+    private void uploadFile(final String strName,final String strdesc,final String strCat,final String strLink, final String strPrize){
+        dialog.show();
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, APIs.UploadProduct, new Response.Listener<NetworkResponse>() {
+            @Override
+            public void onResponse(NetworkResponse response) {
+                dialog.dismiss();
+                try {
+                    String json = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                    Log.d("Responce",json);
+                    JSONObject jSONObject = new JSONObject(json);
+                    if (jSONObject.getBoolean("status")) {
+                        Global.successDilogue(UploadProduct.this,"You have Successfully post.");
+                    } else {
+                        Global.failedDilogue(UploadProduct.this, jSONObject.getString("result"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
+                if (error == null || error.networkResponse == null) {
+                    return;
+                }
+
+                String body;
+                //get status code here
+                final String statusCode = String.valueOf(error.networkResponse.statusCode);
+                //get response body and parse with appropriate encoding
+                try {
+                    body = new String(error.networkResponse.data,"UTF-8");
+                    Log.d("Multi",body);
+                } catch (UnsupportedEncodingException e) {
+                    // exception
+                }
+
+                //do stuff with the body...
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> hashMap = new HashMap<>();
+                hashMap.put("customer_id", Global.customerid);
+                hashMap.put("company_id", Global.Company_Id);
+                hashMap.put("product_name", strName);
+                hashMap.put("product_price", strPrize);
+                hashMap.put("product_desc", strDescription);
+                hashMap.put("product_cat", strCat);
+                hashMap.put("product_link", strLink);
+                return hashMap;
+            }
+
+            @Override
+            protected Map<String, DataPart> getByteData() throws AuthFailureError {
+                Map<String, DataPart> params = new HashMap<>();
+                // file name could found file base or direct access from real path
+                //for now just get bitmap data from ImageView
+
+                File uploads[] = new File[arrayList.size()];
+                for (int i = 0; i < arrayList.size(); i++) {
+
+                    try {
+                        InputStream iStream =   getContentResolver().openInputStream(arrayList.get(i));
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), arrayList.get(i));
+
+                        params.put("images[" + i + "]", new DataPart(getFileName(arrayList.get(i)) , getFileDataFromDrawable(bitmap)));
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+
+                return params;
+            }
+        };
+
+
+
+        MySingleton.getInstance(getBaseContext()).addToRequestQueue(multipartRequest);
+    }
+
+    public byte[] getFileDataFromDrawable(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
+
+    public byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len = 0;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
+    }
+    public String getFileName(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result;
+    }
 }
