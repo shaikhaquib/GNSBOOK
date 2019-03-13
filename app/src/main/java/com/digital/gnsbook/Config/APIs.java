@@ -114,4 +114,7 @@ public class APIs {
     public static String removefriend                           = DevDomain+"";
     public static String UploadProduct                          = DevDomain+"add_product_by_companies";
     public static String new_timelineAPI                        = DevDomain+"newtimeline_data_selflike";
+
+    public static String AddtoCart                              = DevDomain+"add_to_cart";
+
 }

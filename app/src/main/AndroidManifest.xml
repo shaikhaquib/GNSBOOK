@@ -30,7 +30,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
-        <activity android:name="com.digital.gnsbook.Activity.UploadProduct"></activity>
+        <activity android:name="com.digital.gnsbook.Activity.ProductDetail"></activity>
+        <activity android:name="com.digital.gnsbook.Activity.UploadProduct" />
         <activity android:name="com.digital.gnsbook.Activity.FriendProfile" />
         <activity android:name="com.digital.gnsbook.Activity.SearchActivity" />
         <activity android:name="com.digital.gnsbook.Activity.Subsription_plan" />
@@ -134,7 +135,7 @@
             android:enabled="@bool/use_provider"
             android:exported="true"
             android:grantUriPermissions="true"
-            android:permission="android.permission.MANAGE_DOCUMENTS" >
+            android:permission="android.permission.MANAGE_DOCUMENTS">
             <intent-filter>
                 <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
             </intent-filter>

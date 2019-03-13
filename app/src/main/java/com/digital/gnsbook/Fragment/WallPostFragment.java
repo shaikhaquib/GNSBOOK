@@ -81,9 +81,6 @@ public class WallPostFragment extends Fragment {
 
                         if (wallPostmodel.type.equals("1")) {
 
-
-
-
                             wallPostmodel.logo = jSONObject2.getString("logo");
                             wallPostmodel.id = jSONObject2.getString("id");
                             wallPostmodel.company_id = jSONObject2.getString("customer_id");
@@ -119,6 +116,7 @@ public class WallPostFragment extends Fragment {
                             wallPostmodel.product_price = jSONObject2.getString("product_price");
                             wallPostmodel.product_desc = jSONObject2.getString("product_desc");
                             wallPostmodel.product_link = jSONObject2.getString("product_link");
+                            wallPostmodel.sell_type = jSONObject2.getInt("sell_type");
                             wallPostmodel.images = jSONObject2.getString("images");
                             wallPostmodel.created_at = jSONObject2.getString("created_at");
                             wallPostmodel.likecount = jSONObject2.getInt("like_count");

@@ -34,4 +34,5 @@ public class WallPostmodel {
     public String type         ;
     public int commentCount;
 
+    public int sell_type;
 }

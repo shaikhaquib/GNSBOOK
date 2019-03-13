@@ -5,12 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build.VERSION;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.support.v7.widget.SnapHelper;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
@@ -31,7 +34,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
 import com.digital.gnsbook.Activity.Comment;
+import com.digital.gnsbook.Activity.ProductDetail;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Model.WallPostmodel;
@@ -46,10 +51,9 @@ import java.util.Map;
 public class New_WallPostAdapt extends Adapter<ViewHolder> {
     Context context;
     ArrayList<WallPostmodel> postmodels;
-
     class Holder extends ViewHolder {
         CheckBox BtnLike ;
-        RecyclerView Overlapview;
+        RecyclerView Overlapview , slider;
         TextView date, commentCount;
         ImageView dp,wpComment;
         ImageView imgPost ,imgPrd;
@@ -65,6 +69,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         public Holder(@NonNull View view) {
             super(view);
             dp = (ImageView) view.findViewById(R.id.wpDP);
+            slider = view.findViewById(R.id.wpImageRec);
             imgPost = (ImageView) view.findViewById(R.id.wpImage);
             imgPrd = (ImageView) view.findViewById(R.id.ProductImage);
             share = (ImageView) view.findViewById(R.id.wpShare);
@@ -87,47 +92,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         }
     }
 
-    private class OverLapAdapt extends Adapter<ViewHolder> {
-        String[] Images;
 
-        public class LikeHolder extends ViewHolder {
-            ImageView imageView;
-
-            public LikeHolder(@NonNull View view) {
-                super(view);
-                imageView = (ImageView) view.findViewById(R.id.ovimage);
-            }
-        }
-
-        public long getItemId(int i) {
-            return (long) i;
-        }
-
-        public OverLapAdapt(String[] strArr) {
-            this.Images = strArr;
-        }
-
-        @NonNull
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            return new LikeHolder(LayoutInflater.from(New_WallPostAdapt.this.context).inflate(R.layout.circular_image, viewGroup, false));
-        }
-
-        public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-            LikeHolder likeHolder = (LikeHolder) viewHolder;
-            Picasso picasso = Picasso.get();
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(APIs.Dp);
-            stringBuilder.append(this.Images[i]);
-            picasso.load(stringBuilder.toString()).into(likeHolder.imageView);
-        }
-
-        public int getItemCount() {
-            if (this.Images.length > 2) {
-                return 2;
-            }
-            return this.Images.length;
-        }
-    }
 
     public long getItemId(int i) {
         return (long) i;
@@ -152,6 +117,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
 
         final Holder holder = (Holder) viewHolder;
         final WallPostmodel postmodel = postmodels.get(i);
+        final String [] imageArray  = postmodel.images.split(",");
 
         holder.name.setText(postmodel.name);
         holder.date.setText(postmodel.created_at);
@@ -175,8 +141,26 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
             @Override
             public void onClick(View v) {
               //  String url = "http://www.example.com";
+
+                if (postmodel.sell_type==1){
                 Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(postmodel.product_link));
                 context.startActivity(i);
+                }else {
+                    Bundle bundle = new Bundle();
+                    bundle.putStringArray("images", imageArray);
+                    Intent intent = new Intent(context, ProductDetail.class);
+                    intent.putExtra("product_name", postmodel.product_name);
+                    intent.putExtra("product_cat", postmodel.product_cat);
+                    intent.putExtra("product_desc", postmodel.product_desc);
+                    intent.putExtra("product_link", postmodel.product_link);
+                    intent.putExtra("product_price", postmodel.product_price);
+                    intent.putExtra("postmodel", postmodel.id);
+                    intent.putExtras(bundle);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+
+
             }
         });
 
@@ -213,6 +197,10 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
                 context.startActivity(new Intent(context, Comment.class).putExtra("pid",postmodel.id).putExtra("type",postmodel.type).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
+
+        holder.slider.setTag(postmodel);
+        holder.slider.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
+        holder.slider.setAdapter(new Slider(imageArray));
 
         holder.Overlapview.setTag(postmodel);
         holder.Overlapview.setLayoutManager(new LinearLayoutManager(this.context, 0, false));
@@ -352,5 +340,88 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         notifyItemInserted(this.postmodels.size() - 1);
     }
 
+
+
+    private class OverLapAdapt extends Adapter<ViewHolder> {
+        String[] Images;
+
+        public class LikeHolder extends ViewHolder {
+            ImageView imageView;
+
+            public LikeHolder(@NonNull View view) {
+                super(view);
+                imageView = (ImageView) view.findViewById(R.id.ovimage);
+            }
+        }
+
+        public long getItemId(int i) {
+            return (long) i;
+        }
+
+        public OverLapAdapt(String[] strArr) {
+            this.Images = strArr;
+        }
+
+        @NonNull
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+            return new LikeHolder(LayoutInflater.from(New_WallPostAdapt.this.context).inflate(R.layout.circular_image, viewGroup, false));
+        }
+
+        public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+            LikeHolder likeHolder = (LikeHolder) viewHolder;
+            Picasso picasso = Picasso.get();
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(APIs.Dp);
+            stringBuilder.append(this.Images[i]);
+            picasso.load(stringBuilder.toString()).into(likeHolder.imageView);
+        }
+
+        public int getItemCount() {
+            if (this.Images.length > 2) {
+                return 2;
+            }
+            return this.Images.length;
+        }
+    }
+    private class Slider extends Adapter<ViewHolder> {
+        String[] imageArray;
+        public Slider(String[] imageArray) {
+            this.imageArray = imageArray;
+
+        }
+
+        @NonNull
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+            View view = LayoutInflater.from(context).inflate(R.layout.imageslider,viewGroup,false);
+            return new Holder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+            Holder holder = (Holder)viewHolder;
+
+            Glide.with(context).load(APIs.Dp+imageArray[i].replace(" ","")).into(holder.Slide);
+            Log.d("Position "+i , APIs.Dp+imageArray[i]);
+        }
+
+        @Override
+        public int getItemCount() {
+            return imageArray.length;
+        }
+
+        public long getItemId(int i) {
+            return (long) i;
+        }
+
+
+        class Holder extends RecyclerView.ViewHolder {
+            ImageView Slide;
+            public Holder(@NonNull View itemView) {
+                super(itemView);
+                Slide = itemView.findViewById(R.id.imageView);
+            }
+        }
+    }
 
 }

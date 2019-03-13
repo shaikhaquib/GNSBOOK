@@ -9,5 +9,7 @@
     <dimen name="design_fab_size_mini" tools:override="true">35dp</dimen>
     <dimen name="design_fab_image_size" tools:override="true">18dp</dimen>
     <dimen name="padding_10">10dp</dimen>
+    <dimen name="font_20sp">20sp</dimen>
+    <dimen name="font_15sp">15sp</dimen>
 
 </resources>

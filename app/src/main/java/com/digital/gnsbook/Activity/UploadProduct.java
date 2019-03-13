@@ -12,6 +12,7 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -20,9 +21,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -60,7 +64,10 @@ import java.util.Map;
 
 public class UploadProduct extends AppCompatActivity {
     EditText prdName,prdCat,prdLink,Descreption,prdPrize;
-    String ImgBase64 = "",strDescription, strPrdName,strCat,strLink,strPrize;
+    TextInputLayout textLink;
+    String ImgBase64 = "",strDescription, strPrdName,strCat,strLink,strPrize,productType = "1";
+    RadioGroup type ;
+    RadioButton R1 , R2;
     ImageView Logo,PImage;
     final int MY_PERMISSIONS_REQUEST_CAMERA = 786;
     int Type = 0;
@@ -82,6 +89,10 @@ public class UploadProduct extends AppCompatActivity {
         getSupportActionBar().hide();
         dialog      =  new ViewDialog(this);
         Logo        =  findViewById(R.id.clogo);
+        textLink        =  findViewById(R.id.textLink);
+        type        =  findViewById(R.id.saleType);
+        R1          =  findViewById(R.id.rb1);
+        R2          =  findViewById(R.id.rb2);
         prdCat      =  findViewById(R.id.prdctCat);
         prdLink     =  findViewById(R.id.prdctLink);
         prdPrize    =  findViewById(R.id.prdcPrize);
@@ -95,6 +106,19 @@ public class UploadProduct extends AppCompatActivity {
         Name.setText(Global.Company_Name);
         subheading.setText(Global.Company_Type);
         Picasso.get().load(APIs.Dp+Global.Company_Logo).into(this.Logo);
+
+        R2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    textLink.setVisibility(View.VISIBLE);
+                    productType = "1";
+                }else {
+                    textLink.setVisibility(View.GONE);
+                    productType = "0";
+                }
+            }
+        });
 
     }
 
@@ -111,7 +135,12 @@ public class UploadProduct extends AppCompatActivity {
             strPrdName = prdName.getText().toString();
             strDescription = Descreption.getText().toString();
             strCat   = prdCat.getText().toString();
-            strLink  = prdLink.getText().toString();
+
+            if (productType.equals("1"))
+                strLink  = prdLink.getText().toString();
+            else
+                strLink = "-";
+
             strPrize = prdPrize.getText().toString();
 
             boolean cancel= false;
@@ -432,6 +461,7 @@ public class UploadProduct extends AppCompatActivity {
                 hashMap.put("product_desc", strDescription);
                 hashMap.put("product_cat", strCat);
                 hashMap.put("product_link", strLink);
+                hashMap.put("sell_type", productType);
                 return hashMap;
             }
 
