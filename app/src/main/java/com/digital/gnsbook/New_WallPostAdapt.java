@@ -154,7 +154,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
                     intent.putExtra("product_desc", postmodel.product_desc);
                     intent.putExtra("product_link", postmodel.product_link);
                     intent.putExtra("product_price", postmodel.product_price);
-                    intent.putExtra("postmodel", postmodel.id);
+                    intent.putExtra("id", postmodel.id);
                     intent.putExtras(bundle);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);

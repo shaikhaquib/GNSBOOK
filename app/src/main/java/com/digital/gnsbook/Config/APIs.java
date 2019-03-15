@@ -2,11 +2,10 @@ package com.digital.gnsbook.Config;
 
 public class APIs {
 
-    public static String DevDomain  = "https://development.gnsbook.com/api/";
-    public static String Domain     = "https://development.gnsbook.com/";
-/*    public static String DevDomain  = "https://www.gnsbook.com/api/";
+/*    public static String DevDomain  = "https://development.gnsbook.com/api/";
+    public static String Domain     = "https://development.gnsbook.com/";*/
+    public static String DevDomain  = "https://www.gnsbook.com/api/";
     public static String Domain = "https://www.gnsbook.com/";
-    */
 
     public static String LoginAPI                               = Domain+"login";
     public static String UpdatePassword                         = Domain+"update_password";
@@ -36,10 +35,7 @@ public class APIs {
     public static String Corporate_FundTransAPi                 = DevDomain+"cdmr_transfer";
     public static String Benificiarylist                        = DevDomain+"dmr_detail";
 
-
-
     public static String EmailVerification                      = DevDomain+"mail_verification";
-
 
     public static String FundTransAPi                           = DevDomain+"dmr_transfer";
     public static String Jolo_Status                            = DevDomain+"jolo_status";
@@ -52,6 +48,8 @@ public class APIs {
     public static String Jolo_soft_dmr_signup                   = DevDomain+"jolo_soft_dmr_signup";
     public static String Jolo_soft_dmr_signup_validation        = DevDomain+"jolo_soft_dmr_signup_validate";
     public static String Manultransfer                          = DevDomain+"manually_jolo_transfer";
+
+
     public static String PhoneVerification                      = DevDomain+"sms_verification";
     public static String Phoneotpverifie                        = DevDomain+"sms_check";
     public static String PooLenter                              = DevDomain+"claime_pool";
@@ -84,11 +82,15 @@ public class APIs {
     public static String uploadbanner                           = DevDomain+"upload_profile_bpic";
 
     // Like Unlike
-    public static String Dolike                              = DevDomain+"add_new_like_by_post";
-    public static String Unlike                              = DevDomain+"remove_new_like_by_post";
 
-    public static String oldDolike                           = DevDomain+"add_like_by_post";
-    public static String oldUnlike                           = DevDomain+"remove_like_by_post";
+    public static String Dolike                                 = DevDomain+"add_new_like_by_post";
+    public static String Unlike                                 = DevDomain+"remove_new_like_by_post";
+
+    public static String oldDolike                              = DevDomain+"add_like_by_post";
+    public static String oldUnlike                              = DevDomain+"remove_like_by_post";
+
+
+    public static String ChatFriend                             = DevDomain+"display_friend_list";
 
 
 
@@ -116,5 +118,6 @@ public class APIs {
     public static String new_timelineAPI                        = DevDomain+"newtimeline_data_selflike";
 
     public static String AddtoCart                              = DevDomain+"add_to_cart";
-
+    public static String CartProduct                            = DevDomain+"display_cart";;
+    public static String UpdateCart                             = DevDomain+"edit_cart";
 }

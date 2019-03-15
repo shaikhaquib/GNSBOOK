@@ -270,7 +270,7 @@ public class ComponyModel {
         @Override
         public String toString(){
             return
-                    "ResultItem{" +
+                    "CartItem{" +
                             "company_type = '" + companyType + '\'' +
                             ",social_networks = '" + socialNetworks + '\'' +
                             ",location_link = '" + locationLink + '\'' +

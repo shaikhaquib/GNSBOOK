@@ -88,13 +88,13 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
     private List<Fragment> fragments = new ArrayList();
     ImageView profileImage;
     SessionManager session;
-    private int[] tabIcons = new int[]{R.drawable.dash_selector , R.drawable.ic_user_avatar,R.drawable.ic_happy_faces_icon ,R.drawable.ic_stats_icon };
+    private int[] tabIcons = new int[]{R.drawable.dash_selector , R.drawable.ic_user_avatar,R.drawable.ic_happy_faces_icon ,R.drawable.ic_friends };
     private TabLayout tabLayout;
     private List<String> titles = new ArrayList();
     HashMap<String, String> user;
     private ViewPager viewPager;
     RelativeLayout rvSearch;
-    String notiCount ;
+    String notiCount= null ;
     int tabIconColor ;
     /* renamed from: com.digital.gnsbook.Activity.MainActivity$5 */
     class C04225 implements OnClickListener {
@@ -357,17 +357,16 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 
                         tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
 
-                        View view = tabLayout.getTabAt(2).getCustomView();
 
-                       /* if (!notiCount.equals("")) {
-
+                        if (notiCount!=null) {
+                            View view = tabLayout.getTabAt(2).getCustomView();
                             ImageView img_title = (ImageView) view.findViewById(R.id.img_title);
                             if (tab.getPosition() == 2) {
                                 img_title.setColorFilter(Color.parseColor("#f4511e"));
                             } else {
                                 img_title.setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.colorPrimaryDark), android.graphics.PorterDuff.Mode.MULTIPLY);
                             }
-                        }*/
+                        }
 
                     }
 
@@ -448,7 +447,10 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         if (menuItem.getItemId() == R.id.action_search) {
             startActivity(new Intent(getApplicationContext(),SearchActivity.class));
             return true;
-      }
+      }else  if (menuItem.getItemId() == R.id.cart) {
+            startActivity(new Intent(getApplicationContext(), Cart.class));
+            return true;
+        }
         return true;
     }
 

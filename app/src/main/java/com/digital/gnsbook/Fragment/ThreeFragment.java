@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
@@ -23,13 +24,18 @@ import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Config.DbHelper;
 import com.digital.gnsbook.Global;
+import com.digital.gnsbook.Model.CartResponse;
+import com.digital.gnsbook.Model.FriendItem;
+import com.digital.gnsbook.Model.FriendResponse;
 import com.digital.gnsbook.Model.Top_Performer;
 import com.digital.gnsbook.RecyclerViewItemDecorator;
 import com.digital.gnsbook.ViewDialog;
+import com.google.gson.Gson;
 import com.httpgnsbook.gnsbook.R;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -39,7 +45,8 @@ import org.json.JSONObject;
 public class ThreeFragment extends Fragment {
     ArrayList<Top_Performer> componyModel = new ArrayList();
     ViewDialog dialog;
-    RecyclerView recyclerView;
+    RecyclerView recyclerView ,rvFriend;
+    List<FriendItem> friendItems = new ArrayList<>();
 
     /* renamed from: com.digital.gnsbook.Fragment.ThreeFragment$1 */
     class C09291 extends Adapter {
@@ -47,7 +54,7 @@ public class ThreeFragment extends Fragment {
         /* renamed from: com.digital.gnsbook.Fragment.ThreeFragment$1$Holder */
         class Holder extends ViewHolder {
             RelativeLayout Follow;
-            TextView desc;
+            TextView desc,batchclose;
             ImageView dp;
             TextView name;
 
@@ -57,11 +64,11 @@ public class ThreeFragment extends Fragment {
                 this.name = (TextView) view.findViewById(R.id.cName);
                 this.Follow = (RelativeLayout) view.findViewById(R.id.cFollow);
                 this.desc = (TextView) view.findViewById(R.id.cDesc);
+                this.batchclose = (TextView) view.findViewById(R.id.batchclose);
+                batchclose.setVisibility(View.VISIBLE);
             }
         }
 
-        C09291() {
-        }
 
         @NonNull
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -141,13 +148,102 @@ public class ThreeFragment extends Fragment {
 
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
         View view = layoutInflater.inflate(R.layout.activity_toperformer, viewGroup, false);
-        this.dialog = new ViewDialog(getActivity());
-        this.recyclerView = view.findViewById(R.id.rvtoplist);
-        this.recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        this.recyclerView.addItemDecoration(new RecyclerViewItemDecorator(10));
-        this.recyclerView.setAdapter(new C09291());
+        dialog = new ViewDialog(getActivity());
+        recyclerView = view.findViewById(R.id.rvtoplist);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView.addItemDecoration(new RecyclerViewItemDecorator(10));recyclerView = view.findViewById(R.id.rvtoplist);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView.addItemDecoration(new RecyclerViewItemDecorator(10));
+        recyclerView.setAdapter(new C09291());
+
+        rvFriend = view.findViewById(R.id.rvfreind);
+        rvFriend.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        rvFriend.addItemDecoration(new RecyclerViewItemDecorator(10));
+        rvFriend.setAdapter(new RecyclerView.Adapter() {
+            @NonNull
+            @Override
+            public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                return new Holder(LayoutInflater.from(ThreeFragment.this.getActivity()).inflate(R.layout.componylist, viewGroup, false));
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+                final Holder holder= (Holder) viewHolder;
+                final FriendItem model = friendItems.get(i);
+
+                holder.name.setText(model.getName()+" "+model.getLastName());
+                holder.desc.setText("India");
+                Picasso.get().load(APIs.Dp+model.getDPic()).into(holder.dp);
+            }
+
+            @Override
+            public int getItemCount() {
+                return friendItems.size();
+            }
+            class Holder extends ViewHolder {
+                RelativeLayout Follow;
+                TextView desc,batchclose;
+                ImageView dp;
+                TextView name;
+
+                public Holder(@NonNull View view) {
+                    super(view);
+                    this.dp = (ImageView) view.findViewById(R.id.cdp);
+                    this.name = (TextView) view.findViewById(R.id.cName);
+                    this.Follow = (RelativeLayout) view.findViewById(R.id.cFollow);
+                    this.desc = (TextView) view.findViewById(R.id.cDesc);
+                    this.batchclose = (TextView) view.findViewById(R.id.batchclose);
+
+                }
+            }
+        });
         getComponyData();
+        getFriendList();
         return view;
+    }
+
+    private void getFriendList() {
+       //   dialog.show();
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, APIs.ChatFriend, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //   tprice=0;
+            //    dialog.dismiss();
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    if (jsonObject.getBoolean("status")){
+
+                    Gson gson = new Gson();
+                    FriendResponse res = gson.fromJson(response, FriendResponse.class);
+                    friendItems = res.getResult();
+                    rvFriend.getAdapter().notifyDataSetChanged();}
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+               // dialog.dismiss();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map <String,String> param = new HashMap<String,String>();
+                param.put("customerid_to", Global.customerid);
+                return param;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(stringRequest);
+
     }
 
     private void getComponyData() {

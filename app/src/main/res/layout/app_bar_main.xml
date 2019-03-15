@@ -15,19 +15,20 @@
             android:layout_height="?actionBarSize"
             android:background="?colorPrimary"
             app:layout_scrollFlags="enterAlways|scroll"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:elevation="@dimen/font_15sp"/>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabGravity="fill"
-            app:tabIndicatorColor="@color/white"
-            android:background="@drawable/bgshadow"
+            app:tabIndicator="@android:color/transparent"
+            android:background="@drawable/bottom"
             app:tabMaxWidth="0dp"
             app:tabMode="fixed"
-            app:tabBackground="@color/white"
-            app:tabSelectedTextColor="@color/tabindiactor" />
+            app:tabSelectedTextColor="@color/tabindiactor"
+            android:elevation="@dimen/font_15sp"/>
 
     </android.support.design.widget.AppBarLayout>
 

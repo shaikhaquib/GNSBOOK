@@ -24,10 +24,12 @@ import com.digital.gnsbook.DividerDecorator;
 import com.digital.gnsbook.Global;
 import com.digital.gnsbook.Model.RequestAcceptItem;
 import com.digital.gnsbook.Model.ResponseRequest;
+import com.digital.gnsbook.Model.RquestItem;
 import com.digital.gnsbook.ViewDialog;
 import com.google.gson.Gson;
 import com.httpgnsbook.gnsbook.R;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Request;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,20 +43,24 @@ import java.util.Map;
 
 public class FreindRequests extends Fragment {
 
-    RecyclerView recyclerView;
+    RecyclerView recyclerView,rvNotifiaction;
     ViewDialog dialog;
     TextView noRequest;
     List<RequestAcceptItem> items = new ArrayList<RequestAcceptItem>();
+    List<RquestItem> Notificationitems = new ArrayList<RquestItem>();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup viewGroup, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frgfreindrequest, viewGroup, false);
         recyclerView = view.findViewById(R.id.rvRequest);
+        rvNotifiaction = view.findViewById(R.id.rvNotifiaction);
         noRequest = view.findViewById(R.id.noRequest);
         dialog = new ViewDialog(getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerDecorator(getActivity()));
+        rvNotifiaction.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvNotifiaction.addItemDecoration(new DividerDecorator(getActivity()));
         recyclerView.setAdapter(new RecyclerView.Adapter() {
             @NonNull
             @Override
@@ -111,6 +117,44 @@ public class FreindRequests extends Fragment {
                 }
             }
         });
+        rvNotifiaction.setAdapter(new RecyclerView.Adapter() {
+            @NonNull
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                return new Holder(LayoutInflater.from(getActivity()).inflate(R.layout.requestitem, viewGroup, false));
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
+                Holder holder = (Holder) viewHolder;
+                final RquestItem item = Notificationitems.get(i);
+                holder.accept.setVisibility(View.GONE);
+                holder.reject.setVisibility(View.GONE);
+
+                holder.name.setText(item.getName() +" "+ item.getLastName()+" is now your friend.");
+                Picasso.get().load(APIs.Dp+item.getDPic()).into(holder.dp);
+
+            }
+
+            @Override
+            public int getItemCount() {
+                return Notificationitems.size();
+            }
+            class Holder extends RecyclerView.ViewHolder {
+                public TextView name , city;
+                ImageView dp;
+                CardView accept,reject;
+
+                public Holder(@NonNull View itemView) {
+                    super(itemView);
+                    name = itemView.findViewById(R.id.searchNmae);
+                    city = itemView.findViewById(R.id.searchCity);
+                    dp = itemView.findViewById(R.id.searchDp);
+                    accept = itemView.findViewById(R.id.accRequest);
+                    reject = itemView.findViewById(R.id.rejRequest);
+                }
+            }
+        });
 
         getFreindRequest();
         return view ;
@@ -129,6 +173,7 @@ public class FreindRequests extends Fragment {
 
                         ResponseRequest request = new Gson().fromJson(str,ResponseRequest.class);
                         items.addAll(request.getResult());
+                        Notificationitems.addAll(request.getResult2());
                         recyclerView.getAdapter().notifyDataSetChanged();
 
 

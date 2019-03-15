@@ -6,6 +6,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.httpgnsbook.gnsbook.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -127,7 +129,6 @@ public class ProductDetail extends AppCompatActivity {
     }
 
     private void AddtoCart() {
-
     progressDialog.show();
         StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, APIs.AddtoCart, new Response.Listener<String>() {
             @Override
@@ -148,6 +149,20 @@ public class ProductDetail extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressDialog.dismiss();
+                if (error == null || error.networkResponse == null) {
+                    return;
+                }
+
+                String body;
+                //get status code here
+                final String statusCode = String.valueOf(error.networkResponse.statusCode);
+                //get response body and parse with appropriate encoding
+                try {
+                    body = new String(error.networkResponse.data,"UTF-8");
+                    Log.d("Multi",body);
+                } catch (UnsupportedEncodingException e) {
+                    // exception
+                }
             }
         }){
             @Override
@@ -156,7 +171,7 @@ public class ProductDetail extends AppCompatActivity {
                 param.put("customer_id", Global.customerid);
                 param.put("quantity",String.valueOf(minteger));
                 param.put("amount",amount);
-                param.put("product_id ",id);
+                param.put("product_id",id);
                 return param;
             }
         };
@@ -181,6 +196,7 @@ public class ProductDetail extends AppCompatActivity {
        product_price =getIntent().getStringExtra("product_price");
        product_desc  =getIntent().getStringExtra("product_desc");
        product_link  =getIntent().getStringExtra("product_link");
+       id            =getIntent().getStringExtra("id");
        wtut.setText(product_link);
         setTitle(product_name);
 
