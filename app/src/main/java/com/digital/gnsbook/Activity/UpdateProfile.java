@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import com.android.volley.AuthFailureError;
+import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
@@ -56,9 +57,57 @@ public class UpdateProfile extends AppCompatActivity {
 
         public void onClick(View view) {
             if (UpdateProfile.this.CircleBitmap != null) {
-                UpdateProfile.this.UploadProfile(Global.encodeTobase64(UpdateProfile.this.CircleBitmap));
+
+                if (getIntent().getBooleanExtra("isCompany",false))
+                    UploadProfile(Global.encodeTobase64(UpdateProfile.this.CircleBitmap));
+                else
+                    updateComponyDP(Global.encodeTobase64(UpdateProfile.this.CircleBitmap));
+
             }
         }
+    }
+
+    private void updateComponyDP(final String encodeTobase64) {
+        dialog.show();
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, APIs.uploadDPPage, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                dialog.dismiss();
+
+                try {
+                    JSONObject object = new JSONObject(response);
+
+                    if (object.getBoolean("status")){
+                        Global.successDilogue(UpdateProfile.this,"You have Successfully updated your profile");
+                    }else {
+                        Global.failedDilogue(UpdateProfile.this,object.getString("result"));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dialog.dismiss();
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> param = new HashMap<>();
+
+                param.put("company_id",Global.Company_Id);
+                param.put("image","data:image/jpeg;base64,"+encodeTobase64);
+
+                return param;
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(stringRequest);
     }
 
     /* renamed from: com.digital.gnsbook.Activity.UpdateProfile$3 */
@@ -175,7 +224,6 @@ public class UpdateProfile extends AppCompatActivity {
                 return;
         }
     }
-
     public void onRequestPermissionsResult(int i, @NonNull String[] strArr, @NonNull int[] iArr) {
         super.onRequestPermissionsResult(i, strArr, iArr);
         int i2 = 0;

@@ -36,9 +36,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.digital.gnsbook.Activity.Comment;
+import com.digital.gnsbook.Activity.Companypage;
+import com.digital.gnsbook.Activity.Compony_list;
 import com.digital.gnsbook.Activity.ProductDetail;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
+import com.digital.gnsbook.Config.DbHelper;
 import com.digital.gnsbook.Model.WallPostmodel;
 import com.digital.gnsbook.Payment.OverlapDecoration;
 import com.httpgnsbook.gnsbook.R;
@@ -94,12 +97,14 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
 
 
 
-    public long getItemId(int i) {
-        return (long) i;
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
-    public int getItemViewType(int i) {
-        return i;
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     public New_WallPostAdapt(ArrayList<WallPostmodel> arrayList, Context context) {
@@ -117,7 +122,9 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
 
         final Holder holder = (Holder) viewHolder;
         final WallPostmodel postmodel = postmodels.get(i);
-        final String [] imageArray  = postmodel.images.split(",");
+        String [] imageArray = null;
+        if (postmodel.images!=null){
+        imageArray  = postmodel.images.split(",");}
 
         holder.name.setText(postmodel.name);
         holder.date.setText(postmodel.created_at);
@@ -136,7 +143,21 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         holder.likename.setTag(postmodel);
         getText(postmodel, holder.likename);
 
+        holder.name.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, Companypage.class).putExtra(DbHelper.COLUMN_ID, postmodel.company_id));
+            }
+        });
+        holder.dp.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, Companypage.class).putExtra(DbHelper.COLUMN_ID, postmodel.company_id));
+            }
+        });
 
+
+        final String[] finalImageArray = imageArray;
         holder.Buynow.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,7 +168,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
                 context.startActivity(i);
                 }else {
                     Bundle bundle = new Bundle();
-                    bundle.putStringArray("images", imageArray);
+                    bundle.putStringArray("images", finalImageArray);
                     Intent intent = new Intent(context, ProductDetail.class);
                     intent.putExtra("product_name", postmodel.product_name);
                     intent.putExtra("product_cat", postmodel.product_cat);
@@ -165,9 +186,11 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         });
 
         if (postmodel.type.equals("1")){
-            holder.productLayout.setVisibility(View.VISIBLE);
+            holder. productLayout.setVisibility(View.VISIBLE);
+            holder.postLayout.setVisibility(View.GONE);
         }else {
             holder.postLayout.setVisibility(View.VISIBLE);
+            holder. productLayout.setVisibility(View.GONE);
         }
 
 
@@ -200,7 +223,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
 
         holder.slider.setTag(postmodel);
         holder.slider.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
-        holder.slider.setAdapter(new Slider(imageArray));
+            holder.slider.setAdapter(new Slider(imageArray));
 
         holder.Overlapview.setTag(postmodel);
         holder.Overlapview.setLayoutManager(new LinearLayoutManager(this.context, 0, false));
@@ -245,6 +268,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
                     getText(postmodel, holder.likename);
                 }
             }
+
 
             private void DoLike(final String id, final String type) {
 
@@ -354,8 +378,14 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
             }
         }
 
-        public long getItemId(int i) {
-            return (long) i;
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return position;
         }
 
         public OverLapAdapt(String[] strArr) {

@@ -10,8 +10,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="30dp"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -72,6 +73,7 @@
                         android:id="@+id/postTitle"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="text"
                         android:hint="Product Name" />
                 </android.support.design.widget.TextInputLayout>
 

@@ -2,7 +2,7 @@ package com.digital.gnsbook.Config;
 
 public class APIs {
 
-/*    public static String DevDomain  = "https://development.gnsbook.com/api/";
+    /*public static String DevDomain  = "https://development.gnsbook.com/api/";
     public static String Domain     = "https://development.gnsbook.com/";*/
     public static String DevDomain  = "https://www.gnsbook.com/api/";
     public static String Domain = "https://www.gnsbook.com/";
@@ -63,7 +63,7 @@ public class APIs {
     public static String Verificationstatus                     = DevDomain+"verify_data";
     public static String addmoney                               = DevDomain+"add_balane_online";
     public static String company_data_by_id                     = DevDomain+"company_data_by_id";
-    public static String company_timeline                       = DevDomain+"timeline_data_by_id";
+    public static String company_timeline                       = DevDomain+"newtimeline_data_by_company";
     public static String companydataAPI                         = DevDomain+"company_data";
     public static String contactUpadte                          = DevDomain+"profile_update_verify";
     public static String createpage                             = DevDomain+"add_company";
@@ -80,6 +80,8 @@ public class APIs {
     public static String update_mobile                          = DevDomain+"profile_update_verify_mobile";
     public static String uploadDP                               = DevDomain+"upload_profile_dpic";
     public static String uploadbanner                           = DevDomain+"upload_profile_bpic";
+
+    public static String uploadbannercomponyPage                = DevDomain+"upload_banner";
 
     // Like Unlike
 
@@ -120,4 +122,6 @@ public class APIs {
     public static String AddtoCart                              = DevDomain+"add_to_cart";
     public static String CartProduct                            = DevDomain+"display_cart";;
     public static String UpdateCart                             = DevDomain+"edit_cart";
+    public static String uploadDPPage                           = DevDomain+"upload_logo";
+    public static String company_product                        = DevDomain+"newtimeline_data_by_type";
 }

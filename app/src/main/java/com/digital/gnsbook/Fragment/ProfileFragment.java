@@ -89,25 +89,7 @@ public class ProfileFragment extends Fragment {
     ArrayList<WallPostmodel> postmodels = new ArrayList();
     RecyclerView wallPost;
 
-    /* renamed from: com.digital.gnsbook.Fragment.ProfileFragment$1 */
-    class C04541 implements OnClickListener {
-        C04541() {
-        }
 
-        public void onClick(View view) {
-           Statistics(view);
-        }
-    }
-
-    /* renamed from: com.digital.gnsbook.Fragment.ProfileFragment$2 */
-    class C04552 implements OnClickListener {
-        C04552() {
-        }
-
-        public void onClick(View view) {
-           startActivity(new Intent(ProfileFragment.this.getActivity(), SpillTree.class));
-        }
-    }
 
     /* renamed from: com.digital.gnsbook.Fragment.ProfileFragment$9 */
     class C04589 implements OnClickListener {
@@ -276,14 +258,10 @@ public class ProfileFragment extends Fragment {
                     ProfileFragment.this.startActivity(new Intent(ProfileFragment.this.getActivity(), ProfilePage.class));
                     break;
                 case R.id.upBp:
-                    StringBuilder stringBuilder = new StringBuilder();
-                    stringBuilder.append("IMG_");
-                    stringBuilder.append(System.currentTimeMillis());
-                    stringBuilder.append(".jpg");
-                    CroperinoConfig cp = new CroperinoConfig(stringBuilder.toString(), "/gnsbook/Pictures", "/sdcard/gnsbook/Pictures");
+                    CroperinoConfig cp = new CroperinoConfig("IMG_"+System.currentTimeMillis()+".jpg", "/gnsbook/Pictures", "/sdcard/gnsbook/Pictures");
                     CroperinoFileUtil.setupDirectory(ProfileFragment.this.getActivity());
-                    if (CroperinoFileUtil.verifyStoragePermissions(ProfileFragment.this.getActivity()) != null) {
-                        Croperino.prepareGallery(ProfileFragment.this.getActivity());
+                    if (CroperinoFileUtil.verifyStoragePermissions(getActivity()) != null) {
+                        Croperino.prepareGallery(getActivity());
                     }
                     return true;
                 case R.id.upCApingLimit:
@@ -313,8 +291,18 @@ public class ProfileFragment extends Fragment {
         dialog = new ViewDialog(getActivity());
         fab = (FloatingActionButton) layoutInflater.findViewById(R.id.fabSetting);
         fabcommunity = (FloatingActionButton) layoutInflater.findViewById(R.id.fabcommunity);
-        fab.setOnClickListener(new C04541());
-        fabcommunity.setOnClickListener(new C04552());
+        fab.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Statistics(v);
+            }
+        });
+        fabcommunity.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileFragment.this.getActivity(), SpillTree.class));
+            }
+        });
         wallPost.setAdapter(new WallPostAdapt(this.postmodels, getActivity()));
 
         getTimelinePost();
@@ -410,11 +398,11 @@ public class ProfileFragment extends Fragment {
                         popupMenu.setOnDismissListener(new OnDismissListener());
                         popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener());
                         popupMenu.inflate(R.menu.profile_menu);
-                       Menu str = popupMenu.getMenu();
+                        Menu str = popupMenu.getMenu();
                         if (Global.premium_status >= 1) {
                             str.findItem(R.id.upCApingLimit).setVisible(true);
                         }
-                        ProfileFragment.this.popupMenu.show();
+                        popupMenu.show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

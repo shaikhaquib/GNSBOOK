@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,6 +27,8 @@ import com.mikelau.croperino.Croperino;
 import com.mikelau.croperino.CroperinoConfig;
 import com.mikelau.croperino.CroperinoFileUtil;
 import com.squareup.picasso.Picasso;
+
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,8 +74,20 @@ public class New_Post extends AppCompatActivity {
         C08942() {
         }
 
-        public void onErrorResponse(VolleyError volleyError) {
+        public void onErrorResponse(VolleyError error) {
             New_Post.this.dialog.dismiss();
+
+                 String body;
+                //get status code here
+                final String statusCode = String.valueOf(error.networkResponse.statusCode);
+                //get response body and parse with appropriate encoding
+                try {
+                    body = new String(error.networkResponse.data,"UTF-8");
+                    Log .d("Multi",body);
+                } catch (UnsupportedEncodingException e) {
+                    // exception
+                }
+
         }
     }
 
