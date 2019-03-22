@@ -142,7 +142,7 @@ public class Fragement_companypost extends Fragment {
                 Map<String, String> hashMap = new HashMap();
                 hashMap.put("company_id",activity.getIntent().getStringExtra("id"));
                 hashMap.put("customer_id", Global.customerid);
-                hashMap.put("limit", "10");
+                hashMap.put("limit", "100");
                 hashMap.put("offset", String.valueOf(offset));
                 return hashMap;
             }
@@ -157,22 +157,26 @@ public class Fragement_companypost extends Fragment {
         public void onResponse(String s) {
             porogress.setVisibility(View.GONE);
             try {
-                JSONArray str = new JSONArray(s);
-                Object json = new JSONTokener(s).nextValue();
-                if (json instanceof JSONObject) {
-                    count = 0;
-                }else {
-                    for (int i = 0; i < str.length(); i++) {
-                        JSONObject jSONObject = str.getJSONObject(i);
 
-                        JSONObject jSONObject2 = jSONObject.getJSONArray("result").getJSONObject(0);
+
+                    //you have an array
+
+                JSONObject jsonObject = new JSONObject(s);
+                if (jsonObject.getBoolean("status")) {
+
+                    JSONArray str = jsonObject.getJSONArray("result");
+
+                    for (int i = 0; i < str.length(); i++) {
+                        JSONObject jSONObject2 = str.getJSONObject(i);
+
+
                         WallPostmodel wallPostmodel = new WallPostmodel();
 
                         ArrayList arrayList = new ArrayList();
                         ArrayList arrayList2 = new ArrayList();
                         ArrayList arrayList3 = new ArrayList();
 
-                        wallPostmodel.type = jSONObject.getString("type");
+                        wallPostmodel.type = jSONObject2.getString("type");
 
                         if (wallPostmodel.type.equals("1")) {
 
@@ -233,10 +237,12 @@ public class Fragement_companypost extends Fragment {
 
                         postmodels.add(wallPostmodel);
                         wallPost.getAdapter().notifyItemRangeInserted(wallPost.getAdapter().getItemCount(), postmodels.size() - 1);
-
                     }
-
+                }else {
+                    count = 0;
                 }
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

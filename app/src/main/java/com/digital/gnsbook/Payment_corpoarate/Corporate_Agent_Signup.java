@@ -128,7 +128,7 @@ public class Corporate_Agent_Signup extends AppCompatActivity implements OTPList
                 Uri.Builder builder = new Uri.Builder()
                         .appendQueryParameter("customer_id", params[0])
                         .appendQueryParameter("mobile", params[1])
-                        .appendQueryParameter("Constants.OTP", params[2])
+                        .appendQueryParameter("otp", params[2])
                         ;
                 String query = builder.build().getEncodedQuery();
 
@@ -230,10 +230,7 @@ public class Corporate_Agent_Signup extends AppCompatActivity implements OTPList
             }
 
             public void onPinEntered(CharSequence charSequence) {
-                InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Corporate_Agent_Signup.this.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                otp =  string.toString();
-                new ConfirmOTP().execute(Global.customerid, Global.mobile, Corporate_Agent_Signup.this.otp);
+
             }
         }
 
@@ -260,7 +257,15 @@ public class Corporate_Agent_Signup extends AppCompatActivity implements OTPList
                     Button button = (Button) mView.findViewById(R.id.vrotp);
                     TextView textView = (TextView) mView.findViewById(R.id.resendotp);
                     if (pinEntry != null) {
-                        pinEntry.setOnPinEnteredListener(new C09831(str));
+                        pinEntry.setOnPinEnteredListener(new OnPinEnteredListener() {
+                            @Override
+                            public void onPinEntered(CharSequence str) {
+                                InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Corporate_Agent_Signup.this.INPUT_METHOD_SERVICE);
+                                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                                otp =  str.toString();
+                                new ConfirmOTP().execute(Global.customerid, Global.mobile, Corporate_Agent_Signup.this.otp);
+                            }
+                        });
                     }
                     AlertDialog create = builder.create();
                     button.setOnClickListener(new C05432());

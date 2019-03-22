@@ -139,7 +139,7 @@ public class Product extends Fragment {
                 Map<String, String> hashMap = new HashMap();
                 hashMap.put("company_id",activity.getIntent().getStringExtra("id"));
                 hashMap.put("customer_id", Global.customerid);
-                hashMap.put("limit", "5");
+                hashMap.put("limit", "10");
                 hashMap.put("type", "2");
                 hashMap.put("offset", String.valueOf(offset));
                 return hashMap;
@@ -156,51 +156,55 @@ public class Product extends Fragment {
             porogress.setVisibility(View.GONE);
             try {
                 JSONObject obj = new JSONObject(s);
-                JSONArray str = obj.getJSONArray("result");
+
+                if (obj.getBoolean("status")) {
+                    JSONArray str = obj.getJSONArray("result");
 
 
-                for (int i = 0; i < str.length(); i++) {
-                    JSONObject jSONObject2 = str.getJSONObject(i);
-                    WallPostmodel wallPostmodel = new WallPostmodel();
+                    for (int i = 0; i < str.length(); i++) {
+                        JSONObject jSONObject2 = str.getJSONObject(i);
+                        WallPostmodel wallPostmodel = new WallPostmodel();
 
-                    ArrayList arrayList = new ArrayList();
-                    ArrayList arrayList2 = new ArrayList();
-                    ArrayList arrayList3 = new ArrayList();
-                    wallPostmodel.type = jSONObject2.getString("type");
+                        ArrayList arrayList = new ArrayList();
+                        ArrayList arrayList2 = new ArrayList();
+                        ArrayList arrayList3 = new ArrayList();
+                        wallPostmodel.type = jSONObject2.getString("type");
 
-                    wallPostmodel.logo = jSONObject2.getString("logo");
-                    wallPostmodel.id = jSONObject2.getString("id");
-                    wallPostmodel.name = jSONObject2.getString("name");
+                        wallPostmodel.logo = jSONObject2.getString("logo");
+                        wallPostmodel.id = jSONObject2.getString("id");
+                        wallPostmodel.name = jSONObject2.getString("name");
 
-                    wallPostmodel.company_id = jSONObject2.getString("company_id");
-                    wallPostmodel.product_name = jSONObject2.getString("product_name");
-                    wallPostmodel.product_cat = jSONObject2.getString("product_cat");
-                    wallPostmodel.product_price = jSONObject2.getString("product_price");
-                    wallPostmodel.product_desc = jSONObject2.getString("product_desc");
-                    wallPostmodel.product_link = jSONObject2.getString("product_link");
-                    wallPostmodel.sell_type = jSONObject2.getInt("sell_type");
-                    wallPostmodel.images = jSONObject2.getString("images");
-                    wallPostmodel.created_at = jSONObject2.getString("created_at");
-                    wallPostmodel.likecount = jSONObject2.getInt("like_count");
-                    wallPostmodel.commentCount = jSONObject2.getInt("comment_count");
+                        wallPostmodel.company_id = jSONObject2.getString("company_id");
+                        wallPostmodel.product_name = jSONObject2.getString("product_name");
+                        wallPostmodel.product_cat = jSONObject2.getString("product_cat");
+                        wallPostmodel.product_price = jSONObject2.getString("product_price");
+                        wallPostmodel.product_desc = jSONObject2.getString("product_desc");
+                        wallPostmodel.product_link = jSONObject2.getString("product_link");
+                        wallPostmodel.sell_type = jSONObject2.getInt("sell_type");
+                        wallPostmodel.images = jSONObject2.getString("images");
+                        wallPostmodel.created_at = jSONObject2.getString("created_at");
+                        wallPostmodel.likecount = jSONObject2.getInt("like_count");
+                        wallPostmodel.commentCount = jSONObject2.getInt("comment_count");
 
-                    wallPostmodel.selfLike = jSONObject2.getInt("Self_Likes");
+                        wallPostmodel.selfLike = jSONObject2.getInt("Self_Likes");
 
-                    for (int i2 = 0; i2 < jSONObject2.getJSONArray("Likes").length(); i2++) {
-                        JSONObject jSONObject3 = jSONObject2.getJSONArray("Likes").getJSONObject(i2);
-                        arrayList.add(jSONObject3.getString("d_pic"));
-                        arrayList2.add(jSONObject3.getString("name"));
-                        arrayList3.add(jSONObject3.getString("customer_id"));
+                        for (int i2 = 0; i2 < jSONObject2.getJSONArray("Likes").length(); i2++) {
+                            JSONObject jSONObject3 = jSONObject2.getJSONArray("Likes").getJSONObject(i2);
+                            arrayList.add(jSONObject3.getString("d_pic"));
+                            arrayList2.add(jSONObject3.getString("name"));
+                            arrayList3.add(jSONObject3.getString("customer_id"));
+                        }
+                        Object[] toArray = arrayList.toArray();
+                        Object[] toArray2 = arrayList2.toArray();
+                        arrayList3.toArray();
+                        wallPostmodel.Like_imges = (String[]) Arrays.copyOf(toArray, toArray.length, String[].class);
+                        wallPostmodel.Like_name = (String[]) Arrays.copyOf(toArray2, toArray2.length, String[].class);
+                        postmodels.add(wallPostmodel);
+                        wallPost.getAdapter().notifyDataSetChanged();
                     }
-                    Object[] toArray = arrayList.toArray();
-                    Object[] toArray2 = arrayList2.toArray();
-                    arrayList3.toArray();
-                    wallPostmodel.Like_imges = (String[]) Arrays.copyOf(toArray, toArray.length, String[].class);
-                    wallPostmodel.Like_name = (String[]) Arrays.copyOf(toArray2, toArray2.length, String[].class);
-                    postmodels.add(wallPostmodel);
-                    wallPost.getAdapter().notifyItemRangeInserted(wallPost.getAdapter().getItemCount(), postmodels.size() - 1);
+                }else {
+                    count = 0;
                 }
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }

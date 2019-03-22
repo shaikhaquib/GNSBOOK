@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.widget.ButtonBarLayout;
+import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -40,7 +43,7 @@ import org.json.JSONObject;
 
 public class Fragement_Createpage extends Fragment {
     EditText address;
-    Button btnCreate;
+    CardView btnCreate;
     EditText city;
     EditText company_type;
     EditText description;
@@ -71,11 +74,14 @@ public class Fragement_Createpage extends Fragment {
     String sname;
     String sstate;
     EditText state;
-    String sweb,type;
+    String sweb, type;
     String sworking_hours;
     EditText web;
     EditText working_hours;
     List<String> dataset = new LinkedList<>(Arrays.asList("other", "ecommerce"));
+
+    CardView prAddress, prContact, prAbout, NxContact, NxAbout, NxName;
+    LinearLayout liaddress ,licontact ,liabout,liname;
 
     /* renamed from: com.digital.gnsbook.Fragement.Fragement_Createpage$1 */
     class C04401 implements OnClickListener {
@@ -118,70 +124,35 @@ public class Fragement_Createpage extends Fragment {
     }
 
     public View onCreateView(LayoutInflater layoutInflater, @Nullable ViewGroup viewGroup, Bundle bundle) {
-            View view = layoutInflater.inflate(R.layout.fragement_createpage, viewGroup, false);
+        View view = layoutInflater.inflate(R.layout.fragement_createpage, viewGroup, false);
 
-            dialog = new ViewDialog(getActivity());
-            initilize_element(view);
+        dialog = new ViewDialog(getActivity());
+        initilize_element(view);
 
-            btnCreate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Authenticat();
-                }
-            });
+        btnCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Authenticat();
+            }
+        });
 
-            return view;
+        return view;
 
     }
 
     private void Authenticat() {
         View view;
-        this.sname = this.name.getText().toString();
-        this.scompany_type = this.company_type.getText().toString();
-        this.sdescription = this.description.getText().toString();
-        this.sintroduction = this.introduction.getText().toString();
-        this.saddress = this.address.getText().toString();
-        this.sstate = this.state.getText().toString();
-        this.scity = this.city.getText().toString();
-        this.smobile = this.mobile.getText().toString();
-        this.semail = this.email.getText().toString();
-        this.sweb = this.web.getText().toString();
-        this.sworking_hours = this.working_hours.getText().toString();
+        Object obj = 1;
+
+        saddress        = address.getText().toString();
+        sstate          = state.getText().toString();
+        scity           = city.getText().toString();
+
+        sworking_hours  = working_hours.getText().toString();
         type = dataset.get(typeSpinner.getSelectedIndex());
 
 
-
-
-        Matcher matcher = Pattern.compile("\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*").matcher(this.semail);
-        Object obj = 1;
-        if (TextUtils.isEmpty(this.sname)) {
-            this.lname.setError(getString(R.string.error_field_required));
-            view = this.name;
-        } else if (TextUtils.isEmpty(this.sintroduction)) {
-            this.lintroduction.setError(getString(R.string.error_field_required));
-            view = this.introduction;
-        } else if (TextUtils.isEmpty(this.sdescription)) {
-            this.ldescription.setError(getString(R.string.error_field_required));
-            view = this.description;
-        } else if (TextUtils.isEmpty(this.scompany_type)) {
-            this.lcompany_type.setError(getString(R.string.error_field_required));
-            view = this.company_type;
-        } else if (TextUtils.isEmpty(this.sweb)) {
-            this.lweb.setError(getString(R.string.error_field_required));
-            view = this.web;
-        } else if (TextUtils.isEmpty(this.semail)) {
-            this.lemail.setError(getString(R.string.error_field_required));
-            view = this.email;
-        } else if (!matcher.matches() && !this.semail.isEmpty()) {
-            this.lemail.setError("Enter Valid Email");
-            view = this.email;
-        } else if (TextUtils.isEmpty(this.smobile)) {
-            this.lmobile.setError(getString(R.string.error_field_required));
-            view = this.mobile;
-        } else if (this.smobile.length() < 10) {
-            this.lmobile.setError("Enter valid mobile no");
-            view = this.mobile;
-        } else if (TextUtils.isEmpty(this.scity)) {
+         if (TextUtils.isEmpty(this.scity)) {
             this.lcity.setError(getString(R.string.error_field_required));
             view = this.city;
         } else if (TextUtils.isEmpty(this.sstate)) {
@@ -221,44 +192,174 @@ public class Fragement_Createpage extends Fragment {
                 hashMap.put("web", Fragement_Createpage.this.sweb);
                 hashMap.put("working_hours", Fragement_Createpage.this.sworking_hours);
                 hashMap.put("admin_id", Global.customerid);
-                hashMap.put("company_cat",type);
+                hashMap.put("company_cat", type);
                 return hashMap;
             }
         });
     }
 
     private void initilize_element(View view) {
-        this.btnCreate = (Button) view.findViewById(R.id.ccreatePage);
-        this.name = (EditText) view.findViewById(R.id.cname);
-        this.company_type = (EditText) view.findViewById(R.id.ctype);
-        this.description = (EditText) view.findViewById(R.id.cabt);
-        this.introduction = (EditText) view.findViewById(R.id.cintro);
-        this.address = (EditText) view.findViewById(R.id.caddress);
-        this.state = (EditText) view.findViewById(R.id.cstate);
-        this.city = (EditText) view.findViewById(R.id.ccity);
-        this.mobile = (EditText) view.findViewById(R.id.ccontact);
-        this.email = (EditText) view.findViewById(R.id.cemail);
-        this.web = (EditText) view.findViewById(R.id.cwebsite);
-        this.working_hours = (EditText) view.findViewById(R.id.cworkinghr);
-        this.lname = (TextInputLayout) view.findViewById(R.id.lcname);
-        this.lcompany_type = (TextInputLayout) view.findViewById(R.id.lctype);
-        this.ldescription = (TextInputLayout) view.findViewById(R.id.lcabt);
-        this.lintroduction = (TextInputLayout) view.findViewById(R.id.lcintro);
-        this.laddress = (TextInputLayout) view.findViewById(R.id.lcaddress);
-        this.lstate = (TextInputLayout) view.findViewById(R.id.lcstate);
-        this.lcity = (TextInputLayout) view.findViewById(R.id.lccity);
-        this.lmobile = (TextInputLayout) view.findViewById(R.id.lccontact);
-        this.lemail = (TextInputLayout) view.findViewById(R.id.lcemail);
-        this.lweb = (TextInputLayout) view.findViewById(R.id.lcwebsite);
-        this.lworking_hours = (TextInputLayout) view.findViewById(R.id.lcworkinghr);
+        liname = (LinearLayout) view.findViewById(R.id.liName);
+        liabout = (LinearLayout) view.findViewById(R.id.liabout);
+        licontact = (LinearLayout) view.findViewById(R.id.licontact);
+        liaddress = (LinearLayout) view.findViewById(R.id.liaddress);
+        prAddress =  view.findViewById(R.id.prAddress);
+        prAbout   =  view.findViewById(R.id.prAbout);
+        prContact =  view.findViewById(R.id.prContact);
+        NxAbout   =  view.findViewById(R.id.NxAbout);
+        NxContact =  view.findViewById(R.id.NxContact);
+        NxName    =  view.findViewById(R.id.Nxname);
+        btnCreate = view.findViewById(R.id.ccreatePage);
+        name = (EditText) view.findViewById(R.id.cname);
+        company_type = (EditText) view.findViewById(R.id.ctype);
+        description = (EditText) view.findViewById(R.id.cabt);
+        introduction = (EditText) view.findViewById(R.id.cintro);
+        address = (EditText) view.findViewById(R.id.caddress);
+        state = (EditText) view.findViewById(R.id.cstate);
+        city = (EditText) view.findViewById(R.id.ccity);
+        mobile = (EditText) view.findViewById(R.id.ccontact);
+        email = (EditText) view.findViewById(R.id.cemail);
+        web = (EditText) view.findViewById(R.id.cwebsite);
+        working_hours = (EditText) view.findViewById(R.id.cworkinghr);
+        lname = (TextInputLayout) view.findViewById(R.id.lcname);
+        lcompany_type = (TextInputLayout) view.findViewById(R.id.lctype);
+        ldescription = (TextInputLayout) view.findViewById(R.id.lcabt);
+        lintroduction = (TextInputLayout) view.findViewById(R.id.lcintro);
+        laddress = (TextInputLayout) view.findViewById(R.id.lcaddress);
+        lstate = (TextInputLayout) view.findViewById(R.id.lcstate);
+        lcity = (TextInputLayout) view.findViewById(R.id.lccity);
+        lmobile = (TextInputLayout) view.findViewById(R.id.lccontact);
+        lemail = (TextInputLayout) view.findViewById(R.id.lcemail);
+        lweb = (TextInputLayout) view.findViewById(R.id.lcwebsite);
+        lworking_hours = (TextInputLayout) view.findViewById(R.id.lcworkinghr);
 
-        typeSpinner =view.findViewById(R.id.ctype_spinner);
+        typeSpinner = view.findViewById(R.id.ctype_spinner);
         typeSpinner.attachDataSource(dataset);
 
         typeSpinner.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getActivity(), dataset.get(position), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+        prAbout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                liname.setVisibility(View.VISIBLE);
+                liabout.setVisibility(View.GONE);
+            }
+        });
+
+        prContact.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                liabout.setVisibility(View.VISIBLE);
+                licontact.setVisibility(View.GONE);
+            }
+        });
+
+        prAddress.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                licontact.setVisibility(View.VISIBLE);
+                liaddress.setVisibility(View.GONE);
+            }
+        });
+
+        NxName.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view;
+                Object obj = 1;
+                sintroduction   = introduction.getText().toString();
+                sname           = name.getText().toString();
+                if (TextUtils.isEmpty(sname)) {
+                    lname.setError(getString(R.string.error_field_required));
+                    view = name;
+                } else if (TextUtils.isEmpty(sintroduction)) {
+                    lintroduction.setError(getString(R.string.error_field_required));
+                    view = introduction;
+                }else {
+                    obj = null;
+                    view = null;
+                }
+                if (obj != null) {
+                    view.requestFocus();
+                } else {
+                    liname.setVisibility(View.GONE);
+                    liabout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        NxAbout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View view;
+                Object obj = 1;
+                scompany_type   = company_type.getText().toString();
+                sdescription    = description.getText().toString();
+
+                if (TextUtils.isEmpty(sdescription)) {
+                   ldescription.setError(getString(R.string.error_field_required));
+                    view =description;
+                } else if (TextUtils.isEmpty(scompany_type)) {
+                    lcompany_type.setError(getString(R.string.error_field_required));
+                    view = company_type;
+                } else{
+                    obj = null;
+                    view = null;
+                }
+                if (obj != null) {
+                    view.requestFocus();
+                } else {
+                    liabout.setVisibility(View.GONE);
+                    licontact.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        NxContact.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                View view;
+                Object obj = 1;
+
+                smobile = mobile.getText().toString();
+                semail = email.getText().toString();
+                sweb = web.getText().toString();
+
+                Matcher matcher = Pattern.compile("\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*").matcher(semail);
+
+                if (TextUtils.isEmpty(sweb)) {
+                    lweb.setError(getString(R.string.error_field_required));
+                    view = web;
+                } else if (TextUtils.isEmpty(semail)) {
+                    lemail.setError(getString(R.string.error_field_required));
+                    view = email;
+                } else if (!matcher.matches() && !semail.isEmpty()) {
+                    lemail.setError("Enter Valid Email");
+                    view = email;
+                } else if (TextUtils.isEmpty(smobile)) {
+                    lmobile.setError(getString(R.string.error_field_required));
+                    view = mobile;
+                } else if (smobile.length() < 10) {
+                    lmobile.setError("Enter valid mobile no");
+                    view = mobile;
+                } else {
+                    obj = null;
+                    view = null;
+                }
+                if (obj != null) {
+                    view.requestFocus();
+                } else {
+                    licontact.setVisibility(View.GONE);
+                   liaddress.setVisibility(View.VISIBLE);
+                 }
             }
         });
     }

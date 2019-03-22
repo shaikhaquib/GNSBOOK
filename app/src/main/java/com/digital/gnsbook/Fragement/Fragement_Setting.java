@@ -319,10 +319,10 @@ public class Fragement_Setting extends Fragment {
                 JSONObject jSONObject = new JSONObject(str);
                 if (jSONObject.getBoolean("status")) {
                     Fragement_Setting.this.db.addUser(Global.customerid, Global.refferalid, Global.Email, Fragement_Setting.this.mobile.getText().toString(), Global.name, "", Global.A_status, Global.agentid);
-                    Global.successDilogue(Fragement_Setting.this.getActivity(), jSONObject.getString("result"));
+                    Global.successDilogue(getActivity(), jSONObject.getString("result"));
                     return;
                 }
-                Global.failedDilogue(Fragement_Setting.this.getActivity(), jSONObject.getString("result"));
+                Global.failedDilogue(getActivity(), jSONObject.getString("result"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

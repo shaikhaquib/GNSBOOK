@@ -105,6 +105,7 @@ public class Compony_list extends AppCompatActivity {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jSONObject2 = jsonArray.getJSONObject(i);
                         Compony_data compony_data = new Compony_data();
+
                         compony_data.working_hours = jSONObject2.getString("working_hours");
                         compony_data.logo = jSONObject2.getString("logo");
                         compony_data.company_id = jSONObject2.getString("company_id");

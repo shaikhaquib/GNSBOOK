@@ -58,7 +58,7 @@ public class APIs {
     public static String Statistics                             = DevDomain+"statistics_data";
     public static String UpadteCapping                          = DevDomain+"claimcapping";
     public static String UpdateProfile                          = DevDomain+"profile_update";
-    public static String UploadPost                             = DevDomain+"add_timeline_by_companies";
+    public static String  UploadPost                             = DevDomain+"add_timeline_by_companies";
     public static String UserPoolDATA                           = DevDomain+"pool_participants_by_customer_id";
     public static String Verificationstatus                     = DevDomain+"verify_data";
     public static String addmoney                               = DevDomain+"add_balane_online";
