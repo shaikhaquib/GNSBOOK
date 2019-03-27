@@ -1,6 +1,14 @@
 package com.digital.gnsbook.Activity;
 
 import android.content.Intent;
+import android.app.Activity;
+import instamojo.library.InstapayListener;
+import instamojo.library.InstamojoPay;
+import instamojo.library.Config;
+import org.json.JSONObject;
+import org.json.JSONException;
+import android.content.IntentFilter;
+import android.widget.Toast;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -83,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView((int) R.layout.activity_login);
+        // Call the function callInstamojo to start payment here
         this.session = new SessionManager(this);
         if (this.session.isLoggedIn()) {
             startActivity(new Intent(this, MainActivity.class));

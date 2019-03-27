@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
@@ -85,7 +86,7 @@ public class Cart extends AppCompatActivity {
             }
 
             @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
                 final Holder myHolder= (Holder) viewHolder;
                 final CartItem model = prodlist.get(i);
                 String[] images = model.getImages().split(",");
@@ -103,7 +104,18 @@ public class Cart extends AppCompatActivity {
                 model.prdminteger = model.getQuantity();
 
                 myHolder.minus.setTag(model);
+                myHolder.removeCart.setTag(model);
                 myHolder.plus.setTag(model);
+
+                myHolder.removeCart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        prodlist.remove(i);
+                        notifyItemRemoved(i);
+                        notifyItemRangeChanged(i,prodlist.size());
+                        remove(model.getProductId(),model.getId());
+                    }
+                });
 
                 myHolder.plus.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -182,7 +194,7 @@ public class Cart extends AppCompatActivity {
             class Holder extends RecyclerView.ViewHolder {
                 ImageView img,plus,minus;
                 TextView prdname , prddesc, prdwtunit , prdprice,prodqty;
-                CardView addcart;
+                CardView removeCart;
                 public Holder(@NonNull View itemView) {
                     super(itemView);
 
@@ -195,13 +207,50 @@ public class Cart extends AppCompatActivity {
                     prdprice = itemView.findViewById(R.id.price);
                     plus = itemView.findViewById(R.id.plus);
                     minus = itemView.findViewById(R.id.minus);
-                    addcart = itemView.findViewById(R.id.addcart);
+                    removeCart = itemView.findViewById(R.id.removeCart);
 
 
                 }
             } }
         );
         getData();
+    }
+
+    private void remove(final int productId, final int id) {
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, APIs.RemoveCart, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(Cart.this, response, Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error == null || error.networkResponse == null) {
+                    return;
+                }
+
+                String body;
+                //get status code here
+                final String statusCode = String.valueOf(error.networkResponse.statusCode);
+                //get response body and parse with appropriate encoding
+                try {
+                    body = new String(error.networkResponse.data,"UTF-8");
+                    Log.d("UpdateCart",body);
+                } catch (UnsupportedEncodingException e) {
+                    // exception
+                }
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map <String,String> param = new HashMap<String,String>();
+                param.put("customer_id", Global.customerid);
+                param.put("product_id", String.valueOf(productId));
+                param.put("id", String.valueOf(id));
+                return param;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(stringRequest);
     }
 
     private void UpdateCart(final String amount,final String quantity,final String id) {

@@ -36,8 +36,9 @@
                 <ImageView
                     android:id="@+id/company_banner"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true" />
+                    android:layout_height="200dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"/>
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -109,7 +110,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
-                            android:text="4.5"
+                            android:text="7.5"
                             android:textColor="@color/nav_textcolor"
                             android:textSize="@dimen/margin_16" />
 
@@ -119,7 +120,7 @@
                             android:layout_height="50dp"
                             app:cpb_background_progressbar_color="@color/nav_textcolor"
                             app:cpb_background_progressbar_width="1dp"
-                            app:cpb_progress="50"
+                            app:cpb_progress="70"
                             app:cpb_progressbar_color="@color/orange"
                             app:cpb_progressbar_width="3dp" />
                     </RelativeLayout>

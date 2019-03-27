@@ -82,9 +82,6 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
-        <meta-data
-            android:name="instamojo.orderauth.url"
-            android:value="http://api2.atscart.com/access_token.php" />
 
         <activity
             android:name="com.digital.gnsbook.Payment.Agent_Signup"
@@ -178,6 +175,23 @@
             android:name="com.digital.gnsbook.Activity.Forgotpass"
             android:label="FORGOT PASSWORD"
             android:parentActivityName="com.digital.gnsbook.Activity.LoginActivity" />
+    <meta-data android:name="instamojo.orderauth.url"
+                   android:value="http://development.gnsbook.com/access_token.php"
+            />
     </application>
+    <uses-permission-sdk-23 android:name="android.permission.RECEIVE_SMS"/>
+ 
+    <uses-permission-sdk-23 android:name="android.permission.READ_SMS"/>
+ 
+    <uses-permission-sdk-23 android:name="android.permission.READ_PHONE_STATE"/>
+ 
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+ 
+    <uses-permission android:name="android.permission.READ_SMS"/>
+ 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+ 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+ 
 
 </manifest>

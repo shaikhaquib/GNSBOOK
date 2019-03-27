@@ -1,6 +1,7 @@
 package com.digital.gnsbook.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -137,7 +138,9 @@ public class ProductDetail extends AppCompatActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getBoolean("status")){
-                        Global.successDilogue(ProductDetail.this,jsonObject.getString("result"));
+                       // Global.successDilogue(ProductDetail.this,jsonObject.getString("result"));
+                        startActivity(new Intent(getApplicationContext(),Cart.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                        finish();
                     }else {
                         Global.failedDilogue(ProductDetail.this,jsonObject.getString("result"));
                     }

@@ -130,7 +130,7 @@
             android:id="@+id/prdPostView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             android:orientation="vertical">
 
             <ImageView
@@ -149,14 +149,19 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/post2"
                 android:layout_marginTop="@dimen/margin_16"
-                android:layout_marginBottom="@dimen/margin_16"
                 />
+            <com.chahinem.pageindicator.PageIndicator
+                android:id="@+id/pageIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/margin_16"
 
+                />
             <TextView
                 android:id="@+id/prdName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SAMSUNG LEVEL u Bluetooth"
                 android:textSize="20sp"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:layout_marginRight="@dimen/margin_10"
@@ -166,7 +171,6 @@
                 android:id="@+id/prdDesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SAMSUNG LEVEL u Bluetooth "
                 android:textColor="#9E000000"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:layout_marginRight="@dimen/margin_10"

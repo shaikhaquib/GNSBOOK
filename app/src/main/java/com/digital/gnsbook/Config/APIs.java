@@ -122,6 +122,7 @@ public class APIs {
     public static String AddtoCart                              = DevDomain+"add_to_cart";
     public static String CartProduct                            = DevDomain+"display_cart";;
     public static String UpdateCart                             = DevDomain+"edit_cart";
+    public static String RemoveCart                             = DevDomain+"remove_from_cart";
     public static String uploadDPPage                           = DevDomain+"upload_logo";
     public static String company_product                        = DevDomain+"newtimeline_data_by_type";
 }

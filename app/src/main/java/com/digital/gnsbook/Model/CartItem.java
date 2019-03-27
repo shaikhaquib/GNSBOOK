@@ -29,6 +29,9 @@ public class CartItem {
 	@SerializedName("product_price")
 	private int productPrice;
 
+	@SerializedName("id")
+	private int id;
+
 	@SerializedName("customer_id")
 	private String customerId;
 
@@ -91,6 +94,14 @@ public class CartItem {
 		return productPrice;
 	}
 
+	public void setId(int id){
+		this.id = id;
+	}
+
+	public int getId(){
+		return id;
+	}
+
 	public void setCustomerId(String customerId){
 		this.customerId = customerId;
 	}
@@ -110,7 +121,7 @@ public class CartItem {
 	@Override
 	public String toString(){
 		return
-				"FriendItem{" +
+				"ResultItem{" +
 						"product_desc = '" + productDesc + '\'' +
 						",images = '" + images + '\'' +
 						",amount = '" + amount + '\'' +
@@ -118,6 +129,7 @@ public class CartItem {
 						",product_id = '" + productId + '\'' +
 						",created_at = '" + createdAt + '\'' +
 						",product_price = '" + productPrice + '\'' +
+						",id = '" + id + '\'' +
 						",customer_id = '" + customerId + '\'' +
 						",product_name = '" + productName + '\'' +
 						"}";

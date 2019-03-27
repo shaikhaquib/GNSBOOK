@@ -35,6 +35,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
+import com.chahinem.pageindicator.PageIndicator;
 import com.digital.gnsbook.Activity.Comment;
 import com.digital.gnsbook.Activity.Companypage;
 import com.digital.gnsbook.Activity.Compony_list;
@@ -68,6 +69,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         TextView title;
         CardView Buynow;
         LinearLayout productLayout , postLayout;
+        PageIndicator pageIndicator;
 
         public Holder(@NonNull View view) {
             super(view);
@@ -92,6 +94,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
             prdName = view.findViewById(R.id.prdName);
             prdPrize = view.findViewById(R.id.prdPrice);
             Buynow = view.findViewById(R.id.prdBuy);
+            pageIndicator = view.findViewById(R.id.pageIndicator);
         }
     }
 
@@ -136,6 +139,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         holder.title.setText(postmodel.title);
         holder.prdPrize.setText("₹"+postmodel.product_price);
         holder.Buynow.setTag(postmodel);
+        holder.pageIndicator.setTag(postmodel);
         holder.prdName.setText(postmodel.product_name);
         holder.prdDesc.setText(postmodel.product_desc);
         holder.likeCount.setText(String.valueOf(postmodel.likecount));
@@ -222,9 +226,13 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         });
 
         holder.slider.setTag(postmodel);
+
+
         holder.slider.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
             holder.slider.setAdapter(new Slider(imageArray));
 
+            if (imageArray.length > 1)
+              holder.pageIndicator.attachTo(holder.slider);
         holder.Overlapview.setTag(postmodel);
         holder.Overlapview.setLayoutManager(new LinearLayoutManager(this.context, 0, false));
         holder.Overlapview.addItemDecoration(new OverlapDecoration());
