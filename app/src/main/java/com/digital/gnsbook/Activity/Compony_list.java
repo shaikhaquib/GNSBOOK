@@ -58,6 +58,7 @@ public class Compony_list extends AppCompatActivity {
                 this.name = (TextView) view.findViewById(R.id.cName);
                 this.Follow = (RelativeLayout) view.findViewById(R.id.cFollow);
                 this.desc = (TextView) view.findViewById(R.id.cDesc);
+
             }
         }
 

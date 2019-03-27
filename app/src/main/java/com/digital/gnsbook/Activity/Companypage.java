@@ -166,11 +166,9 @@ public class Companypage extends AppCompatActivity {
                 Global.Company_Cate = dashResp.getResult().get(0).getCompanyCat();
 
                 if (Global.Company_Admin_Id == Integer.parseInt(Global.customerid)){
-                    fabSetting.setVisibility(View.VISIBLE);
-                    fabSubsCribe.setVisibility(View.GONE);
+                    fabSetting.setEnabled(true);
                 }else {
-                    fabSetting.setVisibility(View.GONE);
-                    fabSubsCribe.setVisibility(View.VISIBLE);
+                    fabSetting.setEnabled(false);
                 }
 
                 prepareDataResource();

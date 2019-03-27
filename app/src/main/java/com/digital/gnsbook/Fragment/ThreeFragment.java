@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.android.volley.AuthFailureError;
@@ -57,15 +58,20 @@ public class ThreeFragment extends Fragment {
             TextView desc,batchclose;
             ImageView dp;
             TextView name;
+            LinearLayout view1;
 
             public Holder(@NonNull View view) {
                 super(view);
-                this.dp = (ImageView) view.findViewById(R.id.cdp);
-                this.name = (TextView) view.findViewById(R.id.cName);
-                this.Follow = (RelativeLayout) view.findViewById(R.id.cFollow);
-                this.desc = (TextView) view.findViewById(R.id.cDesc);
-                this.batchclose = (TextView) view.findViewById(R.id.batchclose);
+                dp = (ImageView) view.findViewById(R.id.cdp);
+                name = (TextView) view.findViewById(R.id.cName);
+                Follow = (RelativeLayout) view.findViewById(R.id.cFollow);
+                desc = (TextView) view.findViewById(R.id.cDesc);
+                batchclose = (TextView) view.findViewById(R.id.batchclose);
+                view1 =  view.findViewById(R.id.view);
+                view1.setVisibility(View.VISIBLE);
+
                 batchclose.setVisibility(View.VISIBLE);
+
             }
         }
 
@@ -151,7 +157,8 @@ public class ThreeFragment extends Fragment {
         dialog = new ViewDialog(getActivity());
         recyclerView = view.findViewById(R.id.rvtoplist);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        recyclerView.addItemDecoration(new RecyclerViewItemDecorator(10));recyclerView = view.findViewById(R.id.rvtoplist);
+        recyclerView.addItemDecoration(new RecyclerViewItemDecorator(10));
+        recyclerView = view.findViewById(R.id.rvtoplist);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerView.addItemDecoration(new RecyclerViewItemDecorator(10));
         recyclerView.setAdapter(new C09291());
@@ -183,6 +190,7 @@ public class ThreeFragment extends Fragment {
             class Holder extends ViewHolder {
                 RelativeLayout Follow;
                 TextView desc,batchclose;
+                LinearLayout view1;
                 ImageView dp;
                 TextView name;
 
@@ -193,6 +201,12 @@ public class ThreeFragment extends Fragment {
                     this.Follow = (RelativeLayout) view.findViewById(R.id.cFollow);
                     this.desc = (TextView) view.findViewById(R.id.cDesc);
                     this.batchclose = (TextView) view.findViewById(R.id.batchclose);
+                    this.view1 = (LinearLayout) view.findViewById(R.id.view);
+
+                    batchclose.setText("Friend");
+
+                    view1.setVisibility(View.VISIBLE);
+                    batchclose.setVisibility(View.VISIBLE);
 
                 }
             }

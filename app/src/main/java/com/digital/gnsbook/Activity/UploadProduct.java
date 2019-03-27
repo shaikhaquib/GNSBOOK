@@ -65,7 +65,7 @@ import java.util.Map;
 public class UploadProduct extends AppCompatActivity {
     EditText prdName,prdCat,prdLink,Descreption,prdPrize;
     TextInputLayout textLink;
-    String ImgBase64 = "",strDescription, strPrdName,strCat,strLink,strPrize,productType = "1";
+    String ImgBase64 = "",strDescription, strPrdName,strCat,strLink,strPrize,productType = "0";
     RadioGroup type ;
     RadioButton R1 , R2;
     ImageView Logo,PImage;
@@ -137,9 +137,9 @@ public class UploadProduct extends AppCompatActivity {
             strCat   = prdCat.getText().toString();
 
             if (productType.equals("1"))
-                strLink  = prdLink.getText().toString();
+            {  strLink  = prdLink.getText().toString();}
             else
-                strLink = "-";
+            {  strLink = "-"; }
 
             strPrize = prdPrize.getText().toString();
 
@@ -150,15 +150,15 @@ public class UploadProduct extends AppCompatActivity {
                 prdName.setError(getString(R.string.error_field_required));
                 focusView = prdName;
                 cancel = true;
-            } if (TextUtils.isEmpty(strCat)){
+            }else if (TextUtils.isEmpty(strCat)){
                 prdCat.setError(getString(R.string.error_field_required));
                 focusView = prdCat;
                 cancel = true;
-            } if (TextUtils.isEmpty(strLink)){
+            }else if (TextUtils.isEmpty(strLink)){
                 prdLink.setError(getString(R.string.error_field_required));
                 focusView = prdLink;
                 cancel = true;
-            } if (TextUtils.isEmpty(strDescription)){
+            }else if (TextUtils.isEmpty(strDescription)){
                 Descreption.setError(getString(R.string.error_field_required));
                 focusView = Descreption;
                 cancel = true;
@@ -170,7 +170,7 @@ public class UploadProduct extends AppCompatActivity {
                 focusView.requestFocus();
             }
             else {
-                uploadFile(strPrdName,strDescription,strCat,strLink,strPrize);
+                 uploadFile(strPrdName,strDescription,strCat,strLink,strPrize);
             }
         }
     }
