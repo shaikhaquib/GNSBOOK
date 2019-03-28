@@ -1,5 +1,6 @@
 package com.digital.gnsbook.Activity;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +29,6 @@ import com.digital.gnsbook.Model.CartItem;
 import com.digital.gnsbook.Model.CartResponse;
 import com.digital.gnsbook.ViewDialog;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.httpgnsbook.gnsbook.R;
 
 import org.json.JSONException;
@@ -43,8 +44,10 @@ import java.util.TimerTask;
 
 public class Cart extends AppCompatActivity {
     RecyclerView recyclerView;
+    TextView total ;
     List<CartItem> prodlist = new ArrayList<>();
-
+    int TotalAmount;
+    LinearLayout Checkoutbtn;
     int offset = 0;
     ViewDialog progressDialog;
     //private EndlessRecyclerOnScrollListener mScrollListener = null;
@@ -60,6 +63,8 @@ public class Cart extends AppCompatActivity {
         progressDialog=new ViewDialog(Cart.this);
         getSupportActionBar().hide();
         recyclerView = findViewById(R.id.rv_product);
+        Checkoutbtn = findViewById(R.id.Checkout);
+        total = findViewById(R.id.Total);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
@@ -130,6 +135,10 @@ public class Cart extends AppCompatActivity {
                             // calculatedprice.setText(s);
                             model.prdamount = cal2;
                             myHolder.prdprice.setText("₹ " + s);
+
+                            TotalAmount = TotalAmount + model.getAmount();
+                            total.setText("Total :      ₹ "+String.valueOf(TotalAmount));
+
                             //  wtut.setText(cal3 +" "+ unit);
                             //pricesenttobuynow = s.trim();
 
@@ -143,7 +152,7 @@ public class Cart extends AppCompatActivity {
                                         @Override
                                         public void run() {
 
-                                            UpdateCart(s,String.valueOf(model.prdminteger),String.valueOf(model.getProductId()));
+                                            UpdateCart(s,String.valueOf(model.prdminteger),String.valueOf(model.getProductId()),String.valueOf(model.getId()));
 
                                         }
                                     });
@@ -172,12 +181,41 @@ public class Cart extends AppCompatActivity {
                             int amt = model.basicamt;
                             int cal2 = amt * model.prdminteger;
                             //  int cal3 = wt * minteger;
-                            String s = String.valueOf(cal2);
+                            final String s = String.valueOf(cal2);
                             // calculatedprice.setText(s);
                             model.prdamount = cal2;
                             myHolder.prdprice.setText("₹ "+s);
                             //  wtut.setText(cal3 +" "+ unit);
                             //pricesenttobuynow = s.trim();
+                            TotalAmount = TotalAmount - model.getAmount();
+                            total.setText("Total :      ₹ "+String.valueOf(TotalAmount));
+                            timer = new Timer();
+                            timer.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    // do your actual work here
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+
+                                            UpdateCart(s,String.valueOf(model.prdminteger),String.valueOf(model.getProductId()),String.valueOf(model.getId()));
+
+                                        }
+                                    });
+
+                                    try {
+                                        Thread.sleep(2000);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+
+
+                                    // hide keyboard as well?
+                                    // InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    // in.hideSoftInputFromWindow(searchText.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                                }
+                            }, 600); // 600ms delay before the timer executes the "run" method from TimerTask
+
                         }
                         else {
                             myHolder.prodqty.setText("1");
@@ -214,6 +252,17 @@ public class Cart extends AppCompatActivity {
             } }
         );
         getData();
+        Checkoutbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplication(), CheckOut.class);
+                intent.putExtra("Amount",TotalAmount);
+                intent.putExtra("count",prodlist.size());
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private void remove(final int productId, final int id) {
@@ -253,7 +302,7 @@ public class Cart extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(stringRequest);
     }
 
-    private void UpdateCart(final String amount,final String quantity,final String id) {
+    private void UpdateCart(final String amount,final String quantity,final String id,String cartId) {
         StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, APIs.UpdateCart, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -286,6 +335,7 @@ public class Cart extends AppCompatActivity {
                 param.put("quantity",quantity);
                 param.put("amount",amount);
                 param.put("product_id",id);
+                param.put("id",id);
                 return param;
             }
         };
@@ -308,6 +358,12 @@ public class Cart extends AppCompatActivity {
                         CartResponse res = gson.fromJson(response, CartResponse.class);
                         prodlist = res.getResult();
                         recyclerView.getAdapter().notifyDataSetChanged();
+
+
+                        for (int i=0 ; i<prodlist.size() ; i++){
+                            TotalAmount = TotalAmount+prodlist.get(i).getAmount();
+                        }
+                        total.setText("Total :      ₹ "+String.valueOf(TotalAmount));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

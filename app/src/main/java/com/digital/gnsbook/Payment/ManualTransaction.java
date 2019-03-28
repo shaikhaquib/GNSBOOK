@@ -95,9 +95,9 @@ public class ManualTransaction extends AppCompatActivity {
             if (!editable.toString().equals("")) {
                 int i = Integer.parseInt(editable.toString());
                 double entamount = Double.parseDouble(editable.toString());
-                if (i > 1000)
+                if (i < 1000)
                 {
-                    amount.setError("Amount must be less than or equal to 1000");
+                    amount.setError("Amount must be Greater than or equal to 1000");
                     surcharge.setText("0.0");
                     tdscharge.setText("0.0");
                     admincharge.setText("0.0");
@@ -432,8 +432,8 @@ public class ManualTransaction extends AppCompatActivity {
                 if (ManualTransaction.this.amount.getText().toString().isEmpty()) {
                     ManualTransaction.this.amount.setError("Enter valid amount");
                     ManualTransaction.this.amount.requestFocus();
-                } else if (Integer.parseInt(ManualTransaction.this.amount.getText().toString()) > 1000) {
-                    ManualTransaction.this.amount.setError("Amount must be less than or equal to 1000");
+                } else if (Integer.parseInt(ManualTransaction.this.amount.getText().toString()) < 1000) {
+                    ManualTransaction.this.amount.setError("Amount must be greater than or equal to 1000");
                     ManualTransaction.this.amount.requestFocus();
                 } else {
                     new transferAPI().execute(ManualTransaction.this.amount.getText().toString(), Global.mobile, ManualTransaction.this.getIntent().getStringExtra("Bid"), Global.customerid);

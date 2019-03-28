@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:id="@+id/rl"
+    tools:context="com.digital.gnsbook.Activity.CheckOut">
+
+
+
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_margin="16dp"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                >
+
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/addAddress"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="8dp"
+                    android:onClick="SelectAddress"
+                    app:cardBackgroundColor="#0bdddc">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableTop="@drawable/ic_add_location_black_24dp"
+                        android:text="Add Shipping Address"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:textColor="@color/white"
+                        />
+
+
+                </android.support.v7.widget.CardView>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/padding_10"
+                    android:background="@drawable/border"
+                    android:onClick="SelectAddress">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:drawableTop="@drawable/ic_edit_location_black_24dp"
+                        android:text="Select Shipping Address"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:textColor="#0bdddc"
+                        />
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                android:background="@drawable/border">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="10"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Total Items : "
+                        android:textColor="@color/pin_normal"
+                        android:textStyle="bold"
+                        android:layout_weight="5"
+                        />
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/titem"
+                        android:text="4"
+                        android:gravity="center"
+                        android:textColor="@color/pin_normal"
+                        android:textStyle="bold"
+                        android:layout_weight="5"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="10"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Total Amount : "
+                        android:textColor="@color/pin_normal"
+                        android:textStyle="bold"
+                        android:layout_weight="5"
+                        />
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/total"
+                        android:text="40"
+                        android:gravity="center"
+                        android:textColor="@color/pin_normal"
+                        android:textStyle="bold"
+                        android:layout_weight="5"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="10"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Shipping Charges : "
+                        android:textColor="@color/pin_normal"
+                        android:textStyle="bold"
+                        android:layout_weight="5"
+                        />
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/shipcost"
+                        android:text="+ 40"
+                        android:gravity="center"
+                        android:textColor="@color/pin_normal"
+                        android:textStyle="bold"
+                        android:layout_weight="5"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="10"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Grand Total : "
+                        android:textColor="@color/pin_normal"
+                        android:textStyle="bold"
+                        android:layout_weight="5"
+                        />
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/stotal"
+                        android:text="80"
+                        android:gravity="center"
+                        android:textColor="@color/pin_normal"
+                        android:textStyle="bold"
+                        android:layout_weight="5"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="4dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="#0bdddc"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Shipping is free for order more than ₹. 500 ."
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Your order will be delivered within next 2.30 hours."
+                    android:gravity="center"
+                    android:id="@+id/timedet"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/Addlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="?android:attr/selectableItemBackground"
+                android:visibility="gone"
+                android:layout_marginBottom="50dp"
+                >
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:padding="8dp"
+                    android:textColor="#ff515365" />
+
+                <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:stretchColumns="2">
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                        <TextView
+                            android:layout_column="1"
+                            android:padding="8dp"
+                            android:text="Mob :"
+                            android:textColor="#ff6783b8"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/mob"
+                            android:layout_column="2"
+                            android:textColor="#ff304073" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                        <TextView
+                            android:layout_column="1"
+                            android:padding="8dp"
+                            android:text="Type:"
+                            android:textColor="#ff6783b8"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/type"
+                            android:layout_column="2"
+                            android:textColor="#ff304073" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                        <TextView
+                            android:layout_column="1"
+                            android:padding="8dp"
+                            android:text="Add:"
+                            android:textColor="#ff6783b8"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/add"
+                            android:layout_column="2"
+                            android:textColor="#ff304073"
+                            android:lines="2"/>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                        <TextView
+                            android:layout_column="1"
+                            android:padding="8dp"
+                            android:text="Zip code: "
+                            android:textColor="#ff6783b8"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/zip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_column="2"
+                            android:textColor="#ff304073" />
+                    </TableRow>
+
+
+                </TableLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/Next"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        android:background="#0bdddc"
+        android:text="Place Order"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:textColor="@color/white" />
+</RelativeLayout>

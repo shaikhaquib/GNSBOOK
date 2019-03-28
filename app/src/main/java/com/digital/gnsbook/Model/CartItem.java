@@ -121,7 +121,7 @@ public class CartItem {
 	@Override
 	public String toString(){
 		return
-				"ResultItem{" +
+				"AddressItem{" +
 						"product_desc = '" + productDesc + '\'' +
 						",images = '" + images + '\'' +
 						",amount = '" + amount + '\'' +

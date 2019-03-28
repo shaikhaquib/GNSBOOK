@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/margin_16"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="50dp"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:hintTextAppearance="@style/TextLabel">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Name"
+                    android:id="@+id/fullname"
+                    android:textColorHighlight="@color/colorPrimary"
+                    android:layout_weight="8"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:textSize="16sp"
+                    android:layout_marginTop="@dimen/padding_10"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:hintTextAppearance="@style/TextLabel"
+                >
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Phone No"
+                    android:id="@+id/phoneno"
+                    android:textColorHighlight="@color/colorPrimary"
+                    android:layout_weight="8"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:textSize="16sp"
+                    android:layout_marginTop="8dp"
+                    android:inputType="number"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/Rtype">
+
+                    <RadioButton
+                        android:id="@+id/typeHome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Home"
+                        android:checked="true"/>
+
+                    <RadioButton
+                        android:id="@+id/typeWork"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Work"
+                        android:layout_marginLeft="@dimen/margin_16"/>
+
+                </RadioGroup>
+
+
+            </LinearLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:hintTextAppearance="@style/TextLabel"
+                >
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="House No / Apartment Name"
+                    android:id="@+id/apartment"
+                    android:textColorHighlight="@color/colorPrimary"
+                    android:layout_weight="8"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:textSize="16sp"
+                    android:layout_marginTop="8dp"
+
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:hintTextAppearance="@style/TextLabel"
+                >
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Landmark"
+                    android:id="@+id/landmark"
+                    android:textColorHighlight="@color/colorPrimary"
+                    android:layout_weight="8"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:textSize="16sp"
+                    android:layout_marginTop="8dp"
+
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:hintTextAppearance="@style/TextLabel">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="City"
+                        android:id="@+id/city"
+                        android:textColorHighlight="@color/colorPrimary"
+                        android:layout_weight="8"
+                        android:padding="10dp"
+                        android:textSize="16sp"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:layout_marginTop="8dp"
+
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="4dp"
+                    app:hintTextAppearance="@style/TextLabel"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    >
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Zip Code"
+                        android:id="@+id/pincode"
+                        android:textColorHighlight="@color/colorPrimary"
+                        android:layout_weight="8"
+                        android:padding="10dp"
+                        android:textSize="16sp"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:inputType="number"
+                        android:maxLength="6"
+                        android:layout_marginTop="8dp"
+
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:hintTextAppearance="@style/TextLabel">
+
+                    <EditText
+                        android:id="@+id/state"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="State"
+                        android:textColorHighlight="@color/colorPrimary"
+                        android:layout_weight="8"
+                        android:padding="10dp"
+                        android:textSize="16sp"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:layout_marginTop="8dp"
+
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="4dp"
+                    app:hintTextAppearance="@style/TextLabel"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    >
+
+                    <EditText
+                        android:id="@+id/country"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Country"
+                        android:textColorHighlight="@color/colorPrimary"
+                        android:layout_weight="8"
+                        android:padding="10dp"
+                        android:textSize="16sp"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:maxLength="6"
+                        android:layout_marginTop="8dp"
+
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+
+
+            </LinearLayout>
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/nextbtn"
+                android:gravity="center"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center"
+                android:background="@color/colorPrimary"
+                android:text="Next"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:textColor="@color/white" />
+
+
+
+
+
+        </LinearLayout>
+
+
+
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

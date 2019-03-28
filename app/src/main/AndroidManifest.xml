@@ -17,6 +17,15 @@
 
     <uses-permission android:name="com.httpgnsbook.gnsbook.provider.READ" />
 
+    <uses-permission-sdk-23 android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission-sdk-23 android:name="android.permission.READ_SMS" />
+    <uses-permission-sdk-23 android:name="android.permission.READ_PHONE_STATE" />
+
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name="com.digital.gnsbook.Config.AppController"
         android:allowBackup="false"
@@ -30,7 +39,11 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
-        <activity android:name="com.digital.gnsbook.Activity.Cart"></activity>
+        <activity
+            android:name="com.digital.gnsbook.Activity.CheckOut"
+            android:label="@string/title_activity_check_out"/>
+        <activity android:name="com.digital.gnsbook.Activity.Cart" />
+        <activity android:name="com.digital.gnsbook.Activity.Add_Address" />
         <activity android:name="com.digital.gnsbook.Activity.ProductDetail" />
         <activity android:name="com.digital.gnsbook.Activity.UploadProduct" />
         <activity android:name="com.digital.gnsbook.Activity.FriendProfile" />
@@ -81,8 +94,6 @@
             android:parentActivityName="com.digital.gnsbook.Activity.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-
-
         <activity
             android:name="com.digital.gnsbook.Payment.Agent_Signup"
             android:label="Agent_Signup"
@@ -175,23 +186,10 @@
             android:name="com.digital.gnsbook.Activity.Forgotpass"
             android:label="FORGOT PASSWORD"
             android:parentActivityName="com.digital.gnsbook.Activity.LoginActivity" />
-    <meta-data android:name="instamojo.orderauth.url"
-                   android:value="http://development.gnsbook.com/access_token.php"
-            />
+
+        <meta-data
+            android:name="instamojo.orderauth.url"
+            android:value="http://development.gnsbook.com/access_token.php" />
     </application>
-    <uses-permission-sdk-23 android:name="android.permission.RECEIVE_SMS"/>
- 
-    <uses-permission-sdk-23 android:name="android.permission.READ_SMS"/>
- 
-    <uses-permission-sdk-23 android:name="android.permission.READ_PHONE_STATE"/>
- 
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
- 
-    <uses-permission android:name="android.permission.READ_SMS"/>
- 
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
- 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
- 
 
 </manifest>

@@ -1,6 +1,14 @@
 package com.digital.gnsbook.Activity;
 
 import android.os.Bundle;
+import android.app.Activity;
+import instamojo.library.InstapayListener;
+import instamojo.library.InstamojoPay;
+import instamojo.library.Config;
+import org.json.JSONObject;
+import org.json.JSONException;
+import android.content.IntentFilter;
+import android.widget.Toast;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -28,10 +36,13 @@ public class TabActivity extends AppCompatActivity {
             R.drawable.ic_badge_icon,
             R.drawable.ic_stats_icon
     };
+    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
+        // Call the function callInstamojo to start payment here
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
