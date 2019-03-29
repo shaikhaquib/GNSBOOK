@@ -17,14 +17,7 @@
 
     <uses-permission android:name="com.httpgnsbook.gnsbook.provider.READ" />
 
-    <uses-permission-sdk-23 android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission-sdk-23 android:name="android.permission.READ_SMS" />
-    <uses-permission-sdk-23 android:name="android.permission.READ_PHONE_STATE" />
 
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name="com.digital.gnsbook.Config.AppController"

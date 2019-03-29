@@ -150,7 +150,6 @@ public class Compony_list extends AppCompatActivity {
         this.dialog = new ViewDialog(this);
         this.recyclerView = (RecyclerView) findViewById(R.id.rvclist);
         this.recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        this.recyclerView.addItemDecoration(new RecyclerViewItemDecorator(10));
         this.recyclerView.setAdapter(new C08861());
         getComponyData();
     }

@@ -157,15 +157,12 @@ public class ThreeFragment extends Fragment {
         dialog = new ViewDialog(getActivity());
         recyclerView = view.findViewById(R.id.rvtoplist);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        recyclerView.addItemDecoration(new RecyclerViewItemDecorator(10));
         recyclerView = view.findViewById(R.id.rvtoplist);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        recyclerView.addItemDecoration(new RecyclerViewItemDecorator(10));
         recyclerView.setAdapter(new C09291());
 
         rvFriend = view.findViewById(R.id.rvfreind);
         rvFriend.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        rvFriend.addItemDecoration(new RecyclerViewItemDecorator(10));
         rvFriend.setAdapter(new RecyclerView.Adapter() {
             @NonNull
             @Override
