@@ -3,9 +3,16 @@ package com.digital.gnsbook;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build.VERSION;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,6 +35,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -47,7 +55,16 @@ import com.digital.gnsbook.Model.WallPostmodel;
 import com.digital.gnsbook.Payment.OverlapDecoration;
 import com.httpgnsbook.gnsbook.R;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.squareup.picasso.Transformation;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -121,7 +138,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         return new Holder(LayoutInflater.from(this.context).inflate(R.layout.wallpostadapter, viewGroup, false));
     }
 
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
 
         final Holder holder = (Holder) viewHolder;
         final WallPostmodel postmodel = postmodels.get(i);
@@ -198,14 +215,39 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         }
 
 
+        final String[] finalImageArray1 = imageArray;
         holder.share.setOnClickListener(new View.OnClickListener() {@Override
         public void onClick(View v) {
-            String shareBody = postmodel.title;
-            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-            sharingIntent.setType("text/plain");
-            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, shareBody);
-            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, postmodel.description);
-            context.startActivity(Intent.createChooser(sharingIntent, "https://www.gnsbook.com"));
+
+            // Toast.makeText(context, "Toast", Toast.LENGTH_SHORT).show();
+
+            Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.setVmPolicy(builder.build());
+            if (postmodel.type.equals("1")){
+
+                Uri bmpUri = getLocalBitmapUri(holder.imgPost);
+
+                whatsappIntent.setType("text/plain");
+                whatsappIntent.putExtra(Intent.EXTRA_TEXT, postmodel.title+"\n"+postmodel.description + "\n https://www.gnsbook.com/?reffid="+Global.customerid);
+                whatsappIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+                whatsappIntent.setType("image/jpeg");
+                whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+             }  else {
+
+                Bitmap image = getBitmapFromURL(APIs.Dp+ finalImageArray1[0]);
+                whatsappIntent.setType("text/plain");
+                whatsappIntent.putExtra(Intent.EXTRA_TEXT, "*NAME* :"+postmodel.product_name+"\n"+"*Description* :"+postmodel.product_desc+"*Price* : ₹"+postmodel.product_price + "\n https://www.gnsbook.com/?reffid="+Global.customerid);
+                whatsappIntent.putExtra(Intent.EXTRA_STREAM, getImageUri(context,image));
+                whatsappIntent.setType("image/jpeg");
+                whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            }
+            try {
+                context.startActivity(whatsappIntent);
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(context, "Some thing went wrong...", Toast.LENGTH_SHORT).show();
+            }
         }
         });
 
@@ -350,7 +392,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         } else if (wallPostmodel.likecount > 2) {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(wallPostmodel.Like_name[0]);
-            stringBuilder.append(" and <br>");
+            stringBuilder.append(" & <br>");
             stringBuilder.append(wallPostmodel.likecount - 1);
             stringBuilder.append("+ like.");
             Spanned spanned = Html.fromHtml(stringBuilder.toString());
@@ -461,5 +503,64 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
             }
         }
     }
+    public Uri getLocalBitmapUri(Bitmap bmp) {
+        Uri bmpUri = null;
+        try {
+            File file =  new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png");
+            FileOutputStream out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.close();
+            bmpUri = Uri.fromFile(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmpUri;
+    }
 
+    public Uri getLocalBitmapUri(ImageView imageView) {
+        // Extract Bitmap from ImageView drawable
+        Drawable drawable = imageView.getDrawable();
+        Bitmap bmp = null;
+        if (drawable instanceof BitmapDrawable){
+            bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        } else {
+            return null;
+        }
+        // Store image to default external storage directory
+        Uri bmpUri = null;
+        try {
+            File file =  new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DOWNLOADS), "share_image_" + System.currentTimeMillis() + ".png");
+            file.getParentFile().mkdirs();
+            FileOutputStream out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.close();
+            bmpUri = Uri.fromFile(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmpUri;
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    } //
 }

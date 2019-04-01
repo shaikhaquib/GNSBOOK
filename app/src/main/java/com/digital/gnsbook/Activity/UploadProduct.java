@@ -1,6 +1,7 @@
 package com.digital.gnsbook.Activity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -78,11 +79,13 @@ public class UploadProduct extends AppCompatActivity {
     private static final int REQUEST_CODE = 6384;
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 124;
     private ArrayList<Uri> arrayList;
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_product);
+        pDialog=new ProgressDialog(this);
 
         arrayList = new ArrayList<>();
 

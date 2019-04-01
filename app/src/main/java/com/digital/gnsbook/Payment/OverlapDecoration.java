@@ -13,7 +13,7 @@ public class OverlapDecoration extends ItemDecoration {
         if (recyclerView.getChildAdapterPosition(view) == state.getItemCount() - 1) {
             rect.setEmpty();
         } else {
-            rect.set(0, 0, vertOverlap, 0);
+            rect.set(0, 0, -20, 0);
         }
     }
 }

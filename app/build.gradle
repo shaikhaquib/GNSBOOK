@@ -50,8 +50,9 @@ dependencies {
     implementation 'me.ithebk:barchart:0.9'
     implementation 'com.github.mike14u:croperino:1.1.8'
     implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation 'com.github.open-android:Timeline:0.1.0'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.github.chahine:pageindicator:0.2.7'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.3.21"
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.3.21'
 }

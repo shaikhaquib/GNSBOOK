@@ -11,6 +11,6 @@
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:src="@drawable/c2yc_sample"
-        app:civ_border_color="@color/white"
-        app:civ_border_width="2.5dip" />
+        app:civ_border_color="@color/borderline"
+        app:civ_border_width="1dip" />
 </RelativeLayout>

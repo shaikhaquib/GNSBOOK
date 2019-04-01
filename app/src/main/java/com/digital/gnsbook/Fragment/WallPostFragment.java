@@ -188,6 +188,7 @@ public class WallPostFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(true);
                 offset = 0;
                 postmodels.clear();
+                wallPost .getRecycledViewPool().clear();
                 wallPost.getAdapter().notifyDataSetChanged();
                 getTimelinePost();
             }
