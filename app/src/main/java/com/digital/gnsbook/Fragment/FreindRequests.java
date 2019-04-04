@@ -20,7 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
-import com.digital.gnsbook.DividerDecorator;
+import com.digital.gnsbook.Extra.DividerDecorator;
 import com.digital.gnsbook.Global;
 import com.digital.gnsbook.Model.RequestAcceptItem;
 import com.digital.gnsbook.Model.ResponseRequest;
@@ -29,7 +29,6 @@ import com.digital.gnsbook.ViewDialog;
 import com.google.gson.Gson;
 import com.httpgnsbook.gnsbook.R;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Request;
 
 import org.json.JSONException;
 import org.json.JSONObject;

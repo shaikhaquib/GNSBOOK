@@ -1,4 +1,4 @@
-package com.digital.gnsbook;
+package com.digital.gnsbook.Adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;

@@ -1,8 +1,7 @@
-package com.digital.gnsbook;
+package com.digital.gnsbook.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build.VERSION;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,18 +21,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.digital.gnsbook.Activity.Comment;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
+import com.digital.gnsbook.Global;
 import com.digital.gnsbook.Model.WallPostmodel;
 import com.digital.gnsbook.Payment.OverlapDecoration;
+import com.digital.gnsbook.Extra.RoundedCornersTransformation;
 import com.httpgnsbook.gnsbook.R;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -247,7 +247,7 @@ public class WallPostAdapt extends Adapter<ViewHolder> {
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map <String,String> param = new HashMap<String,String>();
-                        param.put("customer_id",Global.customerid);
+                        param.put("customer_id", Global.customerid);
                         param.put("post_id",id);
                         return param;
                     }

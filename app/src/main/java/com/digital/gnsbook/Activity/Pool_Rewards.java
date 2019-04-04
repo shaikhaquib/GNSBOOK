@@ -1,6 +1,5 @@
 package com.digital.gnsbook.Activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -23,9 +21,8 @@ import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Global;
 import com.digital.gnsbook.Model.Compony_data;
-import com.digital.gnsbook.Model.WallPostmodel;
 import com.httpgnsbook.gnsbook.R;
-import com.digital.gnsbook.RecyclerViewItemDecorator;
+import com.digital.gnsbook.Extra.RecyclerViewItemDecorator;
 import com.digital.gnsbook.ViewDialog;
 import com.squareup.picasso.Picasso;
 
@@ -36,8 +33,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import static java.util.concurrent.ForkJoinTask.getPool;
 
 public class Pool_Rewards extends AppCompatActivity {
 

@@ -2,7 +2,6 @@ package com.digital.gnsbook.Activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,8 +19,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
-import com.digital.gnsbook.DividerDecorator;
-import com.digital.gnsbook.SearchAdapt;
+import com.digital.gnsbook.Extra.DividerDecorator;
+import com.digital.gnsbook.Adapter.SearchAdapt;
 import com.digital.gnsbook.Model.SearchModel;
 import com.httpgnsbook.gnsbook.R;
 

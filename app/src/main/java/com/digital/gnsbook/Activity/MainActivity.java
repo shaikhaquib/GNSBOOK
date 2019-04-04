@@ -1,6 +1,5 @@
 package com.digital.gnsbook.Activity;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -49,7 +48,7 @@ import com.digital.gnsbook.Fragment.FreindRequests;
 import com.digital.gnsbook.Fragment.ProfileFragment;
 import com.digital.gnsbook.Fragment.ThreeFragment;
 import com.digital.gnsbook.Fragment.WallPostFragment;
-import com.digital.gnsbook.FragmentViewPagerAdapter;
+import com.digital.gnsbook.Adapter.FragmentViewPagerAdapter;
 import com.digital.gnsbook.Global;
 import com.digital.gnsbook.Payment.Manual_Payment;
 import com.digital.gnsbook.Payment_corpoarate.Corporate_Agent_Signup;
@@ -57,7 +56,6 @@ import com.digital.gnsbook.Payment_corpoarate.Corporate_BenificiaryList;
 import com.digital.gnsbook.UserVerification;
 import com.digital.gnsbook.ViewDialog;
 import com.httpgnsbook.gnsbook.R;
-import com.livinglifetechway.quickpermissions.annotations.WithPermissions;
 import com.mikelau.croperino.Croperino;
 import com.mikelau.croperino.CroperinoConfig;
 import com.mikelau.croperino.CroperinoFileUtil;

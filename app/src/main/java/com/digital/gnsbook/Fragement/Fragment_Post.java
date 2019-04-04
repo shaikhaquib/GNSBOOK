@@ -1,8 +1,6 @@
 package com.digital.gnsbook.Fragement;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
@@ -27,7 +25,7 @@ import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Global;
 import com.digital.gnsbook.Model.ComponyModel;
 import com.digital.gnsbook.Model.WallPostmodel;
-import com.digital.gnsbook.New_WallPostAdapt;
+import com.digital.gnsbook.Adapter.New_WallPostAdapt;
 import com.digital.gnsbook.ViewDialog;
 import com.httpgnsbook.gnsbook.R;
 import com.squareup.picasso.Picasso;
@@ -35,7 +33,6 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.util.ArrayList;
 import java.util.Arrays;

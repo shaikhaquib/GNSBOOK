@@ -1,6 +1,5 @@
 package com.digital.gnsbook.Activity;
 
-import android.app.ProgressDialog;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,7 +20,7 @@ import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Model.Top_Performer;
 import com.httpgnsbook.gnsbook.R;
-import com.digital.gnsbook.RecyclerViewItemDecorator;
+import com.digital.gnsbook.Extra.RecyclerViewItemDecorator;
 import com.digital.gnsbook.ViewDialog;
 import com.squareup.picasso.Picasso;
 

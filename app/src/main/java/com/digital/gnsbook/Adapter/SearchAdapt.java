@@ -1,4 +1,4 @@
-package com.digital.gnsbook;
+package com.digital.gnsbook.Adapter;
 
 import android.app.Activity;
 import android.content.Context;

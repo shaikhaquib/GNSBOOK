@@ -1,6 +1,5 @@
 package com.digital.gnsbook.Fragment;
 
-import android.Manifest;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
@@ -21,14 +20,10 @@ import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Global;
 import com.digital.gnsbook.Model.WallPostmodel;
-import com.digital.gnsbook.New_WallPostAdapt;
+import com.digital.gnsbook.Adapter.New_WallPostAdapt;
 import com.digital.gnsbook.ViewDialog;
-import com.digital.gnsbook.WallPostAdapt;
 import com.httpgnsbook.gnsbook.R;
-import com.livinglifetechway.quickpermissions.annotations.WithPermissions;
 
-import java.lang.reflect.Array;
-import java.security.acl.Permission;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;

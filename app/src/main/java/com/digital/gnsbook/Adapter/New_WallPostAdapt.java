@@ -1,15 +1,13 @@
-package com.digital.gnsbook;
+package com.digital.gnsbook.Adapter;
 
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
@@ -17,11 +15,9 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
-import android.support.v7.widget.SnapHelper;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
@@ -29,7 +25,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -39,7 +34,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -47,21 +41,16 @@ import com.bumptech.glide.Glide;
 import com.chahinem.pageindicator.PageIndicator;
 import com.digital.gnsbook.Activity.Comment;
 import com.digital.gnsbook.Activity.Companypage;
-import com.digital.gnsbook.Activity.Compony_list;
 import com.digital.gnsbook.Activity.ProductDetail;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Config.DbHelper;
+import com.digital.gnsbook.Global;
 import com.digital.gnsbook.Model.WallPostmodel;
 import com.digital.gnsbook.Payment.OverlapDecoration;
-import com.httpgnsbook.gnsbook.Manifest;
+import com.digital.gnsbook.Extra.RoundedCornersTransformation;
 import com.httpgnsbook.gnsbook.R;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-import com.squareup.picasso.Transformation;
-import com.livinglifetechway.quickpermissions.annotations.WithPermissions;
-
-import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -247,7 +236,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
                 Uri bmpUri = getLocalBitmapUri(holder.imgPost);
 
                 whatsappIntent.setType("text/plain");
-                whatsappIntent.putExtra(Intent.EXTRA_TEXT, postmodel.title+"\n"+postmodel.description + "\n https://www.gnsbook.com/?reffid="+Global.customerid);
+                whatsappIntent.putExtra(Intent.EXTRA_TEXT, postmodel.title+"\n"+postmodel.description + "\n https://www.gnsbook.com/?reffid="+ Global.customerid);
                 whatsappIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
                 whatsappIntent.setType("image/jpeg");
                 whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);

@@ -1,4 +1,4 @@
-package com.digital.gnsbook;
+package com.digital.gnsbook.Extra;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;

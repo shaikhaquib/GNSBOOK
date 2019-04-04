@@ -25,7 +25,6 @@ import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Config.DbHelper;
 import com.digital.gnsbook.Model.Compony_data;
-import com.digital.gnsbook.RecyclerViewItemDecorator;
 import com.digital.gnsbook.ViewDialog;
 import com.httpgnsbook.gnsbook.R;
 import com.squareup.picasso.Picasso;
