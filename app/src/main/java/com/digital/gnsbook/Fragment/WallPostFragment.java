@@ -1,5 +1,6 @@
 package com.digital.gnsbook.Fragment;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
@@ -24,8 +25,10 @@ import com.digital.gnsbook.New_WallPostAdapt;
 import com.digital.gnsbook.ViewDialog;
 import com.digital.gnsbook.WallPostAdapt;
 import com.httpgnsbook.gnsbook.R;
+import com.livinglifetechway.quickpermissions.annotations.WithPermissions;
 
 import java.lang.reflect.Array;
+import java.security.acl.Permission;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -195,7 +198,6 @@ public class WallPostFragment extends Fragment {
         });
         return layoutInflater;
     }
-
     private void getTimelinePost() {
         AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.new_timelineAPI, new C09332(), new C09343()) {
             protected Map<String, String> getParams() throws AuthFailureError {

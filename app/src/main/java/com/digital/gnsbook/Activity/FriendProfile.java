@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +34,8 @@ public class FriendProfile extends AppCompatActivity {
 
     ImageView prBanner , prDP ;
     TextView prName , prcity;
-    CardView addFreind , removefriend , acceptRequest;
+    LinearLayout layout;
+    CardView addFreind , removefriend , acceptRequest ,friend ,fabReject;
     ViewDialog dialog;
 
     @Override
@@ -43,6 +45,9 @@ public class FriendProfile extends AppCompatActivity {
         prBanner = findViewById(R.id.prBanner);
         prDP = findViewById(R.id.prDP);
         prName = findViewById(R.id.prName);
+        friend = findViewById(R.id.fabfriend);
+        fabReject = findViewById(R.id.fabReject);
+        layout = findViewById(R.id.accesptrequestUi);
         prcity = findViewById(R.id.prcity);
         addFreind = findViewById(R.id.fabaddfreind);
         acceptRequest = findViewById(R.id.fabAccept);
@@ -63,7 +68,16 @@ public class FriendProfile extends AppCompatActivity {
             public void onClick(View v) {
                 removefriend();
                 removefriend.setVisibility(View.GONE);
-           //     addFreind.setVisibility(View.VISIBLE);
+                addFreind.setVisibility(View.VISIBLE);
+            }
+        });
+        fabReject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removefriend();
+                removefriend.setVisibility(View.GONE);
+                addFreind.setVisibility(View.VISIBLE);
+                layout.setVisibility(View.GONE);
             }
         });
         acceptRequest.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +85,7 @@ public class FriendProfile extends AppCompatActivity {
             public void onClick(View v) {
                 acceptRequest();
                 acceptRequest.setVisibility(View.GONE);
+                layout.setVisibility(View.GONE);
                 removefriend.setVisibility(View.VISIBLE);
             }
         });
@@ -181,16 +196,20 @@ public class FriendProfile extends AppCompatActivity {
                             }
                         }else if (reqstatus == 2){
                             if (frndstatus == 0){
+                                layout.setVisibility(View.VISIBLE);
                                 acceptRequest.setVisibility(View.VISIBLE);
                             }else if (frndstatus == 1){
                                 removefriend.setVisibility(View.VISIBLE);
                             }else if (frndstatus == 5){
                                 addFreind.setVisibility(View.VISIBLE);
                             }else {
+                                layout.setVisibility(View.GONE);
                                 acceptRequest.setVisibility(View.GONE);
                             }
                         }else if (reqstatus == 3){
                             addFreind.setVisibility(View.VISIBLE);
+                        }else {
+                            friend.setVisibility(View.VISIBLE);
                         }
 
 

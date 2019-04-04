@@ -3,6 +3,7 @@ package com.digital.gnsbook;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -53,10 +54,14 @@ import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Config.DbHelper;
 import com.digital.gnsbook.Model.WallPostmodel;
 import com.digital.gnsbook.Payment.OverlapDecoration;
+import com.httpgnsbook.gnsbook.Manifest;
 import com.httpgnsbook.gnsbook.R;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.squareup.picasso.Transformation;
+import com.livinglifetechway.quickpermissions.annotations.WithPermissions;
+
+import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -146,6 +151,17 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         if (postmodel.images!=null){
         imageArray  = postmodel.images.split(",");}
 
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        try {
+            // JSON here
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
         holder.name.setText(postmodel.name);
         holder.date.setText(postmodel.created_at);
         holder.textPost.setText(postmodel.description);
@@ -215,7 +231,9 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         }
 
 
+
         final String[] finalImageArray1 = imageArray;
+
         holder.share.setOnClickListener(new View.OnClickListener() {@Override
         public void onClick(View v) {
 
@@ -237,7 +255,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
 
                 Bitmap image = getBitmapFromURL(APIs.Dp+ finalImageArray1[0]);
                 whatsappIntent.setType("text/plain");
-                whatsappIntent.putExtra(Intent.EXTRA_TEXT, "*NAME* :"+postmodel.product_name+"\n"+"*Description* :"+postmodel.product_desc+"*Price* : ₹"+postmodel.product_price + "\n https://www.gnsbook.com/?reffid="+Global.customerid);
+                whatsappIntent.putExtra(Intent.EXTRA_TEXT, "*NAME* :"+postmodel.product_name+"\n\n"+"*Description* :"+postmodel.product_desc+"\n\n"+"*Price* : ₹"+postmodel.product_price + "\n\n https://www.gnsbook.com/?reffid="+Global.customerid);
                 whatsappIntent.putExtra(Intent.EXTRA_STREAM, getImageUri(context,image));
                 whatsappIntent.setType("image/jpeg");
                 whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -516,7 +534,6 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         }
         return bmpUri;
     }
-
     public Uri getLocalBitmapUri(ImageView imageView) {
         // Extract Bitmap from ImageView drawable
         Drawable drawable = imageView.getDrawable();
@@ -563,4 +580,6 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
             return null;
         }
     } //
+
+
 }

@@ -1,5 +1,6 @@
 package com.digital.gnsbook.Activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -56,6 +57,7 @@ import com.digital.gnsbook.Payment_corpoarate.Corporate_BenificiaryList;
 import com.digital.gnsbook.UserVerification;
 import com.digital.gnsbook.ViewDialog;
 import com.httpgnsbook.gnsbook.R;
+import com.livinglifetechway.quickpermissions.annotations.WithPermissions;
 import com.mikelau.croperino.Croperino;
 import com.mikelau.croperino.CroperinoConfig;
 import com.mikelau.croperino.CroperinoFileUtil;

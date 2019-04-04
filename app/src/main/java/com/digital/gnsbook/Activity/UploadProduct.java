@@ -29,6 +29,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -46,6 +47,10 @@ import com.digital.gnsbook.Global;
 import com.digital.gnsbook.ViewDialog;
 import com.digital.gnsbook.sample.MyAdapter;
 import com.httpgnsbook.gnsbook.R;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.mikelau.croperino.Croperino;
 import com.mikelau.croperino.CroperinoConfig;
 import com.mikelau.croperino.CroperinoFileUtil;
@@ -56,12 +61,15 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import cz.msebera.android.httpclient.Header;
 
 public class UploadProduct extends AppCompatActivity {
     EditText prdName,prdCat,prdLink,Descreption,prdPrize;
@@ -80,7 +88,6 @@ public class UploadProduct extends AppCompatActivity {
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 124;
     private ArrayList<Uri> arrayList;
     private ProgressDialog pDialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -173,7 +180,8 @@ public class UploadProduct extends AppCompatActivity {
                 focusView.requestFocus();
             }
             else {
-                 uploadFile(strPrdName,strDescription,strCat,strLink,strPrize);
+                    uploadFile(strPrdName,strDescription,strCat,strLink,strPrize);
+
             }
         }
     }
@@ -303,7 +311,7 @@ public class UploadProduct extends AppCompatActivity {
                             Uri imageUri = data.getClipData().getItemAt(currentItem).getUri();
                             //do something with the image (save it to some directory or whatever you need to do with it here)
                             currentItem = currentItem + 1;
-                            Log.d("Uri Selected", imageUri.toString());
+                        //    Log.d("Uri Selected", imageUri.toString());
                             try {
                                 // Get the file path from the URI
                                 String path = FileUtils.getPath(this, imageUri);
@@ -408,6 +416,59 @@ public class UploadProduct extends AppCompatActivity {
 
         dialog.show();
 
+    }
+
+
+    public void postFile(final String strName,final String strdesc,final String strCat,final String strLink, final String strPrize) throws FileNotFoundException {
+        pDialog.setMessage("Downloading file. Please wait...");
+        pDialog.setIndeterminate(false);
+        pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        pDialog.setCancelable(true);
+        pDialog.show();
+
+        RequestParams params = new RequestParams();
+        params.put("customer_id", Global.customerid);
+        params.put("company_id", Global.Company_Id);
+        params.put("product_name", strName);
+        params.put("product_price", strPrize);
+        params.put("product_desc", strDescription);
+        params.put("product_cat", strCat);
+        params.put("product_link", strLink);
+        params.put("sell_type", productType); // e.g Environment.getExternalStorageDirectory().getPath() + "/test.mp3"
+
+        String s = arrayList.get(0).getPath();
+
+        params.put("images", arrayList.get(0).getPath()); // e.g Environment.getExternalStorageDirectory().getPath() + "/test.mp3"
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.setConnectTimeout(500000);
+
+        client.post(APIs.UploadProduct, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Toast.makeText(UploadProduct.this, response.toString(), Toast.LENGTH_SHORT).show();
+                Log.d("test",response.toString());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String res, Throwable t) {
+                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+            }
+
+            @Override
+            public void onProgress(long bytesWritten, long totalSize) {
+                super.onProgress(bytesWritten, totalSize);
+                pDialog.setMax((int) totalSize);
+                pDialog.setProgress((int) bytesWritten);
+            }
+        });
+    }
+
+    public String getPath(Uri uri) {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
     }
 
     private void uploadFile(final String strName,final String strdesc,final String strCat,final String strLink, final String strPrize){
