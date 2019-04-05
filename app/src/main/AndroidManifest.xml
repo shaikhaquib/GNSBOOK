@@ -183,6 +183,11 @@
         <meta-data
             android:name="instamojo.orderauth.url"
             android:value="http://development.gnsbook.com/access_token.php" />
+
+        <activity android:name="com.digital.gnsbook.GnsChat.ChatRoomActivity"/>
+        <activity android:name="com.digital.gnsbook.GnsChat.CreateRoomActivity" />
+        <activity android:name="com.digital.gnsbook.GnsChat.CMainActivity"/>
+
     </application>
 
 </manifest>
