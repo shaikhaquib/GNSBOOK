@@ -2,15 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
+    android:layout_marginTop="5dp"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/chat_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#f0f4f9"
         android:layout_gravity="start"
+        android:textSize="@dimen/margin_16"
         android:background="@drawable/balloon_incoming_normal"
-        android:padding="8dp" />
+        android:paddingRight="20dp"
+        android:paddingLeft="25dp"
+        android:paddingBottom="@dimen/margin_10"
+        android:layout_marginRight="50dp"
+        android:paddingTop="@dimen/margin_10" />
 
 </LinearLayout>

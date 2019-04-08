@@ -1,14 +1,6 @@
 package com.digital.gnsbook.Activity;
 
 import android.os.Bundle;
-import android.app.Activity;
-import instamojo.library.InstapayListener;
-import instamojo.library.InstamojoPay;
-import instamojo.library.Config;
-import org.json.JSONObject;
-import org.json.JSONException;
-import android.content.IntentFilter;
-import android.widget.Toast;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,7 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.digital.gnsbook.Fragment.ThreeFragment;
+import com.digital.gnsbook.Fragment.FriendFragment;
 import com.digital.gnsbook.Fragment.ProfileFragment;
 import com.digital.gnsbook.Fragment.WallPostFragment;
 import com.httpgnsbook.gnsbook.R;
@@ -59,7 +51,7 @@ public class TabActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new WallPostFragment(), "ONE");
         adapter.addFrag(new ProfileFragment(), "TWO");
-        adapter.addFrag(new ThreeFragment(), "THREE");
+        adapter.addFrag(new FriendFragment(), "THREE");
         viewPager.setAdapter(adapter);
     }
 

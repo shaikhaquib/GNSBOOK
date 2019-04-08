@@ -40,11 +40,11 @@ public class FriendResponse {
 
 	@Override
  	public String toString(){
-		return 
+		return
 			"FriendResponse{" +
-			"result = '" + result + '\'' + 
-			",friend_count = '" + friendCount + '\'' + 
-			",status = '" + status + '\'' + 
+			"result = '" + result + '\'' +
+			",friend_count = '" + friendCount + '\'' +
+			",status = '" + status + '\'' +
 			"}";
 		}
 }

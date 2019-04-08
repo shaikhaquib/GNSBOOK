@@ -2,6 +2,7 @@ package com.digital.gnsbook.GnsChat;
 
 import android.support.annotation.NonNull;
 
+import com.digital.gnsbook.Global;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -57,7 +58,7 @@ public class ChatRoomRepository {
                                      final OnFailureListener failureCallback) {
         Map<String, Object> chat = new HashMap<>();
         chat.put("chat_room_id", roomId);
-        chat.put("sender_id", senderId);
+        chat.put("sender_id", Global.customerid);
         chat.put("message", message);
         chat.put("sent", System.currentTimeMillis());
 

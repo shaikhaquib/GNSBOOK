@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.digital.gnsbook.Global;
 import com.httpgnsbook.gnsbook.R;
 
 import java.util.List;
@@ -47,7 +48,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatViewHold
 
     @Override
     public int getItemViewType(int position) {
-        if (chats.get(position).senderId.contentEquals(userId)) {
+        if (chats.get(position).senderId.contentEquals(Global.customerid)) {
             return SENT;
         } else {
             return RECEIVED;

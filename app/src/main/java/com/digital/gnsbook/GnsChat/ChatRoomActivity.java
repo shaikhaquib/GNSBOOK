@@ -1,18 +1,29 @@
 package com.digital.gnsbook.GnsChat;
 
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.digital.gnsbook.Config.APIs;
+import com.digital.gnsbook.Extra.WrappedDrawable;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -22,16 +33,20 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.httpgnsbook.gnsbook.R;
+import com.squareup.picasso.Picasso;
+import com.vanniktech.emoji.EmojiPopup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ChatRoomActivity extends AppCompatActivity {
 
     public static final String CHAT_ROOM_ID = "CHAT_ROOM_ID";
     public static final String CHAT_ROOM_NAME = "CHAT_ROOM_NAME";
+    public static final String CHAT_cdp = "CHAT_cdp";
     private static final String CURRENT_USER_KEY = "CURRENT_USER_KEY";
-
+    View rootView;
     private String roomId = "";
     private String roomName = "";
 
@@ -43,19 +58,20 @@ public class ChatRoomActivity extends AppCompatActivity {
     private ImageButton send;
     private RecyclerView chats;
     private ChatsAdapter adapter;
+    Bitmap bitmap;
+    ImageView cdp;
+    Bundle extras;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
+
+
         chatRoomRepository = new ChatRoomRepository(FirebaseFirestore.getInstance());
-        Bundle extras = getIntent().getExtras();
+         extras = getIntent().getExtras();
         if (extras != null) {
             roomId = extras.getString(CHAT_ROOM_ID, "");
             roomName = extras.getString(CHAT_ROOM_NAME, "");
-        }
-
-        if (getSupportActionBar() != null) {
-            setTitle(roomName);
         }
 
         userId = getCurrentUserKey();
@@ -68,28 +84,55 @@ public class ChatRoomActivity extends AppCompatActivity {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         return preferences.getString(CURRENT_USER_KEY, "");
     }
-
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() != 16908332) {
+            return super.onOptionsItemSelected(menuItem);
+        }
+        finish();
+        return true;
+    }
     private void initUI() {
+
+
+        rootView = getWindow().getDecorView().getRootView();
         message = findViewById(R.id.message_text);
+        cdp = findViewById(R.id.cdp);
         send = findViewById(R.id.send_message);
         chats = findViewById(R.id.chats);
-        chats.setLayoutManager(new LinearLayoutManager(this));
+        chats.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true));
+
+        Picasso.get().load(APIs.Dp + extras.getString(CHAT_cdp, "")).into(cdp);
+        Drawable drawable = cdp.getDrawable();
+        WrappedDrawable wrappedDrawable = new WrappedDrawable(drawable);
+// set bounds on wrapper
+        wrappedDrawable.setBounds(0,0,70,70);
+       // getSupportActionBar().setIcon(wrappedDrawable);
 
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle(roomName);
+        getSupportActionBar().setLogo(wrappedDrawable);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        final Drawable upArrow = getResources().getDrawable(R.drawable.ic_nav_back);
+        getSupportActionBar().setHomeAsUpIndicator(upArrow);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (message.getText().toString().isEmpty()) {
-                    Toast.makeText(
-                            ChatRoomActivity.this,
-                            "Empty",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                    Toast.makeText(ChatRoomActivity.this, "Empty", Toast.LENGTH_SHORT).show();
                 } else {
                     addMessageToChatRoom();
                 }
             }
         });
+
+      /*  final EmojiPopup emojiPopup = EmojiPopup.Builder.fromRootView().build(message);
+        emojiPopup.toggle(); // Toggles visibility of the Popup.
+        emojiPopup.dismiss(); // Dismisses the Popup.
+        emojiPopup.isShowing(); */// Returns true when Popup is showing.
     }
 
     private void addMessageToChatRoom() {

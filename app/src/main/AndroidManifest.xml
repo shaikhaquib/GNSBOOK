@@ -12,9 +12,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-feature android:name="android.hardware.camera.autofocus" />
-
-    <permission android:name="com.httpgnsbook.gnsbook.provider.READ" />
-
+    <permission android:name="com.httpgnsbook.gnsbook.provider.READ"/>
     <uses-permission android:name="com.httpgnsbook.gnsbook.provider.READ" />
 
 
@@ -184,7 +182,8 @@
             android:name="instamojo.orderauth.url"
             android:value="http://development.gnsbook.com/access_token.php" />
 
-        <activity android:name="com.digital.gnsbook.GnsChat.ChatRoomActivity"/>
+        <activity android:name="com.digital.gnsbook.GnsChat.ChatRoomActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name="com.digital.gnsbook.GnsChat.CreateRoomActivity" />
         <activity android:name="com.digital.gnsbook.GnsChat.CMainActivity"/>
 

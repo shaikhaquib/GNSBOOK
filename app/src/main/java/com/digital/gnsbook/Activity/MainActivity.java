@@ -3,6 +3,7 @@ package com.digital.gnsbook.Activity;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -10,6 +11,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build.VERSION;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.design.widget.TabLayout;
@@ -33,6 +36,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
@@ -46,21 +50,30 @@ import com.digital.gnsbook.Config.SQLiteHandler;
 import com.digital.gnsbook.Config.SessionManager;
 import com.digital.gnsbook.Fragment.FreindRequests;
 import com.digital.gnsbook.Fragment.ProfileFragment;
-import com.digital.gnsbook.Fragment.ThreeFragment;
+import com.digital.gnsbook.Fragment.FriendFragment;
 import com.digital.gnsbook.Fragment.WallPostFragment;
 import com.digital.gnsbook.Adapter.FragmentViewPagerAdapter;
 import com.digital.gnsbook.Global;
+import com.digital.gnsbook.GnsChat.AuthenticationRepository;
 import com.digital.gnsbook.GnsChat.CMainActivity;
+import com.digital.gnsbook.GnsChat.ChatRoomRepository;
 import com.digital.gnsbook.Payment.Manual_Payment;
 import com.digital.gnsbook.Payment_corpoarate.Corporate_Agent_Signup;
 import com.digital.gnsbook.Payment_corpoarate.Corporate_BenificiaryList;
 import com.digital.gnsbook.UserVerification;
 import com.digital.gnsbook.ViewDialog;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.httpgnsbook.gnsbook.R;
 import com.mikelau.croperino.Croperino;
 import com.mikelau.croperino.CroperinoConfig;
 import com.mikelau.croperino.CroperinoFileUtil;
 import com.squareup.picasso.Picasso;
+import com.vanniktech.emoji.EmojiManager;
+import com.vanniktech.emoji.ios.IosEmojiProvider;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -97,6 +110,11 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
     RelativeLayout rvSearch;
     String notiCount= null ;
     int tabIconColor ;
+    AuthenticationRepository authentication;
+    private static final String CURRENT_USER_KEY = "CURRENT_USER_KEY";
+    ChatRoomRepository chatRoomRepository;
+
+
     /* renamed from: com.digital.gnsbook.Activity.MainActivity$5 */
     class C04225 implements OnClickListener {
         C04225() {
@@ -307,9 +325,16 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView((int) R.layout.activity_main);
+
+        EmojiManager.install(new IosEmojiProvider());
         Toolbar toolbar = (Toolbar) findViewById(R.id.maintoolbar);
         setSupportActionBar(toolbar);
         this.dialog = new ViewDialog(this);
+
+        FirebaseApp.initializeApp(this);
+        authentication = new AuthenticationRepository(FirebaseFirestore.getInstance());
+
+
         tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.tabindiactor);
         setTitle("");
         this.session = new SessionManager(this);
@@ -392,6 +417,8 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         new UserVerification(MainActivity.this);
         getAgentStatus();
         getFreindRequest();
+        authenticate();
+
     }
 
     private void getAgentStatus() {
@@ -418,7 +445,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         this.fragments.add(new WallPostFragment());
         this.fragments.add(new ProfileFragment());
         this.fragments.add(new FreindRequests());
-        this.fragments.add(new ThreeFragment());
+        this.fragments.add(new FriendFragment());
         this.titles.add("");
         this.titles.add("");
         this.titles.add("");
@@ -651,6 +678,67 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
                 return hashMap;
             }
         });
+
+    }
+
+    private void authenticate() {
+        String currentUserKey = getCurrentUserKey();
+        if (currentUserKey.isEmpty()) {
+            authentication.createNewUser(
+                    new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            saveCurrentUserKey(documentReference.getId());
+                            Toast.makeText(MainActivity.this, "New user created", Toast.LENGTH_SHORT).show();
+                        }
+                    },
+                    new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(
+                                    MainActivity.this,
+                                    "Error creating user. Check your internet connection",
+                                    Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+                    }
+            );
+        } else {
+            authentication.login(
+                    currentUserKey,
+                    new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Toast.makeText(MainActivity.this, "Logged in", Toast.LENGTH_SHORT).show();
+                            getCurrentUserKey();
+                          //  getChatRooms();
+                        }
+                    },
+                    new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(
+                                    MainActivity.this,
+                                    "Error signing in. Check your internet connection",
+                                    Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+                    }
+            );
+        }
+    }
+
+    private String getCurrentUserKey() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return preferences.getString(CURRENT_USER_KEY, "");
+    }
+
+    private void saveCurrentUserKey(String key) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(CURRENT_USER_KEY, key);
+        editor.apply();
+     //   getChatRooms();
 
     }
 
