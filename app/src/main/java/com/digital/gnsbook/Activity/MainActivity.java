@@ -67,6 +67,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.httpgnsbook.gnsbook.R;
 import com.mikelau.croperino.Croperino;
 import com.mikelau.croperino.CroperinoConfig;
@@ -418,7 +419,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         getAgentStatus();
         getFreindRequest();
         authenticate();
-
+        UpdateDeviceToken();
     }
 
     private void getAgentStatus() {
@@ -741,5 +742,42 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
      //   getChatRooms();
 
     }
+
+    private void UpdateDeviceToken() {
+        StringRequest request =new StringRequest(StringRequest.Method.POST, APIs.devicetoken, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject =new JSONObject(response);
+                    System.out.println(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {}
+        }){
+
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=UTF-8";
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String>  params = new HashMap<String, String>();
+
+                params.put("customer_id", Global.customerid);
+                params.put("token",FirebaseInstanceId.getInstance().getToken());
+
+                return params;
+            }
+
+        };
+        AppController.getInstance().addToRequestQueue(request);
+    }
+
 
 }

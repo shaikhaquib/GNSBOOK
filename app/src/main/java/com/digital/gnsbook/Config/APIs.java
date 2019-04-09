@@ -91,10 +91,7 @@ public class APIs {
     public static String oldDolike                              = DevDomain+"add_like_by_post";
     public static String oldUnlike                              = DevDomain+"remove_like_by_post";
 
-
     public static String ChatFriend                             = DevDomain+"display_friend_list";
-
-
 
     public static String Corporate_AgentVr                      = DevDomain+"cdmr_signup_verify";
     public static String Comment_data                           = DevDomain+"comment_data_display";
@@ -129,6 +126,8 @@ public class APIs {
     public static String Add_Address                            = DevDomain+"add_address";
     public static String order_placed                           = DevDomain+"order_placed";
     public static String updateChannel                          = DevDomain+"update_channel";
-    public static String broadcast_fcm;
-    public static String fcm;
+    public static String broadcast_fcm                          = DevDomain+"send_message";
+    public static String fcm                                    = DevDomain+"send_single_message";
+    public static String Chat_fcm                               = DevDomain+"chat_notification";
+    public static String devicetoken                            = DevDomain+"token";
 }

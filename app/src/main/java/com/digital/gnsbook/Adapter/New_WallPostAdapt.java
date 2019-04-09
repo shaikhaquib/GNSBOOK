@@ -45,6 +45,7 @@ import com.digital.gnsbook.Activity.ProductDetail;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Config.DbHelper;
+import com.digital.gnsbook.Firebase.Broadcast_FCM;
 import com.digital.gnsbook.Global;
 import com.digital.gnsbook.Model.WallPostmodel;
 import com.digital.gnsbook.Payment.OverlapDecoration;
@@ -225,6 +226,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
 
         holder.share.setOnClickListener(new View.OnClickListener() {@Override
         public void onClick(View v) {
+            new Broadcast_FCM().execute(Global.customerid,postmodel.title,Global.name+" has Shared a post");
 
             // Toast.makeText(context, "Toast", Toast.LENGTH_SHORT).show();
 
@@ -305,6 +307,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
                         holder.likeCount.setText(String.valueOf(postmodel.likecount));
                         getText(postmodel, holder.likename);
                     }else{
+                        new Broadcast_FCM().execute(Global.customerid,postmodel.title,Global.name+" has liked a post");
                         postmodel.selfLike = 1;
                         postmodel.likecount ++;
                         holder.likeCount.setText(String.valueOf(postmodel.likecount));

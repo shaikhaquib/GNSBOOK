@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,9 @@ import android.widget.Toast;
 
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Extra.WrappedDrawable;
+import com.digital.gnsbook.Firebase.Chat_FCM;
+import com.digital.gnsbook.Firebase.Fcm;
+import com.digital.gnsbook.Global;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -45,6 +49,7 @@ public class ChatRoomActivity extends AppCompatActivity {
     public static final String CHAT_ROOM_ID = "CHAT_ROOM_ID";
     public static final String CHAT_ROOM_NAME = "CHAT_ROOM_NAME";
     public static final String CHAT_cdp = "CHAT_cdp";
+    public static final String CHAT_fid = "CHAT_fid";
     private static final String CURRENT_USER_KEY = "CURRENT_USER_KEY";
     View rootView;
     private String roomId = "";
@@ -125,6 +130,7 @@ public class ChatRoomActivity extends AppCompatActivity {
                     Toast.makeText(ChatRoomActivity.this, "Empty", Toast.LENGTH_SHORT).show();
                 } else {
                     addMessageToChatRoom();
+
                 }
             }
         });
@@ -137,6 +143,8 @@ public class ChatRoomActivity extends AppCompatActivity {
 
     private void addMessageToChatRoom() {
         String chatMessage = message.getText().toString();
+        new Chat_FCM().execute(extras.getString(CHAT_fid, ""), chatMessage,Global.name+" has sent you Message" ,Global.customerid);
+
         message.setText("");
         send.setEnabled(false);
         chatRoomRepository.addMessageToChatRoom(

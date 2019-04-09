@@ -1,6 +1,7 @@
 package com.digital.gnsbook.Firebase;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 import com.digital.gnsbook.Activity.MainActivity;
@@ -56,7 +58,14 @@ public class MessagingService extends FirebaseMessagingService {
             editor.apply();
             System.out.println(Global.notificationcount);
           //  dbHelper.addNotification(jsonObject.getString("Title"),jsonObject.getString("Message"),jsonObject.getString("Date"));
-            showNotification(jsonObject.getString("Message"),jsonObject.getString("Date"),jsonObject.getString("Title"));
+
+            if (jsonObject.has("sender_id")) {
+                if (!jsonObject.getString("sender_id").equals(Global.sender_id)){
+                    showNotification(jsonObject.getString("Message"), jsonObject.getString("Date"), jsonObject.getString("Title"));
+                }
+            }else {
+                showNotification(jsonObject.getString("Message"), jsonObject.getString("Date"), jsonObject.getString("Title"));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -81,44 +90,32 @@ public class MessagingService extends FirebaseMessagingService {
 
 
 
-        NotificationCompat.BigTextStyle style=new NotificationCompat.BigTextStyle();
-        style.bigText(Message);
-        style.setBigContentTitle(Title);
-        style.setSummaryText("Virtual Shop");
+        NotificationManager notificationManager = (NotificationManager) getBaseContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Random random = new Random();
-        int m = random.nextInt(9999 - 1000) + 1000;
-        Intent intent =new Intent(getApplicationContext(), MainActivity.class);
-        intent.putExtra("menuFragment", "favoritesMenuItem");
-                            intent.setAction("Notify");
+        int notificationId = 1;
+        String channelId = "channel-01";
+        String channelName = "Channel Name";
+        int importance = NotificationManager.IMPORTANCE_HIGH;
 
-                          NotificationCompat.Builder nbuilder=(NotificationCompat.Builder)new NotificationCompat.Builder(MessagingService.this)
-                                .setSmallIcon(R.drawable.gnsbooklogo)
-                                .setContentTitle(Title)
-                                .setContentText(Message)
-                                .setAutoCancel(true)
-                                .setStyle(style).setBadgeIconType(R.drawable.gnsbooklogo)
-                                .setPriority(Notification.PRIORITY_MAX)
-                                .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.gnsbooklogo))
-                                .setSmallIcon(R.mipmap.ic_launcher)
-                                .setGroup("Complete Wallet")
-                                .setTicker("Complete Wallet");
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel mChannel = new NotificationChannel(
+                    channelId, channelName, importance);
+            notificationManager.createNotificationChannel(mChannel);
+        }
 
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getBaseContext(), channelId)
+                .setSmallIcon(R.drawable.gnsbooklogo)
+                .setContentTitle(Title)
+                .setContentText(Message);
 
-                            PendingIntent pendingIntent =PendingIntent.getActivity(getApplicationContext(),m,intent,0);
-                            nbuilder.setContentIntent(pendingIntent);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(getBaseContext());
+        stackBuilder.addNextIntent(new Intent(getApplicationContext(),MainActivity.class));
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
+                0,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+        mBuilder.setContentIntent(resultPendingIntent);
 
-                            //long[] vibrate = { 0, 100, 200, 300 };
-                            Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                            nbuilder.setSound(alarmSound);
-                         //   nbuilder.setVibrate(vibrate);
-        nbuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
-
-        //LED
-        nbuilder.setLights(Color.RED, 3000, 3000);
-
-        //Ton
-                            NotificationManager notificationManager= (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                            notificationManager.notify(m,nbuilder.build());
+        notificationManager.notify(notificationId, mBuilder.build());
     }
 }

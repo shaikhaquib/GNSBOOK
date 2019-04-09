@@ -71,6 +71,7 @@ public class Global {
     public static String verify_email = "0";
     public static String verify_sms = "0";
     public static String verify_wallet = "0";
+    public static String sender_id=null;
 
     /* renamed from: com.digital.gnsbook.Global$1 */
     static class C04591 implements OnClickListener {

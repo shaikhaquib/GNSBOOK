@@ -3,6 +3,7 @@ package com.digital.gnsbook.Model;
 import com.google.gson.annotations.SerializedName;
 
 public class FriendItem {
+	public String friendID;
 	@SerializedName("customerid_to")
 	private int customeridTo;
 

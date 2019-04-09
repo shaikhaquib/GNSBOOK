@@ -26,6 +26,8 @@ package com.digital.gnsbook.Activity;
         import com.digital.gnsbook.Config.APIs;
         import com.digital.gnsbook.Config.AppController;
         import com.digital.gnsbook.Extra.DividerDecorator;
+        import com.digital.gnsbook.Firebase.Broadcast_FCM;
+        import com.digital.gnsbook.Firebase.Fcm;
         import com.digital.gnsbook.Global;
         import com.digital.gnsbook.Model.CommentItem;
         import com.digital.gnsbook.Model.Comment_Response;
@@ -97,6 +99,8 @@ public class Comment extends AppCompatActivity {
 
         public void onClick(View view) {
             Comment.this.Docomment();
+            new Broadcast_FCM().execute(Global.customerid,EdtComment.getText().toString(),Global.name+" has Commented on post");
+
         }
     }
 

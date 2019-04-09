@@ -187,6 +187,23 @@
         <activity android:name="com.digital.gnsbook.GnsChat.CreateRoomActivity" />
         <activity android:name="com.digital.gnsbook.GnsChat.CMainActivity"/>
 
+        <service android:name="com.digital.gnsbook.Firebase.MyFirebaseInstanceIDService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name="com.digital.gnsbook.Firebase.MessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/gnsbooklogo" />
+
     </application>
 
 </manifest>

@@ -172,6 +172,8 @@ public class FriendFragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerView.setAdapter(new C09291());
 
+
+
         rvFriend = view.findViewById(R.id.rvfreind);
         rvFriend.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         rvFriend.setAdapter(new RecyclerView.Adapter() {
@@ -189,7 +191,15 @@ public class FriendFragment extends Fragment {
                 holder.name.setText(model.getName()+" "+model.getLastName());
                 holder.desc.setText("India");
                 Picasso.get().load(APIs.Dp+model.getDPic()).into(holder.dp);
+                if (String.valueOf(model.getCustomeridFrom()).equals(Global.customerid))
+                {
+                   model.friendID = String.valueOf(model.getCustomeridTo());
+                }
+                else
+                {
+                    model.friendID = String.valueOf(model.getCustomeridFrom());
 
+                }
                 Log.d("Channel_id",model.getChannelId());
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -200,6 +210,9 @@ public class FriendFragment extends Fragment {
                             Intent intent = new Intent(getActivity(), ChatRoomActivity.class);
                             intent.putExtra(ChatRoomActivity.CHAT_ROOM_ID, model.getChannelId());
                             intent.putExtra(ChatRoomActivity.CHAT_cdp, model.getDPic());
+
+
+                            intent.putExtra(ChatRoomActivity.CHAT_fid, model.friendID);
                             intent.putExtra(ChatRoomActivity.CHAT_ROOM_NAME,model.getName()+" "+model.getLastName() );
                             startActivity(intent);
                         }

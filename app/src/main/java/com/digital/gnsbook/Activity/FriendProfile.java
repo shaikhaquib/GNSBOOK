@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
+import com.digital.gnsbook.Firebase.Fcm;
 import com.digital.gnsbook.Global;
 import com.digital.gnsbook.ViewDialog;
 import com.httpgnsbook.gnsbook.R;
@@ -58,9 +59,9 @@ public class FriendProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addFreind();
-
                 addFreind.setVisibility(View.GONE);
                 removefriend.setVisibility(View.VISIBLE);
+                new Fcm().execute(getIntent().getStringExtra("id"),Global.name+" has sent you a friend request","You have friend request from "+Global.name );
             }
         });
         removefriend.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +88,8 @@ public class FriendProfile extends AppCompatActivity {
                 acceptRequest.setVisibility(View.GONE);
                 layout.setVisibility(View.GONE);
                 removefriend.setVisibility(View.VISIBLE);
+                new Fcm().execute(getIntent().getStringExtra("id"),Global.name+" has Accepted your friend request","Friend Request Accepted." );
+
             }
         });
 
