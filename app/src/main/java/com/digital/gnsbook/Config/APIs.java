@@ -2,10 +2,10 @@ package com.digital.gnsbook.Config;
 
 public class APIs {
 
-    public static String DevDomain  = "https://development.gnsbook.com/api/";
-    public static String Domain     = "https://development.gnsbook.com/";
-   /* public static String DevDomain  = "https://www.gnsbook.com/api/";
-    public static String Domain = "https://www.gnsbook.com/";*/
+    /*public static String DevDomain  = "https://development.gnsbook.com/api/";
+    public static String Domain     = "https://development.gnsbook.com/";*/
+    public static String DevDomain  = "https://www.gnsbook.com/api/";
+    public static String Domain = "https://www.gnsbook.com/";
 
     public static String LoginAPI                               = Domain+"login";
     public static String UpdatePassword                         = Domain+"update_password";
@@ -129,4 +129,6 @@ public class APIs {
     public static String Add_Address                            = DevDomain+"add_address";
     public static String order_placed                           = DevDomain+"order_placed";
     public static String updateChannel                          = DevDomain+"update_channel";
+    public static String broadcast_fcm;
+    public static String fcm;
 }
