@@ -356,7 +356,7 @@ public class Companypage extends AppCompatActivity {
         linearLayout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 create.dismiss();
-                Companypage.this.startActivity(new Intent(Companypage.this, UpdateProfile.class).putExtra("type", 1));
+                Companypage.this.startActivity(new Intent(Companypage.this, UpdateProfile.class).putExtra("type", 1).putExtra("isCompany",true));
             }
         });
     }

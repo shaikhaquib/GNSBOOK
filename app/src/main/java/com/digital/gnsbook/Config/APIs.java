@@ -58,7 +58,7 @@ public class APIs {
     public static String Statistics                             = DevDomain+"statistics_data";
     public static String UpadteCapping                          = DevDomain+"claimcapping";
     public static String UpdateProfile                          = DevDomain+"profile_update";
-    public static String  UploadPost                             = DevDomain+"add_timeline_by_companies";
+    public static String UploadPost                             = DevDomain+"add_timeline_by_companies";
     public static String UserPoolDATA                           = DevDomain+"pool_participants_by_customer_id";
     public static String Verificationstatus                     = DevDomain+"verify_data";
     public static String addmoney                               = DevDomain+"add_balane_online";
@@ -121,6 +121,7 @@ public class APIs {
     public static String UpdateCart                             = DevDomain+"edit_cart";
     public static String RemoveCart                             = DevDomain+"remove_from_cart";
     public static String uploadDPPage                           = DevDomain+"upload_logo";
+    public static String profile_upload_dpic                    = DevDomain+"profile_upload_dpic";
     public static String company_product                        = DevDomain+"newtimeline_data_by_type";
     public static String display_address                        = DevDomain+"display_address";
     public static String Add_Address                            = DevDomain+"add_address";
@@ -130,4 +131,5 @@ public class APIs {
     public static String fcm                                    = DevDomain+"send_single_message";
     public static String Chat_fcm                               = DevDomain+"chat_notification";
     public static String devicetoken                            = DevDomain+"token";
+    public static String friend_suggestion                      = DevDomain+"friend_suggestion";
 }

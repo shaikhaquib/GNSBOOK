@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <permission android:name="com.httpgnsbook.gnsbook.provider.READ"/>
@@ -188,13 +189,15 @@
         <activity android:name="com.digital.gnsbook.GnsChat.CMainActivity"/>
 
         <service android:name="com.digital.gnsbook.Firebase.MyFirebaseInstanceIDService"
-            android:exported="false">
+            android:exported="false"
+            android:stopWithTask="false">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
         <service android:name="com.digital.gnsbook.Firebase.MessagingService"
-            android:exported="false">
+            android:exported="false"
+            android:stopWithTask="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

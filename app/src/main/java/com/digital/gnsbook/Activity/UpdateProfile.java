@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -26,6 +27,8 @@ import com.httpgnsbook.gnsbook.R;
 import com.mikelau.croperino.Croperino;
 import com.mikelau.croperino.CroperinoConfig;
 import com.mikelau.croperino.CroperinoFileUtil;
+
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,7 +61,9 @@ public class UpdateProfile extends AppCompatActivity {
         public void onClick(View view) {
             if (UpdateProfile.this.CircleBitmap != null) {
 
-                if (getIntent().getBooleanExtra("isCompany",false))
+                boolean isCompany = getIntent().getBooleanExtra("isCompany", false);
+
+                if (!isCompany)
                     UploadProfile(Global.encodeTobase64(UpdateProfile.this.CircleBitmap));
                 else
                     updateComponyDP(Global.encodeTobase64(UpdateProfile.this.CircleBitmap));
@@ -93,6 +98,20 @@ public class UpdateProfile extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 dialog.dismiss();
+                if (error == null || error.networkResponse == null) {
+                    return;
+                }
+
+                String body;
+                //get status code here
+                final String statusCode = String.valueOf(error.networkResponse.statusCode);
+                //get response body and parse with appropriate encoding
+                try {
+                    body = new String(error.networkResponse.data,"UTF-8");
+                    Log.d("Multi",body);
+                } catch (UnsupportedEncodingException e) {
+                    // exception
+                }
 
             }
         }){
@@ -101,7 +120,7 @@ public class UpdateProfile extends AppCompatActivity {
                 Map<String,String> param = new HashMap<>();
 
                 param.put("company_id",Global.Company_Id);
-                param.put("image","data:image/jpeg;base64,"+encodeTobase64);
+                param.put("image",encodeTobase64);
 
                 return param;
             }

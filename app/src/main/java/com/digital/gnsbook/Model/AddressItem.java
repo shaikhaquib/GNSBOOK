@@ -128,7 +128,7 @@ public class AddressItem {
 	@Override
 	public String toString(){
 		return
-				"ResultItem{" +
+				"FriendSuggestiontem{" +
 						"zipcode = '" + zipcode + '\'' +
 						",country = '" + country + '\'' +
 						",city = '" + city + '\'' +

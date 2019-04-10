@@ -19,6 +19,14 @@
             android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/frndSuggestion"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:descendantFocusability="blocksDescendants"
+                android:paddingBottom="50.0dip"
+                android:visibility="gone"/>
+
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/wallPostmain"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

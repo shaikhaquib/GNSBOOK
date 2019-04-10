@@ -96,9 +96,16 @@ public class ChatRoomActivity extends AppCompatActivity {
         finish();
         return true;
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Global.sender_id ="0";
+    }
+
     private void initUI() {
 
-
+        Global.sender_id = extras.getString(CHAT_fid, "");
         rootView = getWindow().getDecorView().getRootView();
         message = findViewById(R.id.message_text);
         cdp = findViewById(R.id.cdp);
@@ -130,7 +137,6 @@ public class ChatRoomActivity extends AppCompatActivity {
                     Toast.makeText(ChatRoomActivity.this, "Empty", Toast.LENGTH_SHORT).show();
                 } else {
                     addMessageToChatRoom();
-
                 }
             }
         });
@@ -143,7 +149,7 @@ public class ChatRoomActivity extends AppCompatActivity {
 
     private void addMessageToChatRoom() {
         String chatMessage = message.getText().toString();
-        new Chat_FCM().execute(extras.getString(CHAT_fid, ""), chatMessage,Global.name+" has sent you Message" ,Global.customerid);
+        new Chat_FCM().execute(extras.getString(CHAT_fid, ""), chatMessage,Global.name+" has sent you Message" ,Global.customerid,roomId);
 
         message.setText("");
         send.setEnabled(false);

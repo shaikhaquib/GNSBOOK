@@ -67,7 +67,7 @@ import java.util.Map;
 public class New_WallPostAdapt extends Adapter<ViewHolder> {
     Context context;
     ArrayList<WallPostmodel> postmodels;
-    class Holder extends ViewHolder {
+    static class Holder extends ViewHolder {
         CheckBox BtnLike ;
         RecyclerView Overlapview , slider;
         TextView date, commentCount;
@@ -307,7 +307,11 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
                         holder.likeCount.setText(String.valueOf(postmodel.likecount));
                         getText(postmodel, holder.likename);
                     }else{
-                        new Broadcast_FCM().execute(Global.customerid,postmodel.title,Global.name+" has liked a post");
+                        if (postmodel.type.equals("1"))
+                            new Broadcast_FCM().execute(Global.customerid,postmodel.title,Global.name+" has liked a post");
+                        else
+                            new Broadcast_FCM().execute(Global.customerid,postmodel.product_name,Global.name+" has liked a product");
+
                         postmodel.selfLike = 1;
                         postmodel.likecount ++;
                         holder.likeCount.setText(String.valueOf(postmodel.likecount));

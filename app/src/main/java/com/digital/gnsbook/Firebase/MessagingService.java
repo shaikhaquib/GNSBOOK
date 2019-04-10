@@ -42,11 +42,12 @@ public class MessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        Log.d("notification", String.valueOf(remoteMessage.getData()));
         try {
         JSONObject jsonObject =new JSONObject(remoteMessage.getData());
 
+
             i++ ;
+            Log.d("notification", String.valueOf(jsonObject));
 
             SharedPreferences prfs = getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
             Global.notificationcount = prfs.getInt("notivalue",0);
@@ -88,13 +89,13 @@ public class MessagingService extends FirebaseMessagingService {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void showNotification(String Message , String Date , String Title) {
 
-
+        Random random = new Random();
+        int m = random.nextInt(9999 - 1000) + 1000;
 
         NotificationManager notificationManager = (NotificationManager) getBaseContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
-        int notificationId = 1;
-        String channelId = "channel-01";
-        String channelName = "Channel Name";
+        String channelId = "GnsBook";
+        String channelName = "GnsBook Notification";
         int importance = NotificationManager.IMPORTANCE_HIGH;
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -102,11 +103,15 @@ public class MessagingService extends FirebaseMessagingService {
                     channelId, channelName, importance);
             notificationManager.createNotificationChannel(mChannel);
         }
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getBaseContext(), channelId)
                 .setSmallIcon(R.drawable.gnsbooklogo)
                 .setContentTitle(Title)
-                .setContentText(Message);
+                .setContentText(Message)
+                .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
+                .setLights(Color.RED, 3000, 3000)
+                .setSound(alarmSound);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(getBaseContext());
         stackBuilder.addNextIntent(new Intent(getApplicationContext(),MainActivity.class));
@@ -116,6 +121,6 @@ public class MessagingService extends FirebaseMessagingService {
         );
         mBuilder.setContentIntent(resultPendingIntent);
 
-        notificationManager.notify(notificationId, mBuilder.build());
+        notificationManager.notify(m, mBuilder.build());
     }
 }

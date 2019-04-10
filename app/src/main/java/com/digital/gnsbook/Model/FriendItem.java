@@ -95,7 +95,7 @@ public class FriendItem {
 	@Override
 	public String toString(){
 		return
-				"ResultItem{" +
+				"FriendSuggestiontem{" +
 						"customerid_to = '" + customeridTo + '\'' +
 						",d_pic = '" + dPic + '\'' +
 						",name = '" + name + '\'' +

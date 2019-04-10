@@ -296,7 +296,7 @@ public class ProfileFragment extends Fragment {
         fabcommunity.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileFragment.this.getActivity(), SpillTree.class));
+         //       startActivity(new Intent(ProfileFragment.this.getActivity(), SpillTree.class));
             }
         });
         wallPost.setAdapter(new WallPostAdapt(this.postmodels, getActivity()));
@@ -349,13 +349,13 @@ public class ProfileFragment extends Fragment {
         linearLayout2.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
                 create.dismiss();
-                ProfileFragment.this.startActivity(new Intent(ProfileFragment.this.getActivity(), UpdateProfile.class).putExtra("type", 0));
+                ProfileFragment.this.startActivity(new Intent(ProfileFragment.this.getActivity(), UpdateProfile.class).putExtra("type", 0).putExtra("isCompany",false));
             }
         });
         linearLayout.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
                 create.dismiss();
-                ProfileFragment.this.startActivity(new Intent(ProfileFragment.this.getActivity(), UpdateProfile.class).putExtra("type", 1));
+                ProfileFragment.this.startActivity(new Intent(ProfileFragment.this.getActivity(), UpdateProfile.class).putExtra("type", 1).putExtra("isCompany",false));
             }
         });
     }

@@ -50,7 +50,8 @@ public class Chat_FCM extends AsyncTask<String , String ,String> {
                     .appendQueryParameter("customer_id", params[0])
                     .appendQueryParameter("title", params[1])
                     .appendQueryParameter("message", params[2])
-                    .appendQueryParameter("sender_id", params[3]);
+                    .appendQueryParameter("sender_id", params[3])
+                    .appendQueryParameter("channel_id", params[4]);
             // / .appendQueryParameter("ifsc", params[5]);
             String query = builder.build().getEncodedQuery();
 

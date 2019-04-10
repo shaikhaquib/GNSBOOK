@@ -55,7 +55,7 @@ import org.json.JSONObject;
 public class FriendFragment extends Fragment {
     ArrayList<Top_Performer> componyModel = new ArrayList();
     ViewDialog dialog;
-    RecyclerView recyclerView ,rvFriend;
+    RecyclerView rvFriend;
     List<FriendItem> friendItems = new ArrayList<>();
 
     /* renamed from: com.digital.gnsbook.Fragment.FriendFragment$1 */
@@ -141,7 +141,7 @@ public class FriendFragment extends Fragment {
                     top_Performer.mobile = jSONObject.getString("mobile");
                     top_Performer.city = jSONObject.getString("city");
                     FriendFragment.this.componyModel.add(top_Performer);
-                    FriendFragment.this.recyclerView.getAdapter().notifyDataSetChanged();
+                    //FriendFragment.this.recyclerView.getAdapter().notifyDataSetChanged();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -166,11 +166,11 @@ public class FriendFragment extends Fragment {
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
         View view = layoutInflater.inflate(R.layout.activity_toperformer, viewGroup, false);
         dialog = new ViewDialog(getActivity());
-        recyclerView = view.findViewById(R.id.rvtoplist);
+       /* recyclerView = view.findViewById(R.id.rvtoplist);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerView = view.findViewById(R.id.rvtoplist);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        recyclerView.setAdapter(new C09291());
+        recyclerView.setAdapter(new C09291());*/
 
 
 
@@ -249,7 +249,7 @@ public class FriendFragment extends Fragment {
                 }
             }
         });
-        getComponyData();
+        //getComponyData();
         getFriendList();
         return view;
     }
@@ -293,7 +293,7 @@ public class FriendFragment extends Fragment {
 
                     if (jsonObject.getBoolean("status")){
                         model.setChannelId(s);
-                        recyclerView.getAdapter().notifyDataSetChanged();
+                      //  recyclerView.getAdapter().notifyDataSetChanged();
                         Intent intent = new Intent(getActivity(), ChatRoomActivity.class);
                         intent.putExtra(ChatRoomActivity.CHAT_ROOM_ID, id);
                         intent.putExtra(ChatRoomActivity.CHAT_cdp, model.getDPic());
@@ -368,6 +368,7 @@ public class FriendFragment extends Fragment {
 
     }
 
+/*
     private void getComponyData() {
         this.dialog.show();
         AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.freinds, new C09302(), new C09313()) {
@@ -378,4 +379,5 @@ public class FriendFragment extends Fragment {
             }
         });
     }
+*/
 }

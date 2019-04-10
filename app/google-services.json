@@ -21,6 +21,18 @@
             "package_name": "com.httpgnsbook.gnsbook",
             "certificate_hash": "7a2baf4bc006cc28ca30217639d63d61a1c42175"
           }
+        },
+        {
+          "client_id": "683945461850-l9qntsvvi4f4dgsjpcc76kraeqogu0uo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.httpgnsbook.gnsbook",
+            "certificate_hash": "59de6347e21dab8fc3a2c421e56075cafa24a0b2"
+          }
+        },
+        {
+          "client_id": "683945461850-cn50p4tv73g3lmugfa9plcts4ba2er7e.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [
