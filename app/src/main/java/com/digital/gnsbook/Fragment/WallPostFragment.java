@@ -1,6 +1,7 @@
 package com.digital.gnsbook.Fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.NestedScrollView.OnScrollChangeListener;
@@ -11,6 +12,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
@@ -28,6 +33,7 @@ import com.digital.gnsbook.Adapter.New_WallPostAdapt;
 import com.digital.gnsbook.ViewDialog;
 import com.google.gson.Gson;
 import com.httpgnsbook.gnsbook.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -185,7 +191,7 @@ public class WallPostFragment extends Fragment {
         dialog = new ViewDialog(getActivity());
         getTimelinePost();
         wallPost.setAdapter(new  New_WallPostAdapt(this.postmodels, getActivity()));
-        frndSuggestion.setAdapter(new FriendSuggestionAdapter(getActivity(),Models ));
+
         NestedScrollView nestedScrollView =  layoutInflater.findViewById(R.id.myScroll);
         if (nestedScrollView != null) {
             nestedScrollView.setOnScrollChangeListener(new C09321());
@@ -215,6 +221,57 @@ public class WallPostFragment extends Fragment {
                 hashMap.put("offset", String.valueOf(offset));
                 return hashMap;
             }
+        });
+
+        SuggestionAdapter();
+    }
+
+    private void SuggestionAdapter() {
+
+        frndSuggestion.setAdapter(new RecyclerView.Adapter() {
+            @NonNull
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                return new Holder(LayoutInflater.from(getActivity()).inflate(R.layout.friendsuggestionui, viewGroup, false));
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
+                final Holder holder = (Holder) viewHolder;
+                final FriendSuggestiontem model = Models.get(i);
+
+                holder.Name.setText(model.getName()+" "+model.getLastName());
+                Picasso.get().load(APIs.Dp + model.getDPic()).into(holder.dp);
+                holder.frdAddfrind.setTag(model);
+
+                holder.frdAddfrind.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Models.remove(model);
+                        notifyItemRemoved(i);
+                        notifyItemRangeChanged(i, Models.size());
+                        addFreind(String.valueOf(model.getCustomerId()));
+                    }
+                });
+            }
+
+            @Override
+            public int getItemCount() {
+                return Models.size();
+            }
+
+            class Holder extends RecyclerView.ViewHolder {
+                ImageView dp;
+                TextView Name;
+                CardView frdAddfrind;
+                public Holder(@NonNull View itemView) {
+                    super(itemView);
+                    dp=itemView.findViewById(R.id.frdp);
+                    Name=itemView.findViewById(R.id.frdName);
+                    frdAddfrind=itemView.findViewById(R.id.frdAddfrind);
+                }
+            }
+
         });
     }
 
@@ -262,5 +319,39 @@ public class WallPostFragment extends Fragment {
 
     }
 
+
+    private void addFreind(final String id) {
+        AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.addfriend, new Response.Listener<String>() {
+            public void onResponse(String str) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(str);
+
+                    if (jsonObject.getBoolean("status")){
+                        Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+        }) {
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> hashMap = new HashMap();
+                hashMap.put("customerid_to", id);
+                hashMap.put("customerid_from", Global.customerid);
+                return hashMap;
+            }
+        });
+
+
+
+    }
 
 }

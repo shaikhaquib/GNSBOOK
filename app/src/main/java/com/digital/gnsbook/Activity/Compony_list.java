@@ -48,12 +48,13 @@ public class Compony_list extends AppCompatActivity {
         class Holder extends ViewHolder {
             RelativeLayout Follow;
             TextView desc;
-            ImageView dp;
+            ImageView dp,bg;
             TextView name;
 
             public Holder(@NonNull View view) {
                 super(view);
                 this.dp = (ImageView) view.findViewById(R.id.cdp);
+                this.bg = (ImageView) view.findViewById(R.id.bg);
                 this.name = (TextView) view.findViewById(R.id.cName);
                 this.Follow = (RelativeLayout) view.findViewById(R.id.cFollow);
                 this.desc = (TextView) view.findViewById(R.id.cDesc);
@@ -79,6 +80,7 @@ public class Compony_list extends AppCompatActivity {
             stringBuilder.append("http://gnsbook.com/dpic/");
             stringBuilder.append(compony_data.logo);
             picasso.load(stringBuilder.toString()).into(holder.dp);
+            Picasso.get().load(APIs.Dp+compony_data.banner).into(holder.bg);
             holder.itemView.setOnClickListener(new OnClickListener() {
                 public void onClick(View view) {
                     Compony_list.this.startActivity(new Intent(Compony_list.this.getApplicationContext(), Companypage.class).putExtra(DbHelper.COLUMN_ID, compony_data.company_id));

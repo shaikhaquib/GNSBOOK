@@ -7,9 +7,9 @@ android {
         applicationId "com.httpgnsbook.gnsbook"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 43
+        versionCode 44
         multiDexEnabled true
-        versionName "4.2"
+        versionName "4.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

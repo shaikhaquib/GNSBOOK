@@ -34,6 +34,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.digital.gnsbook.Activity.ChatAcivity;
 import com.digital.gnsbook.Activity.ProfilePage;
 import com.digital.gnsbook.Activity.SpillTree;
 import com.digital.gnsbook.Activity.UpdateProfile;
@@ -296,7 +297,7 @@ public class ProfileFragment extends Fragment {
         fabcommunity.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-         //       startActivity(new Intent(ProfileFragment.this.getActivity(), SpillTree.class));
+                startActivity(new Intent(ProfileFragment.this.getActivity(), ChatAcivity.class));
             }
         });
         wallPost.setAdapter(new WallPostAdapt(this.postmodels, getActivity()));

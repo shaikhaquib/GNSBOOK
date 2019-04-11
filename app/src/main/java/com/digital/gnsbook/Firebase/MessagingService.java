@@ -17,8 +17,10 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
+import com.digital.gnsbook.Activity.ChatAcivity;
 import com.digital.gnsbook.Activity.MainActivity;
 import com.digital.gnsbook.Global;
+import com.digital.gnsbook.GnsChat.Chat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.httpgnsbook.gnsbook.R;
@@ -61,11 +63,11 @@ public class MessagingService extends FirebaseMessagingService {
           //  dbHelper.addNotification(jsonObject.getString("Title"),jsonObject.getString("Message"),jsonObject.getString("Date"));
 
             if (jsonObject.has("sender_id")) {
-                if (!jsonObject.getString("sender_id").equals(Global.sender_id)){
-                    showNotification(jsonObject.getString("Message"), jsonObject.getString("Date"), jsonObject.getString("Title"));
-                }
+                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                 showNotification(jsonObject.getString("Message"), jsonObject.getString("Date"), jsonObject.getString("Title"),intent);
             }else {
-                showNotification(jsonObject.getString("Message"), jsonObject.getString("Date"), jsonObject.getString("Title"));
+                Intent intent = new Intent(getApplicationContext(), ChatAcivity.class);
+                showNotification(jsonObject.getString("Message"), jsonObject.getString("Date"), jsonObject.getString("Title"),intent);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -87,7 +89,7 @@ public class MessagingService extends FirebaseMessagingService {
         super.onSendError(s, e);
     }
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    public void showNotification(String Message , String Date , String Title) {
+    public void showNotification(String Message , String Date , String Title,Intent intent) {
 
         Random random = new Random();
         int m = random.nextInt(9999 - 1000) + 1000;
@@ -109,12 +111,11 @@ public class MessagingService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.gnsbooklogo)
                 .setContentTitle(Title)
                 .setContentText(Message)
-                .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
                 .setLights(Color.RED, 3000, 3000)
                 .setSound(alarmSound);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(getBaseContext());
-        stackBuilder.addNextIntent(new Intent(getApplicationContext(),MainActivity.class));
+        stackBuilder.addNextIntent(intent);
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
                 0,
                 PendingIntent.FLAG_UPDATE_CURRENT

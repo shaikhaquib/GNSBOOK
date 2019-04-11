@@ -13,10 +13,8 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-feature android:name="android.hardware.camera.autofocus" />
-    <permission android:name="com.httpgnsbook.gnsbook.provider.READ"/>
+    <permission android:name="com.httpgnsbook.gnsbook.provider.READ" />
     <uses-permission android:name="com.httpgnsbook.gnsbook.provider.READ" />
-
-
 
     <application
         android:name="com.digital.gnsbook.Config.AppController"
@@ -31,9 +29,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
+        <activity android:name="com.digital.gnsbook.Activity.ChatAcivity"></activity>
         <activity
             android:name="com.digital.gnsbook.Activity.CheckOut"
-            android:label="@string/title_activity_check_out"/>
+            android:label="@string/title_activity_check_out" />
         <activity android:name="com.digital.gnsbook.Activity.Cart" />
         <activity android:name="com.digital.gnsbook.Activity.Add_Address" />
         <activity android:name="com.digital.gnsbook.Activity.ProductDetail" />
@@ -183,19 +182,22 @@
             android:name="instamojo.orderauth.url"
             android:value="http://development.gnsbook.com/access_token.php" />
 
-        <activity android:name="com.digital.gnsbook.GnsChat.ChatRoomActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name="com.digital.gnsbook.GnsChat.ChatRoomActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="com.digital.gnsbook.GnsChat.CreateRoomActivity" />
-        <activity android:name="com.digital.gnsbook.GnsChat.CMainActivity"/>
+        <activity android:name="com.digital.gnsbook.GnsChat.CMainActivity" />
 
-        <service android:name="com.digital.gnsbook.Firebase.MyFirebaseInstanceIDService"
+        <service
+            android:name="com.digital.gnsbook.Firebase.MyFirebaseInstanceIDService"
             android:exported="false"
             android:stopWithTask="false">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service android:name="com.digital.gnsbook.Firebase.MessagingService"
+        <service
+            android:name="com.digital.gnsbook.Firebase.MessagingService"
             android:exported="false"
             android:stopWithTask="false">
             <intent-filter>
@@ -206,7 +208,6 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/gnsbooklogo" />
-
     </application>
 
 </manifest>

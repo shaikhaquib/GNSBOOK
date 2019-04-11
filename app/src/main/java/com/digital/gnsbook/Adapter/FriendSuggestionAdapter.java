@@ -29,7 +29,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FriendSuggestionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class
+FriendSuggestionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
     List<FriendSuggestiontem> Models;
     public FriendSuggestionAdapter(Context context, List<FriendSuggestiontem> arrayList) {
@@ -40,28 +41,14 @@ public class FriendSuggestionAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new New_WallPostAdapt.Holder(LayoutInflater.from(this.context).inflate(R.layout.wallpostadapter, viewGroup, false));
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i)
+    {
+    return null;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
-        final Holder holder = (Holder) viewHolder;
-        final FriendSuggestiontem model = Models.get(i);
 
-        holder.Name.setText(model.getName()+" "+model.getLastName());
-        Picasso.get().load(APIs.Dp + model.getDPic()).into(holder.dp);
-        holder.frdAddfrind.setTag(model);
-
-        holder.frdAddfrind.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Models.remove(model);
-                notifyItemRemoved(i);
-                notifyItemRangeChanged(i, Models.size());
-                addFreind(String.valueOf(model.getCustomerId()));
-            }
-        });
 
     }
 
@@ -69,48 +56,7 @@ public class FriendSuggestionAdapter extends RecyclerView.Adapter<RecyclerView.V
     public int getItemCount() {
         return Models.size();
     }
-    class Holder extends RecyclerView.ViewHolder {
-        ImageView dp;
-        TextView Name;
-        CardView frdAddfrind;
-        public Holder(@NonNull View itemView) {
-            super(itemView);
-            dp=itemView.findViewById(R.id.frdp);
-            Name=itemView.findViewById(R.id.frdName);
-            frdAddfrind=itemView.findViewById(R.id.frdAddfrind);
-        }
-    }
 
-    private void addFreind(final String id) {
-        AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.addfriend, new Response.Listener<String>() {
-            public void onResponse(String str) {
 
-                try {
-                    JSONObject jsonObject = new JSONObject(str);
-
-                    if (jsonObject.getBoolean("status")){
-                        Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            public void onErrorResponse(VolleyError volleyError) {
-            }
-        }) {
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> hashMap = new HashMap();
-                hashMap.put("customerid_to", id);
-                hashMap.put("customerid_from", Global.customerid);
-                return hashMap;
-            }
-        });
-
-    }
 
 }

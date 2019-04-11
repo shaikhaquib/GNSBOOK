@@ -55,7 +55,6 @@ import com.digital.gnsbook.Fragment.WallPostFragment;
 import com.digital.gnsbook.Adapter.FragmentViewPagerAdapter;
 import com.digital.gnsbook.Global;
 import com.digital.gnsbook.GnsChat.AuthenticationRepository;
-import com.digital.gnsbook.GnsChat.CMainActivity;
 import com.digital.gnsbook.GnsChat.ChatRoomRepository;
 import com.digital.gnsbook.Payment.Manual_Payment;
 import com.digital.gnsbook.Payment_corpoarate.Corporate_Agent_Signup;
@@ -487,8 +486,8 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         int menuItem = Item.getItemId();
         if (menuItem == R.id.nav_dash) {
             startActivity(new Intent(getApplicationContext(), Account.class));
-        } else if (menuItem == R.id.nav_spill) {
-            startActivity(new Intent(getApplicationContext(), CMainActivity.class));
+        } else if (menuItem == R.id.nav_chat) {
+            startActivity(new Intent(getApplicationContext(), ChatAcivity.class));
         } else if (menuItem == R.id.nav_Componylist) {
             startActivity(new Intent(getApplicationContext(), Compony_list.class));
         } else if (menuItem == R.id.nav_topperform) {

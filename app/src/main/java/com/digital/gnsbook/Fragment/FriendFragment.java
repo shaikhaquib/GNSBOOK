@@ -191,6 +191,16 @@ public class FriendFragment extends Fragment {
                 holder.name.setText(model.getName()+" "+model.getLastName());
                 holder.desc.setText("India");
                 Picasso.get().load(APIs.Dp+model.getDPic()).into(holder.dp);
+                Picasso.get().load(APIs.Dp+model.getBPic()).into(holder.bg);
+
+                if (model.getType() == 1){
+                    holder.batchclose.setText("Friend");
+                }
+                else
+                {
+                    holder.batchclose.setText("Business Friend");
+                }
+
                 if (String.valueOf(model.getCustomeridFrom()).equals(Global.customerid))
                 {
                    model.friendID = String.valueOf(model.getCustomeridTo());
@@ -198,7 +208,6 @@ public class FriendFragment extends Fragment {
                 else
                 {
                     model.friendID = String.valueOf(model.getCustomeridFrom());
-
                 }
                 Log.d("Channel_id",model.getChannelId());
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -229,7 +238,7 @@ public class FriendFragment extends Fragment {
                 RelativeLayout Follow;
                 TextView desc,batchclose;
                 LinearLayout view1;
-                ImageView dp;
+                ImageView dp,bg;
                 TextView name;
 
                 public Holder(@NonNull View view) {
@@ -239,9 +248,9 @@ public class FriendFragment extends Fragment {
                     this.Follow = (RelativeLayout) view.findViewById(R.id.cFollow);
                     this.desc = (TextView) view.findViewById(R.id.cDesc);
                     this.batchclose = (TextView) view.findViewById(R.id.batchclose);
+                    this.bg = (ImageView) view.findViewById(R.id.bg);
                     this.view1 = (LinearLayout) view.findViewById(R.id.view);
 
-                    batchclose.setText("Friend");
 
                     view1.setVisibility(View.VISIBLE);
                     batchclose.setVisibility(View.VISIBLE);

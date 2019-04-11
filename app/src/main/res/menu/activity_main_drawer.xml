@@ -10,9 +10,10 @@
             android:icon="@drawable/ic_settings_icon"
             android:title="Setting" />
         <item
-            android:id="@+id/nav_spill"
-            android:icon="@drawable/ic_happy_faces_icon"
-            android:title="Community" />
+            android:id="@+id/nav_chat"
+            android:icon="@drawable/ic_chaticon_nav"
+            android:title="Chat"
+            android:iconTint="@color/nav_textcolor"/>
         <item
             android:id="@+id/nav_dash"
             android:icon="@drawable/ic_newsfeed_icon"

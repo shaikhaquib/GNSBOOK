@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class FriendItem {
 	public String friendID;
 	@SerializedName("customerid_to")
-	private int customeridTo;
+	private String customeridTo;
 
 	@SerializedName("d_pic")
 	private String dPic;
@@ -19,6 +19,12 @@ public class FriendItem {
 	@SerializedName("id")
 	private int id;
 
+	@SerializedName("type")
+	private int type;
+
+	@SerializedName("b_pic")
+	private String bPic;
+
 	@SerializedName("channel_id")
 	private String channelId;
 
@@ -28,11 +34,11 @@ public class FriendItem {
 	@SerializedName("customerid_from")
 	private int customeridFrom;
 
-	public void setCustomeridTo(int customeridTo){
+	public void setCustomeridTo(String customeridTo){
 		this.customeridTo = customeridTo;
 	}
 
-	public int getCustomeridTo(){
+	public String getCustomeridTo(){
 		return customeridTo;
 	}
 
@@ -68,6 +74,22 @@ public class FriendItem {
 		return id;
 	}
 
+	public void setType(int type){
+		this.type = type;
+	}
+
+	public int getType(){
+		return type;
+	}
+
+	public void setBPic(String bPic){
+		this.bPic = bPic;
+	}
+
+	public String getBPic(){
+		return bPic;
+	}
+
 	public void setChannelId(String channelId){
 		this.channelId = channelId;
 	}
@@ -95,12 +117,14 @@ public class FriendItem {
 	@Override
 	public String toString(){
 		return
-				"FriendSuggestiontem{" +
+				"ResultItem{" +
 						"customerid_to = '" + customeridTo + '\'' +
 						",d_pic = '" + dPic + '\'' +
 						",name = '" + name + '\'' +
 						",last_name = '" + lastName + '\'' +
 						",id = '" + id + '\'' +
+						",type = '" + type + '\'' +
+						",b_pic = '" + bPic + '\'' +
 						",channel_id = '" + channelId + '\'' +
 						",status = '" + status + '\'' +
 						",customerid_from = '" + customeridFrom + '\'' +
