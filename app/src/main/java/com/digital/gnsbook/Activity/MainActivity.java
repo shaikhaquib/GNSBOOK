@@ -44,10 +44,12 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.crashlytics.android.Crashlytics;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Config.SQLiteHandler;
 import com.digital.gnsbook.Config.SessionManager;
+import com.digital.gnsbook.Fragment.ChatFragment;
 import com.digital.gnsbook.Fragment.FreindRequests;
 import com.digital.gnsbook.Fragment.ProfileFragment;
 import com.digital.gnsbook.Fragment.FriendFragment;
@@ -64,6 +66,7 @@ import com.digital.gnsbook.ViewDialog;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -102,7 +105,11 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
     private List<Fragment> fragments = new ArrayList();
     ImageView profileImage;
     SessionManager session;
-    private int[] tabIcons = new int[]{R.drawable.dash_selector , R.drawable.ic_user_avatar,R.drawable.ic_happy_faces_icon ,R.drawable.ic_friends };
+    private int[] tabIcons = new int[]{R.drawable.dash_selector ,
+            R.drawable.ic_user_avatar,
+            R.drawable.ic_happy_faces_icon
+            ,R.drawable.ic_friends ,
+            R.drawable.ic_chaticon};
     private TabLayout tabLayout;
     private List<String> titles = new ArrayList();
     HashMap<String, String> user;
@@ -113,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
     AuthenticationRepository authentication;
     private static final String CURRENT_USER_KEY = "CURRENT_USER_KEY";
     ChatRoomRepository chatRoomRepository;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
 
     /* renamed from: com.digital.gnsbook.Activity.MainActivity$5 */
@@ -333,6 +341,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 
         FirebaseApp.initializeApp(this);
         authentication = new AuthenticationRepository(FirebaseFirestore.getInstance());
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 
         tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.tabindiactor);
@@ -412,7 +421,6 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 
 
         );
-
         setTabIcons();
         new UserVerification(MainActivity.this);
         getAgentStatus();
@@ -438,6 +446,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         this.tabLayout.getTabAt(1).setIcon(this.tabIcons[1]);
         this.tabLayout.getTabAt(2).setIcon(this.tabIcons[2]);
         this.tabLayout.getTabAt(3).setIcon(this.tabIcons[3]);
+        this.tabLayout.getTabAt(4).setIcon(this.tabIcons[4]);
     }
 
     private void prepareDataResource() {
@@ -446,6 +455,8 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         this.fragments.add(new ProfileFragment());
         this.fragments.add(new FreindRequests());
         this.fragments.add(new FriendFragment());
+        this.fragments.add(new ChatFragment());
+        this.titles.add("");
         this.titles.add("");
         this.titles.add("");
         this.titles.add("");

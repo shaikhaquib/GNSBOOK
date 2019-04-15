@@ -2,9 +2,11 @@ package com.digital.gnsbook.Activity;
 
 import android.content.Intent;
 import android.app.Activity;
+import com.crashlytics.android.Crashlytics;
 import instamojo.library.InstapayListener;
 import instamojo.library.InstamojoPay;
 import instamojo.library.Config;
+import io.fabric.sdk.android.Fabric;
 import org.json.JSONObject;
 import org.json.JSONException;
 import android.content.IntentFilter;
@@ -90,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+        Fabric.with(this, new Crashlytics());
         setContentView((int) R.layout.activity_login);
         // Call the function callInstamojo to start payment here
         this.session = new SessionManager(this);

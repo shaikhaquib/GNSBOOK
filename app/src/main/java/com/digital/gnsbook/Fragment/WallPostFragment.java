@@ -253,6 +253,12 @@ public class WallPostFragment extends Fragment {
                         addFreind(String.valueOf(model.getCustomerId()));
                     }
                 });
+
+                if (model.getCity()==null || model.getCity().isEmpty()){
+                    holder.Location.setText("India");
+                }else {
+                    holder.Location.setText(model.getCity());
+                }
             }
 
             @Override
@@ -262,12 +268,13 @@ public class WallPostFragment extends Fragment {
 
             class Holder extends RecyclerView.ViewHolder {
                 ImageView dp;
-                TextView Name;
+                TextView Name,Location;
                 CardView frdAddfrind;
                 public Holder(@NonNull View itemView) {
                     super(itemView);
                     dp=itemView.findViewById(R.id.frdp);
                     Name=itemView.findViewById(R.id.frdName);
+                    Location=itemView.findViewById(R.id.frdLocation);
                     frdAddfrind=itemView.findViewById(R.id.frdAddfrind);
                 }
             }

@@ -208,6 +208,9 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/gnsbooklogo" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="d385bd512050bcfb627fff60a1e35b017070a2bf" />
     </application>
 
 </manifest>

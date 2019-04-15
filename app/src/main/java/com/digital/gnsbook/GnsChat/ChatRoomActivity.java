@@ -73,6 +73,7 @@ public class ChatRoomActivity extends AppCompatActivity {
 
 
         chatRoomRepository = new ChatRoomRepository(FirebaseFirestore.getInstance());
+        setTitle("");
          extras = getIntent().getExtras();
         if (extras != null) {
             roomId = extras.getString(CHAT_ROOM_ID, "");
@@ -123,7 +124,7 @@ public class ChatRoomActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(roomName);
+        setTitle(roomName);
         getSupportActionBar().setLogo(wrappedDrawable);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

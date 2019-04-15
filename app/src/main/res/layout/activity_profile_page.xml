@@ -13,57 +13,88 @@
         android:focusableInTouchMode="true"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+
+
         <ImageView
             android:id="@+id/prBanner"
             android:layout_width="fill_parent"
             android:layout_height="150.0dip"
             android:adjustViewBounds="true"
             android:background="@color/white"
+            android:src="@drawable/bg"
             android:scaleType="fitXY" />
 
-        <LinearLayout
-            android:id="@+id/pr"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center"
-            android:background="@color/white"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/prDP"
-                android:layout_width="125.0dip"
-                android:layout_height="125.0dip"
-                android:layout_margin="8.0dip"
-                app:civ_border_color="@color/borderline"
-                app:civ_border_width="1.0dip" />
-
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/pr"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:layout_gravity="center"
-                android:layout_marginStart="12.0dip"
-                android:layout_marginEnd="12.0dip"
-                android:layout_marginBottom="30.0dip"
+                android:layout_marginTop="-70dp"
+                android:background="@android:color/transparent"
+                android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/prName"
+                <RelativeLayout
+                    android:layout_width="130.0dip"
+                    android:layout_height="130.0dip"
+                    android:layout_margin="8.0dip"
+                    android:src="@drawable/photo">
+
+                    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                        android:layout_width="125.0dip"
+                        android:layout_height="125.0dip"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="8.0dip"
+                        app:cpb_progress="50"
+                        app:cpb_progressbar_color="@color/button_background_enabled_start" />
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/prDP"
+                        android:layout_width="105.0dip"
+                        android:layout_height="105.0dip"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="8.0dip"
+                        android:src="@drawable/photo"
+                        app:civ_border_color="@color/borderline"
+                        app:civ_border_width="1.0dip" />
+
+                </RelativeLayout>
+
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:singleLine="true"
-                    android:textColor="@android:color/black"
-                    android:textSize="18.0sp" />
+                    android:layout_gravity="center"
+                    android:layout_marginStart="12.0dip"
+                    android:layout_marginEnd="12.0dip"
+                    android:layout_marginBottom="30.0dip"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/prcity"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="center_horizontal"
-                    android:text="Sofware Engineer"
-                    android:textSize="12.0sp" />
+                    <TextView
+                        android:id="@+id/prName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black"
+                        android:textSize="18.0sp" />
+
+                    <TextView
+                        android:id="@+id/prcity"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center_horizontal"
+                        android:text="Sofware Engineer"
+                        android:textSize="12.0sp" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
@@ -105,7 +136,6 @@
                 app:elevation="0.0dip"
                 app:fabSize="mini" />
         </LinearLayout>
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvprofile_wire"
             android:layout_width="fill_parent"

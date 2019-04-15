@@ -87,7 +87,7 @@ public class ChatAcivity extends AppCompatActivity {
 
 
 
-                if (String.valueOf(model.getCustomeridFrom()).equals(Global.customerid))
+                if (model.getCustomeridFrom()==0)
                 {
                     model.friendID = String.valueOf(model.getCustomeridTo());
                 }
@@ -139,125 +139,125 @@ public class ChatAcivity extends AppCompatActivity {
         getFriendList();
     }
 
-    private void createChannel(final String s, final String s1, final FriendItem model) {
-        new ChatRoomRepository(FirebaseFirestore.getInstance()).createRoom(s
-                ,
-                new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
+        private void createChannel(final String s, final String s1, final FriendItem model) {
+            new ChatRoomRepository(FirebaseFirestore.getInstance()).createRoom(s
+                    ,
+                    new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
 
-                        updateChannelId(s,documentReference.getId(),model);
+                            updateChannelId(s,documentReference.getId(),model);
 
 
+                        }
+                    },
+                    new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(
+                                    getApplicationContext(),
+                                    "Some thing went wrong",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        }
                     }
-                },
-                new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(
-                                getApplicationContext(),
-                                "Some thing went wrong",
-                                Toast.LENGTH_SHORT
-                        ).show();
-                    }
-                }
-        );
-    }
-
-    private void updateChannelId(final String s, final String id, final FriendItem model) {
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, APIs.updateChannel, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //   tprice=0;
-
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-
-                    if (jsonObject.getBoolean("status")){
-                        model.setChannelId(s);
-                        //  recyclerView.getAdapter().notifyDataSetChanged();
-                        Intent intent = new Intent(getApplicationContext(), ChatRoomActivity.class);
-                        intent.putExtra(ChatRoomActivity.CHAT_ROOM_ID, id);
-                        intent.putExtra(ChatRoomActivity.CHAT_cdp, model.getDPic());
-                        intent.putExtra(ChatRoomActivity.CHAT_ROOM_NAME, model.getName()+" "+model.getLastName()  );
-                        startActivity(intent);
-                    }
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map <String,String> param = new HashMap<String,String>();
-                param.put("id", s);
-                param.put("channel_id", id);
-                return param;
-            }
-        };
-        AppController.getInstance().addToRequestQueue(stringRequest);
-
-    }
-
-    private void getFriendList() {
-        //   dialog.show();
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, APIs.ChatFriend, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //   tprice=0;
-                //    dialog.dismiss();
-
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-
-                    if (jsonObject.getBoolean("status")){
-
-                        Gson gson = new Gson();
-                        FriendResponse res = gson.fromJson(response, FriendResponse.class);
-                        friendItems = res.getResult();
-                        rvFriend.getAdapter().notifyDataSetChanged();}
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // dialog.dismiss();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map <String,String> param = new HashMap<String,String>();
-                param.put("customerid_to", Global.customerid);
-                return param;
-            }
-        };
-        AppController.getInstance().addToRequestQueue(stringRequest);
-
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == android.R.id.home){
-            finish();
+            );
         }
 
-        return true;
+        private void updateChannelId(final String s, final String id, final FriendItem model) {
+            StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, APIs.updateChannel, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    //   tprice=0;
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+
+                        if (jsonObject.getBoolean("status")){
+                            model.setChannelId(s);
+                            //  recyclerView.getAdapter().notifyDataSetChanged();
+                            Intent intent = new Intent(getApplicationContext(), ChatRoomActivity.class);
+                            intent.putExtra(ChatRoomActivity.CHAT_ROOM_ID, id);
+                            intent.putExtra(ChatRoomActivity.CHAT_cdp, model.getDPic());
+                            intent.putExtra(ChatRoomActivity.CHAT_ROOM_NAME, model.getName()+" "+model.getLastName()  );
+                            startActivity(intent);
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map <String,String> param = new HashMap<String,String>();
+                    param.put("id", s);
+                    param.put("channel_id", id);
+                    return param;
+                }
+            };
+            AppController.getInstance().addToRequestQueue(stringRequest);
+
+        }
+
+        private void getFriendList() {
+            //   dialog.show();
+            StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, APIs.ChatFriend, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    //   tprice=0;
+                    //    dialog.dismiss();
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+
+                        if (jsonObject.getBoolean("status")){
+
+                            Gson gson = new Gson();
+                            FriendResponse res = gson.fromJson(response, FriendResponse.class);
+                            friendItems = res.getResult();
+                            rvFriend.getAdapter().notifyDataSetChanged();}
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // dialog.dismiss();
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map <String,String> param = new HashMap<String,String>();
+                    param.put("customerid_to", Global.customerid);
+                    return param;
+                }
+            };
+            AppController.getInstance().addToRequestQueue(stringRequest);
+
+        }
+
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int id = item.getItemId();
+
+            if (id == android.R.id.home){
+                finish();
+            }
+
+            return true;
+        }
     }
-}

@@ -191,7 +191,8 @@ public class FriendFragment extends Fragment {
                 holder.name.setText(model.getName()+" "+model.getLastName());
                 holder.desc.setText("India");
                 Picasso.get().load(APIs.Dp+model.getDPic()).into(holder.dp);
-                Picasso.get().load(APIs.Dp+model.getBPic()).into(holder.bg);
+                Log.d("BG", model.getBPic());
+                Picasso.get().load(APIs.Banner+model.getBPic()).into(holder.bg);
 
                 if (model.getType() == 1){
                     holder.batchclose.setText("Friend");
@@ -201,7 +202,7 @@ public class FriendFragment extends Fragment {
                     holder.batchclose.setText("Business Friend");
                 }
 
-                if (String.valueOf(model.getCustomeridFrom()).equals(Global.customerid))
+                if (model.getCustomeridFrom()==0)
                 {
                    model.friendID = String.valueOf(model.getCustomeridTo());
                 }
@@ -209,18 +210,17 @@ public class FriendFragment extends Fragment {
                 {
                     model.friendID = String.valueOf(model.getCustomeridFrom());
                 }
-                Log.d("Channel_id",model.getChannelId());
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Log.d("Channel_id",model.friendID);
+
                         if (model.getChannelId().equals("0")){
                             createChannel(String.valueOf(model.getId()),model.getName()+" "+model.getLastName(),model);
                         }else {
                             Intent intent = new Intent(getActivity(), ChatRoomActivity.class);
                             intent.putExtra(ChatRoomActivity.CHAT_ROOM_ID, model.getChannelId());
                             intent.putExtra(ChatRoomActivity.CHAT_cdp, model.getDPic());
-
-
                             intent.putExtra(ChatRoomActivity.CHAT_fid, model.friendID);
                             intent.putExtra(ChatRoomActivity.CHAT_ROOM_NAME,model.getName()+" "+model.getLastName() );
                             startActivity(intent);
