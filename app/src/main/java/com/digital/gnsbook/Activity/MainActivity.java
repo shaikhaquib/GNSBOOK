@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
     private List<Fragment> fragments = new ArrayList();
     ImageView profileImage;
     SessionManager session;
-    private int[] tabIcons = new int[]{R.drawable.dash_selector ,
+    private int[] tabIcons = new int[]{R.drawable.ic_newsfeed_icon ,
             R.drawable.ic_user_avatar,
             R.drawable.ic_happy_faces_icon
             ,R.drawable.ic_friends ,

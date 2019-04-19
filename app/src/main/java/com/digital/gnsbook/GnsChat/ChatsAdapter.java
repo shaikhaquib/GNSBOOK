@@ -1,11 +1,13 @@
 package com.digital.gnsbook.GnsChat;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.digital.gnsbook.Extra.Ago;
 import com.digital.gnsbook.Global;
 import com.httpgnsbook.gnsbook.R;
 
@@ -17,10 +19,14 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatViewHold
 
     private String userId;
     private List<Chat> chats;
+    Ago ago;
+    Context context;
 
-    public ChatsAdapter(List<Chat> chats, String userId) {
+    public ChatsAdapter(List<Chat> chats, String userId, Context context) {
         this.chats = chats;
         this.userId = userId;
+        this.context = context;
+        ago= new Ago().locale(this.context);
     }
 
     @Override
@@ -61,15 +67,18 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatViewHold
     }
 
     class ChatViewHolder extends RecyclerView.ViewHolder {
-        TextView message;
+        TextView message,date;
 
         public ChatViewHolder(View itemView) {
             super(itemView);
             message = itemView.findViewById(R.id.chat_message);
+            date = itemView.findViewById(R.id.date);
+
         }
 
         public void bind(Chat chat) {
             message.setText(chat.message);
+            date.setText(ago.getTimeAgo(Global.getNewDate(chat.sent)));
         }
     }
 }

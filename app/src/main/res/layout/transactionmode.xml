@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold"
             android:padding="@dimen/margin_16"
-            android:text="Select Transaction Mode"
+            android:text="@string/yesterday"
             android:textColor="#ff515365"
             android:textSize="@dimen/margin_16" />
 

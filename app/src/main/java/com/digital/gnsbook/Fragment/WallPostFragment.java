@@ -184,9 +184,10 @@ public class WallPostFragment extends Fragment {
         wallPost =layoutInflater.findViewById(R.id.wallPostmain);
         frndSuggestion =layoutInflater.findViewById(R.id.frndSuggestion);
         swipeRefreshLayout = layoutInflater.findViewById(R.id.mnSwipe);
-        wallPost.setItemAnimator(null);
+        wallPost.setNestedScrollingEnabled(false);
         porogress = layoutInflater.findViewById(R.id.progrssview);
         wallPost.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         frndSuggestion.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
         dialog = new ViewDialog(getActivity());
         getTimelinePost();
@@ -217,7 +218,7 @@ public class WallPostFragment extends Fragment {
                 Map<String, String> hashMap = new HashMap();
                 hashMap.put("company_id", "1");
                 hashMap.put("customer_id", Global.customerid);
-                hashMap.put("limit", "10");
+                hashMap.put("limit", "25");
                 hashMap.put("offset", String.valueOf(offset));
                 return hashMap;
             }

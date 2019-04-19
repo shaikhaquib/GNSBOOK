@@ -77,10 +77,10 @@ public class Compony_list extends AppCompatActivity {
             holder.desc.setText(compony_data.description);
             Picasso picasso = Picasso.get();
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("http://gnsbook.com/dpic/");
+            stringBuilder.append(APIs.Dp);
             stringBuilder.append(compony_data.logo);
             picasso.load(stringBuilder.toString()).into(holder.dp);
-            Picasso.get().load(APIs.Dp+compony_data.banner).into(holder.bg);
+            Picasso.get().load(APIs.Banner+compony_data.banner).into(holder.bg);
             holder.itemView.setOnClickListener(new OnClickListener() {
                 public void onClick(View view) {
                     Compony_list.this.startActivity(new Intent(Compony_list.this.getApplicationContext(), Companypage.class).putExtra(DbHelper.COLUMN_ID, compony_data.company_id));

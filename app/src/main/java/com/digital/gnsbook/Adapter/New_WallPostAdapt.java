@@ -38,6 +38,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chahinem.pageindicator.PageIndicator;
 import com.digital.gnsbook.Activity.Comment;
 import com.digital.gnsbook.Activity.Companypage;
@@ -45,6 +46,7 @@ import com.digital.gnsbook.Activity.ProductDetail;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Config.DbHelper;
+import com.digital.gnsbook.Extra.ImageLoader;
 import com.digital.gnsbook.Firebase.Broadcast_FCM;
 import com.digital.gnsbook.Global;
 import com.digital.gnsbook.Model.WallPostmodel;
@@ -67,6 +69,7 @@ import java.util.Map;
 public class New_WallPostAdapt extends Adapter<ViewHolder> {
     Context context;
     ArrayList<WallPostmodel> postmodels;
+    ImageLoader imageLoader;
     static class Holder extends ViewHolder {
         CheckBox BtnLike ;
         RecyclerView Overlapview , slider;
@@ -126,6 +129,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         this.postmodels = arrayList;
         this.context = context;
         setHasStableIds(true);
+        imageLoader = new ImageLoader(context);
     }
 
     @NonNull
@@ -265,8 +269,17 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         RoundedCornersTransformation roundedCornersTransformation = new RoundedCornersTransformation(15, 15);
 
         Picasso.get().load(APIs.Dp + postmodel.logo).into(holder.dp);
+
         Picasso.get().load(APIs.postImg + postmodel.images).into(holder.imgPost);
         Picasso.get().load(APIs.postImg + postmodel.images).into(holder.imgPrd);
+
+
+
+
+
+        Glide.with(context)
+                .load(APIs.postImg + postmodel.images)
+                .into(holder.imgPrd);
 
 
         holder.wpComment.setOnClickListener(new OnClickListener() {

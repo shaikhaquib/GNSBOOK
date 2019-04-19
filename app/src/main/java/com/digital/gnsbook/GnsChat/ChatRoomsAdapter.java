@@ -52,7 +52,7 @@ public class ChatRoomsAdapter extends RecyclerView.Adapter<ChatRoomsAdapter.Chat
     }
 
     class ChatRoomViewHolder extends RecyclerView.ViewHolder {
-        TextView name;
+        TextView name,date;
         ChatRoom chatRoom;
 
         public ChatRoomViewHolder(View itemView) {

@@ -58,106 +58,6 @@ public class FriendFragment extends Fragment {
     RecyclerView rvFriend;
     List<FriendItem> friendItems = new ArrayList<>();
 
-    /* renamed from: com.digital.gnsbook.Fragment.FriendFragment$1 */
-    class C09291 extends Adapter {
-
-        /* renamed from: com.digital.gnsbook.Fragment.FriendFragment$1$Holder */
-        class Holder extends ViewHolder {
-            RelativeLayout Follow;
-            TextView desc,batchclose;
-            ImageView dp;
-            TextView name;
-            LinearLayout view1;
-
-            public Holder(@NonNull View view) {
-                super(view);
-                dp = (ImageView) view.findViewById(R.id.cdp);
-                name = (TextView) view.findViewById(R.id.cName);
-                Follow = (RelativeLayout) view.findViewById(R.id.cFollow);
-                desc = (TextView) view.findViewById(R.id.cDesc);
-                batchclose = (TextView) view.findViewById(R.id.batchclose);
-                view1 =  view.findViewById(R.id.view);
-                view1.setVisibility(View.VISIBLE);
-
-                batchclose.setVisibility(View.VISIBLE);
-
-            }
-        }
-
-
-        @NonNull
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            return new Holder(LayoutInflater.from(FriendFragment.this.getActivity()).inflate(R.layout.componylist, viewGroup, false));
-        }
-
-        public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-            Holder holder = (Holder) viewHolder;
-            final Top_Performer top_Performer = (Top_Performer) FriendFragment.this.componyModel.get(i);
-            TextView textView = holder.name;
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(top_Performer.name);
-            stringBuilder.append(" ");
-            stringBuilder.append(top_Performer.last_name);
-            textView.setText(stringBuilder.toString());
-            holder.desc.setText(top_Performer.city);
-            Picasso picasso = Picasso.get();
-            stringBuilder = new StringBuilder();
-            stringBuilder.append("http://gnsbook.com/dpic/");
-            stringBuilder.append(top_Performer.d_pic);
-            picasso.load(stringBuilder.toString()).into(holder.dp);
-            
-            
-        }
-
-        public int getItemCount() {
-            return FriendFragment.this.componyModel.size();
-        }
-    }
-
-    /* renamed from: com.digital.gnsbook.Fragment.FriendFragment$2 */
-    class C09302 implements Listener<String> {
-        C09302() {
-        }
-
-        public void onResponse(String responce) {
-            FriendFragment.this.dialog.dismiss();
-            try {
-                JSONArray str = new JSONObject(responce).getJSONArray("result");
-                for (int i = 0; i < str.length(); i++) {
-                    JSONObject jSONObject = str.getJSONObject(i);
-                    Top_Performer top_Performer = new Top_Performer();
-                    top_Performer.agent_status = jSONObject.getString("agent_status");
-                    top_Performer.customer_id = jSONObject.getString("customer_id");
-                    top_Performer.referral_id = jSONObject.getString("referral_id");
-                    top_Performer.spill_id = jSONObject.getString("spill_id");
-                    top_Performer.agent_id = jSONObject.getString("agent_id");
-                    top_Performer.d_pic = jSONObject.getString("d_pic");
-                    top_Performer.id = jSONObject.getString(DbHelper.COLUMN_ID);
-                    top_Performer.b_pic = jSONObject.getString("b_pic");
-                    top_Performer.updated_at = jSONObject.getString("updated_at");
-                    top_Performer.email = jSONObject.getString(NotificationCompat.CATEGORY_EMAIL);
-                    top_Performer.last_name = jSONObject.getString("last_name");
-                    top_Performer.name = jSONObject.getString("name");
-                    top_Performer.mobile = jSONObject.getString("mobile");
-                    top_Performer.city = jSONObject.getString("city");
-                    FriendFragment.this.componyModel.add(top_Performer);
-                    //FriendFragment.this.recyclerView.getAdapter().notifyDataSetChanged();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    /* renamed from: com.digital.gnsbook.Fragment.FriendFragment$3 */
-    class C09313 implements ErrorListener {
-        C09313() {
-        }
-
-        public void onErrorResponse(VolleyError volleyError) {
-            FriendFragment.this.dialog.dismiss();
-        }
-    }
 
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -191,7 +91,7 @@ public class FriendFragment extends Fragment {
                 holder.name.setText(model.getName()+" "+model.getLastName());
                 holder.desc.setText("India");
                 Picasso.get().load(APIs.Dp+model.getDPic()).into(holder.dp);
-                Log.d("BG", model.getBPic());
+          //      Log.d("BG", model.getBPic());
                 Picasso.get().load(APIs.Banner+model.getBPic()).into(holder.bg);
 
                 if (model.getType() == 1){
@@ -204,7 +104,7 @@ public class FriendFragment extends Fragment {
 
                 if (model.getCustomeridFrom()==0)
                 {
-                   model.friendID = String.valueOf(model.getCustomeridTo());
+                    model.friendID = String.valueOf(model.getCustomeridTo());
                 }
                 else
                 {
@@ -227,7 +127,7 @@ public class FriendFragment extends Fragment {
                         }
                     }
                 });
-                
+
             }
 
             @Override
@@ -295,20 +195,20 @@ public class FriendFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 //   tprice=0;
-                    dialog.dismiss();
+                dialog.dismiss();
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
 
                     if (jsonObject.getBoolean("status")){
                         model.setChannelId(s);
-                      //  recyclerView.getAdapter().notifyDataSetChanged();
+                        //  recyclerView.getAdapter().notifyDataSetChanged();
                         Intent intent = new Intent(getActivity(), ChatRoomActivity.class);
                         intent.putExtra(ChatRoomActivity.CHAT_ROOM_ID, id);
                         intent.putExtra(ChatRoomActivity.CHAT_cdp, model.getDPic());
                         intent.putExtra(ChatRoomActivity.CHAT_ROOM_NAME, model.getName()+" "+model.getLastName()  );
                         startActivity(intent);
-                      }
+                    }
 
 
                 } catch (JSONException e) {
@@ -334,22 +234,22 @@ public class FriendFragment extends Fragment {
     }
 
     private void getFriendList() {
-       //   dialog.show();
+        //   dialog.show();
         StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, APIs.ChatFriend, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //   tprice=0;
-            //    dialog.dismiss();
+                //    dialog.dismiss();
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
 
                     if (jsonObject.getBoolean("status")){
 
-                    Gson gson = new Gson();
-                    FriendResponse res = gson.fromJson(response, FriendResponse.class);
-                    friendItems = res.getResult();
-                    rvFriend.getAdapter().notifyDataSetChanged();}
+                        Gson gson = new Gson();
+                        FriendResponse res = gson.fromJson(response, FriendResponse.class);
+                        friendItems = res.getResult();
+                        rvFriend.getAdapter().notifyDataSetChanged();}
 
 
                 } catch (JSONException e) {
@@ -363,7 +263,7 @@ public class FriendFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-               // dialog.dismiss();
+                // dialog.dismiss();
             }
         }) {
             @Override

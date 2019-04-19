@@ -61,6 +61,7 @@ public class Fragement_companypost extends Fragment {
 
         activity = (Companypage) getActivity();
         wallPost = view.findViewById(R.id.wallPost);
+        wallPost.setNestedScrollingEnabled(false);
         porogress = view.findViewById(R.id.compprogrssview);
         NewPost = view.findViewById(R.id.adminnewpost);
         if (Global.Company_Admin_Id != Integer.parseInt(Global.customerid)){
@@ -139,7 +140,7 @@ public class Fragement_companypost extends Fragment {
                 Map<String, String> hashMap = new HashMap();
                 hashMap.put("company_id",activity.getIntent().getStringExtra("id"));
                 hashMap.put("customer_id", Global.customerid);
-                hashMap.put("limit", "100");
+                hashMap.put("limit", "10");
                 hashMap.put("offset", String.valueOf(offset));
                 return hashMap;
             }

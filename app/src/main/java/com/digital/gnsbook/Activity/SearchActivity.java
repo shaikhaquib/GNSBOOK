@@ -21,7 +21,10 @@ import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Extra.DividerDecorator;
 import com.digital.gnsbook.Adapter.SearchAdapt;
-import com.digital.gnsbook.Model.SearchModel;
+import com.digital.gnsbook.Model.CommentItem;
+import com.digital.gnsbook.Model.SearchItem;
+import com.digital.gnsbook.Model.SearchResponse;
+import com.google.gson.Gson;
 import com.httpgnsbook.gnsbook.R;
 
 import org.json.JSONArray;
@@ -30,6 +33,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -42,7 +46,9 @@ public class SearchActivity extends AppCompatActivity {
     Context context;
     private Timer timer;
     ProgressBar searchProgress;
-    ArrayList<SearchModel> models =new ArrayList<>();
+    List<SearchItem> commentModel = new ArrayList();
+
+
 
     public static final String EXTRA_CIRCULAR_REVEAL_X = "EXTRA_CIRCULAR_REVEAL_X";
     public static final String EXTRA_CIRCULAR_REVEAL_Y = "EXTRA_CIRCULAR_REVEAL_Y";
@@ -156,28 +162,16 @@ public class SearchActivity extends AppCompatActivity {
                 try {
 
                     searchProgress.setVisibility(View.GONE);
-                    models.clear();
+                    commentModel.clear();
 
                     JSONObject jsonObject = new JSONObject(response);
 
                     if (jsonObject.getBoolean("status")){
                         JSONArray jsonArray = jsonObject.getJSONArray("result");
+                        SearchResponse searchResponse = (SearchResponse) new Gson().fromJson(response, SearchResponse.class);
+                        commentModel=searchResponse.getResult();
+                        rvSearch.setAdapter(new SearchAdapt(SearchActivity.this,commentModel));
 
-                        for (int i=0 ; i<jsonArray.length();i++){
-
-                            JSONObject jsonObj =jsonArray.getJSONObject(i);
-                            SearchModel model = new SearchModel();
-
-                            model.city = jsonObj.getString("city");
-                            model.name = jsonObj.getString("name");
-                            model.customer_id = jsonObj.getString("customer_id");
-                            model.last_name = jsonObj.getString("last_name");
-                            model.d_pic = jsonObj.getString("d_pic");
-
-                            models.add(model);
-                            rvSearch.setAdapter(new SearchAdapt(SearchActivity.this,models));
-
-                        }
                     }
 
                 } catch (JSONException e) {

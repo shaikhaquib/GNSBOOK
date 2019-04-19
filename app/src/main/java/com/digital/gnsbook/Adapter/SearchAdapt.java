@@ -12,14 +12,18 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.digital.gnsbook.Activity.Companypage;
 import com.digital.gnsbook.Activity.FriendProfile;
 import com.digital.gnsbook.Activity.SearchActivity;
 import com.digital.gnsbook.Config.APIs;
+import com.digital.gnsbook.Config.DbHelper;
+import com.digital.gnsbook.Model.SearchItem;
 import com.digital.gnsbook.Model.SearchModel;
 import com.httpgnsbook.gnsbook.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Shaikh Aquib on 02-May-18.
@@ -28,14 +32,12 @@ import java.util.ArrayList;
 public class SearchAdapt extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     Context context;
-    private ArrayList<SearchModel> models;
-    private ArrayList<SearchModel> contactListFiltered;
+    private List<SearchItem> models;
 
 
-    public SearchAdapt(Activity activity, ArrayList<SearchModel> models) {
+    public SearchAdapt(Activity activity, List<SearchItem> models) {
         this.context=activity;
         this.models=models;
-        this.contactListFiltered=models;
     }
 
 
@@ -49,22 +51,29 @@ public class SearchAdapt extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final HelpHolder helpHolder =(HelpHolder) holder;
-        final SearchModel model=models.get(position);
+        final SearchItem model=models.get(position);
 
         helpHolder.itemView.setTag(model);
 
-        helpHolder.name.setText(model.name +" "+ model.last_name);
-
-        if (!model.city.equals("null")){
-            helpHolder.city.setText(model.city);
-        }else {
-            helpHolder.city.setVisibility(View.GONE);
+        if (model.getSearchType() == 1) {
+            helpHolder.name.setText(model.getName() + " " + model.getLastName());
+            Picasso.get().load(APIs.Dp + model.getDPic()).into( helpHolder.dp);
         }
-        Picasso.get().load(APIs.Dp+model.d_pic).into(((HelpHolder) holder).dp);
+        else{
+            helpHolder.name.setText(model.getName());
+            Picasso.get().load(APIs.Dp+model.getLogo()).into(helpHolder.dp);
+        }
+
+
+            helpHolder.city.setText("India");
         helpHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, FriendProfile.class).putExtra("id",model.customer_id).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                if (model.getSearchType() == 1)
+                    context.startActivity(new Intent(context, FriendProfile.class).putExtra("id",model.getCustomerId()).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                else
+                    context.startActivity(new Intent(context, Companypage.class).putExtra(DbHelper.COLUMN_ID, model.getCompanyId()));
+
             }
         });
 

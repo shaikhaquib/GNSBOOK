@@ -5,6 +5,8 @@
     android:layout_marginTop="5dp"
     android:orientation="vertical">
 
+
+
     <TextView
         android:id="@+id/chat_message"
         android:layout_width="wrap_content"
@@ -18,5 +20,15 @@
         android:paddingBottom="@dimen/margin_10"
         android:layout_marginRight="50dp"
         android:paddingTop="@dimen/margin_10" />
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:textSize="10sp"
+        android:layout_marginTop="-4dp"
+        android:layout_marginLeft="18dp"
+        android:text="Wed 16 apr 2019 12:45:00"/>
+
 
 </LinearLayout>

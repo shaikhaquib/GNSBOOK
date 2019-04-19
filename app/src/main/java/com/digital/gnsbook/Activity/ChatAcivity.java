@@ -1,6 +1,7 @@
 package com.digital.gnsbook.Activity;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
+import com.digital.gnsbook.Config.SqlLastMessage;
 import com.digital.gnsbook.Extra.DividerDecorator;
 import com.digital.gnsbook.Fragment.FriendFragment;
 import com.digital.gnsbook.Global;
@@ -54,13 +56,15 @@ public class ChatAcivity extends AppCompatActivity {
 
     ViewDialog dialog;
     RecyclerView rvFriend;
+    SqlLastMessage sqlLastMessage;
     List<FriendItem> friendItems = new ArrayList<>();
-
+    HashMap<String, String> user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_toperformer);
 
+        sqlLastMessage = new SqlLastMessage(this);
 
         setTitle("ChatBook");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -82,7 +86,6 @@ public class ChatAcivity extends AppCompatActivity {
                 final FriendItem model = friendItems.get(i);
 
                 holder.name.setText(model.getName()+" "+model.getLastName());
-                holder.city.setText("India");
                 Picasso.get().load(APIs.Dp+model.getDPic()).into(holder.dp);
 
 
@@ -114,6 +117,18 @@ public class ChatAcivity extends AppCompatActivity {
                     }
                 });
 
+                if (sqlLastMessage.doesTableExist()) {
+                    user=sqlLastMessage.getMessage(model.getChannelId());
+                    if (!user.isEmpty()) {
+                        holder.city.setText(user.get(sqlLastMessage.COLUMN_MESSAGE));
+
+                        Log.d(sqlLastMessage.COLUMN_MESSAGE,user.get(sqlLastMessage.COLUMN_MESSAGE));
+                        Log.d(sqlLastMessage.COLUMN_CHANNEL_ID,user.get(sqlLastMessage.COLUMN_CHANNEL_ID));
+                        Log.d(sqlLastMessage.COLUMN_DATE,user.get(sqlLastMessage.COLUMN_DATE));
+                    }
+                }
+
+
             }
 
             @Override
@@ -137,6 +152,21 @@ public class ChatAcivity extends AppCompatActivity {
         });
         //getComponyData();
         getFriendList();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 100ms
+                rvFriend.getAdapter().notifyDataSetChanged();
+                sqlLastMessage = new SqlLastMessage(getApplicationContext());
+            }
+        }, 200);
+
+
     }
 
         private void createChannel(final String s, final String s1, final FriendItem model) {

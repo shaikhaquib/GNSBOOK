@@ -2,6 +2,7 @@ package com.digital.gnsbook.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.digital.gnsbook.Activity.ChatAcivity;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
+import com.digital.gnsbook.Config.LocalStorageProvider;
+import com.digital.gnsbook.Config.SqlLastMessage;
+import com.digital.gnsbook.Extra.Ago;
 import com.digital.gnsbook.Extra.DividerDecorator;
 import com.digital.gnsbook.Global;
 import com.digital.gnsbook.GnsChat.ChatRoomActivity;
@@ -51,13 +55,16 @@ public class ChatFragment extends Fragment {
 
     RecyclerView rvFriend;
     List<FriendItem> friendItems = new ArrayList<>();
-
+    SqlLastMessage sqlLastMessage;
+    HashMap<String, String> user;
+    Ago timeAgo;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup viewGroup, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_toperformer, viewGroup, false);
 
-
+        sqlLastMessage = new SqlLastMessage(getActivity());
+        timeAgo = new Ago().locale(getActivity());
         rvFriend = view.findViewById(R.id.rvfreind);
         rvFriend.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvFriend.addItemDecoration(new DividerDecorator(getActivity()));
@@ -65,7 +72,7 @@ public class ChatFragment extends Fragment {
             @NonNull
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                return new Holder(LayoutInflater.from(getActivity()).inflate(R.layout.searchadapt, viewGroup, false));
+                return new Holder(LayoutInflater.from(getActivity()).inflate(R.layout.friendlist, viewGroup, false));
             }
 
             @Override
@@ -74,7 +81,6 @@ public class ChatFragment extends Fragment {
                 final FriendItem model = friendItems.get(i);
 
                 holder.name.setText(model.getName()+" "+model.getLastName());
-                holder.city.setText("India");
                 Picasso.get().load(APIs.Dp+model.getDPic()).into(holder.dp);
 
 
@@ -99,12 +105,26 @@ public class ChatFragment extends Fragment {
                             intent.putExtra(ChatRoomActivity.CHAT_cdp, model.getDPic());
 
 
+
                             intent.putExtra(ChatRoomActivity.CHAT_fid, model.friendID);
                             intent.putExtra(ChatRoomActivity.CHAT_ROOM_NAME,model.getName()+" "+model.getLastName() );
                             startActivity(intent);
                         }
                     }
                 });
+
+                if (sqlLastMessage.doesTableExist()) {
+                    user=sqlLastMessage.getMessage(model.getChannelId());
+                    if (!user.isEmpty()) {
+                        holder.city.setText(user.get(sqlLastMessage.COLUMN_MESSAGE));
+                        long timeStamp = Long.parseLong(user.get(sqlLastMessage.COLUMN_DATE));
+                        holder.date.setText(timeAgo.getTimeAgo(Global.getNewDate(timeStamp)));
+
+                        Log.d(sqlLastMessage.COLUMN_MESSAGE,user.get(sqlLastMessage.COLUMN_MESSAGE));
+                        Log.d(sqlLastMessage.COLUMN_CHANNEL_ID,user.get(sqlLastMessage.COLUMN_CHANNEL_ID));
+                        Log.d(sqlLastMessage.COLUMN_DATE,user.get(sqlLastMessage.COLUMN_DATE));
+                    }
+                }
             }
 
             @Override
@@ -113,7 +133,7 @@ public class ChatFragment extends Fragment {
             }
             class Holder extends RecyclerView.ViewHolder {
                 RelativeLayout Follow;
-                TextView city;
+                TextView city,date;
                 ImageView dp;
                 TextView name;
 
@@ -122,6 +142,7 @@ public class ChatFragment extends Fragment {
                     name = itemView.findViewById(R.id.searchNmae);
                     city = itemView.findViewById(R.id.searchCity);
                     dp = itemView.findViewById(R.id.searchDp);
+                    date = itemView.findViewById(R.id.date);
 
                 }
             }
@@ -130,6 +151,24 @@ public class ChatFragment extends Fragment {
         getFriendList();
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 100ms
+                rvFriend.getAdapter().notifyDataSetChanged();
+                sqlLastMessage = new SqlLastMessage(getActivity());
+            }
+        }, 200);
+
+
+    }
+
+
     private void createChannel(final String s, final String s1, final FriendItem model) {
         new ChatRoomRepository(FirebaseFirestore.getInstance()).createRoom(s
                 ,

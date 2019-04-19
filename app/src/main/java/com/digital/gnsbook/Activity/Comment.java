@@ -137,7 +137,7 @@ public class Comment extends AppCompatActivity {
             String[] split = commentItem.getCreatedAt().split(" ");
             holder.Name.setText(commentItem.getName());
             holder.Comment.setText(commentItem.getComment());
-            holder.Date.setText(Comment.this.getDaysAgo(split[0], split[1]));
+            holder.Date.setText(Global.getDaysAgo(split[0], split[1]));
             Picasso picasso = Picasso.get();
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(APIs.Dp);
@@ -284,29 +284,6 @@ public class Comment extends AppCompatActivity {
         return true;
     }
 
-    private String getDaysAgo(String str, String str2) {
-        Date parse;
-        try {
-            parse = new SimpleDateFormat("yyyy-MM-dd").parse(str);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            parse = null;
-        }
-        long time = (new Date().getTime() - parse.getTime()) / 86400000;
-        if (time == 0) {
-            StringBuilder  st = new StringBuilder();
-            st.append("Today at ");
-            st.append(Global.Time(str2));
-            return str.toString();
-        } else if (time != 1) {
-            return Global.Date(str);
-        } else {
-            StringBuilder st = new StringBuilder();
-            st.append("Yesterday at ");
-            st.append(Global.Time(str2));
-            return str.toString();
-        }
-    }
 
     private void getCommentData() {
         this.porogress.show();

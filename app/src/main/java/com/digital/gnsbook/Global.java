@@ -24,6 +24,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.ParcelFileDescriptor;
+import android.text.format.DateFormat;
 import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
@@ -43,7 +44,10 @@ import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class Global {
     public static String A_status = null;
@@ -236,6 +240,13 @@ public class Global {
         return formatedDate;
     }
 
+    public static String getDate(long time , String formate) {
+        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+        cal.setTimeInMillis(time);
+        String date = DateFormat.format(formate, cal).toString();
+        return date;
+    }
+
     public static String Time(String str) {
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
@@ -248,4 +259,63 @@ public class Global {
             return str;
         }
     }
-}
+
+
+    public static String getDaysAgo(String str, String str2) {
+        Date parse;
+        try {
+            parse = new SimpleDateFormat("yyyy-MM-dd").parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            parse = null;
+        }
+        long time = (new Date().getTime() - parse.getTime()) / 86400000;
+        if (time == 0) {
+            StringBuilder  st = new StringBuilder();
+            st.append("Today at ");
+            st.append(Global.Time(str2));
+            return str.toString();
+        } else if (time != 1) {
+            return Global.Date(str);
+        } else {
+            StringBuilder st = new StringBuilder();
+            st.append("Yesterday at ");
+            st.append(Global.Time(str2));
+            return str.toString();
+        }
+    }
+
+
+    private static final int SECOND_MILLIS = 1000;
+    private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
+    private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
+    private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
+
+
+
+
+
+
+    public static Date getNewDate(long time) {
+        Date date = null;
+        Calendar cal = Calendar.getInstance();
+
+        cal.setTimeInMillis(time);
+        String strdate = DateFormat.format("dd-MMM-yy hh.mm.ss aa", cal).toString();
+
+        SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yy hh.mm.ss aa");
+        try {
+            date = format.parse(strdate);
+            System.out.println(date);
+
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yy hh.mm.ss");
+            String dateTime = dateFormat.format(date);
+            System.out.println("Current Date Time : " + dateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        return date;
+    }}

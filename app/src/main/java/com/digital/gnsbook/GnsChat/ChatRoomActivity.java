@@ -24,6 +24,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.digital.gnsbook.Config.APIs;
+import com.digital.gnsbook.Config.SqlLastMessage;
+import com.digital.gnsbook.Extra.Ago;
 import com.digital.gnsbook.Extra.WrappedDrawable;
 import com.digital.gnsbook.Firebase.Chat_FCM;
 import com.digital.gnsbook.Firebase.Fcm;
@@ -54,8 +56,9 @@ public class ChatRoomActivity extends AppCompatActivity {
     View rootView;
     private String roomId = "";
     private String roomName = "";
-
     private String userId = "";
+
+    Ago ago;
 
     private ChatRoomRepository chatRoomRepository;
 
@@ -66,15 +69,19 @@ public class ChatRoomActivity extends AppCompatActivity {
     Bitmap bitmap;
     ImageView cdp;
     Bundle extras;
+    SqlLastMessage sqlLastMessage;
+    List<Chat> messagesList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
+        ago = new Ago().locale(getApplicationContext());
 
-
+        sqlLastMessage = new SqlLastMessage(this);
         chatRoomRepository = new ChatRoomRepository(FirebaseFirestore.getInstance());
         setTitle("");
-         extras = getIntent().getExtras();
+        extras = getIntent().getExtras();
         if (extras != null) {
             roomId = extras.getString(CHAT_ROOM_ID, "");
             roomName = extras.getString(CHAT_ROOM_NAME, "");
@@ -94,8 +101,23 @@ public class ChatRoomActivity extends AppCompatActivity {
         if (menuItem.getItemId() != 16908332) {
             return super.onOptionsItemSelected(menuItem);
         }
-        finish();
+        onStop();
         return true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+                sqlLastMessage.addMessage(messagesList.get(0).chatRoomId,//Channel_id
+                        messagesList.get(0).message,//Message
+                                  String.valueOf(messagesList.get(0).sent));//Time Stamp
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        onStop();
     }
 
     @Override
@@ -103,6 +125,8 @@ public class ChatRoomActivity extends AppCompatActivity {
         super.onDestroy();
         Global.sender_id ="0";
     }
+
+
 
     private void initUI() {
 
@@ -119,7 +143,7 @@ public class ChatRoomActivity extends AppCompatActivity {
         WrappedDrawable wrappedDrawable = new WrappedDrawable(drawable);
 // set bounds on wrapper
         wrappedDrawable.setBounds(0,0,70,70);
-       // getSupportActionBar().setIcon(wrappedDrawable);
+        // getSupportActionBar().setIcon(wrappedDrawable);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -188,6 +212,7 @@ public class ChatRoomActivity extends AppCompatActivity {
                 }
 
                 List<Chat> messages = new ArrayList<>();
+                messagesList = messages;
                 for (QueryDocumentSnapshot doc : snapshots) {
                     Chat chat = new Chat();
                    /* messages.add(
@@ -210,7 +235,7 @@ public class ChatRoomActivity extends AppCompatActivity {
                     Log.d ("sender_id", doc.getString("sender_id"));
                 }
 
-                adapter = new ChatsAdapter(messages, userId);
+                adapter = new ChatsAdapter(messages, userId,ChatRoomActivity.this);
                 chats.setAdapter(adapter);
             }
         });
