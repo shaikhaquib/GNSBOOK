@@ -30,7 +30,7 @@ public class FriendSuggestionResponse {
 	@Override
  	public String toString(){
 		return 
-			"Response{" + 
+			"TimeLineResponse{" +
 			"result = '" + result + '\'' + 
 			",status = '" + status + '\'' + 
 			"}";

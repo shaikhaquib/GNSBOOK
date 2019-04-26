@@ -184,7 +184,6 @@ public class WallPostFragment extends Fragment {
         wallPost =layoutInflater.findViewById(R.id.wallPostmain);
         frndSuggestion =layoutInflater.findViewById(R.id.frndSuggestion);
         swipeRefreshLayout = layoutInflater.findViewById(R.id.mnSwipe);
-        wallPost.setNestedScrollingEnabled(false);
         porogress = layoutInflater.findViewById(R.id.progrssview);
         wallPost.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -193,10 +192,10 @@ public class WallPostFragment extends Fragment {
         getTimelinePost();
         wallPost.setAdapter(new  New_WallPostAdapt(this.postmodels, getActivity()));
 
-        NestedScrollView nestedScrollView =  layoutInflater.findViewById(R.id.myScroll);
+        /*NestedScrollView nestedScrollView =  layoutInflater.findViewById(R.id.myScroll);
         if (nestedScrollView != null) {
             nestedScrollView.setOnScrollChangeListener(new C09321());
-        }
+        }*/
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

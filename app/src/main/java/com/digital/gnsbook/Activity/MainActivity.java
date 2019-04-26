@@ -51,6 +51,7 @@ import com.digital.gnsbook.Config.SQLiteHandler;
 import com.digital.gnsbook.Config.SessionManager;
 import com.digital.gnsbook.Fragment.ChatFragment;
 import com.digital.gnsbook.Fragment.FreindRequests;
+import com.digital.gnsbook.Fragment.Frg_Home;
 import com.digital.gnsbook.Fragment.ProfileFragment;
 import com.digital.gnsbook.Fragment.FriendFragment;
 import com.digital.gnsbook.Fragment.WallPostFragment;
@@ -451,7 +452,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
 
     private void prepareDataResource() {
         this.fragments = new ArrayList();
-        this.fragments.add(new WallPostFragment());
+        this.fragments.add(new Frg_Home());
         this.fragments.add(new ProfileFragment());
         this.fragments.add(new FreindRequests());
         this.fragments.add(new FriendFragment());

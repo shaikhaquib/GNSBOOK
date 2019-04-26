@@ -51,7 +51,6 @@ import com.digital.gnsbook.Payment.LoadMoney;
 import com.digital.gnsbook.ViewDialog;
 import com.httpgnsbook.gnsbook.R;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
-import de.keyboardsurfer.android.widget.crouton.Configuration;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;

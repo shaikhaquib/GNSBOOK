@@ -117,7 +117,7 @@ public class FriendItem {
 	@Override
 	public String toString(){
 		return
-				"ResultItem{" +
+				"TimeLineItem{" +
 						"customerid_to = '" + customeridTo + '\'' +
 						",d_pic = '" + dPic + '\'' +
 						",name = '" + name + '\'' +

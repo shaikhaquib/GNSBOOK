@@ -4,12 +4,13 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.digital.gnsbook.Extra.WrapContentDraweeView
         android:id="@+id/ovimage"
         android:layout_width="30.0dip"
         android:layout_height="30.0dip"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
+        app:roundedCornerRadius="30.0dip"
         android:src="@drawable/c2yc_sample"
         app:civ_border_color="@color/borderline"
         app:civ_border_width="1dip" />

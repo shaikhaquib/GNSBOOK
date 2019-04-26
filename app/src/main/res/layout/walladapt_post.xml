@@ -54,24 +54,6 @@
                         android:focusable="true"
                         android:background="?android:attr/selectableItemBackground"                        android:textColor="@color/nav_textcolor"
                         android:textStyle="bold" />
-<!--
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="4.0dip"
-                        android:fontFamily="@font/roboto_light"
-                        android:text="shared a"
-                        android:textColor="@color/nav_textcolor"
-                        android:textSize="11.0sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="4.0dip"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="post"
-                        android:textColor="#FF5722"
-                        android:textSize="11.0sp" />-->
                 </LinearLayout>
 
                 <TextView
@@ -90,7 +72,7 @@
             android:id="@+id/PostView"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             android:orientation="vertical">
 
 
@@ -117,106 +99,27 @@
                 android:visibility="visible" />
 
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/wpImage"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:adjustViewBounds="true"
                 android:src="@drawable/post2"
+                android:maxHeight="300dp"
                 android:layout_marginTop="@dimen/margin_16"
                 android:layout_marginBottom="@dimen/margin_16"
                 />
 
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/prdPostView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/ProductImage"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:visibility="gone"
-                android:adjustViewBounds="true"
-                android:layout_marginTop="@dimen/margin_16"
-                android:layout_marginBottom="@dimen/margin_16" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/wpImageRec"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:adjustViewBounds="true"
-                android:src="@drawable/post2"
-                />
-            <com.chahinem.pageindicator.PageIndicator
-                android:id="@+id/pageIndicator"
-                android:layout_width="wrap_content"
+            <com.digital.gnsbook.Extra.WrapContentDraweeView
+                android:id="@+id/my_image_view"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/margin_16"
+                app:fadeDuration="500"
+                android:maxHeight="400dp"
+                android:layout_gravity="center_horizontal"
 
                 />
-            <TextView
-                android:id="@+id/prdName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:layout_marginLeft="@dimen/margin_10"
-                android:layout_marginRight="@dimen/margin_10"
-                android:textColor="#CD000000"
-                android:textStyle="bold"/>
-            <TextView
-                android:id="@+id/prdDesc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#9E000000"
-                android:layout_marginLeft="@dimen/margin_10"
-                android:layout_marginRight="@dimen/margin_10"
-                android:textStyle="bold"/>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/prdPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:textColor="#2E7D32"
-                android:textStyle="bold"
-                android:layout_centerVertical="true"
-                 android:layout_marginLeft="@dimen/margin_10"
-                android:layout_marginRight="@dimen/margin_10"
-                android:text="₹ 700"/>
-
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/prdBuy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:cardCornerRadius="4dp"
-                android:layout_alignParentRight="true"
-                android:layout_margin="@dimen/margin_10"
-                app:cardBackgroundColor="#E64A19">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="6dp"
-                    android:text="BUY NOW"
-                    android:layout_margin="2dp"
-                    android:textSize="12dp"
-                    android:layout_gravity="center"
-                    android:textColor="@color/white"/>
-
-            </android.support.v7.widget.CardView>
-            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -274,7 +177,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"                        android:text="15"
+                        android:layout_marginRight="5dp"
+                        android:text="15"
                         android:textColor="@color/nav_textcolor"
                         android:textSize="@dimen/margin_10"
                         android:textStyle="bold" />

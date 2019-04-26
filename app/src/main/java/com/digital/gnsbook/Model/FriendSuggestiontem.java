@@ -348,7 +348,7 @@ public class FriendSuggestiontem {
 	@Override
  	public String toString(){
 		return 
-			"ResultItem{" + 
+			"TimeLineItem{" +
 			"premium_status = '" + premiumStatus + '\'' + 
 			",country = '" + country + '\'' + 
 			",social_networks = '" + socialNetworks + '\'' + 

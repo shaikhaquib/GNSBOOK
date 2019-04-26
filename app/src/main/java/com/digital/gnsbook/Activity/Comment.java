@@ -290,24 +290,23 @@ public class Comment extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(new StringRequest(StringRequest.Method.POST, APIs.Comment_data, new C08895(), new C08906()) {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> hashMap = new HashMap();
-                hashMap.put("post_id",getIntent().getStringExtra("pid"));
+                hashMap.put("post_id", String.valueOf(getIntent().getIntExtra("pid",0)));
                 hashMap.put("offset", String.valueOf(Comment.this.offset));
                 hashMap.put("limit", String.valueOf(Comment.this.limit));
-                hashMap.put("type", getIntent().getStringExtra("type"));
+                hashMap.put("type", String.valueOf(getIntent().getIntExtra("type",0)));
                 return hashMap;
             }
         });
     }
-
     private void Docomment() {
         this.sendcommentprogress.setVisibility(View.VISIBLE);
         AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.DoComment, new C08918(), new C08929()) {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> hashMap = new HashMap();
-                hashMap.put("post_id", Comment.this.getIntent().getStringExtra("pid"));
+                hashMap.put("post_id", String.valueOf(getIntent().getIntExtra("pid",0)));
                 hashMap.put("customer_id", Global.customerid);
                 hashMap.put("comment", Comment.this.EdtComment.getText().toString());
-                hashMap.put("type", getIntent().getStringExtra("type"));
+                hashMap.put("type", String.valueOf(getIntent().getIntExtra("type",0)));
                 return hashMap;
             }
         });

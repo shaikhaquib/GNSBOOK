@@ -298,7 +298,7 @@ public class WallPostAdapt extends Adapter<ViewHolder> {
             textView.setText(spanned);
         } else if (wallPostmodel.Like_name.length <= 2) {
             textView.setVisibility(View.GONE);
-          //  wallPostmodel = null;
+            //  wallPostmodel = null;
         } else if (wallPostmodel.likecount > 2) {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(wallPostmodel.Like_name[0]);

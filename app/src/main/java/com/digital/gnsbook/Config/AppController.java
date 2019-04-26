@@ -7,6 +7,8 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
 
 public class  AppController extends MultiDexApplication {
     public static final String TAG = "AppController";
@@ -16,6 +18,12 @@ public class  AppController extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+
+        ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
+                .setDownsampleEnabled(true)
+                .build();
+        Fresco.initialize(this,config);
+
     }
 
     public static synchronized AppController getInstance() {

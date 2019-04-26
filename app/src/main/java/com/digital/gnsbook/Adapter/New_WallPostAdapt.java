@@ -216,13 +216,13 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
             }
         });
 
-        if (postmodel.type.equals("1")){
-            holder. productLayout.setVisibility(View.VISIBLE);
-            holder.postLayout.setVisibility(View.GONE);
-        }else {
-            holder.postLayout.setVisibility(View.VISIBLE);
-            holder. productLayout.setVisibility(View.GONE);
-        }
+            if (postmodel.type.equals("1")){
+                holder. productLayout.setVisibility(View.VISIBLE);
+                holder.postLayout.setVisibility(View.GONE);
+            }else {
+                holder.postLayout.setVisibility(View.VISIBLE);
+                holder. productLayout.setVisibility(View.GONE);
+            }
 
 
 
@@ -270,8 +270,8 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
 
         Picasso.get().load(APIs.Dp + postmodel.logo).into(holder.dp);
 
-        Picasso.get().load(APIs.postImg + postmodel.images).into(holder.imgPost);
-        Picasso.get().load(APIs.postImg + postmodel.images).into(holder.imgPrd);
+        Picasso.get().load(APIs.postImg + postmodel.images).fit().into(holder.imgPost);
+        Picasso.get().load(APIs.postImg + postmodel.images).fit().into(holder.imgPrd);
 
 
 
@@ -290,10 +290,8 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         });
 
         holder.slider.setTag(postmodel);
-
-
         holder.slider.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
-            holder.slider.setAdapter(new Slider(imageArray));
+        holder.slider.setAdapter(new Slider(imageArray,context));
 
             if (imageArray.length > 1)
               holder.pageIndicator.attachTo(holder.slider);
@@ -480,7 +478,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(APIs.Dp);
             stringBuilder.append(this.Images[i]);
-            picasso.load(stringBuilder.toString()).into(likeHolder.imageView);
+            picasso.load(stringBuilder.toString()).fit().into(likeHolder.imageView);
         }
 
         public int getItemCount() {
@@ -488,46 +486,6 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
                 return 2;
             }
             return this.Images.length;
-        }
-    }
-    private class Slider extends Adapter<ViewHolder> {
-        String[] imageArray;
-        public Slider(String[] imageArray) {
-            this.imageArray = imageArray;
-
-        }
-
-        @NonNull
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View view = LayoutInflater.from(context).inflate(R.layout.imageslider,viewGroup,false);
-            return new Holder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-            Holder holder = (Holder)viewHolder;
-
-            Glide.with(context).load(APIs.Dp+imageArray[i].replace(" ","")).into(holder.Slide);
-            Log.d("Position "+i , APIs.Dp+imageArray[i]);
-        }
-
-        @Override
-        public int getItemCount() {
-            return imageArray.length;
-        }
-
-        public long getItemId(int i) {
-            return (long) i;
-        }
-
-
-        class Holder extends RecyclerView.ViewHolder {
-            ImageView Slide;
-            public Holder(@NonNull View itemView) {
-                super(itemView);
-                Slide = itemView.findViewById(R.id.imageView);
-            }
         }
     }
     public Uri getLocalBitmapUri(Bitmap bmp) {
