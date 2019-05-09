@@ -44,7 +44,7 @@ import java.util.TimerTask;
 
 public class Cart extends AppCompatActivity {
     RecyclerView recyclerView;
-    TextView total ;
+    TextView total ,error;
     List<CartItem> prodlist = new ArrayList<>();
     int TotalAmount;
     LinearLayout Checkoutbtn;
@@ -64,6 +64,7 @@ public class Cart extends AppCompatActivity {
         getSupportActionBar().hide();
         recyclerView = findViewById(R.id.rv_product);
         Checkoutbtn = findViewById(R.id.Checkout);
+        error = findViewById(R.id.error);
         total = findViewById(R.id.Total);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -119,6 +120,16 @@ public class Cart extends AppCompatActivity {
                         notifyItemRemoved(i);
                         notifyItemRangeChanged(i,prodlist.size());
                         remove(model.getProductId(),model.getId());
+
+                        if (TotalAmount < 0){
+                            Checkoutbtn.setVisibility(View.GONE);
+                        }
+                        TotalAmount = TotalAmount - model.getAmount();
+                        total.setText("Total :      ₹ "+String.valueOf(TotalAmount));
+
+                        if (TotalAmount < 0){
+                            Checkoutbtn.setVisibility(View.GONE);
+                        }
                     }
                 });
 
@@ -189,6 +200,11 @@ public class Cart extends AppCompatActivity {
                             //pricesenttobuynow = s.trim();
                             TotalAmount = TotalAmount - model.getAmount();
                             total.setText("Total :      ₹ "+String.valueOf(TotalAmount));
+
+                            if (TotalAmount < 0){
+                                Checkoutbtn.setVisibility(View.GONE);
+                            }
+
                             timer = new Timer();
                             timer.schedule(new TimerTask() {
                                 @Override
@@ -255,14 +271,22 @@ public class Cart extends AppCompatActivity {
         Checkoutbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (TotalAmount > 0){
+
                 Intent intent = new Intent(getApplication(), CheckOut.class);
                 intent.putExtra("Amount",TotalAmount);
                 intent.putExtra("count",prodlist.size());
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
+            }else {
+                    Toast.makeText(Cart.this, "Your Cart is empty please add item in cart....", Toast.LENGTH_LONG).show();
+                }
             }
         });
+
+
     }
 
     private void remove(final int productId, final int id) {
@@ -364,6 +388,16 @@ public class Cart extends AppCompatActivity {
                             TotalAmount = TotalAmount+prodlist.get(i).getAmount();
                         }
                         total.setText("Total :      ₹ "+String.valueOf(TotalAmount));
+
+                        if (TotalAmount < 0){
+                            Checkoutbtn.setVisibility(View.GONE);
+                        }
+
+                    }else {
+                        Checkoutbtn.setVisibility(View.GONE);
+                        error.setVisibility(View.VISIBLE);
+                        error.setText(jsonObject.getString("result"));
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

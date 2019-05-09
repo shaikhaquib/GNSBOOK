@@ -33,12 +33,17 @@ import com.digital.gnsbook.Model.AddressResponse;
 import com.digital.gnsbook.ViewDialog;
 import com.google.gson.Gson;
 import com.httpgnsbook.gnsbook.R;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentData;
+import com.razorpay.PaymentResultListener;
+import com.razorpay.PaymentResultWithDataListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +51,7 @@ import java.util.Map;
 import instamojo.library.InstamojoPay;
 import instamojo.library.InstapayListener;
 
-public class CheckOut extends AppCompatActivity {
+public class CheckOut extends AppCompatActivity implements PaymentResultWithDataListener {
 
     TextView totelItem , Totalamount , ShipingCharges ,PayAbleAmoumt;
     int Amount , count ,shipingCharges = 0,grandTotal,address_id;
@@ -59,13 +64,10 @@ public class CheckOut extends AppCompatActivity {
 
     Button Order;
     String[] choice ;
+    int unique_id= (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
 
 
-    String orderid , Status;
-    String txnid;
-    String paymentid;
-    String token;
-    boolean aBoolean=false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,12 +97,14 @@ public class CheckOut extends AppCompatActivity {
         Order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Mname.getText().toString().isEmpty())
+                startPayment(Global.Email, Global.mobile, String.valueOf(grandTotal), "Online Shoping", Mname.getText().toString());
+
+               /* if (Mname.getText().toString().isEmpty())
                 {
                     Toast.makeText(CheckOut.this, "Please Select Shipping Address...", Toast.LENGTH_SHORT).show();
                 }else {
-                    callInstamojoPay(Global.Email, Global.mobile, String.valueOf(grandTotal), "Online Shoping", Mname.getText().toString());
-                } }
+
+                }*/ }
         });
 
     }
@@ -238,57 +242,81 @@ public class CheckOut extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(stringRequest);
     }
 
-    private void callInstamojoPay(String email, String phone, String amount, String purpose, String buyername) {
-        final Activity activity = this;
-        InstamojoPay instamojoPay = new InstamojoPay();
-        IntentFilter filter = new IntentFilter("ai.devsupport.instamojo");
-        registerReceiver(instamojoPay, filter);
-        JSONObject pay = new JSONObject();
-        try {
-            pay.put("email", email);
-            pay.put("phone", phone);
-            pay.put("purpose", purpose);
-            pay.put("amount", amount);
-            pay.put("name", buyername);
-            pay.put("send_sms", true);
-            pay.put("send_email", true);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        initListener();
-        instamojoPay.start(activity, pay, listener);
-    }
 
     InstapayListener listener;
 
 
-    private void initListener() {
-        listener = new InstapayListener() {
-            @Override
-            public void onSuccess(String response) {
-                {
-                    //   Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
-                    Log.d("responce",response);
 
-                    String[] s = response.split(":");
-                    Status    =  s[0].substring(s[0].indexOf("=")+1);
-                    orderid    =  s[1].substring(s[1].indexOf("=")+1);
-                    txnid      = s[2].substring(s[2].indexOf("=")+1);
-                    paymentid  = s[3].substring(s[3].indexOf("=")+1);
-                    token      = s[4].substring(s[4].indexOf("=")+1);
 
-                    if (aBoolean){
-                        aBoolean=false;
-                        Order(orderid , txnid , paymentid , token, Status);}
-                }
-            }
 
-            @Override
-            public void onFailure(int code, String reason) {
-                Toast.makeText(getApplicationContext(), "Failed: " + reason, Toast.LENGTH_LONG).show();
-            }
-        };
+   /* @Override
+    public void onPaymentSuccess(String s) {
+        Log.d("result",s);
+
+    }*/
+
+    public void startPayment(String email, String phone, String amount, String purpose, String buyername) {
+        /**
+         * Instantiate Checkout
+         */
+        Checkout checkout = new Checkout();
+
+        /**
+         * Set your logo here
+         */
+        checkout.setImage(R.drawable.gnsbooklogo);
+
+        /**
+         * Reference to current activity
+         */
+        final Activity activity = this;
+
+        /**
+         * Pass your payment options to the Razorpay Checkout as a JSONObject
+         */
+        try {
+            JSONObject options = new JSONObject();
+
+            /**
+             * Merchant Name
+             * eg: ACME Corp || HasGeek etc.
+             */
+            options.put("name", "Merchant Name");
+            /**
+             * Description can be anything
+             * eg: Order #123123
+             *     Invoice Payment
+             *     etc.
+             */
+            options.put("description", String.valueOf(unique_id));
+            options.put("currency", "INR");
+
+            JSONObject preFill = new JSONObject();
+            preFill.put("email", Global.Email);
+            preFill.put("contact", Global.mobile);
+
+            options.put("prefill", preFill);
+
+
+            /**
+             * Amount is always passed in PAISE
+             * Eg: "500" = Rs 5.00
+             */
+
+            int amount_in_paise = Integer.parseInt(amount )*100;
+            options.put("amount", amount_in_paise);
+
+            checkout.open(activity, options);
+        } catch(Exception e) {
+            Log.e("Razorpay Error", "Error in starting Razorpay Checkout", e);
+        }
     }
+
+   /* @Override
+    public void onPaymentError(int i,final String s) {
+        Log.d("Razorpay Error",  s);
+
+    }*/
 
     private void Order(final String orderid, String txnid, String paymentid, String token, String status) {
         progressDialog.show();
@@ -299,10 +327,10 @@ public class CheckOut extends AppCompatActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
 
-                    if (jsonObject.getBoolean("status")){
-                        Global.successDilogue(CheckOut.this,jsonObject.getString("result"));
-                    }else {
-                        Global.failedDilogue(CheckOut.this,jsonObject.getString("result"));
+                    if (jsonObject.getBoolean("status")) {
+                        Global.successDilogue(CheckOut.this, jsonObject.getString("result"));
+                    } else {
+                        Global.failedDilogue(CheckOut.this, jsonObject.getString("result"));
                     }
 
                 } catch (JSONException e) {
@@ -322,27 +350,48 @@ public class CheckOut extends AppCompatActivity {
                 final String statusCode = String.valueOf(error.networkResponse.statusCode);
                 //get response body and parse with appropriate encoding
                 try {
-                    body = new String(error.networkResponse.data,"UTF-8");
-                    Log.d("Multi",body);
+                    body = new String(error.networkResponse.data, "UTF-8");
+                    Log.d("Multi", body);
                 } catch (UnsupportedEncodingException e) {
                     // exception
                 }
 
                 //do stuff with the body...
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> hashMap = new HashMap<>();
-                hashMap.put("customer_id"    , Global.customerid);
-                hashMap.put("amount"    , String.valueOf(grandTotal));
-                hashMap.put("order_id"    , orderid);
-                hashMap.put("address_id"    , String.valueOf(address_id));
+                hashMap.put("customer_id", Global.customerid);
+                hashMap.put("amount", String.valueOf(grandTotal));
+                hashMap.put("order_id", orderid);
+                hashMap.put("address_id", String.valueOf(address_id));
 
-                return hashMap;            }
+                return hashMap;
+            }
         });
-
     }
 
+    @Override
+    public void onPaymentSuccess(String s, PaymentData data) {
+        String paymentId = data.getPaymentId();
+        String signature = data.getSignature();
+        String orderId = data.getOrderId();
 
+
+
+
+
+
+       /* Signature generated_signature = hmac_sha256(orderId + "|" + paymentId, secret);
+
+        if (generated_signature == razorpay_signature) {
+            payment is successful
+        }*/
+    }
+
+    @Override
+    public void onPaymentError(int i, String s, PaymentData paymentData) {
+
+    }
 }

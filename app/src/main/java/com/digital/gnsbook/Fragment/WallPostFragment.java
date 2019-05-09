@@ -23,18 +23,22 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.digital.gnsbook.Adapter.FriendSuggestionAdapter;
+import com.digital.gnsbook.Adapter.WallAdapt;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Global;
 import com.digital.gnsbook.Model.FriendSuggestionResponse;
 import com.digital.gnsbook.Model.FriendSuggestiontem;
+import com.digital.gnsbook.Model.TimeLine_Model.TimeLineItem;
+import com.digital.gnsbook.Model.TimeLine_Model.TimeLineResponse;
 import com.digital.gnsbook.Model.WallPostmodel;
-import com.digital.gnsbook.Adapter.New_WallPostAdapt;
 import com.digital.gnsbook.ViewDialog;
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 import com.httpgnsbook.gnsbook.R;
 import com.squareup.picasso.Picasso;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -50,7 +54,7 @@ public class WallPostFragment extends Fragment {
     ViewDialog dialog;
     private int offset = 0;
     CardView porogress;
-    ArrayList<WallPostmodel> postmodels = new ArrayList();
+    List<TimeLineItem> postModel = new ArrayList<>();
     List<FriendSuggestiontem> Models = new ArrayList();
 
     RecyclerView wallPost,frndSuggestion;
@@ -75,86 +79,32 @@ public class WallPostFragment extends Fragment {
         C09332() {
         }
 
-        public void onResponse(String s) {
+        public void onResponse(String response) {
             porogress.setVisibility(View.GONE);
             if (swipeRefreshLayout.isRefreshing()){
                 swipeRefreshLayout.setRefreshing(false);
             }
             try {
-                JSONArray str = new JSONArray(s);
-                for (int i = 0; i < str.length(); i++) {
-                    JSONObject jSONObject = str.getJSONObject(i);
+                JSONArray jsonArray = new JSONArray(response);
 
-                    JSONObject jSONObject2=jSONObject.getJSONArray("result").getJSONObject(0);
-                    WallPostmodel wallPostmodel = new WallPostmodel();
-                    ArrayList arrayList = new ArrayList();
-                    ArrayList arrayList2 = new ArrayList();
-                    ArrayList arrayList3 = new ArrayList();
+                for (int i=0 ; i < jsonArray.length() ; i++){
 
-                    wallPostmodel.type = jSONObject.getString("type");
+                    String MyResponce = jsonArray.getString(i);
 
-                    if (wallPostmodel.type.equals("1")) {
 
-                        wallPostmodel.logo = jSONObject2.getString("logo");
-                        wallPostmodel.id = jSONObject2.getString("id");
-                        wallPostmodel.company_id = jSONObject2.getString("company_id");
-                        wallPostmodel.title = jSONObject2.getString("title");
-                        wallPostmodel.description = jSONObject2.getString("description");
-                        wallPostmodel.name = jSONObject2.getString("name");
-                        wallPostmodel.images = jSONObject2.getString("image");
-                        wallPostmodel.created_at = jSONObject2.getString("created_at");
-                        wallPostmodel.likecount = jSONObject2.getInt("like_count");
-                        wallPostmodel.commentCount = jSONObject2.getInt("comment_count");
-                        wallPostmodel.selfLike = jSONObject2.getInt("Self_Likes");
 
-                        for (int i2 = 0; i2 < jSONObject2.getJSONArray("Likes").length(); i2++) {
-                            JSONObject jSONObject3 = jSONObject2.getJSONArray("Likes").getJSONObject(i2);
-                            arrayList.add(jSONObject3.getString("d_pic"));
-                            arrayList2.add(jSONObject3.getString("name"));
-                            arrayList3.add(jSONObject3.getString("customer_id"));
-                        }
-                        Object[] toArray = arrayList.toArray();
-                        Object[] toArray2 = arrayList2.toArray();
-                        arrayList3.toArray();
-                        wallPostmodel.Like_imges = Arrays.copyOf(toArray, toArray.length, String[].class);
-                        wallPostmodel.Like_name =  Arrays.copyOf(toArray2, toArray2.length, String[].class);
+                    JsonReader reader = new JsonReader(new StringReader(MyResponce));
+                    reader.setLenient(true);
+
+                    TimeLineResponse timeLineResponse = new Gson().fromJson(reader, TimeLineResponse.class);
+
+                    if (timeLineResponse.getResult().size() > 0) {
+                        postModel.addAll(timeLineResponse.getResult());
                     }
-                    else {
-                        wallPostmodel.logo = jSONObject2.getString("logo");
-                        wallPostmodel.id = jSONObject2.getString("id");
-                        wallPostmodel.name = jSONObject2.getString("name");
-
-                        wallPostmodel.company_id = jSONObject2.getString("company_id");
-                        wallPostmodel.product_name = jSONObject2.getString("product_name");
-                        wallPostmodel.product_cat = jSONObject2.getString("product_cat");
-                        wallPostmodel.product_price = jSONObject2.getString("product_price");
-                        wallPostmodel.product_desc = jSONObject2.getString("product_desc");
-                        wallPostmodel.product_link = jSONObject2.getString("product_link");
-                        wallPostmodel.sell_type = jSONObject2.getInt("sell_type");
-                        wallPostmodel.images = jSONObject2.getString("images");
-                        wallPostmodel.created_at = jSONObject2.getString("created_at");
-                        wallPostmodel.likecount = jSONObject2.getInt("like_count");
-                        wallPostmodel.commentCount = jSONObject2.getInt("comment_count");
-
-                        wallPostmodel.selfLike = jSONObject2.getInt("Self_Likes");
-
-                        for (int i2 = 0; i2 < jSONObject2.getJSONArray("Likes").length(); i2++) {
-                            JSONObject jSONObject3 = jSONObject2.getJSONArray("Likes").getJSONObject(i2);
-                            arrayList.add(jSONObject3.getString("d_pic"));
-                            arrayList2.add(jSONObject3.getString("name"));
-                            arrayList3.add(jSONObject3.getString("customer_id"));
-                        }
-                        Object[] toArray = arrayList.toArray();
-                        Object[] toArray2 = arrayList2.toArray();
-                        arrayList3.toArray();
-                        wallPostmodel.Like_imges = (String[]) Arrays.copyOf(toArray, toArray.length, String[].class);
-                        wallPostmodel.Like_name = (String[]) Arrays.copyOf(toArray2, toArray2.length, String[].class);
-                    }
-
-                    WallPostFragment.this.postmodels.add(wallPostmodel);
-                    wallPost.getAdapter().notifyItemRangeInserted(WallPostFragment.this.wallPost.getAdapter().getItemCount(), WallPostFragment.this.postmodels.size() - 1);
-
                 }
+                wallPost.getAdapter().notifyDataSetChanged();
+
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -190,7 +140,7 @@ public class WallPostFragment extends Fragment {
         frndSuggestion.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
         dialog = new ViewDialog(getActivity());
         getTimelinePost();
-        wallPost.setAdapter(new  New_WallPostAdapt(this.postmodels, getActivity()));
+        wallPost.setAdapter(new WallAdapt(getActivity(),postModel));
 
         /*NestedScrollView nestedScrollView =  layoutInflater.findViewById(R.id.myScroll);
         if (nestedScrollView != null) {
@@ -202,7 +152,7 @@ public class WallPostFragment extends Fragment {
             public void onRefresh() {
                 swipeRefreshLayout.setRefreshing(true);
                 offset = 0;
-                postmodels.clear();
+                postModel.clear();
                 wallPost .getRecycledViewPool().clear();
                 wallPost.getAdapter().notifyDataSetChanged();
                 getTimelinePost();

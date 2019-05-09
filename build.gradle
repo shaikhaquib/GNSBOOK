@@ -26,6 +26,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
         maven { url "https://jitpack.io" }
         maven {
             // https://docs.fabric.io/android/changelog.html#fabric-gradle-plugin

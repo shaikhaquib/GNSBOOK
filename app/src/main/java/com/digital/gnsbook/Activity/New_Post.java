@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -57,9 +59,10 @@ public class New_Post extends AppCompatActivity {
         public void onResponse(String str) {
             New_Post.this.dialog.dismiss();
             try {
-                JSONObject jSONObject = new JSONObject(str);
+                JSONObject jSONObject = new JSONObject(str);     
                 if (jSONObject.getBoolean("status")) {
-                    Global.successDilogue(New_Post.this,"You have Successfully post.");
+                 //   Global.successDilogue(New_Post.this,"You have Successfully post.");
+                    Toast.makeText(New_Post.this, "You have Successfully post."   , Toast.LENGTH_SHORT).show();
                 } else {
                     Global.failedDilogue(New_Post.this, jSONObject.getString("result"));
                 }

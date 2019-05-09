@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
@@ -84,7 +86,8 @@ public class UpdateProfile extends AppCompatActivity {
                     JSONObject object = new JSONObject(response);
 
                     if (object.getBoolean("status")){
-                        Global.successDilogue(UpdateProfile.this,"You have Successfully updated your profile");
+                      //  Global.successDilogue(UpdateProfile.this,"You have Successfully updated your profile");
+                        Toast.makeText(UpdateProfile.this, "You have Successfully updated your profile", Toast.LENGTH_SHORT).show();
                     }else {
                         Global.failedDilogue(UpdateProfile.this,object.getString("result"));
                     }
@@ -139,7 +142,8 @@ public class UpdateProfile extends AppCompatActivity {
             try {
                 JSONObject jSONObject = new JSONObject(str);
                 if (jSONObject.getBoolean("status")) {
-                    Global.successDilogue(UpdateProfile.this,"You have Successfully updated your profile pick.");
+                   // Global.successDilogue(UpdateProfile.this,"You have Successfully updated your profile pick.");
+                    Toast.makeText(UpdateProfile.this, "You have Successfully updated your profile pick.", Toast.LENGTH_SHORT).show();
                 } else {
                     Global.failedDilogue(UpdateProfile.this, jSONObject.getString("result"));
                 }

@@ -19,6 +19,8 @@ public class  AppController extends MultiDexApplication {
         super.onCreate();
         mInstance = this;
 
+
+
         ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
                 .setDownsampleEnabled(true)
                 .build();

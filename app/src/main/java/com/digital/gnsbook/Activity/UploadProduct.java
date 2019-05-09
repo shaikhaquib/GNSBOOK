@@ -262,7 +262,9 @@ public class UploadProduct extends AppCompatActivity {
                 try {
                     JSONObject jSONObject = new JSONObject(response);
                     if (jSONObject.getBoolean("status")) {
-                        Global.successDilogue(UploadProduct.this,"You have Successfully post.");
+           //             Global.successDilogue(UploadProduct.this,"You have Successfully post.");
+
+                        Toast.makeText(UploadProduct.this, "You have Successfully post.", Toast.LENGTH_SHORT).show();
                     } else {
                         Global.failedDilogue(UploadProduct.this, jSONObject.getString("result"));
                     }
@@ -435,7 +437,7 @@ public class UploadProduct extends AppCompatActivity {
                     Log.d("Responce",json);
                     JSONObject jSONObject = new JSONObject(json);
                     if (jSONObject.getBoolean("status")) {
-                        Global.successDilogue(UploadProduct.this,"You have Successfully post.");
+                        Toast.makeText(UploadProduct.this, "You have Successfully post.", Toast.LENGTH_SHORT).show();
                     } else {
                         Global.failedDilogue(UploadProduct.this, jSONObject.getString("result"));
                     }

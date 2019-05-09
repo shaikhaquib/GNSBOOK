@@ -9,60 +9,60 @@ public class TimeLineResponse {
 
 	@SerializedName("type")
 	@Expose
-	private String type;
+	private Integer type;
 	@SerializedName("result")
 	@Expose
-	private List<TimeLineItem> result = null;
+	private List<TimeLineResponse> result = null;
 	@SerializedName("sell_type")
 	@Expose
 	private Integer sellType;
 	@SerializedName("product_name")
 	@Expose
-	private Object productName;
+	private String productName;
 	@SerializedName("product_cat")
 	@Expose
-	private Object productCat;
+	private String productCat;
 	@SerializedName("product_price")
 	@Expose
-	private Object productPrice;
+	private String productPrice;
 	@SerializedName("product_desc")
 	@Expose
-	private Object productDesc;
+	private String productDesc;
 	@SerializedName("product_link")
 	@Expose
-	private Object productLink;
+	private String productLink;
 	@SerializedName("images")
 	@Expose
-	private Object images;
+	private String images;
 	@SerializedName("updated_at")
 	@Expose
-	private Object updatedAt;
+	private String updatedAt;
 	@SerializedName("description")
 	@Expose
-	private Object description;
+	private String description;
 	@SerializedName("image")
 	@Expose
-	private Object image;
+	private String image;
 	@SerializedName("title")
 	@Expose
-	private Object title;
+	private String title;
 	@SerializedName("customer_id")
 	@Expose
-	private Object customerId;
+	private String customerId;
 
-	public String getType() {
+	public Integer getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(Integer type) {
 		this.type = type;
 	}
 
-	public List<TimeLineItem> getResult() {
+	public List<TimeLineResponse> getResult() {
 		return result;
 	}
 
-	public void setResult(List<TimeLineItem> result) {
+	public void setResult(List<TimeLineResponse> result) {
 		this.result = result;
 	}
 
@@ -74,91 +74,91 @@ public class TimeLineResponse {
 		this.sellType = sellType;
 	}
 
-	public Object getProductName() {
+	public String getProductName() {
 		return productName;
 	}
 
-	public void setProductName(Object productName) {
+	public void setProductName(String productName) {
 		this.productName = productName;
 	}
 
-	public Object getProductCat() {
+	public String getProductCat() {
 		return productCat;
 	}
 
-	public void setProductCat(Object productCat) {
+	public void setProductCat(String productCat) {
 		this.productCat = productCat;
 	}
 
-	public Object getProductPrice() {
+	public String getProductPrice() {
 		return productPrice;
 	}
 
-	public void setProductPrice(Object productPrice) {
+	public void setProductPrice(String productPrice) {
 		this.productPrice = productPrice;
 	}
 
-	public Object getProductDesc() {
+	public String getProductDesc() {
 		return productDesc;
 	}
 
-	public void setProductDesc(Object productDesc) {
+	public void setProductDesc(String productDesc) {
 		this.productDesc = productDesc;
 	}
 
-	public Object getProductLink() {
+	public String getProductLink() {
 		return productLink;
 	}
 
-	public void setProductLink(Object productLink) {
+	public void setProductLink(String productLink) {
 		this.productLink = productLink;
 	}
 
-	public Object getImages() {
+	public String getImages() {
 		return images;
 	}
 
-	public void setImages(Object images) {
+	public void setImages(String images) {
 		this.images = images;
 	}
 
-	public Object getUpdatedAt() {
+	public String getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Object updatedAt) {
+	public void setUpdatedAt(String updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
-	public Object getDescription() {
+	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(Object description) {
+	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	public Object getImage() {
+	public String getImage() {
 		return image;
 	}
 
-	public void setImage(Object image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 
-	public Object getTitle() {
+	public String getTitle() {
 		return title;
 	}
 
-	public void setTitle(Object title) {
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
-	public Object getCustomerId() {
+	public String getCustomerId() {
 		return customerId;
 	}
 
-	public void setCustomerId(Object customerId) {
+	public void setCustomerId(String customerId) {
 		this.customerId = customerId;
 	}
 

@@ -1,19 +1,14 @@
 package com.digital.gnsbook.Fragment;
 
-import android.content.Context;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
@@ -26,7 +21,6 @@ import com.digital.gnsbook.Global;
 import com.digital.gnsbook.Model.TimeLine_Model.LikesItem;
 import com.digital.gnsbook.Model.TimeLine_Model.TimeLineItem;
 import com.digital.gnsbook.Model.TimeLine_Model.TimeLineResponse;
-import com.digital.gnsbook.Model.WallPostmodel;
 import com.facebook.imagepipeline.common.ResizeOptions;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -34,11 +28,9 @@ import com.httpgnsbook.gnsbook.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,7 +72,8 @@ public class Frg_WallPost extends Fragment {
                         mResizeOptions = new ResizeOptions(imageSize, imageSize);
                     }
                 });
-        rvWallpost.setAdapter(new WallAdapt(getActivity(),postModel,mResizeOptions));
+        rvWallpost.setHasFixedSize(true);
+        rvWallpost.setAdapter(new WallAdapt(getActivity(),postModel));
 
 
         rvWallpost.addOnScrollListener(new RecyclerView.OnScrollListener() {

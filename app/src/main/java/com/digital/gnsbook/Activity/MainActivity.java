@@ -64,6 +64,7 @@ import com.digital.gnsbook.Payment_corpoarate.Corporate_Agent_Signup;
 import com.digital.gnsbook.Payment_corpoarate.Corporate_BenificiaryList;
 import com.digital.gnsbook.UserVerification;
 import com.digital.gnsbook.ViewDialog;
+import com.digital.gnsbook.sample.Main2Activity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
@@ -122,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
     private static final String CURRENT_USER_KEY = "CURRENT_USER_KEY";
     ChatRoomRepository chatRoomRepository;
     private FirebaseAnalytics mFirebaseAnalytics;
-
+    NavigationView navigationView;
 
     /* renamed from: com.digital.gnsbook.Activity.MainActivity$5 */
     class C04225 implements OnClickListener {
@@ -288,6 +289,14 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
                     Global.premium_status = object.getInt("premium_status");
                     Picasso.get().load(APIs.Dp + Global.DP).into(profileImage);
 
+                    if (Global.premium_status == 0){
+                        Menu nav_Menu = navigationView.getMenu();
+                        nav_Menu.findItem(R.id.premium).setVisible(true);
+                    }else {
+                        Menu nav_Menu = navigationView.getMenu();
+                        nav_Menu.findItem(R.id.premium).setVisible(false);
+                    }
+
 
 
                 }
@@ -358,11 +367,12 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         Global.refferalid = (String) this.user.get("referral_id");
         Global.agentid = (String) this.user.get("aid");
         Global.name = str;
+
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         new UserDetailTask().execute(new String[]{Global.customerid});
         navigationView.setItemIconTintList(null);
@@ -508,6 +518,8 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
             startActivity(new Intent(getApplicationContext(), Pool_Rewards.class));
         } else if (menuItem == R.id.support) {
             callPhoneNumber();
+        } else if (menuItem == R.id.premium) {
+            startActivity(new Intent(getApplicationContext(),Become_Premium.class));
         } else if (menuItem == R.id.nav_wallet) {
             if (!Global.verify_sms.equals("1")) {
                 Global.diloge(MainActivity.this, "User not verified", "For Fund Transfer from GnsBook you have to verify your mobile no.");

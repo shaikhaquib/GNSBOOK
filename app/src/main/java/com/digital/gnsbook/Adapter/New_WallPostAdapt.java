@@ -73,7 +73,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
     static class Holder extends ViewHolder {
         CheckBox BtnLike ;
         RecyclerView Overlapview , slider;
-        TextView date, commentCount;
+        TextView date, commentCount,btnText;
         ImageView dp,wpComment;
         ImageView imgPost ,imgPrd;
         TextView likeCount , prdName ,prdDesc ,prdPrize;
@@ -94,6 +94,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
             imgPrd = (ImageView) view.findViewById(R.id.ProductImage);
             share = (ImageView) view.findViewById(R.id.wpShare);
             name = (TextView) view.findViewById(R.id.wpcname);
+            btnText = (TextView) view.findViewById(R.id.btnText);
             date = (TextView) view.findViewById(R.id.wpDate);
             textPost = (TextView) view.findViewById(R.id.wpText);
             title = (TextView) view.findViewById(R.id.wpTexttitile);
@@ -187,6 +188,11 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
             }
         });
 
+        if (postmodel.sell_type==1){
+            holder.btnText.setText("Shop Now");
+        }else{
+            holder.btnText.setText("Buy Now");
+        }
 
         final String[] finalImageArray = imageArray;
         holder.Buynow.setOnClickListener(new OnClickListener() {

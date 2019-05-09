@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -46,11 +47,17 @@ import com.digital.gnsbook.Firebase.Broadcast_FCM;
 import com.digital.gnsbook.Global;
 import com.digital.gnsbook.GnsChat.ChatsAdapter;
 import com.digital.gnsbook.Model.TimeLine_Model.LikesItem;
+import com.digital.gnsbook.Model.TimeLine_Model.Suggestion;
 import com.digital.gnsbook.Model.TimeLine_Model.TimeLineItem;
 import com.digital.gnsbook.Model.WallPostmodel;
 import com.digital.gnsbook.Payment.OverlapDecoration;
+import com.facebook.datasource.BaseDataSubscriber;
+import com.facebook.datasource.DataSource;
+import com.facebook.datasource.DataSubscriber;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.core.ImagePipeline;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
@@ -73,16 +80,20 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
 
     private static final int POST = 0;
     private static final int PRODUCT = 1;
+    private static final int SUGGESTION = 2;
     Context context ;
     private ResizeOptions mResizeOptions;
 
+    Thread thread;
+    Handler handler = new Handler();
+
     List<TimeLineItem> timeLineItems =new ArrayList<>();
     List<LikesItem> likesItems =new ArrayList<>();
+    List<Suggestion> suggestions =new ArrayList<>();
 
-    public WallAdapt(Context context, List<TimeLineItem> timeLineItems, ResizeOptions mResizeOptions) {
+    public WallAdapt(Context context, List<TimeLineItem> timeLineItems) {
         this.context=context;
         this.timeLineItems=timeLineItems;
-        this.mResizeOptions=mResizeOptions;
     }
 
 
@@ -96,12 +107,21 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
                     parent,
                     false
             );
-        } else {
+        } else if (viewType == POST) {
             view = LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.walladapt_post,
                     parent,
                     false);
+        }else {
+            view = LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.friend_suggestion,
+                    parent,
+                    false);
+
         }
+
+
+
         return new WallAdapt.Holder(view);
     }
 
@@ -110,8 +130,10 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
 
         if (timeLineItems.get(position).getType()==1){
             return POST;
-        }else {
+        }else if (timeLineItems.get(position).getType()==2){
             return PRODUCT;
+        }else {
+            return SUGGESTION;
         }
     }
 
@@ -122,8 +144,10 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
 
         if (timeLineItems.get(position).getType()==1){
             holder.bindpost(timeLineItems.get(position));
-        }else {
+        }else if(timeLineItems.get(position).getType()==2) {
             holder.bindProduct(timeLineItems.get(position));
+        } else {
+            holder.bindSuggestion(timeLineItems.get(position));
         }
 
 
@@ -246,27 +270,6 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
 
         });
         }
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
-    }
-
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    } //
     @Override
     public int getItemCount() {
         return timeLineItems.size();
@@ -275,9 +278,9 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
     class Holder extends RecyclerView.ViewHolder {
 
         CheckBox BtnLike ;
-        RecyclerView Overlapview , slider;
+        RecyclerView Overlapview , slider , frndSuggestion;
         ImageView dp,wpComment,imgPost ,imgPrd,share;
-        TextView likeCount , prdName ,prdDesc ,prdPrize, likename, name,date, commentCount,textPost,title;
+        TextView likeCount , prdName ,prdDesc ,prdPrize, likename, name,date, commentCount,textPost,title,btnText;
         CardView Buynow;
         LinearLayout productLayout , postLayout;
         PageIndicator pageIndicator;
@@ -287,6 +290,7 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
             super(view);
             prdview = view;
             dp           = view.findViewById(R.id.wpDP);
+            frndSuggestion = view.findViewById(R.id.frndSuggestion);
             imgPost      = view.findViewById(R.id.wpImage);
             draweeView      = view.findViewById(R.id.my_image_view);
             share        = view.findViewById(R.id.wpShare);
@@ -303,7 +307,7 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
             postLayout   = view.findViewById(R.id.prdPostView);
         }
 
-        public void bindpost(TimeLineItem postmodel) {
+        public void bindpost(final TimeLineItem postmodel) {
 
 
             textPost.setText(postmodel.getDescription());
@@ -315,22 +319,44 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
             likeCount.setText(String.valueOf(postmodel.getLikeCount()));
             commentCount.setText(String.valueOf(postmodel.getCommentCount()));
             likename.setTag(postmodel);
+
+/*
+            thread = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        while(true) {
+                            sleep(1000);
+                            handler.post(this);
+
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+*/
             Uri uri = Uri.parse(APIs.postImg + postmodel.getImage());
+            ImagePipeline imagePipeline = Fresco.getImagePipeline();
+
             draweeView.setImageURI(uri);
+//            thread.start();
+
 
         }
 
         public void bindProduct(final TimeLineItem postmodel) {
             slider        = prdview.findViewById(R.id.wpImageRec);
+            btnText       = prdview.findViewById(R.id.btnText);
             imgPrd        = prdview.findViewById(R.id.ProductImage);
             prdDesc       = prdview.findViewById(R.id.prdDesc);
             prdName       = prdview.findViewById(R.id.prdName);
             prdPrize      = prdview.findViewById(R.id.prdPrice);
             Buynow        = prdview.findViewById(R.id.prdBuy);
             pageIndicator = prdview.findViewById(R.id.pageIndicator);
-          //  productLayout = prdview.findViewById(R.id.PostView);
+            //  productLayout = prdview.findViewById(R.id.PostView);
 
-           // productLayout.setTag(postmodel);
+            // productLayout.setTag(postmodel);
             prdPrize.setText("₹"+postmodel.getProductPrice());
             Buynow.setTag(postmodel);
             pageIndicator.setTag(postmodel);
@@ -348,12 +374,17 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
 
             final String[] finalImageArray = imageArray;
 
+            if (postmodel.getSellType()==1){
+                btnText.setText("Shop Now");
+            }else{
+                btnText.setText("Buy Now");
+            }
             Buynow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //  String url = "http://www.example.com";
-
                     if (postmodel.getSellType()==1){
+
                         Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(postmodel.getProductLink()));
                         context.startActivity(i);
                     }else {
@@ -377,12 +408,41 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
 
 
         }
+
+        public void bindSuggestion(final TimeLineItem postmodel) {
+
+           // suggestions=postmodel.
+
+        }
     }
 
     @Override
     public long getItemId(int position) {
         return position;
     }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    } //
+
 
     private String getText(TimeLineItem wallPostmodel, TextView textView) {
         if (wallPostmodel.getLikes().size() == 1) {
