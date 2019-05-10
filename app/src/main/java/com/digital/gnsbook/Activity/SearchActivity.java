@@ -47,6 +47,7 @@ public class SearchActivity extends AppCompatActivity {
     private Timer timer;
     ProgressBar searchProgress;
     List<SearchItem> commentModel = new ArrayList();
+    boolean isCompony= false;
 
 
 
@@ -121,7 +122,7 @@ public class SearchActivity extends AppCompatActivity {
         rvSearch =findViewById(R.id.rvsearch);
         searchProgress =findViewById(R.id.searchProgress);
         rvSearch.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        rvSearch.addItemDecoration(new DividerDecorator(getApplicationContext()));
+     //   rvSearch.addItemDecoration(new DividerDecorator(getApplicationContext()));
 
         Back= (ImageView) findViewById(R.id.SearchBack);
         clear= (ImageView) findViewById(R.id.SearchClear);
@@ -170,7 +171,7 @@ public class SearchActivity extends AppCompatActivity {
                         JSONArray jsonArray = jsonObject.getJSONArray("result");
                         SearchResponse searchResponse = (SearchResponse) new Gson().fromJson(response, SearchResponse.class);
                         commentModel=searchResponse.getResult();
-                        rvSearch.setAdapter(new SearchAdapt(SearchActivity.this,commentModel));
+                        rvSearch.setAdapter(new SearchAdapt(SearchActivity.this,commentModel,isCompony));
 
                     }
 
@@ -187,7 +188,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map <String,String> param = new HashMap<String,String>();
-                param.put("limit", "10");
+                param.put("limit", "5");
                 param.put("offset","0");
                 param.put("keyword",query.getText().toString());
                 return param;            }

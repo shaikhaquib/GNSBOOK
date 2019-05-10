@@ -58,34 +58,34 @@ public class Suggestion {
     private String sex;
     @SerializedName("country")
     @Expose
-    private Object country;
+    private String country;
     @SerializedName("state")
     @Expose
-    private Object state;
+    private String state;
     @SerializedName("city")
     @Expose
-    private Object city;
+    private String city;
     @SerializedName("website")
     @Expose
-    private Object website;
+    private String website;
     @SerializedName("pincode")
     @Expose
-    private Object pincode;
+    private String pincode;
     @SerializedName("about")
     @Expose
-    private Object about;
+    private String about;
     @SerializedName("social_networks")
     @Expose
-    private Object socialNetworks;
+    private String socialNetworks;
     @SerializedName("education")
     @Expose
-    private Object education;
+    private String education;
     @SerializedName("birthdate")
     @Expose
-    private Object birthdate;
+    private String birthdate;
     @SerializedName("hobbies")
     @Expose
-    private Object hobbies;
+    private String hobbies;
     @SerializedName("d_pic")
     @Expose
     private String dPic;
@@ -94,7 +94,7 @@ public class Suggestion {
     private String bPic;
     @SerializedName("employement")
     @Expose
-    private Object employement;
+    private String employement;
     @SerializedName("updated_at")
     @Expose
     private String updatedAt;
@@ -235,83 +235,83 @@ public class Suggestion {
         this.sex = sex;
     }
 
-    public Object getCountry() {
+    public String getCountry() {
         return country;
     }
 
-    public void setCountry(Object country) {
+    public void setCountry(String country) {
         this.country = country;
     }
 
-    public Object getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(Object state) {
+    public void setState(String state) {
         this.state = state;
     }
 
-    public Object getCity() {
+    public String getCity() {
         return city;
     }
 
-    public void setCity(Object city) {
+    public void setCity(String city) {
         this.city = city;
     }
 
-    public Object getWebsite() {
+    public String getWebsite() {
         return website;
     }
 
-    public void setWebsite(Object website) {
+    public void setWebsite(String website) {
         this.website = website;
     }
 
-    public Object getPincode() {
+    public String getPincode() {
         return pincode;
     }
 
-    public void setPincode(Object pincode) {
+    public void setPincode(String pincode) {
         this.pincode = pincode;
     }
 
-    public Object getAbout() {
+    public String getAbout() {
         return about;
     }
 
-    public void setAbout(Object about) {
+    public void setAbout(String about) {
         this.about = about;
     }
 
-    public Object getSocialNetworks() {
+    public String getSocialNetworks() {
         return socialNetworks;
     }
 
-    public void setSocialNetworks(Object socialNetworks) {
+    public void setSocialNetworks(String socialNetworks) {
         this.socialNetworks = socialNetworks;
     }
 
-    public Object getEducation() {
+    public String getEducation() {
         return education;
     }
 
-    public void setEducation(Object education) {
+    public void setEducation(String education) {
         this.education = education;
     }
 
-    public Object getBirthdate() {
+    public String getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Object birthdate) {
+    public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }
 
-    public Object getHobbies() {
+    public String getHobbies() {
         return hobbies;
     }
 
-    public void setHobbies(Object hobbies) {
+    public void setHobbies(String hobbies) {
         this.hobbies = hobbies;
     }
 
@@ -331,11 +331,11 @@ public class Suggestion {
         this.bPic = bPic;
     }
 
-    public Object getEmployement() {
+    public String getEmployement() {
         return employement;
     }
 
-    public void setEmployement(Object employement) {
+    public void setEmployement(String employement) {
         this.employement = employement;
     }
 

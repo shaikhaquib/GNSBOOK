@@ -12,7 +12,7 @@ public class TimeLineResponse {
 	private Integer type;
 	@SerializedName("result")
 	@Expose
-	private List<TimeLineResponse> result = null;
+	private List<TimeLineItem> result = null;
 	@SerializedName("sell_type")
 	@Expose
 	private Integer sellType;
@@ -58,11 +58,11 @@ public class TimeLineResponse {
 		this.type = type;
 	}
 
-	public List<TimeLineResponse> getResult() {
+	public List<TimeLineItem> getResult() {
 		return result;
 	}
 
-	public void setResult(List<TimeLineResponse> result) {
+	public void setResult(List<TimeLineItem> result) {
 		this.result = result;
 	}
 

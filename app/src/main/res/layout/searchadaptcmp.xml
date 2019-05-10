@@ -4,21 +4,27 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/borderline"/>
+
     <TextView
-        android:id="@+id/searchTag"
+        android:id="@+id/searchTagcmp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_16"
         android:layout_marginTop="@dimen/margin_16"
         android:layout_marginRight="@dimen/margin_16"
-        android:text="Peoples"
-        android:gravity="center_vertical"
+        android:text="Companys"
         android:drawablePadding="8dp"
-        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:gravity="center_vertical"
+        android:drawableTint="#416685"
+        android:drawableLeft="@drawable/ic_bank"
         android:textColor="#416685"
         android:textSize="@dimen/margin_16"
         android:textStyle="bold"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
     <LinearLayout
         android:layout_width="match_parent"

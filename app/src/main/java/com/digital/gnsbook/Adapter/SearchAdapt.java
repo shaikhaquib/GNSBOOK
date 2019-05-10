@@ -17,6 +17,7 @@ import com.digital.gnsbook.Activity.FriendProfile;
 import com.digital.gnsbook.Activity.SearchActivity;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.DbHelper;
+import com.digital.gnsbook.Global;
 import com.digital.gnsbook.Model.SearchItem;
 import com.digital.gnsbook.Model.SearchModel;
 import com.httpgnsbook.gnsbook.R;
@@ -33,9 +34,11 @@ public class SearchAdapt extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     Context context;
     private List<SearchItem> models;
+    boolean isCompony =false;
+    private static final int CMP = 0;
+    private static final int PPL = 1;
 
-
-    public SearchAdapt(Activity activity, List<SearchItem> models) {
+    public SearchAdapt(Activity activity, List<SearchItem> models, boolean isCompony) {
         this.context=activity;
         this.models=models;
     }
@@ -43,9 +46,14 @@ public class SearchAdapt extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.searchadapt,parent,false);
-        HelpHolder holder = new HelpHolder(view);
-        return holder;
+        View view = null;
+
+        if (viewType==PPL){
+        view= LayoutInflater.from(context).inflate(R.layout.searchadapt,parent,false);
+        }else {
+            view= LayoutInflater.from(context).inflate(R.layout.searchadaptcmp,parent,false);
+        }
+        return new HelpHolder(view);
     }
 
     @Override
@@ -53,7 +61,13 @@ public class SearchAdapt extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         final HelpHolder helpHolder =(HelpHolder) holder;
         final SearchItem model=models.get(position);
 
+        holder.setIsRecyclable(false);
+
         helpHolder.itemView.setTag(model);
+        if (position==0 && model.getSearchType()==1){
+            helpHolder.searchTag.setVisibility(View.VISIBLE);
+            helpHolder.searchTag.setText("People");
+        }
 
         if (model.getSearchType() == 1) {
             helpHolder.name.setText(model.getName() + " " + model.getLastName());
@@ -62,6 +76,11 @@ public class SearchAdapt extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         else{
             helpHolder.name.setText(model.getName());
             Picasso.get().load(APIs.Dp+model.getLogo()).into(helpHolder.dp);
+
+            if (!isCompony){
+                isCompony = true;
+                helpHolder.searchTagcmp.setVisibility(View.VISIBLE);
+            }
         }
 
 
@@ -86,51 +105,24 @@ public class SearchAdapt extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         return models.size();
     }
 
- /*   @Override
-    public Filter getFilter() {
 
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence charSequence) {
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
-                String charString = charSequence.toString();
-
-                if (charString.isEmpty()) {
-
-                      models = contactListFiltered;
-                } else {
-
-                    ArrayList<SearchModel> filteredList = new ArrayList<>();
-
-                    for (SearchModel row : contactListFiltered) {
-
-                        if (row.getName().contains(charString.toLowerCase())) {
-                            filteredList.add(row);
-                        }
-
-                    }
-
-                    models = filteredList;
-                }
-
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = contactListFiltered;
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                contactListFiltered = (ArrayList<SearchModel>) filterResults.values;
-                notifyDataSetChanged();
-            }
-        };
-    }*/
-
-
+    @Override
+    public int getItemViewType(int position) {
+        if (models.get(position).getSearchType() != 1) {
+            return CMP;
+        } else {
+            return PPL;
+        }
+    }
 
     class HelpHolder extends RecyclerView.ViewHolder{
 
-        public TextView name , city;
+        public TextView name , city,searchTag,searchTagcmp;
         ImageView dp;
 
         public HelpHolder(View itemView) {
@@ -139,6 +131,8 @@ public class SearchAdapt extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             name = itemView.findViewById(R.id.searchNmae);
             city = itemView.findViewById(R.id.searchCity);
             dp = itemView.findViewById(R.id.searchDp);
+            searchTag = itemView.findViewById(R.id.searchTag);
+            searchTagcmp = itemView.findViewById(R.id.searchTagcmp);
 
 
         }

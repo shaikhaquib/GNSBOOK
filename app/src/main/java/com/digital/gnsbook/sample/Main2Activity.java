@@ -1,14 +1,12 @@
-package com.digital.gnsbook.Fragment;
+package com.digital.gnsbook.sample;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
@@ -35,7 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Frg_WallPost extends Fragment {
+public class Main2Activity extends AppCompatActivity {
 
     RecyclerView rvWallpost;
     private int offset = 0;
@@ -48,12 +46,13 @@ public class Frg_WallPost extends Fragment {
     private static final int SPAN_COUNT = 3;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frg_wallpost, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.frg_wallpost);
 
-        layoutManager=new LinearLayoutManager(getActivity());
+        layoutManager=new LinearLayoutManager(getApplicationContext());
 
-        rvWallpost = view.findViewById(R.id.rvWallpost);
+        rvWallpost = findViewById(R.id.rvWallpost);
         rvWallpost.setLayoutManager(layoutManager);
         rvWallpost.addOnLayoutChangeListener(
                 new View.OnLayoutChangeListener() {
@@ -73,7 +72,7 @@ public class Frg_WallPost extends Fragment {
                     }
                 });
         rvWallpost.setHasFixedSize(true);
-        rvWallpost.setAdapter(new WallAdapt(getActivity(),postModel));
+        rvWallpost.setAdapter(new WallAdapt(Main2Activity.this,postModel));
 
 
         rvWallpost.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -95,14 +94,13 @@ public class Frg_WallPost extends Fragment {
                 if(currentItems + scrolledItems == totalItems)
                 {
                     offset = offset + 25;
-                  //  porogress.setVisibility(View.VISIBLE);
+                    //  porogress.setVisibility(View.VISIBLE);
                     getPost();
                 }
             }
         });
 
         getPost();
-        return view;
     }
 
     private void getPost() {
@@ -127,10 +125,10 @@ public class Frg_WallPost extends Fragment {
                         reader.setLenient(true);
 
                         TimeLineResponse timeLineResponse = new Gson().fromJson(reader, TimeLineResponse.class);
-
+/*
                         if (timeLineResponse.getResult().size() > 0) {
                             postModel.addAll(timeLineResponse.getResult());
-                        }
+                        }*/
                     }
 
 
@@ -151,12 +149,11 @@ public class Frg_WallPost extends Fragment {
                 Map<String, String> hashMap = new HashMap();
                 hashMap.put("company_id", "1");
                 hashMap.put("customer_id", Global.customerid);
-                hashMap.put("limit", "10");
+                hashMap.put("limit", "25");
                 hashMap.put("offset", String.valueOf(offset));
                 return hashMap;
             }
         });
     }
-
 
 }

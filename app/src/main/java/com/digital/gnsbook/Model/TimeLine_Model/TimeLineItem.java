@@ -7,7 +7,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class TimeLineItem {
 
-
 	@SerializedName("name")
 	@Expose
 	private String name;
@@ -77,6 +76,9 @@ public class TimeLineItem {
 	@SerializedName("updated_at")
 	@Expose
 	private String updatedAt;
+	@SerializedName("suggestions")
+	@Expose
+	private List<Suggestion> suggestions = null;
 
 	public String getName() {
 		return name;
@@ -260,6 +262,14 @@ public class TimeLineItem {
 
 	public void setUpdatedAt(String updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public List<Suggestion> getSuggestions() {
+		return suggestions;
+	}
+
+	public void setSuggestions(List<Suggestion> suggestions) {
+		this.suggestions = suggestions;
 	}
 
 }
