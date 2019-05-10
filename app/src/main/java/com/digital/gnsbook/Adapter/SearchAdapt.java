@@ -80,6 +80,7 @@ public class SearchAdapt extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             if (!isCompony){
                 isCompony = true;
                 helpHolder.searchTagcmp.setVisibility(View.VISIBLE);
+                helpHolder.divider.setVisibility(View.VISIBLE);
             }
         }
 
@@ -124,6 +125,7 @@ public class SearchAdapt extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
         public TextView name , city,searchTag,searchTagcmp;
         ImageView dp;
+        View divider;
 
         public HelpHolder(View itemView) {
             super(itemView);
@@ -133,6 +135,7 @@ public class SearchAdapt extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             dp = itemView.findViewById(R.id.searchDp);
             searchTag = itemView.findViewById(R.id.searchTag);
             searchTagcmp = itemView.findViewById(R.id.searchTagcmp);
+            divider = itemView.findViewById(R.id.divider);
 
 
         }
