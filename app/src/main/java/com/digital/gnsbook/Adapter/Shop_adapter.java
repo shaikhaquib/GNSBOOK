@@ -121,6 +121,8 @@ public class Shop_adapter extends RecyclerView.Adapter<Shop_adapter.Holder> {
             super(view);
             prdview = view;
             dp = view.findViewById(R.id.wpDP);
+            name = view.findViewById(R.id.wpcname);
+            date = view.findViewById(R.id.wpDate);
             frndSuggestion = view.findViewById(R.id.frndSuggestion);
             reward = view.findViewById(R.id.prdreward);
 
@@ -128,7 +130,7 @@ public class Shop_adapter extends RecyclerView.Adapter<Shop_adapter.Holder> {
 
 
         public void bindProduct(final Result postmodel, int position) {
-           main(postmodel,position);
+          main(postmodel,position);
             slider = prdview.findViewById(R.id.wpImageRec);
             btnText = prdview.findViewById(R.id.btnText);
             imgPrd = prdview.findViewById(R.id.ProductImage);

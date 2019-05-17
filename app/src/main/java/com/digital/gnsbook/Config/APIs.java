@@ -135,4 +135,5 @@ public class APIs {
     public static String razorPaySuccess                        = DevDomain+"razorPaySuccess";
     public static String genrate_order                          = DevDomain+"order_id";
     public static String display_product_by_category            = DevDomain+"display_product_by_category";
+    public static String order_history                          = DevDomain+"order_history";
 }

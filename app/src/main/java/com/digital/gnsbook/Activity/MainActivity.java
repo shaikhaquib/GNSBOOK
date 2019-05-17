@@ -45,6 +45,7 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.crashlytics.android.Crashlytics;
+import com.digital.gnsbook.Adapter.Shop_adapter;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Config.SQLiteHandler;
@@ -523,7 +524,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         } else if (menuItem == R.id.Gstore) {
             startActivity(new Intent(getApplicationContext(),G_Store.class));
         }else if (menuItem == R.id.history) {
-            startActivity(new Intent(getApplicationContext(),G_Store.class));
+            startActivity(new Intent(getApplicationContext(), Order_history.class));
         } else if (menuItem == R.id.nav_wallet) {
             if (!Global.verify_sms.equals("1")) {
                 Global.diloge(MainActivity.this, "User not verified", "For Fund Transfer from GnsBook you have to verify your mobile no.");
@@ -717,7 +718,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
                             saveCurrentUserKey(documentReference.getId());
-                            Toast.makeText(MainActivity.this, "New user created", Toast.LENGTH_SHORT).show();
+                        //    Toast.makeText(MainActivity.this, "New user created", Toast.LENGTH_SHORT).show();
                         }
                     },
                     new OnFailureListener() {
@@ -737,7 +738,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
                     new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
-                            Toast.makeText(MainActivity.this, "Logged in", Toast.LENGTH_SHORT).show();
+                   //         Toast.makeText(MainActivity.this, "Logged in", Toast.LENGTH_SHORT).show();
                             getCurrentUserKey();
                           //  getChatRooms();
                         }
