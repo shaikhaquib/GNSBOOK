@@ -33,6 +33,7 @@ public class WallPostmodel {
     public String product_link ;
     public String type         ;
     public int commentCount;
+    public int reward;
 
     public int sell_type;
 }

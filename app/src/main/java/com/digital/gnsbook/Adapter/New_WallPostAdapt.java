@@ -73,7 +73,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
     static class Holder extends ViewHolder {
         CheckBox BtnLike ;
         RecyclerView Overlapview , slider;
-        TextView date, commentCount,btnText;
+        TextView date, commentCount,btnText,prdreward;
         ImageView dp,wpComment;
         ImageView imgPost ,imgPrd;
         TextView likeCount , prdName ,prdDesc ,prdPrize;
@@ -95,6 +95,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
             share = (ImageView) view.findViewById(R.id.wpShare);
             name = (TextView) view.findViewById(R.id.wpcname);
             btnText = (TextView) view.findViewById(R.id.btnText);
+            prdreward = (TextView) view.findViewById(R.id.prdreward);
             date = (TextView) view.findViewById(R.id.wpDate);
             textPost = (TextView) view.findViewById(R.id.wpText);
             title = (TextView) view.findViewById(R.id.wpTexttitile);
@@ -230,6 +231,10 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
                 holder. productLayout.setVisibility(View.GONE);
             }
 
+            if (postmodel.reward>0){
+                holder.prdreward.setVisibility(View.VISIBLE);
+                holder.prdreward.setText("Reward Points : "+postmodel.reward);
+            }
 
 
         final String[] finalImageArray1 = imageArray;

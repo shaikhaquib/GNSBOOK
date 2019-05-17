@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ public class Frg_WallPost extends Fragment {
 
     RecyclerView rvWallpost;
     private int offset = 0;
+    SwipeRefreshLayout refresh;
     List<LikesItem> likeModel = new ArrayList<>();
     List<TimeLineItem> postModel = new ArrayList<>();
     LinearLayoutManager  layoutManager;
@@ -46,6 +48,7 @@ public class Frg_WallPost extends Fragment {
     private @Nullable
     ResizeOptions mResizeOptions;
     private static final int SPAN_COUNT = 3;
+    boolean isLoading = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class Frg_WallPost extends Fragment {
 
         layoutManager=new LinearLayoutManager(getActivity());
 
+        refresh = view.findViewById(R.id.refresh);
         rvWallpost = view.findViewById(R.id.rvWallpost);
         rvWallpost.setLayoutManager(layoutManager);
         rvWallpost.addOnLayoutChangeListener(
@@ -73,7 +77,20 @@ public class Frg_WallPost extends Fragment {
                     }
                 });
         rvWallpost.setHasFixedSize(true);
+        postModel.clear();
         rvWallpost.setAdapter(new WallAdapt(getActivity(),postModel));
+
+
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                offset = 0;
+                getPost();
+            }
+        });
+
+
+
 
 
         rvWallpost.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -82,21 +99,18 @@ public class Frg_WallPost extends Fragment {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                // number of items that are currently visible on screen
-                int currentItems = layoutManager.getChildCount();
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
-                // number of items that you have scrolled
-                int scrolledItems = layoutManager.findFirstCompletelyVisibleItemPosition();
-
-                // total number of items
-                int totalItems = layoutManager.getItemCount();
-
-                // if this condition meets, load more data
-                if(currentItems + scrolledItems == totalItems)
-                {
-                    offset = offset + 25;
-                  //  porogress.setVisibility(View.VISIBLE);
-                    getPost();
+                if (!isLoading) {
+                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == postModel.size() - 1) {
+                        //bottom of list!
+                        offset = offset + 10;
+                        //  porogress.setVisibility(View.VISIBLE);
+                        getPost();
+                        isLoading = true;
+                        postModel.add(null);
+                        rvWallpost.getAdapter().notifyItemInserted(postModel.size() - 1);
+                    }
                 }
             }
         });
@@ -106,13 +120,27 @@ public class Frg_WallPost extends Fragment {
     }
 
     private void getPost() {
+
         AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.new_timelineAPI, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                /*porogress.setVisibility(View.GONE);
-                if (swipeRefreshLayout.isRefreshing()){
-                    swipeRefreshLayout.setRefreshing(false);
-                }*/
+                /*porogress.setVisibility(View.GONE);*/
+
+
+                if (isLoading) {
+                    postModel.remove(postModel.size() - 1);
+                    int scrollPosition = postModel.size();
+                    rvWallpost.getAdapter().notifyItemRemoved(scrollPosition);
+                    isLoading = false;
+                }
+
+                if (refresh.isRefreshing()){
+                    refresh.setRefreshing(false);
+                    rvWallpost.setAdapter(null);
+                    postModel.clear();
+                    rvWallpost.setAdapter(new WallAdapt(getActivity(),postModel));
+
+                }
 
                 try {
                     JSONArray jsonArray = new JSONArray(response);
@@ -125,7 +153,6 @@ public class Frg_WallPost extends Fragment {
 
                         JsonReader reader = new JsonReader(new StringReader(MyResponce));
                         reader.setLenient(true);
-
                         TimeLineResponse timeLineResponse = new Gson().fromJson(reader, TimeLineResponse.class);
 
                         if (timeLineResponse.getResult().size() > 0) {
@@ -144,7 +171,15 @@ public class Frg_WallPost extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if (refresh.isRefreshing()){
+                    refresh.setRefreshing(false);
+                }
 
+                if (postModel.size()>0){
+                postModel.remove(postModel.size() - 1);
+                int scrollPosition = postModel.size();
+                rvWallpost.getAdapter().notifyItemRemoved(scrollPosition);
+                isLoading = false;}
             }
         }) {
             protected Map<String, String> getParams() throws AuthFailureError {

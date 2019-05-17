@@ -277,6 +277,7 @@ public class Cart extends AppCompatActivity {
                 Intent intent = new Intent(getApplication(), CheckOut.class);
                 intent.putExtra("Amount",TotalAmount);
                 intent.putExtra("count",prodlist.size());
+                intent.putExtra("cart_id","25");
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();

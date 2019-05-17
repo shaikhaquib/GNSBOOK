@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -72,6 +73,7 @@ public class Add_Address extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Validation();
             }
         });
@@ -142,7 +144,10 @@ public class Add_Address extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(response);
 
                     if (jsonObject.getBoolean("status")){
-                        Global.successDilogue(Add_Address.this,jsonObject.getString("result"));
+
+                        Toast.makeText(Add_Address.this, jsonObject.getString("result"), Toast.LENGTH_LONG).show();
+                        finish();
+                     //   Global.successDilogue(Add_Address.this,jsonObject.getString("result"));
                     }else {
                         Global.failedDilogue(Add_Address.this,jsonObject.getString("result"));
                     }

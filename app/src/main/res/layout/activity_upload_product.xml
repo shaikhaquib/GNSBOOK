@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     tools:context="com.digital.gnsbook.Activity.UploadProduct">
 
@@ -14,115 +14,190 @@
         android:layout_marginBottom="30dp"
         android:fillViewport="true">
 
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="vertical">
+
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/clogo"
+                android:layout_width="50.0dip"
+                android:layout_height="50.0dip"
+                android:src="@drawable/photo"
+                app:civ_border_color="@color/borderline" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/cmName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Virtual Shop"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                <TextView
+                    android:id="@+id/cmHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ltNmdetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="8dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/clogo"
-                    android:layout_width="50.0dip"
-                    android:layout_height="50.0dip"
-                    android:src="@drawable/photo"
-                    app:civ_border_color="@color/borderline" />
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/cmName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Virtual Shop"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-                    <TextView
-                        android:id="@+id/cmHeading"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/app_name"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            android:visibility="visible">
 
 
-                </LinearLayout>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-                <android.support.design.widget.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginTop="@dimen/margin_16">
-
-                    <EditText
-                        android:id="@+id/postTitle"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:hint="Product Name" />
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="@dimen/margin_16">
-
-                    <EditText
-                        android:id="@+id/prdctCat"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Product Category" />
-                </android.support.design.widget.TextInputLayout>
-
-
-
-            </LinearLayout>
-
-            <RadioGroup
+            <android.support.design.widget.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/saleType">
+                android:layout_marginTop="@dimen/margin_16"
+                >
+
+                <EditText
+                    android:id="@+id/postTitle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Product Name"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <EditText
+                    android:id="@+id/prdcPrize"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Product Price"
+                    android:inputType="number"/>
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <EditText
+                    android:id="@+id/prdctCat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Product Category" />
+
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/Postdesc"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Product Description"
+                        android:lines="3"
+                        android:maxLines="5" />
+                </android.support.design.widget.TextInputLayout>
+
+
+                <Button
+                    android:id="@+id/btnNmdetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="Next" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ltsaleType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <RadioGroup
+                android:id="@+id/saleType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fragment_title_padding_10"
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/rb1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="SALE ON GNSBOOK"
+                    android:layout_weight="1"
                     android:checked="true"
-                    />
+                    android:text="SALE ON GNSBOOK" />
 
                 <RadioButton
                     android:id="@+id/rb2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Add Product Link"/>
+                    android:layout_gravity="center_horizontal|center"
+                    android:layout_weight="1"
+                    android:text="Add Product Link" />
+
 
             </RadioGroup>
+
+            <CheckBox
+                android:id="@+id/addReward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTint="@color/accent_color"
+                android:text="Add Reward Point"/>
+
+
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/textLink"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:id="@+id/ltedtreward"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                >
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/edtreward"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Reward" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textLink"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
 
                 <EditText
                     android:id="@+id/prdctLink"
@@ -131,57 +206,24 @@
                     android:hint="Product Link" />
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/Postdesc"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Product Description"
-                    android:lines="3"
-                    android:maxLines="5" />
-            </android.support.design.widget.TextInputLayout>
+            <Button
+                android:id="@+id/btnsaleType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="Next" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        </LinearLayout>
 
 
-                <android.support.design.widget.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                    android:layout_width="0dp"
-                    android:layout_marginRight="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5">
-
-                    <EditText
-                        android:id="@+id/prdcPrize"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Product Price" />
-                </android.support.design.widget.TextInputLayout>
-
-                <Button
-                    android:id="@+id/pgallery"
-                    android:layout_width="170dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edt_rounded_corner"
-                    android:onClick="PickerProduct"
-                    android:text="Upload Images"
-                    android:gravity="left|center_vertical"
-                    android:drawablePadding="@dimen/margin_10"
-                    android:paddingLeft="15dp"
-                    android:drawableLeft="@drawable/ic_menu_gallery"
-                    android:drawableTint="@color/white"
-                    android:backgroundTint="#009688"
-                    android:textColor="@color/white" />
-
-
-            </LinearLayout>
-
+        <LinearLayout
+            android:id="@+id/ltUpload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/fragment_title_padding_10"
+            android:orientation="vertical"
+            android:visibility="gone">
 
 
             <ImageView
@@ -189,77 +231,110 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:visibility="gone"
                 android:layout_marginTop="20dp"
                 android:adjustViewBounds="true"
-                android:cropToPadding="false" />
+                android:cropToPadding="false"
+                android:visibility="gone" />
 
-            <ListView
-                android:id="@+id/listView"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
+                android:layout_height="wrap_content">
 
+                <ListView
+                    android:id="@+id/listView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                   />
+
+                <LinearLayout
+                    android:id="@+id/l"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true">
+                    <Button
+                        android:id="@+id/pgallery"
+                        android:layout_width="150dp"
+                        android:layout_height="55dp"
+                        android:layout_centerHorizontal="true"
+                        android:backgroundTint="#009688"
+                        android:drawableLeft="@drawable/ic_menu_gallery"
+                        android:drawablePadding="@dimen/margin_10"
+                        android:drawableTint="@color/white"
+                        android:gravity="left|center_vertical"
+                        android:onClick="PickerProduct"
+                        android:paddingLeft="15dp"
+                        android:text="Add Images"
+                        android:textColor="@color/white" />
+
+                    <Button
+                        android:id="@+id/UploadPost"
+                        android:layout_width="fill_parent"
+                        android:layout_height="55dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_weight="7.0"
+                        android:backgroundTint="#0277BD"
+                        android:onClick="PickerProduct"
+                        android:text="Upload Product"
+                        android:textColor="@color/white" />
+
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
         </LinearLayout>
-    </ScrollView>
-    <Button
-        android:id="@+id/UploadPost"
-        android:layout_width="fill_parent"
-        android:layout_height="55dp"
-        android:layout_weight="7.0"
-        android:onClick="PickerProduct"
-        android:layout_alignParentBottom="true"
-        android:text="Upload Product"
-        android:backgroundTint="#0277BD"
-        android:textColor="@color/white" />
+
+
+    </LinearLayout>
+
+
 </RelativeLayout>
 
 
-
-<!--
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="20.0dip"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
+    <!--
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3.0"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="20.0dip"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/pgallery"
-                android:layout_width="35.0dip"
-                android:layout_height="35.0dip"
-                android:onClick="Picker"
-                android:src="@drawable/ic_menu_gallery"
-                android:tint="@color/colorPrimary" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3.0"
+                android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/pcamera"
-                android:layout_width="35.0dip"
-                android:layout_height="35.0dip"
-                android:layout_marginLeft="20.0dip"
+                <ImageView
+                    android:id="@+id/pgallery"
+                    android:layout_width="35.0dip"
+                    android:layout_height="35.0dip"
+                    android:onClick="Picker"
+                    android:src="@drawable/ic_menu_gallery"
+                    android:tint="@color/colorPrimary" />
+
+                <ImageView
+                    android:id="@+id/pcamera"
+                    android:layout_width="35.0dip"
+                    android:layout_height="35.0dip"
+                    android:layout_marginLeft="20.0dip"
+                    android:onClick="Picker"
+                    android:src="@drawable/ic_camera_alt_black_24dp"
+                    android:tint="@color/colorPrimary" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/UploadPost"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="7.0"
+                android:background="@drawable/edt_rounded_corner"
                 android:onClick="Picker"
-                android:src="@drawable/ic_camera_alt_black_24dp"
-                android:tint="@color/colorPrimary" />
+                android:text="Post"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="@color/white" />
         </LinearLayout>
-
-        <Button
-            android:id="@+id/UploadPost"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="7.0"
-            android:background="@drawable/edt_rounded_corner"
-            android:onClick="Picker"
-            android:text="Post"
-            android:backgroundTint="@color/colorPrimary"
-            android:textColor="@color/white" />
-    </LinearLayout>
--->
+    -->

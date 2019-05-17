@@ -520,6 +520,10 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
             callPhoneNumber();
         } else if (menuItem == R.id.premium) {
             startActivity(new Intent(getApplicationContext(),Become_Premium.class));
+        } else if (menuItem == R.id.Gstore) {
+            startActivity(new Intent(getApplicationContext(),G_Store.class));
+        }else if (menuItem == R.id.history) {
+            startActivity(new Intent(getApplicationContext(),G_Store.class));
         } else if (menuItem == R.id.nav_wallet) {
             if (!Global.verify_sms.equals("1")) {
                 Global.diloge(MainActivity.this, "User not verified", "For Fund Transfer from GnsBook you have to verify your mobile no.");

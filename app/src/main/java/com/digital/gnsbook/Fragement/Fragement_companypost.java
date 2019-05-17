@@ -188,6 +188,7 @@ public class Fragement_companypost extends Fragment {
                             wallPostmodel.created_at = jSONObject2.getString("created_at");
                             wallPostmodel.likecount = jSONObject2.getInt("like_count");
                             wallPostmodel.commentCount = jSONObject2.getInt("comment_count");
+
                             wallPostmodel.selfLike = jSONObject2.getInt("Self_Likes");
 
                             for (int i2 = 0; i2 < jSONObject2.getJSONArray("Likes").length(); i2++) {
@@ -217,7 +218,7 @@ public class Fragement_companypost extends Fragment {
                             wallPostmodel.created_at = jSONObject2.getString("created_at");
                             wallPostmodel.likecount = jSONObject2.getInt("like_count");
                             wallPostmodel.commentCount = jSONObject2.getInt("comment_count");
-
+                            wallPostmodel.reward = jSONObject2.getInt("reward_points");
                             wallPostmodel.selfLike = jSONObject2.getInt("Self_Likes");
 
                             for (int i2 = 0; i2 < jSONObject2.getJSONArray("Likes").length(); i2++) {

@@ -133,7 +133,7 @@
             android:id="@+id/prdPostView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             android:orientation="vertical">
 
             <ImageView
@@ -177,6 +177,16 @@
                 android:layout_marginLeft="@dimen/margin_10"
                 android:layout_marginRight="@dimen/margin_10"
                 android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/prdreward"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/fragment_title_padding_10"
+                android:textColor="#9E000000"
+                android:drawableLeft="@drawable/ic_badge"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_marginRight="@dimen/margin_10"
+                android:visibility="gone"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"

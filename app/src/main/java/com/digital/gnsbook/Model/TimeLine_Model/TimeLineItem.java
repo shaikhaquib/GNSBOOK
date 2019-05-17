@@ -37,6 +37,9 @@ public class TimeLineItem {
 	@SerializedName("like_count")
 	@Expose
 	private Integer likeCount;
+	@SerializedName("reward_points")
+	@Expose
+	private Integer rewardpoints;
 	@SerializedName("type")
 	@Expose
 	private Integer type;
@@ -271,5 +274,13 @@ public class TimeLineItem {
 	public void setSuggestions(List<Suggestion> suggestions) {
 		this.suggestions = suggestions;
 	}
+	public Integer getRewardpoints() {
+		return rewardpoints;
+	}
+
+	public void setRewardpoints(Integer rewardpoints) {
+		this.rewardpoints = rewardpoints;
+	}
+
 
 }

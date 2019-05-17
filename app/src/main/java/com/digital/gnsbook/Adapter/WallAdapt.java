@@ -70,6 +70,8 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
     private static final int POST = 0;
     private static final int PRODUCT = 1;
     private static final int SUGGESTION = 2;
+    private static final int VIEW_TYPE_LOADING = 3;
+    boolean isLoading = false;
     Context context;
     private ResizeOptions mResizeOptions;
 
@@ -101,6 +103,11 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
                     R.layout.walladapt_post,
                     parent,
                     false);
+        }else if (viewType == VIEW_TYPE_LOADING) {
+            view = LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.load_more,
+                    parent,
+                    false);
         } else {
             view = LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.friend_suggestion,
@@ -115,9 +122,10 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
 
     @Override
     public int getItemViewType(int position) {
-        int i = timeLineItems.get(position).getType();
-
-        if (timeLineItems.get(position).getType() == 1) {
+//        int i = timeLineItems.get(position).getType();
+        if(timeLineItems.size() > 0 && timeLineItems.get(position) == null){
+            return VIEW_TYPE_LOADING;
+        }if (timeLineItems.get(position).getType() == 1) {
             return POST;
         } else if (timeLineItems.get(position).getType() == 2) {
             return PRODUCT;
@@ -130,15 +138,15 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
     public void onBindViewHolder(@NonNull final Holder holder, int position) {
 
         final TimeLineItem item = timeLineItems.get(position);
-
-        if (timeLineItems.get(position).getType() == 1) {
-            holder.bindpost(timeLineItems.get(position),position);
-        } else if (timeLineItems.get(position).getType() == 2) {
-            holder.bindProduct(timeLineItems.get(position),position);
-        } else {
-            holder.bindSuggestion(timeLineItems.get(position));
+        if(timeLineItems.get(position) != null) {
+            if (timeLineItems.get(position).getType() == 1) {
+                holder.bindpost(timeLineItems.get(position), position);
+            } else if (timeLineItems.get(position).getType() == 2) {
+                holder.bindProduct(timeLineItems.get(position), position);
+            } else {
+                holder.bindSuggestion(timeLineItems.get(position));
+            }
         }
-
     }
 
     @Override
@@ -151,7 +159,7 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
         CheckBox BtnLike;
         RecyclerView Overlapview, slider, frndSuggestion;
         ImageView dp, wpComment, imgPost, imgPrd, share;
-        TextView likeCount, prdName, prdDesc, prdPrize, likename, name, date, commentCount, textPost, title, btnText;
+        TextView likeCount,reward, prdName, prdDesc, prdPrize, likename, name, date, commentCount, textPost, title, btnText;
         CardView Buynow;
         LinearLayout productLayout, postLayout;
         PageIndicator pageIndicator;
@@ -163,6 +171,7 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
             prdview = view;
             dp = view.findViewById(R.id.wpDP);
             frndSuggestion = view.findViewById(R.id.frndSuggestion);
+            reward = view.findViewById(R.id.prdreward);
             imgPost = view.findViewById(R.id.wpImage);
             draweeView = view.findViewById(R.id.my_image_view);
             share = view.findViewById(R.id.wpShare);
@@ -219,7 +228,9 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
 
         public void bindProduct(final TimeLineItem postmodel, int position) {
             main(postmodel,position);
-
+            likeCount.setText(String.valueOf(postmodel.getLikeCount()));
+            commentCount.setText(String.valueOf(postmodel.getCommentCount()));
+            likename.setTag(postmodel);
             slider = prdview.findViewById(R.id.wpImageRec);
             btnText = prdview.findViewById(R.id.btnText);
             imgPrd = prdview.findViewById(R.id.ProductImage);
@@ -236,6 +247,12 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
             pageIndicator.setTag(postmodel);
             prdName.setText(postmodel.getProductName());
             prdDesc.setText(postmodel.getProductDesc());
+
+            if (postmodel.getRewardpoints() > 0) {
+                reward.setText("Reward Points : " + postmodel.getRewardpoints());
+            }else {
+                reward.setVisibility(View.GONE);
+            }
             String[] imageArray = null;
 
             if (postmodel.getImages() != null) {
@@ -269,8 +286,8 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
                         intent.putExtra("product_cat", postmodel.getProductCat());
                         intent.putExtra("product_desc", postmodel.getProductDesc());
                         intent.putExtra("product_link", postmodel.getProductLink());
-                        intent.putExtra("product_price", postmodel.getProductPrice());
-                        intent.putExtra("id", postmodel.getId());
+                        intent.putExtra("product_price",String.valueOf(postmodel.getProductPrice()));
+                        intent.putExtra("id", String.valueOf(postmodel.getId()));
                         intent.putExtras(bundle);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
