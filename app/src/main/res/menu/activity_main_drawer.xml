@@ -17,11 +17,12 @@
         <item
             android:id="@+id/nav_dash"
             android:icon="@drawable/ic_newsfeed_icon"
-            android:title="Account Dashboard" />
+            android:title="Transactions" />
         <item
             android:id="@+id/nav_rewards"
             android:icon="@drawable/ic_trophy_icon"
-            android:title="Rewards" />
+            android:title="Rewards"
+            android:visible="false"/>
         <item
             android:id="@+id/support"
             android:icon="@drawable/ic_phone"
@@ -29,7 +30,8 @@
         <item
             android:id="@+id/Gstore"
             android:icon="@drawable/ic_store"
-            android:title="Joining Product" />
+            android:title="Joining Product"
+            android:visible="false"/>
         <item
             android:id="@+id/history"
             android:icon="@drawable/ic_history_black_24dp"
@@ -42,7 +44,8 @@
         <item
             android:id="@+id/premium"
             android:icon="@drawable/ic_account"
-            android:title="Become Premium Member" />
+            android:title="Become Premium Member"
+            />
 
     </group>
     <item android:title="YOUR ACCOUNT">

@@ -35,6 +35,7 @@ import com.chahinem.pageindicator.PageIndicator;
 import com.digital.gnsbook.Activity.Comment;
 import com.digital.gnsbook.Activity.Companypage;
 import com.digital.gnsbook.Activity.ProductDetail;
+import com.digital.gnsbook.Activity.ProfilePage;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Config.DbHelper;
@@ -44,6 +45,7 @@ import com.digital.gnsbook.Model.TimeLine_Model.LikesItem;
 import com.digital.gnsbook.Model.TimeLine_Model.Suggestion;
 import com.digital.gnsbook.Model.TimeLine_Model.TimeLineItem;
 import com.digital.gnsbook.Payment.OverlapDecoration;
+import com.digital.gnsbook.Store.ProductPage;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.common.ResizeOptions;
@@ -159,12 +161,12 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
         CheckBox BtnLike;
         RecyclerView Overlapview, slider, frndSuggestion;
         ImageView dp, wpComment, imgPost, imgPrd, share;
-        TextView likeCount,reward, prdName, prdDesc, prdPrize, likename, name, date, commentCount, textPost, title, btnText;
+        TextView likeCount,reward,prdcat, prdName, prdDesc, prdPrize, likename, name, date, commentCount, textPost, title, btnText;
         CardView Buynow;
         LinearLayout productLayout, postLayout;
         PageIndicator pageIndicator;
         View prdview;
-        SimpleDraweeView draweeView;
+        SimpleDraweeView draweeView,LikeImage1,LikeImage2;
 
         public Holder(View view) {
             super(view);
@@ -172,8 +174,9 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
             dp = view.findViewById(R.id.wpDP);
             frndSuggestion = view.findViewById(R.id.frndSuggestion);
             reward = view.findViewById(R.id.prdreward);
-            imgPost = view.findViewById(R.id.wpImage);
             draweeView = view.findViewById(R.id.my_image_view);
+            LikeImage1 = view.findViewById(R.id.ovimage);
+            LikeImage2 = view.findViewById(R.id.ovimage1);
             share = view.findViewById(R.id.wpShare);
             name = view.findViewById(R.id.wpcname);
             date = view.findViewById(R.id.wpDate);
@@ -183,6 +186,7 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
             likeCount = view.findViewById(R.id.likeCount);
             likename = view.findViewById(R.id.nameLike);
             BtnLike = view.findViewById(R.id.like);
+            prdcat = view.findViewById(R.id.prdcat);
             commentCount = view.findViewById(R.id.CommentCount);
             wpComment = view.findViewById(R.id.wpComment);
             postLayout = view.findViewById(R.id.prdPostView);
@@ -231,7 +235,7 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
             likeCount.setText(String.valueOf(postmodel.getLikeCount()));
             commentCount.setText(String.valueOf(postmodel.getCommentCount()));
             likename.setTag(postmodel);
-            slider = prdview.findViewById(R.id.wpImageRec);
+           // slider = prdview.findViewById(R.id.wpImageRec);
             btnText = prdview.findViewById(R.id.btnText);
             imgPrd = prdview.findViewById(R.id.ProductImage);
             prdDesc = prdview.findViewById(R.id.prdDesc);
@@ -247,6 +251,7 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
             pageIndicator.setTag(postmodel);
             prdName.setText(postmodel.getProductName());
             prdDesc.setText(postmodel.getProductDesc());
+            prdcat.setText(postmodel.getProductCat());
 
             if (postmodel.getRewardpoints() > 0) {
                 reward.setText("Reward Points : " + postmodel.getRewardpoints());
@@ -259,9 +264,11 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
                 imageArray = postmodel.getImages().split(",");
             }
 
-            slider.setTag(postmodel);
-            slider.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-            slider.setAdapter(new Slider(imageArray, context));
+
+
+            Uri uri = Uri.parse(APIs.Dp+imageArray[0].replace(" ",""));
+            ImagePipeline imagePipeline = Fresco.getImagePipeline();
+            draweeView.setImageURI(uri);
 
             final String[] finalImageArray = imageArray;
 
@@ -270,7 +277,7 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
             } else {
                 btnText.setText("Buy Now");
             }
-            Buynow.setOnClickListener(new View.OnClickListener() {
+            draweeView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //  String url = "http://www.example.com";
@@ -281,21 +288,20 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
                     } else {
                         Bundle bundle = new Bundle();
                         bundle.putStringArray("images", finalImageArray);
-                        Intent intent = new Intent(context, ProductDetail.class);
+                        Intent intent = new Intent(context, ProductPage.class);
                         intent.putExtra("product_name", postmodel.getProductName());
                         intent.putExtra("product_cat", postmodel.getProductCat());
                         intent.putExtra("product_desc", postmodel.getProductDesc());
                         intent.putExtra("product_link", postmodel.getProductLink());
-                        intent.putExtra("product_price",String.valueOf(postmodel.getProductPrice()));
+                        intent.putExtra("product_price", String.valueOf(postmodel.getProductPrice()));
                         intent.putExtra("id", String.valueOf(postmodel.getId()));
                         intent.putExtras(bundle);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                     }
 
-
                 }
-            });
+                });
 
 
         }
@@ -339,7 +345,8 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
             Overlapview.setTag(item);
             Overlapview.setLayoutManager(new LinearLayoutManager(context, 0, false));
             Overlapview.addItemDecoration(new OverlapDecoration());
-            Overlapview.setAdapter(new OverLapAdapt(likesItems, context));
+          //  Overlapview.setAdapter(new OverLapAdapt(likesItems, context));
+            LikeImages(likesItems);
 
             getText(item, likename);
 
@@ -435,6 +442,26 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
             });
 
         }
+
+        private void LikeImages(List<LikesItem> likesItems) {
+
+            if (likesItems.size()>0){
+                if (likesItems.size()>=2){
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.append(APIs.Dp);
+                    stringBuilder.append(likesItems.get(1).getDPic());
+                    LikeImage2.setImageURI(Uri.parse(String.valueOf(stringBuilder)));
+                }
+
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append(APIs.Dp);
+                stringBuilder.append(likesItems.get(0).getDPic());
+                LikeImage1.setImageURI(Uri.parse(String.valueOf(stringBuilder)));
+
+            }
+
+
+        }
     }
 
     @Override
@@ -450,17 +477,41 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
     }
 
     public static Bitmap getBitmapFromURL(String src) {
-        try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+
+        int SDK_INT = android.os.Build.VERSION.SDK_INT;
+        if (SDK_INT > 8)
+        {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                    .permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            //your codes here
+            try {
+                URL url = new URL(src);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+
+        }else {
+
+            try {
+                URL url = new URL(src);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
         }
     } //
 

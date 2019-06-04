@@ -137,7 +137,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_history_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_grade_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -147,9 +147,13 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="9595a3" />
-                            <entry key="outputName" value="ic_history_black_24dp" />
-                            <entry key="sourceFile" value="C:\Users\Digital\Desktop\store.svg" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="color" value="ffffff" />
+                            <entry key="height" value="276" />
+                            <entry key="outputName" value="ic_image_not_found_" />
+                            <entry key="overrideSize" value="true" />
+                            <entry key="sourceFile" value="C:\Users\Digital\Documents\image_not_found-54bf2d65c203b1e48fea1951497d4f689907afe3037d02a02dcde5775746765c.svg" />
+                            <entry key="width" value="584" />
                           </map>
                         </option>
                       </PersistentState>

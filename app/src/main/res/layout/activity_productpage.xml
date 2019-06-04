@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.digital.gnsbook.Store.ProductPage">
+
+
+    <ImageView
+        android:id="@+id/ImageProduct"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/ic_image_not_found_"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/cateloge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        />
+
+    <TextView
+        android:id="@+id/prdDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/textcolor"
+        android:text="Hi-Widze Techhark Kick and Play Multi-Function ABS High Grade Plastic Piano Baby Gym and Fitness Rack, 50 x 37.2 x 8.4 cm (Pink)"
+        android:layout_margin="@dimen/fragment_title_padding_10"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/fragment_title_padding_10"
+        android:text="Offer Price"
+        android:textColor="@color/orange"
+        android:textSize="14sp"
+        />
+
+    <TextView
+        android:id="@+id/prdAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/fragment_title_padding_10"
+        android:layout_marginTop="4dp"
+        android:text="₹1,399"
+        android:textColor="#414141"
+        android:textStyle="bold"
+        android:textSize="@dimen/font_20sp"
+        />
+
+
+</LinearLayout>
