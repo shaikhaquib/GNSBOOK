@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,48 +7,93 @@
     android:orientation="vertical"
     tools:context="com.digital.gnsbook.Store.ProductPage">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/ImageProduct"
+
+        <ImageView
+            android:id="@+id/ImageProduct"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/ic_image_not_found_"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="8dp"
+            android:background="#85504F4F"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/cateloge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            />
+
+        <TextView
+            android:id="@+id/prdDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textcolor"
+            android:text="Hi-Widze Techhark Kick and Play Multi-Function ABS High Grade Plastic Piano Baby Gym and Fitness Rack, 50 x 37.2 x 8.4 cm (Pink)"
+            android:layout_margin="@dimen/fragment_title_padding_10"/>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:src="@drawable/ic_image_not_found_"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/cateloge"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        />
+        android:layout_alignParentBottom="true">
 
-    <TextView
-        android:id="@+id/prdDesc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/textcolor"
-        android:text="Hi-Widze Techhark Kick and Play Multi-Function ABS High Grade Plastic Piano Baby Gym and Fitness Rack, 50 x 37.2 x 8.4 cm (Pink)"
-        android:layout_margin="@dimen/fragment_title_padding_10"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/fragment_title_padding_10"
+                android:text="Offer Price"
+                android:textColor="@color/orange"
+                android:textSize="14sp"
+                />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/fragment_title_padding_10"
-        android:text="Offer Price"
-        android:textColor="@color/orange"
-        android:textSize="14sp"
-        />
+            <TextView
+                android:id="@+id/prdAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/fragment_title_padding_10"
+                android:layout_marginTop="4dp"
+                android:text="₹1,399"
+                android:textColor="#414141"
+                android:textStyle="bold"
+                android:textSize="@dimen/font_20sp"
+                />
 
-    <TextView
-        android:id="@+id/prdAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/fragment_title_padding_10"
-        android:layout_marginTop="4dp"
-        android:text="₹1,399"
-        android:textColor="#414141"
-        android:textStyle="bold"
-        android:textSize="@dimen/font_20sp"
-        />
+        </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:background="@color/orange">
 
-</LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="BUY NOW"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:textSize="@dimen/dimen_16"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

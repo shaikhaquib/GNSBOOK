@@ -38,6 +38,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chahinem.pageindicator.PageIndicator;
 import com.digital.gnsbook.Activity.Comment;
 import com.digital.gnsbook.Activity.Companypage;
@@ -65,7 +66,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class New_WallPostAdapt extends Adapter<ViewHolder> {
+public class Product_Adapter extends Adapter<ViewHolder> {
     Context context;
     ArrayList<WallPostmodel> postmodels;
     ImageLoader imageLoader;
@@ -89,12 +90,15 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
             super(view);
             dp = (ImageView) view.findViewById(R.id.wpDP);
             slider = view.findViewById(R.id.wpImageRec);
+            imgPost = (ImageView) view.findViewById(R.id.wpImage);
             imgPrd = (ImageView) view.findViewById(R.id.ProductImage);
             share = (ImageView) view.findViewById(R.id.wpShare);
             name = (TextView) view.findViewById(R.id.wpcname);
             btnText = (TextView) view.findViewById(R.id.btnText);
             prdreward = (TextView) view.findViewById(R.id.prdreward);
             date = (TextView) view.findViewById(R.id.wpDate);
+            textPost = (TextView) view.findViewById(R.id.wpText);
+            title = (TextView) view.findViewById(R.id.wpTexttitile);
             Overlapview = (RecyclerView) view.findViewById(R.id.likeOverlapingImages);
             likeCount = (TextView) view.findViewById(R.id.likeCount);
             likename = (TextView) view.findViewById(R.id.nameLike);
@@ -123,7 +127,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         return position;
     }
 
-    public New_WallPostAdapt(ArrayList<WallPostmodel> arrayList, Context context) {
+    public Product_Adapter(ArrayList<WallPostmodel> arrayList, Context context) {
         this.postmodels = arrayList;
         this.context = context;
         setHasStableIds(true);
@@ -132,16 +136,16 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
 
     @NonNull
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new Holder(LayoutInflater.from(this.context).inflate(R.layout.wallpostadapter, viewGroup, false));
+        return new New_WallPostAdapt.Holder(LayoutInflater.from(this.context).inflate(R.layout.wallpostadapter, viewGroup, false));
     }
 
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
 
-        final Holder holder = (Holder) viewHolder;
+        final New_WallPostAdapt.Holder holder = (New_WallPostAdapt.Holder) viewHolder;
         final WallPostmodel postmodel = postmodels.get(i);
         String [] imageArray = null;
         if (postmodel.images!=null){
-        imageArray  = postmodel.images.split(",");}
+            imageArray  = postmodel.images.split(",");}
 
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -156,12 +160,9 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
 
         holder.name.setText(postmodel.name);
         holder.date.setText(postmodel.created_at);
-        holder.textPost.setText(postmodel.description);
         holder.share.setTag(postmodel);
-        holder.postLayout.setTag(postmodel);
         holder.productLayout.setTag(postmodel);
         holder.wpComment.setTag(postmodel);
-        holder.title.setText(postmodel.title);
         holder.prdPrize.setText("₹"+postmodel.product_price);
         holder.Buynow.setTag(postmodel);
         holder.pageIndicator.setTag(postmodel);
@@ -195,11 +196,11 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         holder.Buynow.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-              //  String url = "http://www.example.com";
+                //  String url = "http://www.example.com";
 
                 if (postmodel.sell_type==1){
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(postmodel.product_link));
-                context.startActivity(i);
+                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(postmodel.product_link));
+                    context.startActivity(i);
                 }else {
                     Bundle bundle = new Bundle();
                     bundle.putStringArray("images", finalImageArray);
@@ -219,18 +220,18 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
             }
         });
 
-            if (postmodel.type.equals("1")){
-                holder. productLayout.setVisibility(View.VISIBLE);
-                holder.postLayout.setVisibility(View.GONE);
-            }else {
-                holder.postLayout.setVisibility(View.VISIBLE);
-                holder. productLayout.setVisibility(View.GONE);
-            }
+        if (postmodel.type.equals("1")){
+            holder. productLayout.setVisibility(View.VISIBLE);
+            holder.postLayout.setVisibility(View.GONE);
+        }else {
+            holder.postLayout.setVisibility(View.VISIBLE);
+            holder. productLayout.setVisibility(View.GONE);
+        }
 
-            if (postmodel.reward>0){
-                holder.prdreward.setVisibility(View.VISIBLE);
-                holder.prdreward.setText("Reward Points : "+postmodel.reward);
-            }
+        if (postmodel.reward>0){
+            holder.prdreward.setVisibility(View.VISIBLE);
+            holder.prdreward.setText("Reward Points : "+postmodel.reward);
+        }
 
 
         final String[] finalImageArray1 = imageArray;
@@ -253,7 +254,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
                 whatsappIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
                 whatsappIntent.setType("image/jpeg");
                 whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-             }  else {
+            }  else {
 
                 Bitmap image = getBitmapFromURL(APIs.Dp+ finalImageArray1[0]);
                 whatsappIntent.setType("text/plain");
@@ -277,7 +278,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
 
         Picasso.get().load(APIs.Dp + postmodel.logo).into(holder.dp);
 
-        Picasso.get().load(APIs.postImg + postmodel.images).fit().into(holder.imgPost);
+       // Picasso.get().load(APIs.postImg + postmodel.images).fit().into(holder.imgPost);
         Picasso.get().load(APIs.postImg + postmodel.images).fit().into(holder.imgPrd);
 
 
@@ -300,8 +301,8 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
         holder.slider.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
         holder.slider.setAdapter(new Slider(imageArray,context));
 
-            if (imageArray.length > 1)
-              holder.pageIndicator.attachTo(holder.slider);
+        if (imageArray.length > 1)
+            holder.pageIndicator.attachTo(holder.slider);
         holder.Overlapview.setTag(postmodel);
         holder.Overlapview.setLayoutManager(new LinearLayoutManager(this.context, 0, false));
         holder.Overlapview.addItemDecoration(new OverlapDecoration());
@@ -334,7 +335,7 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
                         postmodel.likecount ++;
                         holder.likeCount.setText(String.valueOf(postmodel.likecount));
                         getText(postmodel, holder.likename);
-                        }
+                    }
                 } else if (postmodel.selfLike == 1) {
 
                     UnLike(postmodel.id,postmodel.type);
@@ -476,11 +477,11 @@ public class New_WallPostAdapt extends Adapter<ViewHolder> {
 
         @NonNull
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            return new LikeHolder(LayoutInflater.from(New_WallPostAdapt.this.context).inflate(R.layout.circular_image, viewGroup, false));
+            return new OverLapAdapt.LikeHolder(LayoutInflater.from(context).inflate(R.layout.circular_image, viewGroup, false));
         }
 
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-            LikeHolder likeHolder = (LikeHolder) viewHolder;
+            OverLapAdapt.LikeHolder likeHolder = (LikeHolder) viewHolder;
             Picasso picasso = Picasso.get();
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(APIs.Dp);

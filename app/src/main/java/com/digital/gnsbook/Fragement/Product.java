@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.digital.gnsbook.Activity.Companypage;
 import com.digital.gnsbook.Activity.New_Post;
 import com.digital.gnsbook.Activity.UploadProduct;
+import com.digital.gnsbook.Adapter.Product_Adapter;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Global;
@@ -81,12 +83,12 @@ public class Product extends Fragment {
         Logo = view.findViewById(R.id.componyLogo);
         Picasso.get().load(APIs.Dp + Global.Company_Logo).into(Logo);
 
-        wallPost.setLayoutManager(new LinearLayoutManager(getActivity()));
+        wallPost.setLayoutManager(new GridLayoutManager(getActivity(),2));
         wallPost.setItemAnimator(null);
         dialog = new ViewDialog(getActivity());
 
         getTimelinePost();
-        wallPost.setAdapter(new New_WallPostAdapt(this.postmodels, getActivity()));
+        wallPost.setAdapter(new Product_Adapter(this.postmodels, getActivity()));
         NestedScrollView nestedScrollView = (NestedScrollView) view.findViewById(R.id.comyScroll);
         if (nestedScrollView != null) {
             nestedScrollView.setOnScrollChangeListener(new C09321());
