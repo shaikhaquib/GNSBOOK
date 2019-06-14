@@ -7,6 +7,11 @@
         android:icon="@drawable/ic_magnifying_glass_icon"
         app:showAsAction="ifRoom"
         />
+    <item android:id="@+id/action_chat"
+        android:title="Search"
+        android:icon="@drawable/ic_chaticon_white"
+        app:showAsAction="ifRoom"
+        />
     <item android:id="@+id/cart"
         android:title="Cart"
         android:icon="@drawable/ic_shopping_cart"

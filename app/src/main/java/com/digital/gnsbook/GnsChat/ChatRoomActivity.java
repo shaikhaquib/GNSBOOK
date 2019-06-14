@@ -108,9 +108,12 @@ public class ChatRoomActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-                sqlLastMessage.addMessage(messagesList.get(0).chatRoomId,//Channel_id
-                        messagesList.get(0).message,//Message
-                                  String.valueOf(messagesList.get(0).sent));//Time Stamp
+
+        if (messagesList.size()>0) {
+            sqlLastMessage.addMessage(messagesList.get(0).chatRoomId,//Channel_id
+                    messagesList.get(0).message,//Message
+                    String.valueOf(messagesList.get(0).sent));//Time Stamp
+        }
         finish();
     }
 

@@ -39,7 +39,7 @@ import org.json.JSONObject;
 
 public class New_Post extends AppCompatActivity {
     EditText Descreption;
-    String ImgBase64 = "";
+    String ImgBase64 = " ";
     ImageView Logo;
     final int MY_PERMISSIONS_REQUEST_CAMERA = 786;
     TextView Name;
@@ -51,48 +51,6 @@ public class New_Post extends AppCompatActivity {
     String strTitle;
     TextView subheading;
 
-    /* renamed from: com.digital.gnsbook.Activity.New_Post$1 */
-    class C08931 implements Listener<String> {
-        C08931() {
-        }
-
-        public void onResponse(String str) {
-            New_Post.this.dialog.dismiss();
-            try {
-                JSONObject jSONObject = new JSONObject(str);     
-                if (jSONObject.getBoolean("status")) {
-                 //   Global.successDilogue(New_Post.this,"You have Successfully post.");
-                    Toast.makeText(New_Post.this, "You have Successfully post."   , Toast.LENGTH_SHORT).show();
-                } else {
-                    Global.failedDilogue(New_Post.this, jSONObject.getString("result"));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    /* renamed from: com.digital.gnsbook.Activity.New_Post$2 */
-    class C08942 implements ErrorListener {
-        C08942() {
-        }
-
-        public void onErrorResponse(VolleyError error) {
-            New_Post.this.dialog.dismiss();
-
-                 String body;
-                //get status code here
-                final String statusCode = String.valueOf(error.networkResponse.statusCode);
-                //get response body and parse with appropriate encoding
-                try {
-                    body = new String(error.networkResponse.data,"UTF-8");
-                    Log .d("Multi",body);
-                } catch (UnsupportedEncodingException e) {
-                    // exception
-                }
-
-        }
-    }
 
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -105,9 +63,17 @@ public class New_Post extends AppCompatActivity {
         subheading = (TextView) findViewById(R.id.cmHeading);
         Title = (EditText) findViewById(R.id.postTitle);
         Descreption = (EditText) findViewById(R.id.Postdesc);
-        Name.setText(Global.Company_Name);
-        subheading.setText(Global.Company_Type);
-        Picasso.get().load(APIs.Dp+Global.Company_Logo).into(this.Logo);
+
+
+        if (getIntent().getStringExtra("type").equals("2")) {
+            Name.setText(Global.Company_Name);
+            subheading.setText(Global.Company_Type);
+            Picasso.get().load(APIs.Dp + Global.Company_Logo).into(this.Logo);
+        }else {
+            Name.setText(Global.name);
+            subheading.setText(Global.Email);
+            Picasso.get().load(APIs.Dp + Global.DP).into(this.Logo);
+        }
     }
 
     private void prepareChooser() {
@@ -222,16 +188,105 @@ public class New_Post extends AppCompatActivity {
                     focusView.requestFocus();
                 }
                 else {
-                UploadPost(this.strTitle, this.strDescription);
-            }
+                    if (getIntent().getStringExtra("type").equals("2"))
+                        UploadPost(this.strTitle, this.strDescription);
+                    else
+                        customerPost(this.strTitle, this.strDescription);
+
+                }
         }
     }
 
+    private void customerPost(String str, String str2) {
+        this.dialog.show();
+        final String str3 = str;
+        final String str4 = str2;
+        AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.UploadPostbyCustomer, new Listener<String>() {
+            @Override
+            public void onResponse(String str) {
+                New_Post.this.dialog.dismiss();
+                try {
+                    JSONObject jSONObject = new JSONObject(str);
+                    if (jSONObject.getBoolean("status")) {
+                        //   Global.successDilogue(New_Post.this,"You have Successfully post.");
+                        Toast.makeText(New_Post.this, "You have Successfully post.", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Global.failedDilogue(New_Post.this, jSONObject.getString("result"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }, new ErrorListener() {
+            public void onErrorResponse(VolleyError error) {
+                New_Post.this.dialog.dismiss();
+
+                String body;
+                //get status code here
+                final String statusCode = String.valueOf(error.networkResponse.statusCode);
+                //get response body and parse with appropriate encoding
+                try {
+                    body = new String(error.networkResponse.data,"UTF-8");
+                    Log .d("Multi",body);
+                } catch (UnsupportedEncodingException e) {
+                    // exception
+                }
+
+            }
+
+        }) {
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> hashMap = new HashMap();
+                hashMap.put("customer_id", Global.customerid);
+                hashMap.put("title", str3);
+                hashMap.put("description", str4);
+                hashMap.put("image", New_Post.this.ImgBase64);
+                return hashMap;
+            }
+        });
+    }
     private void UploadPost(String str, String str2) {
         this.dialog.show();
         final String str3 = str;
         final String str4 = str2;
-        AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.UploadPost, new C08931(), new C08942()) {
+        AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.UploadPost, new Listener<String>() {
+            @Override
+            public void onResponse(String str) {
+                New_Post.this.dialog.dismiss();
+                try {
+                    JSONObject jSONObject = new JSONObject(str);
+                    if (jSONObject.getBoolean("status")) {
+                        //   Global.successDilogue(New_Post.this,"You have Successfully post.");
+                        Toast.makeText(New_Post.this, "You have Successfully post.", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Global.failedDilogue(New_Post.this, jSONObject.getString("result"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }, new ErrorListener() {
+            public void onErrorResponse(VolleyError error) {
+                New_Post.this.dialog.dismiss();
+
+                String body;
+                //get status code here
+                final String statusCode = String.valueOf(error.networkResponse.statusCode);
+                //get response body and parse with appropriate encoding
+                try {
+                    body = new String(error.networkResponse.data,"UTF-8");
+                    Log .d("Multi",body);
+                } catch (UnsupportedEncodingException e) {
+                    // exception
+                }
+
+            }
+
+        }) {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> hashMap = new HashMap();
                 hashMap.put("customer_id", Global.customerid);

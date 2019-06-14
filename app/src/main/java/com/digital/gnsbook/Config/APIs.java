@@ -2,10 +2,10 @@ package com.digital.gnsbook.Config;
 
 public class APIs {
 
-    /*public static String DevDomain  = "https://development.gnsbook.com/api/";
-    public static String Domain     = "https://development.gnsbook.com/";*/
-    public static String DevDomain  = "https://www.gnsbook.com/api/";
-    public static String Domain = "https://www.gnsbook.com/";
+    public static String DevDomain  = "http://development.gnsbook.com/api/";
+    public static String Domain     = "http://development.gnsbook.com/";
+    /*public static String DevDomain  = "https://www.gnsbook.com/api/";
+    public static String Domain = "https://www.gnsbook.com/";*/
 
     public static String LoginAPI                               = Domain+"login";
     public static String UpdatePassword                         = Domain+"update_password";
@@ -59,12 +59,14 @@ public class APIs {
     public static String UpadteCapping                          = DevDomain+"claimcapping";
     public static String UpdateProfile                          = DevDomain+"profile_update";
     public static String UploadPost                             = DevDomain+"add_timeline_by_companies";
+    public static String UploadPostbyCustomer                   = DevDomain+"add_timeline_by_customers";
     public static String UserPoolDATA                           = DevDomain+"pool_participants_by_customer_id";
     public static String Verificationstatus                     = DevDomain+"verify_data";
     public static String addmoney                               = DevDomain+"add_balane_online";
     public static String company_data_by_id                     = DevDomain+"company_data_by_id";
     public static String company_timeline                       = DevDomain+"newtimeline_data_by_company";
     public static String companydataAPI                         = DevDomain+"company_data";
+    public static String MycompanydataAPI                       = DevDomain+"company_data_by_admin_id";
     public static String contactUpadte                          = DevDomain+"profile_update_verify";
     public static String createpage                             = DevDomain+"add_company";
     public static String freinds                                = DevDomain+"friends";
@@ -136,4 +138,6 @@ public class APIs {
     public static String genrate_order                          = DevDomain+"order_id";
     public static String display_product_by_category            = DevDomain+"display_product_by_category";
     public static String order_history                          = DevDomain+"order_history";
+    public static String Suggestion_companydataAPI              = DevDomain+"company_suggestion";
+    public static String new_timelineAPI_Profile                = DevDomain+"newtimeline_data_by_customer";
 }

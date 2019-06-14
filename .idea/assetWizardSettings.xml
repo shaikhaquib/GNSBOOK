@@ -149,11 +149,11 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="height" value="276" />
-                            <entry key="outputName" value="ic_image_not_found_" />
+                            <entry key="height" value="512" />
+                            <entry key="outputName" value="ic_co" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\Digital\Documents\image_not_found-54bf2d65c203b1e48fea1951497d4f689907afe3037d02a02dcde5775746765c.svg" />
-                            <entry key="width" value="584" />
+                            <entry key="sourceFile" value="C:\Users\Digital\Documents\puzzle.svg" />
+                            <entry key="width" value="512" />
                           </map>
                         </option>
                       </PersistentState>

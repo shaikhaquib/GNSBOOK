@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.provider.MediaStore;
@@ -35,8 +34,6 @@ import com.chahinem.pageindicator.PageIndicator;
 import com.digital.gnsbook.Activity.Comment;
 import com.digital.gnsbook.Activity.Companypage;
 import com.digital.gnsbook.Activity.New_Post;
-import com.digital.gnsbook.Activity.ProductDetail;
-import com.digital.gnsbook.Activity.ProfilePage;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Config.DbHelper;
@@ -46,17 +43,12 @@ import com.digital.gnsbook.Model.TimeLine_Model.LikesItem;
 import com.digital.gnsbook.Model.TimeLine_Model.Suggestion;
 import com.digital.gnsbook.Model.TimeLine_Model.TimeLineItem;
 import com.digital.gnsbook.Payment.OverlapDecoration;
-import com.digital.gnsbook.Store.ProductPage;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.core.ImagePipeline;
-
 import com.httpgnsbook.gnsbook.R;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -68,14 +60,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
+public class Profile_wallpostAdapt extends RecyclerView.Adapter<Profile_wallpostAdapt.Holder> {
 
 
     private static final int TYPE_HEADER = -1;
     private static final int POST = 0;
-    private static final int PRODUCT = 1;
-    private static final int SUGGESTION = 2;
-    private static final int VIEW_TYPE_LOADING = 3;
+
     boolean isLoading = false;
     Context context;
     private ResizeOptions mResizeOptions;
@@ -87,7 +77,7 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
     List<LikesItem> likesItems = new ArrayList<>();
     List<Suggestion> suggestions = new ArrayList<>();
 
-    public WallAdapt(Context context, List<TimeLineItem> timeLineItems) {
+    public Profile_wallpostAdapt(Context context, List<TimeLineItem> timeLineItems) {
         this.context = context;
         this.timeLineItems = timeLineItems;
     }
@@ -99,41 +89,24 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view;
+        View view = null;
 
 
-        if (viewType == PRODUCT) {
-            view = LayoutInflater.from(parent.getContext()).inflate(
-                    R.layout.walladapt_product,
-                    parent,
-                    false
-            );
-        } else if (viewType == POST) {
+       if (viewType == POST) {
             view = LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.walladapt_post,
                     parent,
                     false);
-        } else if (viewType == VIEW_TYPE_LOADING) {
-            view = LayoutInflater.from(parent.getContext()).inflate(
-                    R.layout.load_more,
-                    parent,
-                    false);
-        } else if(viewType == TYPE_HEADER){
+        }  else if(viewType == TYPE_HEADER){
             view = LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.new_wallpost,
-                    parent,
-                    false);
-
-        }else {
-            view = LayoutInflater.from(parent.getContext()).inflate(
-                    R.layout.friend_suggestion,
                     parent,
                     false);
 
         }
 
 
-        return new WallAdapt.Holder(view);
+        return new Holder(view);
     }
 
     @Override
@@ -141,14 +114,8 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
 //        int i = timeLineItems.get(position).getType();
         if (isPositionHeader(position)) {
             return TYPE_HEADER;
-        } else if (timeLineItems.size() > 0 && timeLineItems.get(position-1) == null) {
-            return VIEW_TYPE_LOADING;
-        }else if (timeLineItems.get(position-1).getType() == 1 ||    timeLineItems.get(position-1).getType() == 4) {
-            return POST;
-        } else if (timeLineItems.get(position-1).getType() == 2) {
-            return PRODUCT;
         } else {
-            return SUGGESTION;
+            return POST ;
         }
     }
 
@@ -162,16 +129,7 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
         }
         else if (timeLineItems.get(position-1) != null) {
             final TimeLineItem item = timeLineItems.get(position-1);
-
-            if (timeLineItems.get(position-1).getType() == 1) {
-                holder.bindpost(timeLineItems.get(position-1), position-1);
-            } else if (timeLineItems.get(position-1).getType() == 2) {
-                holder.bindProduct(timeLineItems.get(position-1), position-1);
-            } else  if (timeLineItems.get(position-1).getType() == 3){
-                holder.bindSuggestion(timeLineItems.get(position-1));
-            } else  if (timeLineItems.get(position-1).getType() == 4){
                 holder.bindCutomerPost(timeLineItems.get(position-1),position-1);
-            }
         }
     }
 
@@ -215,128 +173,6 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
             wpComment = view.findViewById(R.id.wpComment);
             postLayout = view.findViewById(R.id.prdPostView);
         }
-
-        public void bindpost(final TimeLineItem postmodel, int position) {
-
-            main(postmodel, position);
-            textPost.setText(postmodel.getDescription());
-            share.setTag(postmodel);
-//            postLayout.setTag(postmodel);
-            wpComment.setTag(postmodel);
-            title.setText(postmodel.getTitle());
-
-            likeCount.setText(String.valueOf(postmodel.getLikeCount()));
-            commentCount.setText(String.valueOf(postmodel.getCommentCount()));
-            likename.setTag(postmodel);
-
-/*
-            thread = new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        while(true) {
-                            sleep(1000);
-                            handler.post(this);
-
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            };
-*/
-            Uri uri = Uri.parse(APIs.postImg + postmodel.getImage());
-            ImagePipeline imagePipeline = Fresco.getImagePipeline();
-
-            draweeView.setImageURI(uri);
-//            thread.start();
-
-
-        }
-
-        public void bindProduct(final TimeLineItem postmodel, int position) {
-            main(postmodel, position);
-            likeCount.setText(String.valueOf(postmodel.getLikeCount()));
-            commentCount.setText(String.valueOf(postmodel.getCommentCount()));
-            likename.setTag(postmodel);
-            // slider = prdview.findViewById(R.id.wpImageRec);
-            btnText = prdview.findViewById(R.id.btnText);
-            imgPrd = prdview.findViewById(R.id.ProductImage);
-            prdDesc = prdview.findViewById(R.id.prdDesc);
-            prdName = prdview.findViewById(R.id.prdName);
-            prdPrize = prdview.findViewById(R.id.prdPrice);
-            Buynow = prdview.findViewById(R.id.prdBuy);
-            pageIndicator = prdview.findViewById(R.id.pageIndicator);
-            //  productLayout = prdview.findViewById(R.id.PostView);
-
-            // productLayout.setTag(postmodel);
-            prdPrize.setText("₹" + postmodel.getProductPrice());
-            Buynow.setTag(postmodel);
-            pageIndicator.setTag(postmodel);
-            prdName.setText(postmodel.getProductName());
-            prdDesc.setText(postmodel.getProductDesc());
-            prdcat.setText(postmodel.getProductCat());
-
-            if (postmodel.getRewardPoints() > 0) {
-                reward.setText("Reward Points : " + postmodel.getRewardPoints());
-            } else {
-                reward.setVisibility(View.GONE);
-            }
-            String[] imageArray = null;
-
-            if (postmodel.getImages() != null) {
-                imageArray = postmodel.getImages().split(",");
-            }
-
-
-            Uri uri = Uri.parse(APIs.Dp + imageArray[0].replace(" ", ""));
-            ImagePipeline imagePipeline = Fresco.getImagePipeline();
-            draweeView.setImageURI(uri);
-
-            final String[] finalImageArray = imageArray;
-
-            if (postmodel.getSellType() == 1) {
-                btnText.setText("Shop Now");
-            } else {
-                btnText.setText("Buy Now");
-            }
-            draweeView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //  String url = "http://www.example.com";
-                    if (postmodel.getSellType() == 1) {
-
-                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(postmodel.getProductLink()));
-                        context.startActivity(i);
-                    } else {
-                        Bundle bundle = new Bundle();
-                        bundle.putStringArray("images", finalImageArray);
-                        Intent intent = new Intent(context, ProductPage.class);
-                        intent.putExtra("product_name", postmodel.getProductName());
-                        intent.putExtra("product_cat", postmodel.getProductCat());
-                        intent.putExtra("product_desc", postmodel.getProductDesc());
-                        intent.putExtra("product_link", postmodel.getProductLink());
-                        intent.putExtra("product_price", String.valueOf(postmodel.getProductPrice()));
-                        intent.putExtra("id", String.valueOf(postmodel.getId()));
-                        intent.putExtras(bundle);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
-                    }
-
-                }
-            });
-
-
-        }
-
-        public void bindSuggestion(final TimeLineItem postmodel) {
-
-            suggestions = postmodel.getSuggestions();
-            frndSuggestion.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-            SuggestionAdapter(frndSuggestion, suggestions);
-
-        }
-
         public void main(final TimeLineItem item, final int position) {
             name.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -503,7 +339,7 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
 
         public void bindCutomerPost(TimeLineItem postmodel, int position) {
 
-           // main(postmodel, position);
+            // main(postmodel, position);
 
 
             name.setText(postmodel.getName()+" "+postmodel.getLastName());
@@ -682,94 +518,6 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
         AppController.getInstance().addToRequestQueue(stringRequest);
     }
 
-    private void SuggestionAdapter(RecyclerView frndSuggestion, final List<Suggestion> Models) {
 
-        frndSuggestion.setAdapter(new RecyclerView.Adapter() {
-            @NonNull
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                return new Holder(LayoutInflater.from(context).inflate(R.layout.friendsuggestionui, viewGroup, false));
-            }
-
-            @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
-                final Holder holder = (Holder) viewHolder;
-                final Suggestion model = Models.get(i);
-
-                holder.Name.setText(model.getName() + " " + model.getLastName());
-                Picasso.get().load(APIs.Dp + model.getDPic()).into(holder.dp);
-                holder.frdAddfrind.setTag(model);
-
-                holder.frdAddfrind.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Models.remove(model);
-                        notifyItemRemoved(i);
-                        notifyItemRangeChanged(i, Models.size());
-                        addFreind(String.valueOf(model.getCustomerId()));
-                    }
-                });
-
-                if (model.getCity() == null || model.getCity().isEmpty()) {
-                    holder.Location.setText("India");
-                } else {
-                    holder.Location.setText(model.getCity());
-                }
-            }
-
-            @Override
-            public int getItemCount() {
-                return Models.size();
-            }
-
-            class Holder extends RecyclerView.ViewHolder {
-                ImageView dp;
-                TextView Name, Location;
-                CardView frdAddfrind;
-
-                public Holder(@NonNull View itemView) {
-                    super(itemView);
-                    dp = itemView.findViewById(R.id.frdp);
-                    Name = itemView.findViewById(R.id.frdName);
-                    Location = itemView.findViewById(R.id.frdLocation);
-                    frdAddfrind = itemView.findViewById(R.id.frdAddfrind);
-                }
-            }
-
-        });
-    }
-
-    private void addFreind(final String id) {
-        AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.addfriend, new Response.Listener<String>() {
-            public void onResponse(String str) {
-
-                try {
-                    JSONObject jsonObject = new JSONObject(str);
-
-                    if (jsonObject.getBoolean("status")) {
-                        Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            public void onErrorResponse(VolleyError volleyError) {
-            }
-        }) {
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> hashMap = new HashMap();
-                hashMap.put("customerid_to", id);
-                hashMap.put("customerid_from", Global.customerid);
-                return hashMap;
-            }
-        });
-
-
-    }
 
 }

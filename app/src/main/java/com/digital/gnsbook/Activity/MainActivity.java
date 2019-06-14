@@ -53,6 +53,8 @@ import com.digital.gnsbook.Config.SessionManager;
 import com.digital.gnsbook.Fragment.ChatFragment;
 import com.digital.gnsbook.Fragment.FreindRequests;
 import com.digital.gnsbook.Fragment.Frg_Home;
+import com.digital.gnsbook.Fragment.Frg_UserProfile;
+import com.digital.gnsbook.Fragment.Frg_componylist;
 import com.digital.gnsbook.Fragment.ProfileFragment;
 import com.digital.gnsbook.Fragment.FriendFragment;
 import com.digital.gnsbook.Fragment.WallPostFragment;
@@ -106,13 +108,13 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
     SQLiteHandler db;
     ViewDialog dialog;
     private List<Fragment> fragments = new ArrayList();
-    ImageView profileImage;
+    public ImageView profileImage;
     SessionManager session;
     private int[] tabIcons = new int[]{R.drawable.ic_newsfeed_icon ,
             R.drawable.ic_user_avatar,
             R.drawable.ic_happy_faces_icon
             ,R.drawable.ic_friends ,
-            R.drawable.ic_chaticon};
+            R.drawable.ic_co};
     private TabLayout tabLayout;
     private List<String> titles = new ArrayList();
     HashMap<String, String> user;
@@ -462,21 +464,18 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
     }
 
     private void prepareDataResource() {
-        this.fragments = new ArrayList();
-        this.fragments.add(new Frg_Home());
-        this.fragments.add(new ProfileFragment());
-        this.fragments.add(new FreindRequests());
-        this.fragments.add(new FriendFragment());
-        this.fragments.add(new ChatFragment());
-        this.titles.add("");
-        this.titles.add("");
-        this.titles.add("");
-        this.titles.add("");
-        this.titles.add("");
-        this.viewPager.setAdapter(new FragmentViewPagerAdapter(getSupportFragmentManager(), this.fragments, this.titles));
-        this.tabLayout.setupWithViewPager(this.viewPager);
-        this.viewPager.setCurrentItem(1);
-        this.viewPager.setCurrentItem(0);
+        fragments = new ArrayList();
+        fragments.add(new Frg_Home());
+        fragments.add(new Frg_UserProfile());
+        fragments.add(new FreindRequests());
+        fragments.add(new FriendFragment());
+        fragments.add(new Frg_componylist());
+        titles.add("");
+        titles.add("");
+        titles.add("");
+        titles.add("");
+        titles.add("");
+
     }
 
     public void onBackPressed() {
@@ -500,6 +499,9 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
             return true;
       }else  if (menuItem.getItemId() == R.id.cart) {
             startActivity(new Intent(getApplicationContext(), Cart.class));
+            return true;
+        } if (menuItem.getItemId() == R.id.action_chat) {
+            startActivity(new Intent(getApplicationContext(), ChatAcivity.class));
             return true;
         }
         return true;
@@ -646,20 +648,6 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         };
 
         AppController.getInstance().addToRequestQueue(stringRequest);
-    }
-
-
-    public void presentActivity(View view) {
-        ActivityOptionsCompat options = ActivityOptionsCompat.
-                makeSceneTransitionAnimation(this, view, "transition");
-        int revealX = (int) (view.getX() + view.getWidth() / 2);
-        int revealY = (int) (view.getY() + view.getHeight() / 2);
-
-        Intent intent = new Intent(this, SearchActivity.class);
-        intent.putExtra(SearchActivity.EXTRA_CIRCULAR_REVEAL_X, revealX);
-        intent.putExtra(SearchActivity.EXTRA_CIRCULAR_REVEAL_Y, revealY);
-
-        ActivityCompat.startActivity(this, intent, options.toBundle());
     }
 
     public View getTabView(int position, String request_count) {

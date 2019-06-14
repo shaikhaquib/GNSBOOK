@@ -228,10 +228,10 @@ public class Product_Adapter extends Adapter<ViewHolder> {
             holder. productLayout.setVisibility(View.GONE);
         }
 
-        if (postmodel.reward>0){
+      /*  if (postmodel.reward>0){
             holder.prdreward.setVisibility(View.VISIBLE);
             holder.prdreward.setText("Reward Points : "+postmodel.reward);
-        }
+        }*/
 
 
         final String[] finalImageArray1 = imageArray;

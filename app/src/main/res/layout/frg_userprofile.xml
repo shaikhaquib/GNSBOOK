@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:descendantFocusability="blocksDescendants">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="200dp">
+
+                <ImageView
+                    android:id="@+id/prBanner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="199.5dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop" />
+
+                <ImageView
+                    android:id="@+id/upaBanner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/rect_dark"
+                    android:src="@drawable/ic_menu_camera"
+                    android:tint="#444950" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/borderline"/>
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:id="@+id/pr"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="-80dp"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+
+
+                <RelativeLayout
+                    android:layout_width="150.0dip"
+                    android:layout_height="150.0dip"
+                    android:src="@drawable/photo">
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/prDP"
+                        android:layout_width="150.0dip"
+                        android:layout_height="150.0dip"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="8.0dip"
+                        android:src="@drawable/photo"
+                        app:civ_border_color="@color/borderline"
+                        app:civ_border_width="1.0dip" />
+
+                    <ImageView
+                        android:id="@+id/upDp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignEnd="@+id/prDP"
+                        android:layout_alignBottom="@+id/prDP"
+                        android:background="@drawable/circle_dark"
+                        android:src="@drawable/ic_menu_camera"
+                        android:tint="#444950" />
+
+
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="12.0dip"
+                    android:layout_marginEnd="12.0dip"
+                    android:layout_marginBottom="30.0dip"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/prName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:singleLine="true"
+                        android:text="User Name"
+                        android:textColor="@android:color/black"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/prcity"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center_horizontal"
+                        android:text="Sofware Engineer"
+                        android:textSize="12.0sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dimen_16">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/chat"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_chaticon"
+                            android:background="@drawable/circle_back" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/accountsetting"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_editprofile"
+                            android:background="@drawable/circle_back" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/more"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_more_horiz"
+                            android:tint="#444950"
+                            android:background="@drawable/circle_back" />
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvprofile_wire"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

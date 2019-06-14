@@ -210,8 +210,8 @@ public class ProfileFragment extends Fragment {
                     stringBuilder.append(APIs.Banner);
                     stringBuilder.append(Global.Banner);
                     Picasso.get().load(stringBuilder.toString()).error((int) R.drawable.landing_bg).into(ProfileFragment.this.banner);
-                    ProfileFragment.this.Name.setText(Global.name);
-                    ProfileFragment.this.city.setText(Global.City);
+                    Name.setText(Global.name);
+                    city.setText(Global.City);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -252,10 +252,9 @@ public class ProfileFragment extends Fragment {
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.upAccountsetting:
-                    ProfileFragment.this.startActivity(new Intent(ProfileFragment.this.getActivity(), ProfilePage.class));
+                   startActivity(new Intent(getActivity(), ProfilePage.class));
                     break;
                 case R.id.upBp:
-                    CroperinoConfig cp = new CroperinoConfig("IMG_"+System.currentTimeMillis()+".jpg", "/gnsbook/Pictures", "/sdcard/gnsbook/Pictures");
                     CroperinoFileUtil.setupDirectory(ProfileFragment.this.getActivity());
                     if (CroperinoFileUtil.verifyStoragePermissions(getActivity()) != null) {
                         Croperino.prepareGallery(getActivity());

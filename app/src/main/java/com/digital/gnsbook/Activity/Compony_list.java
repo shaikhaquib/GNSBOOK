@@ -41,8 +41,18 @@ public class Compony_list extends AppCompatActivity {
     ViewDialog dialog;
     RecyclerView recyclerView;
 
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+        setContentView((int) R.layout.activity_componylist);
+        this.dialog = new ViewDialog(this);
+        this.recyclerView = (RecyclerView) findViewById(R.id.rvclist);
+        this.recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        this.recyclerView.setAdapter(new ReacyclerAdapter());
+        getComponyData();
+    }
+
     /* renamed from: com.digital.gnsbook.Activity.Compony_list$1 */
-    class C08861 extends Adapter {
+    class ReacyclerAdapter extends Adapter {
 
         /* renamed from: com.digital.gnsbook.Activity.Compony_list$1$Holder */
         class Holder extends ViewHolder {
@@ -62,8 +72,7 @@ public class Compony_list extends AppCompatActivity {
             }
         }
 
-        C08861() {
-        }
+
 
         @NonNull
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -93,71 +102,56 @@ public class Compony_list extends AppCompatActivity {
         }
     }
 
-    /* renamed from: com.digital.gnsbook.Activity.Compony_list$2 */
-    class C08872 implements Listener<String> {
-        C08872() {
-        }
 
-        public void onResponse(String responce) {
-            Compony_list.this.dialog.dismiss();
-            try {
-                JSONObject jSONObject = new JSONObject(responce);
-                if (jSONObject.getBoolean("status")) {
-                    JSONArray jsonArray = jSONObject.getJSONArray("result");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jSONObject2 = jsonArray.getJSONObject(i);
-                        Compony_data compony_data = new Compony_data();
 
-                        compony_data.working_hours = jSONObject2.getString("working_hours");
-                        compony_data.logo = jSONObject2.getString("logo");
-                        compony_data.company_id = jSONObject2.getString("company_id");
-                        compony_data.social_networks = jSONObject2.getString("social_networks");
-                        compony_data.status = jSONObject2.getString("status");
-                        compony_data.state = jSONObject2.getString("state");
-                        compony_data.web = jSONObject2.getString("web");
-                        compony_data.city = jSONObject2.getString("city");
-                        compony_data.id = jSONObject2.getString(DbHelper.COLUMN_ID);
-                        compony_data.location_link = jSONObject2.getString("location_link");
-                        compony_data.updated_at = jSONObject2.getString("updated_at");
-                        compony_data.email = jSONObject2.getString(NotificationCompat.CATEGORY_EMAIL);
-                        compony_data.description = jSONObject2.getString("description");
-                        compony_data.name = jSONObject2.getString("name");
-                        compony_data.created_at = jSONObject2.getString("created_at");
-                        compony_data.banner = jSONObject2.getString("banner");
-                        compony_data.mobile = jSONObject2.getString("mobile");
-                        Compony_list.this.componyModel.add(compony_data);
-                        Compony_list.this.recyclerView.getAdapter().notifyDataSetChanged();
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
-    /* renamed from: com.digital.gnsbook.Activity.Compony_list$3 */
-    class C08883 implements ErrorListener {
-        C08883() {
-        }
-
-        public void onErrorResponse(VolleyError volleyError) {
-            Compony_list.this.dialog.dismiss();
-        }
-    }
-
-    protected void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
-        setContentView((int) R.layout.activity_componylist);
-        this.dialog = new ViewDialog(this);
-        this.recyclerView = (RecyclerView) findViewById(R.id.rvclist);
-        this.recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        this.recyclerView.setAdapter(new C08861());
-        getComponyData();
-    }
 
     private void getComponyData() {
         this.dialog.show();
-        AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.companydataAPI, new C08872(), new C08883()) {
+        AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.companydataAPI, new Listener<String>() {
+            @Override
+            public void onResponse(String responce) {
+                Compony_list.this.dialog.dismiss();
+                try {
+                    JSONObject jSONObject = new JSONObject(responce);
+                    if (jSONObject.getBoolean("status")) {
+                        JSONArray jsonArray = jSONObject.getJSONArray("result");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jSONObject2 = jsonArray.getJSONObject(i);
+                            Compony_data compony_data = new Compony_data();
+
+                            compony_data.working_hours = jSONObject2.getString("working_hours");
+                            compony_data.logo = jSONObject2.getString("logo");
+                            compony_data.company_id = jSONObject2.getString("company_id");
+                            compony_data.social_networks = jSONObject2.getString("social_networks");
+                            compony_data.status = jSONObject2.getString("status");
+                            compony_data.state = jSONObject2.getString("state");
+                            compony_data.web = jSONObject2.getString("web");
+                            compony_data.city = jSONObject2.getString("city");
+                            compony_data.id = jSONObject2.getString(DbHelper.COLUMN_ID);
+                            compony_data.location_link = jSONObject2.getString("location_link");
+                            compony_data.updated_at = jSONObject2.getString("updated_at");
+                            compony_data.email = jSONObject2.getString(NotificationCompat.CATEGORY_EMAIL);
+                            compony_data.description = jSONObject2.getString("description");
+                            compony_data.name = jSONObject2.getString("name");
+                            compony_data.created_at = jSONObject2.getString("created_at");
+                            compony_data.banner = jSONObject2.getString("banner");
+                            compony_data.mobile = jSONObject2.getString("mobile");
+                            Compony_list.this.componyModel.add(compony_data);
+                            Compony_list.this.recyclerView.getAdapter().notifyDataSetChanged();
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }, new ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Compony_list.this.dialog.dismiss();
+            }
+        }) {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> hashMap = new HashMap();
                 hashMap.put("limit", "10");

@@ -37,9 +37,6 @@ public class TimeLineItem {
 	@SerializedName("like_count")
 	@Expose
 	private Integer likeCount;
-	@SerializedName("reward_points")
-	@Expose
-	private Integer rewardpoints;
 	@SerializedName("type")
 	@Expose
 	private Integer type;
@@ -55,6 +52,57 @@ public class TimeLineItem {
 	@SerializedName("Likes")
 	@Expose
 	private List<LikesItem> likes = null;
+	@SerializedName("last_name")
+	@Expose
+	private String lastName;
+	@SerializedName("sex")
+	@Expose
+	private String sex;
+	@SerializedName("country")
+	@Expose
+	private String country;
+	@SerializedName("state")
+	@Expose
+	private String state;
+	@SerializedName("city")
+	@Expose
+	private String city;
+	@SerializedName("website")
+	@Expose
+	private String website;
+	@SerializedName("pincode")
+	@Expose
+	private Integer pincode;
+	@SerializedName("about")
+	@Expose
+	private String about;
+	@SerializedName("social_networks")
+	@Expose
+	private String socialNetworks;
+	@SerializedName("education")
+	@Expose
+	private String education;
+	@SerializedName("birthdate")
+	@Expose
+	private String birthdate;
+	@SerializedName("hobbies")
+	@Expose
+	private String hobbies;
+	@SerializedName("d_pic")
+	@Expose
+	private String dPic;
+	@SerializedName("b_pic")
+	@Expose
+	private String bPic;
+	@SerializedName("employement")
+	@Expose
+	private String employement;
+	@SerializedName("status")
+	@Expose
+	private Integer status;
+	@SerializedName("updated_at")
+	@Expose
+	private String updatedAt;
 	@SerializedName("product_name")
 	@Expose
 	private String productName;
@@ -76,9 +124,9 @@ public class TimeLineItem {
 	@SerializedName("sell_type")
 	@Expose
 	private Integer sellType;
-	@SerializedName("updated_at")
+	@SerializedName("reward_points")
 	@Expose
-	private String updatedAt;
+	private Integer rewardPoints;
 	@SerializedName("suggestions")
 	@Expose
 	private List<Suggestion> suggestions = null;
@@ -203,6 +251,142 @@ public class TimeLineItem {
 		this.likes = likes;
 	}
 
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getWebsite() {
+		return website;
+	}
+
+	public void setWebsite(String website) {
+		this.website = website;
+	}
+
+	public Integer getPincode() {
+		return pincode;
+	}
+
+	public void setPincode(Integer pincode) {
+		this.pincode = pincode;
+	}
+
+	public String getAbout() {
+		return about;
+	}
+
+	public void setAbout(String about) {
+		this.about = about;
+	}
+
+	public String getSocialNetworks() {
+		return socialNetworks;
+	}
+
+	public void setSocialNetworks(String socialNetworks) {
+		this.socialNetworks = socialNetworks;
+	}
+
+	public String getEducation() {
+		return education;
+	}
+
+	public void setEducation(String education) {
+		this.education = education;
+	}
+
+	public String getBirthdate() {
+		return birthdate;
+	}
+
+	public void setBirthdate(String birthdate) {
+		this.birthdate = birthdate;
+	}
+
+	public String getHobbies() {
+		return hobbies;
+	}
+
+	public void setHobbies(String hobbies) {
+		this.hobbies = hobbies;
+	}
+
+	public String getDPic() {
+		return dPic;
+	}
+
+	public void setDPic(String dPic) {
+		this.dPic = dPic;
+	}
+
+	public String getBPic() {
+		return bPic;
+	}
+
+	public void setBPic(String bPic) {
+		this.bPic = bPic;
+	}
+
+	public String getEmployement() {
+		return employement;
+	}
+
+	public void setEmployement(String employement) {
+		this.employement = employement;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public String getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(String updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
 	public String getProductName() {
 		return productName;
 	}
@@ -259,12 +443,12 @@ public class TimeLineItem {
 		this.sellType = sellType;
 	}
 
-	public String getUpdatedAt() {
-		return updatedAt;
+	public Integer getRewardPoints() {
+		return rewardPoints;
 	}
 
-	public void setUpdatedAt(String updatedAt) {
-		this.updatedAt = updatedAt;
+	public void setRewardPoints(Integer rewardPoints) {
+		this.rewardPoints = rewardPoints;
 	}
 
 	public List<Suggestion> getSuggestions() {
@@ -274,13 +458,5 @@ public class TimeLineItem {
 	public void setSuggestions(List<Suggestion> suggestions) {
 		this.suggestions = suggestions;
 	}
-	public Integer getRewardpoints() {
-		return rewardpoints;
-	}
-
-	public void setRewardpoints(Integer rewardpoints) {
-		this.rewardpoints = rewardpoints;
-	}
-
 
 }
