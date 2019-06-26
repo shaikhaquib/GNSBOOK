@@ -72,7 +72,7 @@ public class Fragment_Post extends Fragment {
             @Override
             public void onClick(View v) {
                 if (Global.Company_Cate.equals("other")){
-                    startActivity(new Intent(getActivity(), New_Post.class));}
+                    startActivity(new Intent(getActivity(), New_Post.class).putExtra("type","2"));}
                 else{
                     showDialoge();
                 }

@@ -22,6 +22,9 @@ import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Extra.DividerDecorator;
 import com.digital.gnsbook.Global;
+import com.digital.gnsbook.Model.Activity_Gstore.Result;
+import com.digital.gnsbook.Model.Notification.Accept_Model;
+import com.digital.gnsbook.Model.Notification.Result_Accept;
 import com.digital.gnsbook.Model.RequestAcceptItem;
 import com.digital.gnsbook.Model.ResponseRequest;
 import com.digital.gnsbook.Model.RquestItem;
@@ -46,7 +49,9 @@ public class FreindRequests extends Fragment {
     ViewDialog dialog;
     TextView noRequest;
     List<RequestAcceptItem> items = new ArrayList<RequestAcceptItem>();
-    List<RquestItem> Notificationitems = new ArrayList<RquestItem>();
+    List<Result_Accept> Notificationitems = new ArrayList<Result_Accept>();
+
+
 
     @Nullable
     @Override
@@ -126,7 +131,7 @@ public class FreindRequests extends Fragment {
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
                 Holder holder = (Holder) viewHolder;
-                final RquestItem item = Notificationitems.get(i);
+                final Result_Accept item = Notificationitems.get(i);
                 holder.accept.setVisibility(View.GONE);
                 holder.reject.setVisibility(View.GONE);
 
@@ -156,7 +161,48 @@ public class FreindRequests extends Fragment {
         });
 
         getFreindRequest();
+        getFreindNotification();
+
         return view ;
+    }
+
+    private void getFreindNotification() {
+        AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.notification_accepted, new Response.Listener<String>() {
+            public void onResponse(String str) {
+                System.out.println(str);
+
+                try {
+                    JSONObject jsonObject = new JSONObject(str);
+
+                    if (jsonObject.getBoolean("status")){
+
+                        ResponseRequest request = new Gson().fromJson(str,ResponseRequest.class);
+                        items.addAll(request.getResult());
+                     //   Notificationitems.addAll(request.getResult2());
+                        recyclerView.getAdapter().notifyDataSetChanged();
+
+
+                    }else {
+                     /*   noRequest.setVisibility(View.VISIBLE);
+                        noRequest.setText(jsonObject.getString("message"));*/
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+        }) {
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> hashMap = new HashMap();
+                hashMap.put("customerid_to", Global.customerid);
+                return hashMap;
+            }
+        });
+
     }
 
     private void getFreindRequest() {
@@ -170,15 +216,15 @@ public class FreindRequests extends Fragment {
 
                     if (jsonObject.getBoolean("status")){
 
-                        ResponseRequest request = new Gson().fromJson(str,ResponseRequest.class);
-                        items.addAll(request.getResult());
-                        Notificationitems.addAll(request.getResult2());
-                        recyclerView.getAdapter().notifyDataSetChanged();
+                        Accept_Model request = new Gson().fromJson(str,Accept_Model.class);
+                        Notificationitems.addAll(request.getResult());
+                       // Notificationitems.addAll(request.getResult2());
+                        rvNotifiaction.getAdapter().notifyDataSetChanged();
 
 
                     }else {
-                        noRequest.setVisibility(View.VISIBLE);
-                        noRequest.setText(jsonObject.getString("message"));
+                       /* noRequest.setVisibility(View.VISIBLE);
+                        noRequest.setText(jsonObject.getString("message"));*/
                     }
 
                 } catch (JSONException e) {

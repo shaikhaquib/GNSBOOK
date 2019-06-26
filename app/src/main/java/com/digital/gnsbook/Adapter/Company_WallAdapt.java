@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,17 +19,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -43,10 +40,11 @@ import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Config.DbHelper;
 import com.digital.gnsbook.Firebase.Broadcast_FCM;
 import com.digital.gnsbook.Global;
+import com.digital.gnsbook.Model.TimeLine_Model.CompanyTimeLineItem;
 import com.digital.gnsbook.Model.TimeLine_Model.LikesItem;
 import com.digital.gnsbook.Model.TimeLine_Model.Suggestion;
-import com.digital.gnsbook.Model.TimeLine_Model.TimeLineItem;
 import com.digital.gnsbook.Payment.OverlapDecoration;
+import com.digital.gnsbook.Store.ProductPage;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.common.ResizeOptions;
@@ -67,12 +65,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Profile_wallpostAdapt extends RecyclerView.Adapter<Profile_wallpostAdapt.Holder> {
+public class Company_WallAdapt extends RecyclerView.Adapter<Company_WallAdapt.Holder> {
 
 
     private static final int TYPE_HEADER = -1;
     private static final int POST = 0;
-
+    private static final int PRODUCT = 1;
+    private static final int SUGGESTION = 2;
+    private static final int VIEW_TYPE_LOADING = 3;
     boolean isLoading = false;
     Context context;
     private ResizeOptions mResizeOptions;
@@ -80,11 +80,11 @@ public class Profile_wallpostAdapt extends RecyclerView.Adapter<Profile_wallpost
     Thread thread;
     Handler handler = new Handler();
 
-    List<TimeLineItem> timeLineItems = new ArrayList<>();
+    List<CompanyTimeLineItem> timeLineItems = new ArrayList<>();
     List<LikesItem> likesItems = new ArrayList<>();
     List<Suggestion> suggestions = new ArrayList<>();
 
-    public Profile_wallpostAdapt(Context context, List<TimeLineItem> timeLineItems) {
+    public Company_WallAdapt(Context context, List<CompanyTimeLineItem> timeLineItems) {
         this.context = context;
         this.timeLineItems = timeLineItems;
     }
@@ -95,18 +95,35 @@ public class Profile_wallpostAdapt extends RecyclerView.Adapter<Profile_wallpost
 
     @NonNull
     @Override
-    public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = null;
+    public Company_WallAdapt.Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view;
 
 
-       if (viewType == POST) {
+        if (viewType == PRODUCT) {
+            view = LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.walladapt_product,
+                    parent,
+                    false
+            );
+        } else if (viewType == POST) {
             view = LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.walladapt_post,
                     parent,
                     false);
-        }  else if(viewType == TYPE_HEADER){
+        } else if (viewType == VIEW_TYPE_LOADING) {
+            view = LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.load_more,
+                    parent,
+                    false);
+        } else if(viewType == TYPE_HEADER){
             view = LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.new_wallpost,
+                    parent,
+                    false);
+
+        }else {
+            view = LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.friend_suggestion,
                     parent,
                     false);
 
@@ -121,8 +138,14 @@ public class Profile_wallpostAdapt extends RecyclerView.Adapter<Profile_wallpost
 //        int i = timeLineItems.get(position).getType();
         if (isPositionHeader(position)) {
             return TYPE_HEADER;
+        } else if (timeLineItems.size() > 0 && timeLineItems.get(position-1) == null) {
+            return VIEW_TYPE_LOADING;
+        }else if (timeLineItems.get(position-1).getType() == 1 ||    timeLineItems.get(position-1).getType() == 4) {
+            return POST;
+        } else if (timeLineItems.get(position-1).getType() == 2) {
+            return PRODUCT;
         } else {
-            return POST ;
+            return SUGGESTION;
         }
     }
 
@@ -135,8 +158,13 @@ public class Profile_wallpostAdapt extends RecyclerView.Adapter<Profile_wallpost
             holder.bindHead(position);
         }
         else if (timeLineItems.get(position-1) != null) {
-            final TimeLineItem item = timeLineItems.get(position-1);
-                holder.bindCutomerPost(timeLineItems.get(position-1),position-1);
+            final CompanyTimeLineItem item = timeLineItems.get(position-1);
+
+            if (timeLineItems.get(position-1).getType() == 1) {
+                holder.bindpost(timeLineItems.get(position-1), position-1);
+            } else if (timeLineItems.get(position-1).getType() == 2) {
+                holder.bindProduct(timeLineItems.get(position-1), position-1);
+            }
         }
     }
 
@@ -149,7 +177,7 @@ public class Profile_wallpostAdapt extends RecyclerView.Adapter<Profile_wallpost
 
         CheckBox BtnLike;
         RecyclerView Overlapview, slider, frndSuggestion;
-        ImageView dp, wpComment, imgPost, imgPrd, share , postMenu;
+        ImageView dp, wpComment, imgPost, imgPrd, share;
         TextView likeCount, reward, prdcat, prdName, prdDesc, prdPrize, likename, name, date, commentCount, textPost, title, btnText;
         CardView Buynow;
         LinearLayout productLayout, postLayout;
@@ -161,7 +189,6 @@ public class Profile_wallpostAdapt extends RecyclerView.Adapter<Profile_wallpost
             super(view);
             prdview = view;
             dp = view.findViewById(R.id.wpDP);
-
             frndSuggestion = view.findViewById(R.id.frndSuggestion);
             reward = view.findViewById(R.id.prdreward);
             draweeView = view.findViewById(R.id.my_image_view);
@@ -181,7 +208,122 @@ public class Profile_wallpostAdapt extends RecyclerView.Adapter<Profile_wallpost
             wpComment = view.findViewById(R.id.wpComment);
             postLayout = view.findViewById(R.id.prdPostView);
         }
-        public void main(final TimeLineItem item, final int position) {
+
+        public void bindpost(final CompanyTimeLineItem postmodel, int position) {
+
+            main(postmodel, position);
+            textPost.setText(postmodel.getDescription());
+            share.setTag(postmodel);
+//            postLayout.setTag(postmodel);
+            wpComment.setTag(postmodel);
+            title.setText(postmodel.getTitle());
+
+            likeCount.setText(String.valueOf(postmodel.getLikeCount()));
+            commentCount.setText(String.valueOf(postmodel.getCommentCount()));
+            likename.setTag(postmodel);
+
+/*
+            thread = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        while(true) {
+                            sleep(1000);
+                            handler.post(this);
+
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+*/
+            Uri uri = Uri.parse(APIs.postImg + postmodel.getImage());
+            ImagePipeline imagePipeline = Fresco.getImagePipeline();
+
+            draweeView.setImageURI(uri);
+//            thread.start();
+
+
+        }
+
+        public void bindProduct(final CompanyTimeLineItem postmodel, int position) {
+            main(postmodel, position);
+            likeCount.setText(String.valueOf(postmodel.getLikeCount()));
+            commentCount.setText(String.valueOf(postmodel.getCommentCount()));
+            likename.setTag(postmodel);
+            // slider = prdview.findViewById(R.id.wpImageRec);
+            btnText = prdview.findViewById(R.id.btnText);
+            imgPrd = prdview.findViewById(R.id.ProductImage);
+            prdDesc = prdview.findViewById(R.id.prdDesc);
+            prdName = prdview.findViewById(R.id.prdName);
+            prdPrize = prdview.findViewById(R.id.prdPrice);
+            Buynow = prdview.findViewById(R.id.prdBuy);
+            pageIndicator = prdview.findViewById(R.id.pageIndicator);
+            //  productLayout = prdview.findViewById(R.id.PostView);
+
+            // productLayout.setTag(postmodel);
+            prdPrize.setText("₹" + postmodel.getProductPrice());
+            Buynow.setTag(postmodel);
+            pageIndicator.setTag(postmodel);
+            prdName.setText(postmodel.getProductName());
+            prdDesc.setText(postmodel.getProductDesc());
+            prdcat.setText(postmodel.getProductCat());
+
+            if (postmodel.getRewardPoints() > 0) {
+                reward.setText("Reward Points : " + postmodel.getRewardPoints());
+            } else {
+                reward.setVisibility(View.GONE);
+            }
+            String[] imageArray = null;
+
+            if (postmodel.getImages() != null) {
+                imageArray = postmodel.getImages().split(",");
+            }
+
+
+            Uri uri = Uri.parse(APIs.Dp + imageArray[0].replace(" ", ""));
+            ImagePipeline imagePipeline = Fresco.getImagePipeline();
+            draweeView.setImageURI(uri);
+
+            final String[] finalImageArray = imageArray;
+
+            if (postmodel.getSellType() == 1) {
+                btnText.setText("Shop Now");
+            } else {
+                btnText.setText("Buy Now");
+            }
+            draweeView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //  String url = "http://www.example.com";
+                    if (postmodel.getSellType() == 1) {
+
+                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(postmodel.getProductLink()));
+                        context.startActivity(i);
+                    } else {
+                        Bundle bundle = new Bundle();
+                        bundle.putStringArray("images", finalImageArray);
+                        Intent intent = new Intent(context, ProductPage.class);
+                        intent.putExtra("product_name", postmodel.getProductName());
+                        intent.putExtra("product_cat", postmodel.getProductCat());
+                        intent.putExtra("product_desc", postmodel.getProductDesc());
+                        intent.putExtra("product_link", postmodel.getProductLink());
+                        intent.putExtra("product_price", String.valueOf(postmodel.getProductPrice()));
+                        intent.putExtra("id", String.valueOf(postmodel.getId()));
+                        intent.putExtras(bundle);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+
+                }
+            });
+
+
+        }
+
+
+        public void main(final CompanyTimeLineItem item, final int position) {
             name.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -204,7 +346,7 @@ public class Profile_wallpostAdapt extends RecyclerView.Adapter<Profile_wallpost
 
             if (position == timeLineItems.size() - 1) {
                 // When last item is reached.
-                Toast.makeText(context, "Last", Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(context, "Last", Toast.LENGTH_SHORT).show();
             }
 
             likesItems = item.getLikes();
@@ -345,166 +487,6 @@ public class Profile_wallpostAdapt extends RecyclerView.Adapter<Profile_wallpost
 
         }
 
-        public void bindCutomerPost(final TimeLineItem postmodel, int position) {
-
-            // main(postmodel, position);
-
-
-            name.setText(postmodel.getName()+" "+postmodel.getLastName());
-            date.setText(postmodel.getCreatedAt());
-
-            postMenu = itemView.findViewById(R.id.postMenu);
-
-            if (postmodel.getType()==4)
-            postMenu.setVisibility(View.VISIBLE);
-
-            postMenu.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MenuDialoge(postmodel);
-                }
-            });
-            // Picasso.get().load(APIs.Dp + item.getLogo()).into(holder.dp);
-
-            Glide.with(context).load(APIs.Dp + postmodel.getDPic()).into(dp);
-
-
-            textPost.setText(postmodel.getDescription());
-            share.setTag(postmodel);
-//            postLayout.setTag(postmodel);
-            wpComment.setTag(postmodel);
-            title.setText(postmodel.getTitle());
-
-            likeCount.setText(String.valueOf(postmodel.getLikeCount()));
-            commentCount.setText(String.valueOf(postmodel.getCommentCount()));
-            likename.setTag(postmodel);
-
-            Uri uri = Uri.parse(APIs.postImg + postmodel.getImage());
-            ImagePipeline imagePipeline = Fresco.getImagePipeline();
-
-            draweeView.setImageURI(uri);
-
-        }
-
-        private void MenuDialoge(final TimeLineItem postmodel) {
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context);
-            View inflate = inflater.inflate(R.layout.transactionmode, null);
-            builder.setView(inflate);
-            TextView title = (TextView) inflate.findViewById(R.id.headTitle);
-            TextView textView = (TextView) inflate.findViewById(R.id.new_FundTrans);
-            TextView textView2 = (TextView) inflate.findViewById(R.id.old_FundTrans);
-
-            title.setText("What You Want");
-            textView.setText("Edit Post");
-            textView2.setText("Remove Post");
-
-            final AlertDialog ad = builder.show();
-
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ad.dismiss();
-                    EditPost(postmodel);
-                }
-            });
-            textView2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ad.dismiss();
-
-                }
-            });
-        }
-
-        private void EditPost(final TimeLineItem postmodel) {
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context);
-            View inflate = inflater.inflate(R.layout.updatepost, null);
-            builder.setView(inflate);
-            final EditText edtTitle  = inflate.findViewById(R.id.edtTitle);
-            final EditText edtDescription = inflate.findViewById(R.id.edtDescription);
-            Button btnUpdate = inflate.findViewById(R.id.btnUpdate);
-
-            edtTitle.setText(postmodel.getTitle());
-            edtDescription.setText(postmodel.getDescription());
-
-            final AlertDialog ad = builder.show();
-
-
-            btnUpdate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (edtTitle.getText().toString().isEmpty()){
-                        edtTitle.setError("Field Required");
-                    }else if (edtDescription.getText().toString().isEmpty()){
-                        edtDescription.setError("Field Required");
-                    }else {
-                        postmodel.setTitle(edtTitle.getText().toString());
-                        postmodel.setDescription(edtDescription.getText().toString());
-                        notifyDataSetChanged();
-
-                        UpdatePost(edtTitle.getText().toString(),edtDescription.getText().toString(),postmodel.getId());
-                        ad.dismiss();
-                    }
-                }
-            });
-
-         //   builder.create().show();
-
-
-
-
-        }
-    }
-
-    private void UpdatePost(final String title, final String description, final Integer id) {
-
-        Toast.makeText(context, "updating....", Toast.LENGTH_SHORT).show();
-
-        AppController.getInstance().addToRequestQueue(new StringRequest(StringRequest.Method.POST, APIs.post_update, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                Log.d("responce",response);
-
-                try {
-                    JSONObject object = new JSONObject(response);
-
-                    if (object.getBoolean("status"))
-                    {
-                        Toast.makeText(context, "Updated Successfully", Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-                        Toast.makeText(context, "Failed Please try again after some time", Toast.LENGTH_SHORT).show();
-
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> hashMap = new HashMap();
-                hashMap.put("id", String.valueOf(id));
-                hashMap.put("type", "4");
-                hashMap.put("title", title);
-                hashMap.put("description", description);
-                hashMap.put("customer_id", Global.customerid);
-                return hashMap;
-            }
-        });
-
     }
 
     @Override
@@ -558,7 +540,7 @@ public class Profile_wallpostAdapt extends RecyclerView.Adapter<Profile_wallpost
     } //
 
 
-    private String getText(TimeLineItem wallPostmodel, TextView textView) {
+    private String getText(CompanyTimeLineItem wallPostmodel, TextView textView) {
         if (wallPostmodel.getLikes().size() == 1) {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(wallPostmodel.getLikes().get(0).getName());
@@ -641,6 +623,94 @@ public class Profile_wallpostAdapt extends RecyclerView.Adapter<Profile_wallpost
         AppController.getInstance().addToRequestQueue(stringRequest);
     }
 
+    private void SuggestionAdapter(RecyclerView frndSuggestion, final List<Suggestion> Models) {
 
+        frndSuggestion.setAdapter(new RecyclerView.Adapter() {
+            @NonNull
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                return new Holder(LayoutInflater.from(context).inflate(R.layout.friendsuggestionui, viewGroup, false));
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
+                final Holder holder = (Holder) viewHolder;
+                final Suggestion model = Models.get(i);
+
+                holder.Name.setText(model.getName() + " " + model.getLastName());
+                Picasso.get().load(APIs.Dp + model.getDPic()).into(holder.dp);
+                holder.frdAddfrind.setTag(model);
+
+                holder.frdAddfrind.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Models.remove(model);
+                        notifyItemRemoved(i);
+                        notifyItemRangeChanged(i, Models.size());
+                        addFreind(String.valueOf(model.getCustomerId()));
+                    }
+                });
+
+                if (model.getCity() == null || model.getCity().isEmpty()) {
+                    holder.Location.setText("India");
+                } else {
+                    holder.Location.setText(model.getCity());
+                }
+            }
+
+            @Override
+            public int getItemCount() {
+                return Models.size();
+            }
+
+            class Holder extends RecyclerView.ViewHolder {
+                ImageView dp;
+                TextView Name, Location;
+                CardView frdAddfrind;
+
+                public Holder(@NonNull View itemView) {
+                    super(itemView);
+                    dp = itemView.findViewById(R.id.frdp);
+                    Name = itemView.findViewById(R.id.frdName);
+                    Location = itemView.findViewById(R.id.frdLocation);
+                    frdAddfrind = itemView.findViewById(R.id.frdAddfrind);
+                }
+            }
+
+        });
+    }
+
+    private void addFreind(final String id) {
+        AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.addfriend, new Response.Listener<String>() {
+            public void onResponse(String str) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(str);
+
+                    if (jsonObject.getBoolean("status")) {
+                        Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+        }) {
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> hashMap = new HashMap();
+                hashMap.put("customerid_to", id);
+                hashMap.put("customerid_from", Global.customerid);
+                return hashMap;
+            }
+        });
+
+
+    }
 
 }

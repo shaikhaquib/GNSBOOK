@@ -31,11 +31,13 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
-        <activity android:name="com.digital.gnsbook.Store.ProductPage"></activity>
+        <activity android:name="com.digital.gnsbook.Activity.ProductCategory"></activity>
+        <activity android:name="com.digital.gnsbook.Store.ProductPage" />
         <activity android:name="com.digital.gnsbook.Activity.Order_history" />
         <activity android:name="com.digital.gnsbook.Activity.Become_Premium" />
         <activity android:name="com.digital.gnsbook.sample.Main2Activity" />
         <activity android:name="com.digital.gnsbook.Activity.ChatAcivity" />
+        <activity android:name="com.digital.gnsbook.Activity.ProductSearch" />
         <activity
             android:name="com.digital.gnsbook.Activity.CheckOut"
             android:label="@string/title_activity_check_out" />
@@ -46,7 +48,9 @@
             android:name="com.digital.gnsbook.Activity.UploadProduct"
             android:windowSoftInputMode="stateUnchanged" />
         <activity android:name="com.digital.gnsbook.Activity.FriendProfile" />
-        <activity android:name="com.digital.gnsbook.Activity.SearchActivity" />
+        <activity
+            android:name="com.digital.gnsbook.Activity.SearchActivity"
+            android:launchMode="singleInstance" />
         <activity android:name="com.digital.gnsbook.Activity.Subsription_plan" />
 
         <uses-library
@@ -54,6 +58,9 @@
             android:required="false" />
 
         <activity android:name="com.digital.gnsbook.Activity.New_Post" />
+        <activity
+            android:name="com.digital.gnsbook.Activity.Product_page"
+            android:launchMode="singleInstance" />
         <activity
             android:name="com.digital.gnsbook.Activity.LoginActivity"
             android:windowSoftInputMode="stateHidden">

@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold"
             android:padding="@dimen/margin_16"
+            android:foreground="?android:attr/selectableItemBackground"
             android:text="Direct Fund Transfer"
             android:textColor="#86515365" />
 
@@ -39,6 +40,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold"
             android:padding="@dimen/margin_16"
+            android:foreground="?android:attr/selectableItemBackground"
             android:text="Manual Fund Transfer"
             android:textColor="#86515365" />
     </LinearLayout>

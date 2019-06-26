@@ -2,8 +2,10 @@ package com.digital.gnsbook.Activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -18,21 +20,24 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.digital.gnsbook.Adapter.Product_Adapter;
+import com.digital.gnsbook.Adapter.SearchAdapt;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
-import com.digital.gnsbook.Extra.DividerDecorator;
-import com.digital.gnsbook.Adapter.SearchAdapt;
 import com.digital.gnsbook.Extra.SimpleGestureFilter;
-import com.digital.gnsbook.Model.CommentItem;
+import com.digital.gnsbook.Model.Activity_Gstore.ProductModel;
+import com.digital.gnsbook.Model.Activity_Gstore.Result;
 import com.digital.gnsbook.Model.SearchItem;
 import com.digital.gnsbook.Model.SearchResponse;
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 import com.httpgnsbook.gnsbook.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +45,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class SearchActivity extends AppCompatActivity {
+public class ProductSearch extends AppCompatActivity {
 
     RecyclerView rvSearch;
     ImageView Back,clear;
@@ -51,6 +56,8 @@ public class SearchActivity extends AppCompatActivity {
     List<SearchItem> commentModel = new ArrayList();
     boolean isCompony= false;
     FrameLayout parent;
+    List<Result> postModel = new ArrayList<>();
+
 
 
     public static final String EXTRA_CIRCULAR_REVEAL_X = "EXTRA_CIRCULAR_REVEAL_X";
@@ -70,7 +77,7 @@ public class SearchActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     // do your actual work here
-                    SearchActivity.this.runOnUiThread(new Runnable() {
+                    runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
 
@@ -124,8 +131,8 @@ public class SearchActivity extends AppCompatActivity {
         parent =findViewById(R.id.parent);
         rvSearch =findViewById(R.id.rvsearch);
         searchProgress =findViewById(R.id.searchProgress);
-        rvSearch.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-     //   rvSearch.addItemDecoration(new DividerDecorator(getApplicationContext()));
+        rvSearch.setLayoutManager(new GridLayoutManager(this,2));
+        //   rvSearch.addItemDecoration(new DividerDecorator(getApplicationContext()));
 
         Back= (ImageView) findViewById(R.id.SearchBack);
         clear= (ImageView) findViewById(R.id.SearchClear);
@@ -162,21 +169,25 @@ public class SearchActivity extends AppCompatActivity {
     }
     private void getSearchresult() {
         searchProgress.setVisibility(View.VISIBLE);
-        AppController.getInstance().addToRequestQueue(new StringRequest(StringRequest.Method.POST, APIs.Search, new Response.Listener<String>() {
+        AppController.getInstance().addToRequestQueue(new StringRequest(StringRequest.Method.POST, APIs.SearchProduct, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                searchProgress.setVisibility(View.GONE);
+
                 try {
+                    JSONObject object = new JSONObject(response);
 
-                    searchProgress.setVisibility(View.GONE);
-                    commentModel.clear();
+                    if (object.getBoolean("status")){
 
-                    JSONObject jsonObject = new JSONObject(response);
 
-                    if (jsonObject.getBoolean("status")){
-                        JSONArray jsonArray = jsonObject.getJSONArray("result");
-                        SearchResponse searchResponse = (SearchResponse) new Gson().fromJson(response, SearchResponse.class);
-                        commentModel=searchResponse.getResult();
-                        rvSearch.setAdapter(new SearchAdapt(SearchActivity.this,commentModel,isCompony));
+
+                        JsonReader reader = new JsonReader(new StringReader(response));
+                        reader.setLenient(true);
+                        ProductModel timeLineResponse = new Gson().fromJson(reader, ProductModel.class);
+                        if (timeLineResponse.getResult().size() > 0) {
+                            postModel.addAll(timeLineResponse.getResult());
+                        }
+                        rvSearch.setAdapter(new Product_Adapter(postModel, ProductSearch.this));
 
                     }
 
@@ -193,9 +204,10 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map <String,String> param = new HashMap<String,String>();
+                param.put("company_id", getIntent().getStringExtra("id"));
+                param.put("keyword",query.getText().toString());
                 param.put("limit", "5");
                 param.put("offset","0");
-                param.put("keyword",query.getText().toString());
                 return param;            }
         });
     }

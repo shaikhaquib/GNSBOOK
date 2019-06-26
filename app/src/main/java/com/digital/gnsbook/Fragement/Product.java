@@ -88,10 +88,20 @@ public class Product extends Fragment {
         dialog = new ViewDialog(getActivity());
 
         getTimelinePost();
-        wallPost.setAdapter(new Product_Adapter(this.postmodels, getActivity()));
+       // wallPost.setAdapter(new Product_Adapter(this.postmodels, getActivity()));
         NestedScrollView nestedScrollView = (NestedScrollView) view.findViewById(R.id.comyScroll);
         if (nestedScrollView != null) {
-            nestedScrollView.setOnScrollChangeListener(new C09321());
+            nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(NestedScrollView nestedScrollView, int i, int i2, int i3, int i4) {
+                    if (i2 == nestedScrollView.getChildAt(0).getMeasuredHeight() - nestedScrollView.getMeasuredHeight() && count > 0) {
+                        offset = offset + 10;
+                        getTimelinePost();
+                        porogress.setVisibility(View.VISIBLE);
+                    }
+                }
+
+            });
         }
         return view;
     }
@@ -121,21 +131,75 @@ public class Product extends Fragment {
         });
     }
 
-    class C09321 implements NestedScrollView.OnScrollChangeListener {
-        C09321() {
-        }
-
-        public void onScrollChange(NestedScrollView nestedScrollView, int i, int i2, int i3, int i4) {
-            if (i2 == nestedScrollView.getChildAt(0).getMeasuredHeight() - nestedScrollView.getMeasuredHeight() && count > 0) {
-                offset = offset + 10;
-                getTimelinePost();
-                porogress.setVisibility(View.VISIBLE);
-            }
-        }
-    }
 
     private void getTimelinePost() {
-        AppController.getInstance().addToRequestQueue(new StringRequest(StringRequest.Method.POST, APIs.company_product, new C09332(), new C09343()) {
+        AppController.getInstance().addToRequestQueue(new StringRequest(StringRequest.Method.POST, APIs.company_product, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                porogress.setVisibility(View.GONE);
+                try {
+                    JSONObject obj = new JSONObject(s);
+
+                    if (obj.getBoolean("status")) {
+                        JSONArray str = obj.getJSONArray("result");
+
+
+                        for (int i = 0; i < str.length(); i++) {
+                            JSONObject jSONObject2 = str.getJSONObject(i);
+                            WallPostmodel wallPostmodel = new WallPostmodel();
+
+                            ArrayList arrayList = new ArrayList();
+                            ArrayList arrayList2 = new ArrayList();
+                            ArrayList arrayList3 = new ArrayList();
+                            wallPostmodel.type = jSONObject2.getString("type");
+
+                            wallPostmodel.logo = jSONObject2.getString("logo");
+                            wallPostmodel.id = jSONObject2.getString("id");
+                            wallPostmodel.name = jSONObject2.getString("name");
+
+                            wallPostmodel.company_id = jSONObject2.getString("company_id");
+                            wallPostmodel.product_name = jSONObject2.getString("product_name");
+                            wallPostmodel.product_cat = jSONObject2.getString("product_cat");
+                            wallPostmodel.product_price = jSONObject2.getString("product_price");
+                            wallPostmodel.product_desc = jSONObject2.getString("product_desc");
+                            wallPostmodel.product_link = jSONObject2.getString("product_link");
+                            wallPostmodel.sell_type = jSONObject2.getInt("sell_type");
+                            wallPostmodel.images = jSONObject2.getString("images");
+                            wallPostmodel.created_at = jSONObject2.getString("created_at");
+                            wallPostmodel.likecount = jSONObject2.getInt("like_count");
+                            wallPostmodel.commentCount = jSONObject2.getInt("comment_count");
+
+                            wallPostmodel.selfLike = jSONObject2.getInt("Self_Likes");
+
+                            for (int i2 = 0; i2 < jSONObject2.getJSONArray("Likes").length(); i2++) {
+                                JSONObject jSONObject3 = jSONObject2.getJSONArray("Likes").getJSONObject(i2);
+                                arrayList.add(jSONObject3.getString("d_pic"));
+                                arrayList2.add(jSONObject3.getString("name"));
+                                arrayList3.add(jSONObject3.getString("customer_id"));
+                            }
+                            Object[] toArray = arrayList.toArray();
+                            Object[] toArray2 = arrayList2.toArray();
+                            arrayList3.toArray();
+                            wallPostmodel.Like_imges = (String[]) Arrays.copyOf(toArray, toArray.length, String[].class);
+                            wallPostmodel.Like_name = (String[]) Arrays.copyOf(toArray2, toArray2.length, String[].class);
+                            postmodels.add(wallPostmodel);
+                            wallPost.getAdapter().notifyDataSetChanged();
+                        }
+                    } else {
+                        count = 0;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                porogress.setVisibility(View.GONE);
+            }
+
+        }) {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> hashMap = new HashMap();
                 hashMap.put("company_id",activity.getIntent().getStringExtra("id"));
@@ -147,80 +211,5 @@ public class Product extends Fragment {
             }
         });
     }
-
-    /* renamed from: com.digital.gnsbook.Fragment.WallPostFragment$2 */
-    class C09332 implements Response.Listener<String> {
-        C09332() {
-        }
-
-        public void onResponse(String s) {
-            porogress.setVisibility(View.GONE);
-            try {
-                JSONObject obj = new JSONObject(s);
-
-                if (obj.getBoolean("status")) {
-                    JSONArray str = obj.getJSONArray("result");
-
-
-                    for (int i = 0; i < str.length(); i++) {
-                        JSONObject jSONObject2 = str.getJSONObject(i);
-                        WallPostmodel wallPostmodel = new WallPostmodel();
-
-                        ArrayList arrayList = new ArrayList();
-                        ArrayList arrayList2 = new ArrayList();
-                        ArrayList arrayList3 = new ArrayList();
-                        wallPostmodel.type = jSONObject2.getString("type");
-
-                        wallPostmodel.logo = jSONObject2.getString("logo");
-                        wallPostmodel.id = jSONObject2.getString("id");
-                        wallPostmodel.name = jSONObject2.getString("name");
-
-                        wallPostmodel.company_id = jSONObject2.getString("company_id");
-                        wallPostmodel.product_name = jSONObject2.getString("product_name");
-                        wallPostmodel.product_cat = jSONObject2.getString("product_cat");
-                        wallPostmodel.product_price = jSONObject2.getString("product_price");
-                        wallPostmodel.product_desc = jSONObject2.getString("product_desc");
-                        wallPostmodel.product_link = jSONObject2.getString("product_link");
-                        wallPostmodel.sell_type = jSONObject2.getInt("sell_type");
-                        wallPostmodel.images = jSONObject2.getString("images");
-                        wallPostmodel.created_at = jSONObject2.getString("created_at");
-                        wallPostmodel.likecount = jSONObject2.getInt("like_count");
-                        wallPostmodel.commentCount = jSONObject2.getInt("comment_count");
-
-                        wallPostmodel.selfLike = jSONObject2.getInt("Self_Likes");
-
-                        for (int i2 = 0; i2 < jSONObject2.getJSONArray("Likes").length(); i2++) {
-                            JSONObject jSONObject3 = jSONObject2.getJSONArray("Likes").getJSONObject(i2);
-                            arrayList.add(jSONObject3.getString("d_pic"));
-                            arrayList2.add(jSONObject3.getString("name"));
-                            arrayList3.add(jSONObject3.getString("customer_id"));
-                        }
-                        Object[] toArray = arrayList.toArray();
-                        Object[] toArray2 = arrayList2.toArray();
-                        arrayList3.toArray();
-                        wallPostmodel.Like_imges = (String[]) Arrays.copyOf(toArray, toArray.length, String[].class);
-                        wallPostmodel.Like_name = (String[]) Arrays.copyOf(toArray2, toArray2.length, String[].class);
-                        postmodels.add(wallPostmodel);
-                        wallPost.getAdapter().notifyDataSetChanged();
-                    }
-                }else {
-                    count = 0;
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    /* renamed from: com.digital.gnsbook.Fragment.WallPostFragment$3 */
-    class C09343 implements Response.ErrorListener {
-        C09343() {
-        }
-
-        public void onErrorResponse(VolleyError volleyError) {
-            porogress.setVisibility(View.GONE);
-        }
-    }
-
 }
 

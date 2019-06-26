@@ -3,6 +3,7 @@ package com.digital.gnsbook.Activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -24,6 +25,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -32,12 +34,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
+import com.digital.gnsbook.Config.DbHelper;
+import com.digital.gnsbook.Extra.CustomViewPagerEndSwipe;
 import com.digital.gnsbook.Fragement.Fragement_companypost;
 import com.digital.gnsbook.Fragement.Fragment_Post;
 import com.digital.gnsbook.Fragement.Product;
 import com.digital.gnsbook.Adapter.FragmentViewPagerAdapter;
 import com.digital.gnsbook.Global;
 import com.digital.gnsbook.Model.ComponyModel;
+import com.google.gson.JsonObject;
 import com.httpgnsbook.gnsbook.R;
 import com.digital.gnsbook.ViewDialog;
 import com.google.gson.Gson;
@@ -49,6 +54,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,17 +63,19 @@ import java.util.Map;
 public class Companypage extends AppCompatActivity {
 
 
-    private List< Fragment > fragments = new ArrayList < > ();
-    private List < String > titles = new ArrayList < > ();
+    private List<Fragment> fragments = new ArrayList<>();
+    private List<String> titles = new ArrayList<>();
     private ViewPager viewPager;
     private FragmentViewPagerAdapter adapter;
     private TabLayout tabLayout;
     ViewDialog dialog;
-    TextView name,desc;
-    ImageView banner , logo;
-    CardView fabSubsCribe ,fabSetting;
+    TextView name, desc, subText;
+    ImageView banner, logo;
+    CardView fabSubsCribe, fabSetting, cardProduct;
     private PopupMenu popupMenu;
     Bitmap bitmap;
+    int subCount = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,19 +84,28 @@ public class Companypage extends AppCompatActivity {
 
         dialog = new ViewDialog(this);
 
-        viewPager = (ViewPager) findViewById(R.id.htab_viewpager);
+        viewPager = findViewById(R.id.htab_viewpager);
         tabLayout = findViewById(R.id.htab_tabs);
         name = findViewById(R.id.compony_name);
+        subText = findViewById(R.id.subText);
         desc = findViewById(R.id.compony_desc);
         banner = findViewById(R.id.company_banner);
         logo = findViewById(R.id.company_logo);
         fabSubsCribe = findViewById(R.id.fabSubsCribe);
         fabSetting = findViewById(R.id.fabAccountSetting);
+        cardProduct = findViewById(R.id.product);
+
+        cardProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), Product_page.class).putExtra(DbHelper.COLUMN_ID, getIntent().getStringExtra("id")).putExtra("cat", "0"));
+            }
+        });
 
         fabSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             //   startActivity(new Intent(getApplicationContext(),Subsription_plan.class));
+                //   startActivity(new Intent(getApplicationContext(),Subsription_plan.class));
 
                 popupMenu = new PopupMenu(Companypage.this, v, 17);
                 popupMenu.setOnDismissListener(new OnDismissListener());
@@ -100,7 +117,11 @@ public class Companypage extends AppCompatActivity {
         fabSubsCribe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),Subsription_plan.class));
+                if (subCount > 0)
+                    startActivity(new Intent(getApplicationContext(), Subsription_plan.class));
+                else
+                    OrderNow(1);
+
             }
         });
 
@@ -122,7 +143,7 @@ public class Companypage extends AppCompatActivity {
                     @Override
                     public void onTabUnselected(TabLayout.Tab tab) {
                         super.onTabUnselected(tab);
-                        int tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark  );
+                        int tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark);
                         //       tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
                     }
 
@@ -133,22 +154,20 @@ public class Companypage extends AppCompatActivity {
                 }
         );
 
-
-
-        /* prepareDataResource();*/
         getComanydata();
-
+        Subscriptiondata();
     }
+
 
     private void getComanydata() {
 
         dialog.show();
-        StringRequest request =new StringRequest(Request.Method.POST, APIs.company_data_by_id, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST, APIs.company_data_by_id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 dialog.dismiss();
                 Gson gson = new Gson();
-                ComponyModel dashResp = gson.fromJson(response,ComponyModel.class);
+                ComponyModel dashResp = gson.fromJson(response, ComponyModel.class);
 
                 name.setText(dashResp.getResult().get(0).getName());
                 desc.setText(dashResp.getResult().get(0).getCompanyType());
@@ -162,14 +181,13 @@ public class Companypage extends AppCompatActivity {
                 Global.Company_Type = dashResp.getResult().get(0).getCompanyType();
                 Global.Company_Cate = dashResp.getResult().get(0).getCompanyCat();
 
-                if (Global.Company_Admin_Id == Integer.parseInt(Global.customerid)){
+                if (Global.Company_Admin_Id == Integer.parseInt(Global.customerid)) {
                     fabSetting.setEnabled(true);
-                }else {
+                } else {
                     fabSetting.setEnabled(false);
                 }
 
                 prepareDataResource();
-
 
 
             }
@@ -178,7 +196,7 @@ public class Companypage extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 dialog.dismiss();
             }
-        }){
+        }) {
 
             @Override
             public String getBodyContentType() {
@@ -190,7 +208,7 @@ public class Companypage extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("data",getIntent().getStringExtra("id"));
+                params.put("data", getIntent().getStringExtra("id"));
 
                 return params;
             }
@@ -201,30 +219,29 @@ public class Companypage extends AppCompatActivity {
 
     private void prepareDataResource() {
 
-        fragments = new ArrayList< >();
+        fragments = new ArrayList<>();
 
         fragments.add(new Fragement_companypost());
+/*
         fragments.add(new Product());
+*/
         fragments.add(new Fragment_Post());
 
 
-
-
-
         titles.add("Timeline");
-        titles.add("Product");
+        //  titles.add("Product");
         titles.add("Post");
-
 
 
         FragmentViewPagerAdapter adapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), fragments, titles);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-        viewPager.setCurrentItem(1);
         viewPager.setCurrentItem(0);
 
 
     }
+
+
     private class OnDismissListener implements PopupMenu.OnDismissListener {
         public void onDismiss(PopupMenu popupMenu) {
         }
@@ -243,7 +260,7 @@ public class Companypage extends AppCompatActivity {
                     startActivity(new Intent(Companypage.this, Subsription_plan.class));
                     break;
                 case R.id.upBp:
-                    CroperinoConfig cp = new CroperinoConfig("IMG_"+System.currentTimeMillis()+".jpg", "/gnsbook/Pictures", "/sdcard/gnsbook/Pictures");
+                    CroperinoConfig cp = new CroperinoConfig("IMG_" + System.currentTimeMillis() + ".jpg", "/gnsbook/Pictures", "/sdcard/gnsbook/Pictures");
                     CroperinoFileUtil.setupDirectory(Companypage.this);
                     if (CroperinoFileUtil.verifyStoragePermissions(Companypage.this) != null) {
                         Croperino.prepareGallery(Companypage.this);
@@ -278,7 +295,7 @@ public class Companypage extends AppCompatActivity {
             case CroperinoConfig.REQUEST_CROP_PHOTO:
                 if (resultCode == Activity.RESULT_OK) {
                     Uri i = Uri.fromFile(CroperinoFileUtil.getTempFile());
-                    bitmap = Global.uriToBitmap(i,Companypage.this);
+                    bitmap = Global.uriToBitmap(i, Companypage.this);
                     Log.d("bit", String.valueOf(bitmap));
                     // ivMain.setImageBitmap(getRoundedCroppedBitmap(uriToBitmap(i)));
                     UploadBanner(Global.encodeTobase64(bitmap));
@@ -300,10 +317,10 @@ public class Companypage extends AppCompatActivity {
                 try {
                     JSONObject object = new JSONObject(response);
 
-                    if (object.getBoolean("status")){
-                        Global.successDilogue(Companypage.this,"You have Successfully updated your profile");
-                    }else {
-                        Global.failedDilogue(Companypage.this,object.getString("result"));
+                    if (object.getBoolean("status")) {
+                        Global.successDilogue(Companypage.this, "You have Successfully updated your profile");
+                    } else {
+                        Global.failedDilogue(Companypage.this, object.getString("result"));
 
                     }
 
@@ -318,13 +335,12 @@ public class Companypage extends AppCompatActivity {
                 dialog.dismiss();
 
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> param = new HashMap<>();
-
-                param.put("company_id",getIntent().getStringExtra("id"));
-                param.put("image1","data:image/jpeg;base64,"+Base64);
+                Map<String, String> param = new HashMap<>();
+                param.put("company_id", getIntent().getStringExtra("id"));
+                param.put("image1", "data:image/jpeg;base64," + Base64);
 
                 return param;
             }
@@ -332,6 +348,7 @@ public class Companypage extends AppCompatActivity {
 
         AppController.getInstance().addToRequestQueue(stringRequest);
     }
+
     public void showDialoge() {
         View inflate = LayoutInflater.from(Companypage.this).inflate(R.layout.uploadui, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(Companypage.this);
@@ -350,13 +367,13 @@ public class Companypage extends AppCompatActivity {
         linearLayout2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 create.dismiss();
-                startActivity(new Intent(Companypage.this, UpdateProfile.class).putExtra("type", 0).putExtra("isCompany",true));
+                startActivity(new Intent(Companypage.this, UpdateProfile.class).putExtra("type", 0).putExtra("isCompany", true));
             }
         });
         linearLayout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 create.dismiss();
-                Companypage.this.startActivity(new Intent(Companypage.this, UpdateProfile.class).putExtra("type", 1).putExtra("isCompany",true));
+                Companypage.this.startActivity(new Intent(Companypage.this, UpdateProfile.class).putExtra("type", 1).putExtra("isCompany", true));
             }
         });
     }
@@ -381,5 +398,95 @@ public class Companypage extends AppCompatActivity {
             }
         }
     }
+
+
+    public void Subscriptiondata() {
+
+        StringRequest request = new StringRequest(Request.Method.POST, APIs.company_Sub_data_by_id, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+
+                    JSONObject object = new JSONObject(response);
+                    if (object.getString("Subscribe_status").equals("1")) {
+                        fabSubsCribe.setCardBackgroundColor(Color.BLUE);
+                        subText.setText("Subscribed");
+                        subCount = Integer.parseInt(object.getString("count"));
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("cid", getIntent().getStringExtra("id"));
+                params.put("customer_id", Global.customerid);
+
+                return params;
+            }
+
+        };
+        AppController.getInstance().addToRequestQueue(request);
+    }
+
+    private void OrderNow(final int id) {
+        AppController.getInstance().addToRequestQueue(new StringRequest(StringRequest.Method.POST, APIs.DefaultSubPlan, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    if (jsonObject.getBoolean("status")){
+                      //  Global.successDilogue(Companypage.this,"");
+                        fabSubsCribe.setCardBackgroundColor(Color.BLUE);
+                        subText.setText("Subscribed");
+                        Toast.makeText(Companypage.this, "You have successfully Subscribed the plan", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(Companypage.this, response, Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                if (error == null || error.networkResponse == null) {
+                    return;
+                }
+
+                String body;
+                //get status code here
+                final String statusCode = String.valueOf(error.networkResponse.statusCode);
+                //get response body and parse with appropriate encoding
+                try {
+                    body = new String(error.networkResponse.data,"UTF-8");
+                    Log.d("VolleyError",body);
+                } catch (UnsupportedEncodingException e) {
+                    // exception
+                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> hashMap = new HashMap();
+                hashMap.put("cid", getIntent().getStringExtra("id"));
+                hashMap.put("customer_id", Global.customerid);
+                return hashMap;
+            }
+        });
+    }
+
 
 }

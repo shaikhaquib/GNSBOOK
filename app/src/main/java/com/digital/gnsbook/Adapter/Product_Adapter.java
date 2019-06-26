@@ -49,9 +49,11 @@ import com.digital.gnsbook.Config.DbHelper;
 import com.digital.gnsbook.Extra.ImageLoader;
 import com.digital.gnsbook.Firebase.Broadcast_FCM;
 import com.digital.gnsbook.Global;
+import com.digital.gnsbook.Model.Activity_Gstore.Result;
 import com.digital.gnsbook.Model.WallPostmodel;
 import com.digital.gnsbook.Payment.OverlapDecoration;
 import com.digital.gnsbook.Extra.RoundedCornersTransformation;
+import com.digital.gnsbook.Store.ProductPage;
 import com.httpgnsbook.gnsbook.R;
 import com.squareup.picasso.Picasso;
 
@@ -64,54 +66,23 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Product_Adapter extends Adapter<ViewHolder> {
     Context context;
-    ArrayList<WallPostmodel> postmodels;
+    List<Result> postmodels =new ArrayList<>();
     ImageLoader imageLoader;
     static class Holder extends ViewHolder {
-        CheckBox BtnLike ;
-        RecyclerView Overlapview , slider;
-        TextView date, commentCount,btnText,prdreward;
-        ImageView dp,wpComment;
-        ImageView imgPost ,imgPrd;
-        TextView likeCount , prdName ,prdDesc ,prdPrize;
-        TextView likename;
-        TextView name;
-        ImageView share;
-        TextView textPost;
-        TextView title;
-        CardView Buynow;
-        LinearLayout productLayout , postLayout;
-        PageIndicator pageIndicator;
+        ImageView imgPrd;
+        TextView  prdName  ,prdPrize;
 
         public Holder(@NonNull View view) {
             super(view);
-            dp = (ImageView) view.findViewById(R.id.wpDP);
-            slider = view.findViewById(R.id.wpImageRec);
-            imgPost = (ImageView) view.findViewById(R.id.wpImage);
-            imgPrd = (ImageView) view.findViewById(R.id.ProductImage);
-            share = (ImageView) view.findViewById(R.id.wpShare);
-            name = (TextView) view.findViewById(R.id.wpcname);
-            btnText = (TextView) view.findViewById(R.id.btnText);
-            prdreward = (TextView) view.findViewById(R.id.prdreward);
-            date = (TextView) view.findViewById(R.id.wpDate);
-            textPost = (TextView) view.findViewById(R.id.wpText);
-            title = (TextView) view.findViewById(R.id.wpTexttitile);
-            Overlapview = (RecyclerView) view.findViewById(R.id.likeOverlapingImages);
-            likeCount = (TextView) view.findViewById(R.id.likeCount);
-            likename = (TextView) view.findViewById(R.id.nameLike);
-            BtnLike = (CheckBox) view.findViewById(R.id.like);
-            commentCount = view.findViewById(R.id.CommentCount);
-            wpComment = view.findViewById(R.id.wpComment);
-            productLayout = view.findViewById(R.id.PostView);
-            postLayout = view.findViewById(R.id.prdPostView);
-            prdDesc = view.findViewById(R.id.prdDesc);
-            prdName = view.findViewById(R.id.prdName);
-            prdPrize = view.findViewById(R.id.prdPrice);
-            Buynow = view.findViewById(R.id.prdBuy);
-            pageIndicator = view.findViewById(R.id.pageIndicator);
+
+            imgPrd          = view.findViewById(R.id.ProductImage);
+            prdName         = view.findViewById(R.id.prdName);
+            prdPrize        = view.findViewById(R.id.prdAmount);
         }
     }
 
@@ -123,11 +94,16 @@ public class Product_Adapter extends Adapter<ViewHolder> {
     }
 
     @Override
+    public int getItemCount() {
+        return postmodels.size();
+    }
+
+    @Override
     public int getItemViewType(int position) {
         return position;
     }
 
-    public Product_Adapter(ArrayList<WallPostmodel> arrayList, Context context) {
+    public Product_Adapter(List<Result> arrayList, Context context) {
         this.postmodels = arrayList;
         this.context = context;
         setHasStableIds(true);
@@ -136,16 +112,18 @@ public class Product_Adapter extends Adapter<ViewHolder> {
 
     @NonNull
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new New_WallPostAdapt.Holder(LayoutInflater.from(this.context).inflate(R.layout.wallpostadapter, viewGroup, false));
+        return new Holder(LayoutInflater.from(this.context).inflate(R.layout.product_card, viewGroup, false));
     }
 
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
 
-        final New_WallPostAdapt.Holder holder = (New_WallPostAdapt.Holder) viewHolder;
-        final WallPostmodel postmodel = postmodels.get(i);
+        final Holder holder = (Holder) viewHolder;
+        final Result postmodel = postmodels.get(i);
         String [] imageArray = null;
-        if (postmodel.images!=null){
-            imageArray  = postmodel.images.split(",");}
+        if (postmodel.getImages()!=null){
+            imageArray  = postmodel.getImages().split(",");
+            Glide.with(context).load(APIs.Dp+imageArray[0].replace(" ","")).into(holder.imgPrd);
+        }
 
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -158,59 +136,32 @@ public class Product_Adapter extends Adapter<ViewHolder> {
             e.printStackTrace();
         }
 
-        holder.name.setText(postmodel.name);
-        holder.date.setText(postmodel.created_at);
-        holder.share.setTag(postmodel);
-        holder.productLayout.setTag(postmodel);
-        holder.wpComment.setTag(postmodel);
-        holder.prdPrize.setText("₹"+postmodel.product_price);
-        holder.Buynow.setTag(postmodel);
-        holder.pageIndicator.setTag(postmodel);
-        holder.prdName.setText(postmodel.product_name);
-        holder.prdDesc.setText(postmodel.product_desc);
-        holder.likeCount.setText(String.valueOf(postmodel.likecount));
-        holder.commentCount.setText(String.valueOf(postmodel.commentCount));
-        holder.likename.setTag(postmodel);
-        getText(postmodel, holder.likename);
 
-        holder.name.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                context.startActivity(new Intent(context, Companypage.class).putExtra(DbHelper.COLUMN_ID, postmodel.company_id));
-            }
-        });
-        holder.dp.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                context.startActivity(new Intent(context, Companypage.class).putExtra(DbHelper.COLUMN_ID, postmodel.company_id));
-            }
-        });
 
-        if (postmodel.sell_type==1){
-            holder.btnText.setText("Shop Now");
-        }else{
-            holder.btnText.setText("Buy Now");
-        }
+        holder.prdPrize.setText("₹"+postmodel.getProductPrice());
+        holder.prdName.setText(postmodel.getProductName());
+
+
 
         final String[] finalImageArray = imageArray;
-        holder.Buynow.setOnClickListener(new OnClickListener() {
+        holder.itemView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 //  String url = "http://www.example.com";
 
-                if (postmodel.sell_type==1){
-                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(postmodel.product_link));
+                if (postmodel.getSellType()==1){
+                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(postmodel.getProductLink()));
                     context.startActivity(i);
                 }else {
                     Bundle bundle = new Bundle();
                     bundle.putStringArray("images", finalImageArray);
-                    Intent intent = new Intent(context, ProductDetail.class);
-                    intent.putExtra("product_name", postmodel.product_name);
-                    intent.putExtra("product_cat", postmodel.product_cat);
-                    intent.putExtra("product_desc", postmodel.product_desc);
-                    intent.putExtra("product_link", postmodel.product_link);
-                    intent.putExtra("product_price", postmodel.product_price);
-                    intent.putExtra("id", postmodel.id);
+                    Intent intent = new Intent(context, ProductPage.class);
+                    intent.putExtra("product_name", postmodel.getProductName());
+                    intent.putExtra("product_cat", postmodel.getProductCat());
+                    intent.putExtra("product_desc", postmodel.getProductDesc());
+                    intent.putExtra("product_link", postmodel.getProductLink());
+                    intent.putExtra("product_price", postmodel.getProductPrice());
+                    intent.putExtra("id", postmodel.getId());
                     intent.putExtras(bundle);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
@@ -220,13 +171,6 @@ public class Product_Adapter extends Adapter<ViewHolder> {
             }
         });
 
-        if (postmodel.type.equals("1")){
-            holder. productLayout.setVisibility(View.VISIBLE);
-            holder.postLayout.setVisibility(View.GONE);
-        }else {
-            holder.postLayout.setVisibility(View.VISIBLE);
-            holder. productLayout.setVisibility(View.GONE);
-        }
 
       /*  if (postmodel.reward>0){
             holder.prdreward.setVisibility(View.VISIBLE);
@@ -236,325 +180,13 @@ public class Product_Adapter extends Adapter<ViewHolder> {
 
         final String[] finalImageArray1 = imageArray;
 
-        holder.share.setOnClickListener(new View.OnClickListener() {@Override
-        public void onClick(View v) {
-            new Broadcast_FCM().execute(Global.customerid,postmodel.title,Global.name+" has Shared a post");
-
-            // Toast.makeText(context, "Toast", Toast.LENGTH_SHORT).show();
-
-            Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
-            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-            StrictMode.setVmPolicy(builder.build());
-            if (postmodel.type.equals("1")){
-
-                Uri bmpUri = getLocalBitmapUri(holder.imgPost);
-
-                whatsappIntent.setType("text/plain");
-                whatsappIntent.putExtra(Intent.EXTRA_TEXT, postmodel.title+"\n"+postmodel.description + "\n https://www.gnsbook.com/?reffid="+ Global.customerid);
-                whatsappIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-                whatsappIntent.setType("image/jpeg");
-                whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            }  else {
-
-                Bitmap image = getBitmapFromURL(APIs.Dp+ finalImageArray1[0]);
-                whatsappIntent.setType("text/plain");
-                whatsappIntent.putExtra(Intent.EXTRA_TEXT, "*NAME* :"+postmodel.product_name+"\n\n"+"*Description* :"+postmodel.product_desc+"\n\n"+"*Price* : ₹"+postmodel.product_price + "\n\n https://www.gnsbook.com/?reffid="+Global.customerid);
-                whatsappIntent.putExtra(Intent.EXTRA_STREAM, getImageUri(context,image));
-                whatsappIntent.setType("image/jpeg");
-                whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-            }
-            try {
-                context.startActivity(whatsappIntent);
-            } catch (android.content.ActivityNotFoundException ex) {
-                Toast.makeText(context, "Some thing went wrong...", Toast.LENGTH_SHORT).show();
-            }
-        }
-        });
 
 
 
         RoundedCornersTransformation roundedCornersTransformation = new RoundedCornersTransformation(15, 15);
 
-        Picasso.get().load(APIs.Dp + postmodel.logo).into(holder.dp);
 
        // Picasso.get().load(APIs.postImg + postmodel.images).fit().into(holder.imgPost);
-        Picasso.get().load(APIs.postImg + postmodel.images).fit().into(holder.imgPrd);
-
-
-
-
-
-        Glide.with(context)
-                .load(APIs.postImg + postmodel.images)
-                .into(holder.imgPrd);
-
-
-        holder.wpComment.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                context.startActivity(new Intent(context, Comment.class).putExtra("pid",postmodel.id).putExtra("type",postmodel.type).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            }
-        });
-
-        holder.slider.setTag(postmodel);
-        holder.slider.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
-        holder.slider.setAdapter(new Slider(imageArray,context));
-
-        if (imageArray.length > 1)
-            holder.pageIndicator.attachTo(holder.slider);
-        holder.Overlapview.setTag(postmodel);
-        holder.Overlapview.setLayoutManager(new LinearLayoutManager(this.context, 0, false));
-        holder.Overlapview.addItemDecoration(new OverlapDecoration());
-        holder.Overlapview.setAdapter(new OverLapAdapt(postmodel.Like_imges));
-
-        if (postmodel.selfLike == 1) {
-            holder.BtnLike.setChecked(true);
-        } else {
-            holder.BtnLike.setChecked(false);
-        }
-
-        holder.BtnLike.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton compoundButton, boolean z) {
-                if (z) {
-
-                    DoLike(postmodel.id ,postmodel.type);
-
-                    if (postmodel.selfLike == 1) {
-                        postmodel.selfLike = 0;
-                        postmodel.likecount --;
-                        holder.likeCount.setText(String.valueOf(postmodel.likecount));
-                        getText(postmodel, holder.likename);
-                    }else{
-                        if (postmodel.type.equals("1"))
-                            new Broadcast_FCM().execute(Global.customerid,postmodel.title,Global.name+" has liked a post");
-                        else
-                            new Broadcast_FCM().execute(Global.customerid,postmodel.product_name,Global.name+" has liked a product");
-
-                        postmodel.selfLike = 1;
-                        postmodel.likecount ++;
-                        holder.likeCount.setText(String.valueOf(postmodel.likecount));
-                        getText(postmodel, holder.likename);
-                    }
-                } else if (postmodel.selfLike == 1) {
-
-                    UnLike(postmodel.id,postmodel.type);
-
-                    postmodel.selfLike = 0;
-                    postmodel.likecount --;
-                    holder.likeCount.setText(String.valueOf(postmodel.likecount));
-                    getText(postmodel, holder.likename);
-                } else {
-                    postmodel.selfLike = 1;
-                    postmodel.likecount ++;
-                    holder.likeCount.setText(String.valueOf(postmodel.likecount));
-                    getText(postmodel, holder.likename);
-                }
-            }
-
-
-            private void DoLike(final String id, final String type) {
-
-                StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, APIs.Dolike, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("DoLike : ",response);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("DoLike : ","ERROR");
-                    }
-                }){
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map <String,String> param = new HashMap<String,String>();
-                        param.put("customer_id",Global.customerid);
-                        param.put("post_id",id);
-                        param.put("type",type);
-                        return param;
-                    }
-                };
-                AppController.getInstance().addToRequestQueue(stringRequest);
-            }
-        });
     }
-
-    private void UnLike(final String id, final String type) {
-
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, APIs.Unlike, new Response.Listener<String>() {
-            public void onResponse(String response) {
-                Log.d("UnLike : ",response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("UnLike : ","ERROR");
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map <String,String> param = new HashMap<String,String>();
-                param.put("customer_id",Global.customerid);
-                param.put("post_id",id);
-                param.put("type",type);
-                return param;
-            }
-        };
-        AppController.getInstance().addToRequestQueue(stringRequest);
-    }
-
-
-
-    private String getText(WallPostmodel wallPostmodel, TextView textView) {
-        if (wallPostmodel.Like_name.length == 1) {
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(wallPostmodel.Like_name[0]);
-            stringBuilder.append("<br> like.");
-            Spanned spanned = Html.fromHtml(stringBuilder.toString());
-            textView.setText(spanned);
-        } else if (wallPostmodel.Like_name.length == 2) {
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(wallPostmodel.Like_name[0]);
-            stringBuilder.append("& <br>one+ like.");
-            Spanned spanned = Html.fromHtml(stringBuilder.toString());
-            textView.setText(spanned);
-        } else if (wallPostmodel.Like_name.length <= 2) {
-            textView.setVisibility(View.GONE);
-            //  wallPostmodel = null;
-        } else if (wallPostmodel.likecount > 2) {
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(wallPostmodel.Like_name[0]);
-            stringBuilder.append(" & <br>");
-            stringBuilder.append(wallPostmodel.likecount - 1);
-            stringBuilder.append("+ like.");
-            Spanned spanned = Html.fromHtml(stringBuilder.toString());
-            textView.setText(spanned);        } else {
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(wallPostmodel.Like_name[0]);
-            stringBuilder.append("& <br>one+ like.");
-            Spanned spanned = Html.fromHtml(stringBuilder.toString());
-            textView.setText(spanned);
-        }
-        return String.valueOf(wallPostmodel);
-    }
-
-    public int getItemCount() {
-        return this.postmodels.size();
-    }
-
-    public void Update() {
-        notifyItemInserted(this.postmodels.size() - 1);
-    }
-
-
-
-    private class OverLapAdapt extends Adapter<ViewHolder> {
-        String[] Images;
-
-        public class LikeHolder extends ViewHolder {
-            ImageView imageView;
-
-            public LikeHolder(@NonNull View view) {
-                super(view);
-                imageView = (ImageView) view.findViewById(R.id.ovimage);
-            }
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public int getItemViewType(int position) {
-            return position;
-        }
-
-        public OverLapAdapt(String[] strArr) {
-            this.Images = strArr;
-        }
-
-        @NonNull
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            return new OverLapAdapt.LikeHolder(LayoutInflater.from(context).inflate(R.layout.circular_image, viewGroup, false));
-        }
-
-        public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-            OverLapAdapt.LikeHolder likeHolder = (LikeHolder) viewHolder;
-            Picasso picasso = Picasso.get();
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(APIs.Dp);
-            stringBuilder.append(this.Images[i]);
-            picasso.load(stringBuilder.toString()).fit().into(likeHolder.imageView);
-        }
-
-        public int getItemCount() {
-            if (this.Images.length > 2) {
-                return 2;
-            }
-            return this.Images.length;
-        }
-    }
-    public Uri getLocalBitmapUri(Bitmap bmp) {
-        Uri bmpUri = null;
-        try {
-            File file =  new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png");
-            FileOutputStream out = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
-            out.close();
-            bmpUri = Uri.fromFile(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bmpUri;
-    }
-    public Uri getLocalBitmapUri(ImageView imageView) {
-        // Extract Bitmap from ImageView drawable
-        Drawable drawable = imageView.getDrawable();
-        Bitmap bmp = null;
-        if (drawable instanceof BitmapDrawable){
-            bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        } else {
-            return null;
-        }
-        // Store image to default external storage directory
-        Uri bmpUri = null;
-        try {
-            File file =  new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOWNLOADS), "share_image_" + System.currentTimeMillis() + ".png");
-            file.getParentFile().mkdirs();
-            FileOutputStream out = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
-            out.close();
-            bmpUri = Uri.fromFile(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bmpUri;
-    }
-
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
-    }
-
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    } //
-
 
 }

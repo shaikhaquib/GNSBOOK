@@ -360,7 +360,7 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
 
             if (position == timeLineItems.size() - 1) {
                 // When last item is reached.
-                Toast.makeText(context, "Last", Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(context, "Last", Toast.LENGTH_SHORT).show();
             }
 
             likesItems = item.getLikes();

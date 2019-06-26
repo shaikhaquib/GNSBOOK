@@ -101,6 +101,7 @@ public class APIs {
     public static String old_DoComment                          = DevDomain+"add_comment_by_post";
 
     public static String SubPlan                                = DevDomain+"subscribe_plan";
+    public static String DefaultSubPlan                         = DevDomain+"default_subscription_plan";
     public static String Createplane                            = DevDomain+"add_subscription_plan";
     public static String Subscribe_plan                         = DevDomain+"display_subscription_data";
 
@@ -140,4 +141,10 @@ public class APIs {
     public static String order_history                          = DevDomain+"order_history";
     public static String Suggestion_companydataAPI              = DevDomain+"company_suggestion";
     public static String new_timelineAPI_Profile                = DevDomain+"newtimeline_data_by_customer";
+    public static String notification_accepted                  = DevDomain+"frnd_req_notification_accepted";
+    public static String ProductCategory                        = DevDomain+"unique_category";
+    public static String search_product_by_category             = DevDomain+"search_product_by_category";
+    public static String SearchProduct                          = DevDomain+"search_product";
+    public static String company_Sub_data_by_id                 = DevDomain+"subscription_data_by_company";
+    public static String post_update                            = DevDomain+"post_update";
 }

@@ -5,6 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/background"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
@@ -161,6 +162,7 @@
                         app:cardCornerRadius="4dp">
 
                         <TextView
+                            android:id="@+id/subText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical|center_horizontal"
@@ -175,6 +177,7 @@
                     </android.support.v7.widget.CardView>
 
                     <android.support.v7.widget.CardView
+                        android:id="@+id/product"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="@dimen/margin_16"
@@ -186,7 +189,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_chaticon" />
+                            android:tint="@color/dark_gray"
+                            android:src="@drawable/ic_shopping_cart" />
 
                     </android.support.v7.widget.CardView>
 
@@ -224,16 +228,26 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+
+                >
+
             <android.support.design.widget.TabLayout
                 app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
                 android:id="@+id/htab_tabs"
-                android:layout_width="fill_parent"
+                android:layout_width="0dp"
                 android:layout_height="?actionBarSize"
-                android:layout_gravity="bottom"
                 app:tabBackground="@color/white"
                 app:tabIndicatorColor="@color/colorPrimary"
                 app:tabSelectedTextColor="@color/colorPrimary"
-                app:tabTextColor="@color/nav_textcolor" />
+                app:tabTextColor="@color/nav_textcolor"
+                android:layout_weight="6.5"
+                />
+
+            </LinearLayout>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 

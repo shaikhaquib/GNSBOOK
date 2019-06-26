@@ -45,15 +45,21 @@ import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Config.FileUtils;
 import com.digital.gnsbook.Config.MySingleton;
+import com.digital.gnsbook.Config.RetroClient;
+import com.digital.gnsbook.Config.RetrofitClient;
 import com.digital.gnsbook.Config.VolleyMultipartRequest;
 import com.digital.gnsbook.Global;
+import com.digital.gnsbook.Model.UploadResponce;
 import com.digital.gnsbook.ViewDialog;
+import com.digital.gnsbook.sample.ApiClient;
 import com.digital.gnsbook.sample.MyAdapter;
 import com.httpgnsbook.gnsbook.R;
 
 import com.mikelau.croperino.Croperino;
 import com.mikelau.croperino.CroperinoConfig;
 import com.mikelau.croperino.CroperinoFileUtil;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.RequestBody;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -67,7 +73,16 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+
+import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class UploadProduct extends AppCompatActivity {
@@ -252,6 +267,9 @@ public class UploadProduct extends AppCompatActivity {
         }
     }
 
+
+
+
     public void onRequestPermissionsResult(int i, @NonNull String[] strArr, @NonNull int[] iArr) {
         super.onRequestPermissionsResult(i, strArr, iArr);
         int i2 = 0;
@@ -281,36 +299,6 @@ public class UploadProduct extends AppCompatActivity {
         }
     }
 
-    /*
-        public void onActivityResult(int i, int i2, Intent intent) {
-            super.onActivityResult(i, i2, intent);
-            switch (i) {
-                case 1:
-                    if (i2 == -1) {
-                        Croperino.runCropImage(CroperinoFileUtil.getTempFile(), this, false, 0, 0, R.color.gray, R.color.gray_variant);
-                        return;
-                    }
-                    return;
-                case 2:
-                    if (i2 == -1) {
-                        CroperinoFileUtil.newGalleryFile(intent, this);
-                        Croperino.runCropImage(CroperinoFileUtil.getTempFile(), this, false, 0, 0, R.color.gray, R.color.gray_variant);
-                        return;
-                    }
-                    return;
-                case 3:
-                    if (i2 == -1) {
-                        Uri fromFile = Uri.fromFile(CroperinoFileUtil.getTempFile());
-                        this.PImage.setImageURI(fromFile);
-                        this.ImgBase64 = Global.encodeTobase64(Global.uriToBitmap(fromFile, this));
-                        return;
-                    }
-                    return;
-                default:
-                    return;
-            }
-        }
-    */
     private void prepareChooser() {
         if (this.Type == 0) {
             if (ContextCompat.checkSelfPermission(this, "android.permission.CAMERA") != 0) {
