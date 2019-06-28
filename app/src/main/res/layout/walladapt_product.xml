@@ -55,24 +55,6 @@
                         android:focusable="true"
                         android:background="?android:attr/selectableItemBackground"                        android:textColor="@color/nav_textcolor"
                         android:textStyle="bold" />
-                    <!--
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="4.0dip"
-                                            android:fontFamily="@font/roboto_light"
-                                            android:text="shared a"
-                                            android:textColor="@color/nav_textcolor"
-                                            android:textSize="11.0sp" />
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="4.0dip"
-                                            android:fontFamily="@font/roboto_regular"
-                                            android:text="post"
-                                            android:textColor="#FF5722"
-                                            android:textSize="11.0sp" />-->
                 </LinearLayout>
 
                 <TextView
@@ -84,6 +66,14 @@
                     android:textColor="@color/nav_textcolor"
                     android:textSize="@dimen/fragment_title_padding_12" />
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/postMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:src="@drawable/ic_more_vert_black"/>
+
         </LinearLayout>
 
 

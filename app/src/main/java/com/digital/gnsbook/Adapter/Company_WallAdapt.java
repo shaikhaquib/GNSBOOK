@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,8 +20,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -43,6 +46,7 @@ import com.digital.gnsbook.Global;
 import com.digital.gnsbook.Model.TimeLine_Model.CompanyTimeLineItem;
 import com.digital.gnsbook.Model.TimeLine_Model.LikesItem;
 import com.digital.gnsbook.Model.TimeLine_Model.Suggestion;
+import com.digital.gnsbook.Model.TimeLine_Model.TimeLineItem;
 import com.digital.gnsbook.Payment.OverlapDecoration;
 import com.digital.gnsbook.Store.ProductPage;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -61,9 +65,11 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Company_WallAdapt extends RecyclerView.Adapter<Company_WallAdapt.Holder> {
 
@@ -83,6 +89,7 @@ public class Company_WallAdapt extends RecyclerView.Adapter<Company_WallAdapt.Ho
     List<CompanyTimeLineItem> timeLineItems = new ArrayList<>();
     List<LikesItem> likesItems = new ArrayList<>();
     List<Suggestion> suggestions = new ArrayList<>();
+    private static final String SEPARATOR = ",";
 
     public Company_WallAdapt(Context context, List<CompanyTimeLineItem> timeLineItems) {
         this.context = context;
@@ -177,7 +184,7 @@ public class Company_WallAdapt extends RecyclerView.Adapter<Company_WallAdapt.Ho
 
         CheckBox BtnLike;
         RecyclerView Overlapview, slider, frndSuggestion;
-        ImageView dp, wpComment, imgPost, imgPrd, share;
+        ImageView dp, wpComment, imgPost, imgPrd, share,postMenu;
         TextView likeCount, reward, prdcat, prdName, prdDesc, prdPrize, likename, name, date, commentCount, textPost, title, btnText;
         CardView Buynow;
         LinearLayout productLayout, postLayout;
@@ -192,6 +199,7 @@ public class Company_WallAdapt extends RecyclerView.Adapter<Company_WallAdapt.Ho
             frndSuggestion = view.findViewById(R.id.frndSuggestion);
             reward = view.findViewById(R.id.prdreward);
             draweeView = view.findViewById(R.id.my_image_view);
+            postMenu = view.findViewById(R.id.postMenu);
             LikeImage1 = view.findViewById(R.id.ovimage);
             LikeImage2 = view.findViewById(R.id.ovimage1);
             share = view.findViewById(R.id.wpShare);
@@ -348,6 +356,17 @@ public class Company_WallAdapt extends RecyclerView.Adapter<Company_WallAdapt.Ho
                 // When last item is reached.
              //   Toast.makeText(context, "Last", Toast.LENGTH_SHORT).show();
             }
+
+            if (item.getType()==2 && Global.Company_Admin_Id==Integer.parseInt(Global.customerid)){
+                postMenu.setVisibility(View.VISIBLE);
+            }
+
+            postMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MenuDialoge(item);
+                }
+            });
 
             likesItems = item.getLikes();
 
@@ -712,5 +731,195 @@ public class Company_WallAdapt extends RecyclerView.Adapter<Company_WallAdapt.Ho
 
 
     }
+
+    private void MenuDialoge(final CompanyTimeLineItem postmodel) {
+        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context);
+        View inflate = inflater.inflate(R.layout.transactionmode, null);
+        builder.setView(inflate);
+        TextView title = (TextView) inflate.findViewById(R.id.headTitle);
+        TextView textView = (TextView) inflate.findViewById(R.id.new_FundTrans);
+        TextView textView2 = (TextView) inflate.findViewById(R.id.old_FundTrans);
+
+        title.setText("What You Want");
+        textView.setText("Edit Post");
+        textView2.setText("Remove Post");
+
+        final AlertDialog ad = builder.show();
+
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ad.dismiss();
+                EditProduct(postmodel);
+            }
+        });
+        textView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ad.dismiss();
+
+            }
+        });
+    }
+
+
+    private void EditProduct(final CompanyTimeLineItem postmodel) {
+        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context);
+        View inflate = inflater.inflate(R.layout.product_update, null);
+        builder.setView(inflate);
+        final EditText edtAmount  = inflate.findViewById(R.id.edtAMOUNT);
+        final RecyclerView rvSlide  = inflate.findViewById(R.id.rvProduct);
+        final EditText edtTitle  = inflate.findViewById(R.id.edtTitle);
+        final EditText edtDescription = inflate.findViewById(R.id.edtDescription);
+        Button btnUpdate = inflate.findViewById(R.id.btnUpdate);
+
+        edtTitle.setText(postmodel.getProductName());
+        edtAmount.setText(String.valueOf(postmodel.getProductPrice()));
+        edtDescription.setText(postmodel.getProductDesc());
+
+        final AlertDialog ad = builder.show();
+
+        rvSlide.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
+        final String[] imgArray = postmodel.getImages().split(",");
+        final List<String> imgList = new ArrayList<>(Arrays.asList(imgArray));
+
+        rvSlide.setAdapter(new RecyclerView.Adapter() {
+            @NonNull
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(
+                        R.layout.images,
+                        parent,
+                        false);
+
+                return new Holder(view);
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
+                Holder holder = (Holder)viewHolder;
+
+                Glide.with(context).load(APIs.Dp+imgList.get(i).replace(" ","")).into(holder.image);
+                holder.remove.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        imgList.remove(i);
+                        StringBuilder csvBuilder = new StringBuilder();
+                        for(String city : imgList){
+                            csvBuilder.append(city);
+                            csvBuilder.append(SEPARATOR);
+                        }
+                        String csv = csvBuilder.toString();
+                        System.out.println(csv);
+                        //OUTPUT: Milan,London,New York,San Francisco,
+                        //Remove last comma
+                        csv = csv.substring(0, csv.length() - SEPARATOR.length());
+
+                        postmodel.setImages(csv);
+
+                        notifyItemRemoved(i);
+
+                    }
+                });
+
+            }
+
+            @Override
+            public int getItemCount() {
+                return imgList.size();
+            }
+
+            class Holder extends RecyclerView.ViewHolder {
+                ImageView image,remove;
+                public Holder(@NonNull View itemView) {
+                    super(itemView);
+                    image=itemView.findViewById(R.id.image);
+                    remove=itemView.findViewById(R.id.remove);
+                }
+            }
+        });
+
+
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (edtAmount.getText().toString().isEmpty()){
+                    edtAmount.setError("Field Required");
+                }else if (edtTitle.getText().toString().isEmpty()){
+                    edtTitle.setError("Field Required");
+                }else if (edtDescription.getText().toString().isEmpty()){
+                    edtDescription.setError("Field Required");
+                }else {
+                    postmodel.setProductPrice(Integer.valueOf(edtAmount.getText().toString()));
+                    postmodel.setProductName(edtTitle.getText().toString());
+                    postmodel.setDescription(edtDescription.getText().toString());
+                    notifyDataSetChanged();
+
+                    UpdateProduct(edtAmount.getText().toString(),edtTitle.getText().toString(),edtDescription.getText().toString(),postmodel.getId(),postmodel.getImages());
+                    ad.dismiss();
+                }
+            }
+        });
+
+        //   builder.create().show();
+
+
+
+
+    }
+
+    private void UpdateProduct(final String amount, final String name, final String desc, final Integer id, final String images) {
+
+        Toast.makeText(context, "updating....", Toast.LENGTH_SHORT).show();
+
+        AppController.getInstance().addToRequestQueue(new StringRequest(StringRequest.Method.POST, APIs.product_update, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Log.d("responce",response);
+
+                try {
+                    JSONObject object = new JSONObject(response);
+
+                    if (object.getBoolean("status"))
+                    {
+                        Toast.makeText(context, "Updated Successfully", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(context, "Failed Please try again after some time", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> hashMap = new HashMap();
+                hashMap.put("id", String.valueOf(id));
+                hashMap.put("type", "4");
+                hashMap.put("product_price", amount);
+                hashMap.put("product_name", name);
+                hashMap.put("product_desc", desc);
+                hashMap.put("images", images);
+                hashMap.put("company_id", Global.Company_Id);
+                return hashMap;
+            }
+        });
+
+    }
+
 
 }

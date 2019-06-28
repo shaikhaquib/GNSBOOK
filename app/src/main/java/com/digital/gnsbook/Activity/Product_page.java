@@ -67,6 +67,8 @@ public class Product_page extends AppCompatActivity {
         setContentView(R.layout.fragment_product);
         wallPost = findViewById(R.id.rv_product);
         porogress = findViewById(R.id.compprogrssview);
+
+        setTitle(Global.Company_Name);
        /* NewPost = findViewById(R.id.adminnewpost);
         if (Global.Company_Admin_Id != Integer.parseInt(Global.customerid)) {
             NewPost.setVisibility(View.GONE);
