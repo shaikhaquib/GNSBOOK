@@ -148,4 +148,6 @@ public class APIs {
     public static String company_Sub_data_by_id                 = DevDomain+"subscription_data_by_company";
     public static String post_update                            = DevDomain+"post_update";
     public static String product_update                         = DevDomain+"product_update";
+    public static String own_subscription                       = DevDomain+"own_subscription";
+    public static String subscribed_people                      = DevDomain+"subscribed_people";
 }

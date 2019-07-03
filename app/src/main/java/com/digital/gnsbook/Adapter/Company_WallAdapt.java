@@ -143,13 +143,11 @@ public class Company_WallAdapt extends RecyclerView.Adapter<Company_WallAdapt.Ho
     @Override
     public int getItemViewType(int position) {
 //        int i = timeLineItems.get(position).getType();
-        if (isPositionHeader(position)) {
-            return TYPE_HEADER;
-        } else if (timeLineItems.size() > 0 && timeLineItems.get(position-1) == null) {
+       if (timeLineItems.size() > 0 && timeLineItems.get(position) == null) {
             return VIEW_TYPE_LOADING;
-        }else if (timeLineItems.get(position-1).getType() == 1 ||    timeLineItems.get(position-1).getType() == 4) {
+        }else if (timeLineItems.get(position).getType() == 1 ||    timeLineItems.get(position).getType() == 4) {
             return POST;
-        } else if (timeLineItems.get(position-1).getType() == 2) {
+        } else if (timeLineItems.get(position).getType() == 2) {
             return PRODUCT;
         } else {
             return SUGGESTION;
@@ -161,23 +159,20 @@ public class Company_WallAdapt extends RecyclerView.Adapter<Company_WallAdapt.Ho
 
 
 
-        if (isPositionHeader(position)){
-            holder.bindHead(position);
-        }
-        else if (timeLineItems.get(position-1) != null) {
-            final CompanyTimeLineItem item = timeLineItems.get(position-1);
+      if (timeLineItems.get(position) != null) {
+            final CompanyTimeLineItem item = timeLineItems.get(position);
 
-            if (timeLineItems.get(position-1).getType() == 1) {
-                holder.bindpost(timeLineItems.get(position-1), position-1);
-            } else if (timeLineItems.get(position-1).getType() == 2) {
-                holder.bindProduct(timeLineItems.get(position-1), position-1);
+            if (timeLineItems.get(position).getType() == 1) {
+                holder.bindpost(timeLineItems.get(position), position);
+            } else if (timeLineItems.get(position).getType() == 2) {
+                holder.bindProduct(timeLineItems.get(position), position);
             }
         }
     }
 
     @Override
     public int getItemCount() {
-        return timeLineItems.size()+1;
+        return timeLineItems.size();
     }
 
     class Holder extends RecyclerView.ViewHolder {
@@ -510,7 +505,7 @@ public class Company_WallAdapt extends RecyclerView.Adapter<Company_WallAdapt.Ho
 
     @Override
     public long getItemId(int position) {
-        return position-1;
+        return position;
     }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {

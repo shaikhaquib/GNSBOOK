@@ -38,7 +38,7 @@ import com.digital.gnsbook.Config.DbHelper;
 import com.digital.gnsbook.Extra.CustomViewPagerEndSwipe;
 import com.digital.gnsbook.Fragement.Fragement_companypost;
 import com.digital.gnsbook.Fragement.Fragment_Post;
-import com.digital.gnsbook.Fragement.Product;
+import com.digital.gnsbook.Fragement.Frg_ComponySubs;
 import com.digital.gnsbook.Adapter.FragmentViewPagerAdapter;
 import com.digital.gnsbook.Global;
 import com.digital.gnsbook.Model.ComponyModel;
@@ -222,15 +222,13 @@ public class Companypage extends AppCompatActivity {
         fragments = new ArrayList<>();
 
         fragments.add(new Fragement_companypost());
-/*
-        fragments.add(new Product());
-*/
         fragments.add(new Fragment_Post());
+        fragments.add(new Frg_ComponySubs());
 
 
         titles.add("Timeline");
-        //  titles.add("Product");
         titles.add("Post");
+        titles.add("Subscribed");
 
 
         FragmentViewPagerAdapter adapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), fragments, titles);

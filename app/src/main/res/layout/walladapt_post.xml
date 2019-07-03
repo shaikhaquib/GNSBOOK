@@ -101,6 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_vertical_margin"
                 android:layout_marginTop="4.0dip"
+                android:layout_marginBottom="4.0dip"
                 android:layout_marginRight="@dimen/activity_vertical_margin"
                 android:fontFamily="@font/roboto_light"
                 android:textColor="@color/nav_textcolor"

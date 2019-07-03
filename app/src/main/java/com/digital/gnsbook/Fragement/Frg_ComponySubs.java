@@ -1,13 +1,14 @@
-package com.digital.gnsbook.Fragment;
+package com.digital.gnsbook.Fragement;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,19 +21,19 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.digital.gnsbook.Activity.Comment;
 import com.digital.gnsbook.Activity.Companypage;
-import com.digital.gnsbook.Activity.Compony_list;
+import com.digital.gnsbook.Activity.New_Post;
+import com.digital.gnsbook.Activity.UploadProduct;
+import com.digital.gnsbook.Adapter.Product_Adapter;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Config.DbHelper;
 import com.digital.gnsbook.Global;
-import com.digital.gnsbook.Model.Comment_Response;
-import com.digital.gnsbook.Model.Company_list.Company_list_Model;
-import com.digital.gnsbook.Model.Company_list.Result_Company_list;
-import com.digital.gnsbook.Model.Compony_data;
+import com.digital.gnsbook.Model.ComponyModel;
+import com.digital.gnsbook.Model.Subscription.Company_Subscription_detail;
 import com.digital.gnsbook.Model.Subscription.Subscription_detail;
-import com.digital.gnsbook.Model.Subscription_Response;
+import com.digital.gnsbook.Model.WallPostmodel;
+import com.digital.gnsbook.Adapter.New_WallPostAdapt;
 import com.digital.gnsbook.ViewDialog;
 import com.google.gson.Gson;
 import com.httpgnsbook.gnsbook.R;
@@ -43,14 +44,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Frg_componylist extends Fragment {
 
-
-    List<Subscription_detail.Result> componyModel = new ArrayList();
+public class Frg_ComponySubs extends Fragment {
+    List<Company_Subscription_detail.Result> componyModel = new ArrayList();
     ViewDialog dialog;
     RecyclerView recyclerView;
 
@@ -100,20 +101,15 @@ public class Frg_componylist extends Fragment {
 
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
             Holder holder = (Holder) viewHolder;
-            final Subscription_detail.Result compony_data = componyModel.get(i);
+            final Company_Subscription_detail.Result compony_data = componyModel.get(i);
             holder.name.setText(compony_data.getName());
-            holder.desc.setText(compony_data.getDescription());
+            holder.desc.setText(compony_data.getCity());
             Picasso picasso = Picasso.get();
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(APIs.Dp);
-            stringBuilder.append(compony_data.getLogo());
+            stringBuilder.append(compony_data.getDPic());
             picasso.load(stringBuilder.toString()).into(holder.dp);
-            Picasso.get().load(APIs.Banner+compony_data.getBanner()).into(holder.bg);
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    startActivity(new Intent(getActivity(), Companypage.class).putExtra(DbHelper.COLUMN_ID, compony_data.getCompanyId()));
-                }
-            });
+            Picasso.get().load(APIs.Banner+compony_data.getBPic()).into(holder.bg);
 
 
         }
@@ -126,17 +122,17 @@ public class Frg_componylist extends Fragment {
 
     private void getComponyData() {
         this.dialog.show();
-        AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.own_subscription, new Response.Listener<String>() {
+        AppController.getInstance().addToRequestQueue(new StringRequest(1, APIs.subscribed_people, new Response.Listener<String>() {
             @Override
             public void onResponse(String responce) {
                 dialog.dismiss();
                 try {
                     JSONObject jSONObject = new JSONObject(responce);
                     if (jSONObject.getBoolean("status")) {
-                        Subscription_detail comment_Response =  new Gson().fromJson(responce, Subscription_detail.class);
+                        Company_Subscription_detail comment_Response =  new Gson().fromJson(responce, Company_Subscription_detail.class);
                         componyModel.addAll(comment_Response.getResult());
                         recyclerView.getAdapter().notifyDataSetChanged();
-                    //    getSuggestion();
+                        //    getSuggestion();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -152,7 +148,7 @@ public class Frg_componylist extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> hashMap = new HashMap();
 
-                hashMap.put("customer_id", Global.customerid);
+                hashMap.put("company_id", Global.Company_Id);
                 return hashMap;
             }
         });

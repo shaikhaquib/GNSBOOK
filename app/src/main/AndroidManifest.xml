@@ -31,7 +31,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
-        <activity android:name="com.digital.gnsbook.Activity.ProductCategory"></activity>
+        <activity android:name="com.digital.gnsbook.Activity.MyCompany"></activity>
+        <activity android:name="com.digital.gnsbook.Activity.ProductCategory" />
         <activity android:name="com.digital.gnsbook.Store.ProductPage" />
         <activity android:name="com.digital.gnsbook.Activity.Order_history" />
         <activity android:name="com.digital.gnsbook.Activity.Become_Premium" />

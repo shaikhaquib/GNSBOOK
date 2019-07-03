@@ -33,6 +33,12 @@
             android:title="Joining Product"
             android:visible="false"/>
         <item
+            android:id="@+id/mycompany"
+            android:icon="@drawable/ic_history_black_24dp"
+            android:title="My Company"
+            android:visible="true"/>
+
+        <item
             android:id="@+id/history"
             android:icon="@drawable/ic_history_black_24dp"
             android:title="Order History"
@@ -45,6 +51,7 @@
             android:id="@+id/premium"
             android:icon="@drawable/ic_account"
             android:title="Become Premium Member"
+            android:visible="false"
             />
 
     </group>

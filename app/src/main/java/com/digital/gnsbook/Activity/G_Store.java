@@ -18,7 +18,6 @@ import com.digital.gnsbook.Adapter.Shop_adapter;
 import com.digital.gnsbook.Adapter.WallAdapt;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
-import com.digital.gnsbook.Fragement.Product;
 import com.digital.gnsbook.Global;
 import com.digital.gnsbook.Model.Activity_Gstore.ProductModel;
 import com.digital.gnsbook.Model.Activity_Gstore.Result;
