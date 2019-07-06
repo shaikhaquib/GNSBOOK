@@ -388,7 +388,7 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
                         Bitmap image = getBitmapFromURL(APIs.Dp + item.getImage());
 
                         whatsappIntent.setType("text/plain");
-                        whatsappIntent.putExtra(Intent.EXTRA_TEXT, item.getTitle() + "\n" + item.getDescription() + "\n https://www.gnsbook.com/?reffid=" + Global.customerid);
+                        whatsappIntent.putExtra(Intent.EXTRA_TEXT, item.getTitle() + "\n" + item.getDescription() + "\n "+APIs.Domain+"postpage&id="+item.getId());
                         whatsappIntent.putExtra(Intent.EXTRA_STREAM, APIs.Dp + item.getImage());
                         whatsappIntent.setType("image/jpeg");
                         whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -396,7 +396,7 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
                         final String[] finalImageArray1 = item.getImages().split(",");
                         Bitmap image = getBitmapFromURL(APIs.Dp + finalImageArray1[0]);
                         whatsappIntent.setType("text/plain");
-                        whatsappIntent.putExtra(Intent.EXTRA_TEXT, "*NAME* :" + item.getProductName() + "\n\n" + "*Description* :" + item.getProductDesc() + "\n\n" + "*Price* : ₹" + item.getProductPrice() + "\n\n https://www.gnsbook.com/?reffid=" + Global.customerid);
+                        whatsappIntent.putExtra(Intent.EXTRA_TEXT, "*NAME* :" + item.getProductName() + "\n\n" + "*Description* :" + item.getProductDesc() + "\n\n" + "*Price* : ₹" + item.getProductPrice() + "\n\n"+ APIs.Domain+"productpage&id="+item.getId());
                         whatsappIntent.putExtra(Intent.EXTRA_STREAM, getImageUri(context, image));
                         whatsappIntent.setType("image/jpeg");
                         whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);

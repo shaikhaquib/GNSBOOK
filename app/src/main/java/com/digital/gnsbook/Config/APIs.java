@@ -147,7 +147,12 @@ public class APIs {
     public static String SearchProduct                          = DevDomain+"search_product";
     public static String company_Sub_data_by_id                 = DevDomain+"subscription_data_by_company";
     public static String post_update                            = DevDomain+"post_update";
+    public static String company_order_edit                     = DevDomain+"company_order_edit";
     public static String product_update                         = DevDomain+"product_update";
     public static String own_subscription                       = DevDomain+"own_subscription";
     public static String subscribed_people                      = DevDomain+"subscribed_people";
+    public static String company_order                          = DevDomain+"company_order";
+    public static String add_stock_product                      = DevDomain+"add_stock_product";
+    public static String display_chat                           = DevDomain+"display_chat";
+    public static String add_chat_request                       = DevDomain+"add_chat_request";
 }

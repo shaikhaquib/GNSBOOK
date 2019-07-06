@@ -1,5 +1,6 @@
 package com.digital.gnsbook.Activity;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,7 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -43,13 +46,16 @@ public class Order_history extends AppCompatActivity {
     RecyclerView orderHistory;
     List<Result_Order> prodlist = new ArrayList<>();
     ViewDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_history);
         setTitle("Order history");
         progressDialog=new ViewDialog(this);
-        orderHistory= findViewById(R.id.orderHistory);
+
+
+        orderHistory=findViewById(R.id.orderHistory);
         orderHistory.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         orderHistory.setAdapter(new RecyclerView.Adapter() {
@@ -71,14 +77,34 @@ public class Order_history extends AppCompatActivity {
                 Glide.with(Order_history.this).load(APIs.Dp+images[0]).into(myHolder.img);
                 myHolder.prdname.setText(model.getProductName());
                 myHolder.prddesc.setText(model.getProductDesc());
+                myHolder.tid.setText(model.getTrackingId());
+                myHolder.tlink.setText(model.getTrackingLink());
                 myHolder.prdprice.setText("₹ "+model.getAmount());
-                if (model.getType() == 0) {
+              /*  if (model.getType() == 0) {
                     myHolder.type.setText("HOME");
                 } else {
                     myHolder.type.setText("WORK");
                 }
                 myHolder.add.setText(model.getApartmentName() + " " + model.getLandmark() + " " + model.getCity() + " " + model.getState());
+*/
 
+                if (model.getOrderStatus() == 3){
+                    myHolder.orderstatus.setText("Ordered");
+                    myHolder.orderstatus.setTextColor(Color.parseColor("#60a9a6"));
+
+                }else if (model.getOrderStatus() == 4){
+                    myHolder.orderstatus.setText("Shipped");
+                    myHolder.orderstatus.setTextColor(Color.parseColor("#ff8300"));
+
+                }else if (model.getOrderStatus() == 5){
+                    myHolder.orderstatus.setText("Delivered");
+                    myHolder.orderstatus.setTextColor(Color.parseColor("#58b368"));
+
+                }else if (model.getOrderStatus() == -10){
+                    myHolder.orderstatus.setText("Cancelled");
+                    myHolder.orderstatus.setTextColor(Color.parseColor("#58b368"));
+
+                }
             }
 
             @Override
@@ -88,7 +114,8 @@ public class Order_history extends AppCompatActivity {
             class Holder extends RecyclerView.ViewHolder {
 
                 ImageView img,plus,minus;
-                TextView prdname , prddesc, prdwtunit , prdprice,prodqty,type, add;
+                LinearLayout tracking;
+                TextView prdname , prddesc, prdwtunit , prdprice,prodqty,orderstatus ,tid,tlink;
                 public Holder(@NonNull View itemView) {
                     super(itemView);
 
@@ -98,9 +125,13 @@ public class Order_history extends AppCompatActivity {
                     prdwtunit = itemView.findViewById(R.id.product_qnt);
                     prodqty = itemView.findViewById(R.id.qty);
                     prdprice = itemView.findViewById(R.id.price);
-                    type = itemView.findViewById(R.id.type);
-                    add = itemView.findViewById(R.id.add);
 
+                    orderstatus = itemView.findViewById(R.id.orderstatus);
+                    tid = itemView.findViewById(R.id.trackingid);
+                    tlink = itemView.findViewById(R.id.trackinglink);
+
+                    tracking= itemView.findViewById(R.id.tracking);
+                    tracking.setVisibility(View.VISIBLE);
 
                 }
             } }

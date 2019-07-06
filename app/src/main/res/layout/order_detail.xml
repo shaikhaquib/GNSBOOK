@@ -1,109 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    app:cardCornerRadius="12dp"
-    android:layout_marginTop="@dimen/dimen_16"
     android:layout_marginLeft="@dimen/dimen_16"
-    android:layout_marginRight="@dimen/dimen_16">
+    android:layout_marginTop="@dimen/dimen_16"
+    android:layout_marginRight="@dimen/dimen_16"
+    android:orientation="horizontal"
+    app:cardCornerRadius="12dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/product_img"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="#2D919191"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/product_img"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="#2D919191" />
+
+
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center"
-            android:gravity="center_vertical"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:gravity="center_vertical"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/product_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Product Name"
                 android:fontFamily="@font/roboto_regular"
+                android:text="Product Name"
                 android:textColor="#919191"
-                android:textSize="@dimen/font_15sp"/>
+                android:textSize="@dimen/font_15sp" />
+
             <TextView
                 android:id="@+id/product_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Product Name"
                 android:layout_marginTop="5dp"
+                android:maxLines="2"
                 android:fontFamily="@font/roboto_regular"
+                android:text="Product Name"
                 android:textColor="#919191"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₹ 150"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="₹ 150"
-                    android:id="@+id/price"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"
+                    android:layout_marginTop="8dp"
+                    android:text="Order Status :"
+                    android:textColor="@android:color/holo_blue_light" />
+
+                <TextView
+                    android:id="@+id/orderstatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@android:color/holo_blue_light" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/tracking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Your Tracking Id :"/>
+
+                <TextView
+                    android:id="@+id/trackingid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"/>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Your Tracking Link :"/>
+
+                <TextView
+                    android:id="@+id/trackinglink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:autoLink="all"
                     />
 
 
             </LinearLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
-
-
-            </RelativeLayout>
-            <LinearLayout
-                android:id="@+id/Addlayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="visible">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:text="Address Details:"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/type"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/fragment_title_padding_10"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/add"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/fragment_title_padding_10"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="10dp"/>
-            </LinearLayout>
 
 
         </LinearLayout>
+
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

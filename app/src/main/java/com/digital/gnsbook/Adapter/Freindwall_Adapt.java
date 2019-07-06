@@ -29,7 +29,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -67,10 +66,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Profile_wallpostAdapt extends RecyclerView.Adapter<Profile_wallpostAdapt.Holder> {
+public class Freindwall_Adapt extends RecyclerView.Adapter<Freindwall_Adapt.Holder> {
 
 
-    private static final int TYPE_HEADER = -1;
     private static final int POST = 0;
 
     boolean isLoading = false;
@@ -85,10 +83,9 @@ public class Profile_wallpostAdapt extends RecyclerView.Adapter<Profile_wallpost
     List<Suggestion> suggestions = new ArrayList<>();
     boolean isUser;
 
-    public Profile_wallpostAdapt(Context context, List<TimeLineItem> timeLineItems) {
+    public Freindwall_Adapt(Context context, List<TimeLineItem> timeLineItems) {
         this.context = context;
         this.timeLineItems = timeLineItems;
-        this.isUser=isUser;
     }
 
     private boolean isPositionHeader(int position) {
@@ -97,54 +94,39 @@ public class Profile_wallpostAdapt extends RecyclerView.Adapter<Profile_wallpost
 
     @NonNull
     @Override
-    public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Freindwall_Adapt.Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = null;
 
 
-       if (viewType == POST) {
+        if (viewType == POST) {
             view = LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.walladapt_post,
                     parent,
                     false);
-        }  else if(viewType == TYPE_HEADER){
-            view = LayoutInflater.from(parent.getContext()).inflate(
-                    R.layout.new_wallpost,
-                    parent,
-                    false);
-
         }
 
 
-        return new Holder(view);
+        return new Freindwall_Adapt.Holder(view);
     }
 
     @Override
     public int getItemViewType(int position) {
 //        int i = timeLineItems.get(position).getType();
-        if (isPositionHeader(position)) {
-            return TYPE_HEADER;
-        } else {
-            return POST ;
-        }
+
+        return POST;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final Holder holder, int position) {
+    public void onBindViewHolder(@NonNull final Freindwall_Adapt.Holder holder, int position) {
 
 
+                holder.bindCutomerPost(timeLineItems.get(position), position);
 
-        if (isPositionHeader(position)){
-            holder.bindHead(position);
-        }
-        else if (timeLineItems.get(position-1) != null) {
-            final TimeLineItem item = timeLineItems.get(position-1);
-                holder.bindCutomerPost(timeLineItems.get(position-1),position-1);
-        }
     }
 
     @Override
     public int getItemCount() {
-        return timeLineItems.size()+1;
+        return timeLineItems.size();
     }
 
     class Holder extends RecyclerView.ViewHolder {
@@ -357,8 +339,6 @@ public class Profile_wallpostAdapt extends RecyclerView.Adapter<Profile_wallpost
 
             postMenu = itemView.findViewById(R.id.postMenu);
 
-            if (postmodel.getType()==4 && isUser)
-            postMenu.setVisibility(View.VISIBLE);
 
             postMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -453,7 +433,7 @@ public class Profile_wallpostAdapt extends RecyclerView.Adapter<Profile_wallpost
                 }
             });
 
-         //   builder.create().show();
+            //   builder.create().show();
 
 
 

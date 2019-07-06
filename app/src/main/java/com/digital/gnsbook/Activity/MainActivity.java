@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -103,6 +105,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements OnNavigationItemSelectedListener {
+    private static final int REQUEST_WRITE_PERMISSION = 1155;
     private FragmentViewPagerAdapter adapter;
     Bitmap bitmap;
     SQLiteHandler db;
@@ -392,6 +395,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         viewPager.setOffscreenPageLimit(4);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         prepareDataResource();
+        requestPermission();
 
         this.adapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), this.fragments, this.titles);
 
@@ -463,6 +467,12 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         this.tabLayout.getTabAt(4).setIcon(this.tabIcons[4]);
     }
 
+    private void requestPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[] {
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_PERMISSION);
+        }
+    }
     private void prepareDataResource() {
         fragments = new ArrayList();
         fragments.add(new Frg_Home());
@@ -516,12 +526,14 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
         } else if (menuItem == R.id.nav_Componylist) {
             startActivity(new Intent(getApplicationContext(), Compony_list.class));
         } else if (menuItem == R.id.nav_topperform) {
-            startActivity(new Intent(getApplicationContext(), ProfilePage.class));
+            startActivity(new Intent(getApplicationContext(), ProfilePage.class).putExtra("type",1));
         } else if (menuItem == R.id.nav_rewards) {
             startActivity(new Intent(getApplicationContext(), Pool_Rewards.class));
         } else if (menuItem == R.id.support) {
             callPhoneNumber();
-        } else if (menuItem == R.id.premium) {
+        } else if (menuItem == R.id.history) {
+            startActivity(new Intent(getApplicationContext(), Order_history.class));
+        }else if (menuItem == R.id.premium) {
             startActivity(new Intent(getApplicationContext(),Become_Premium.class));
         } else if (menuItem == R.id.Gstore) {
             startActivity(new Intent(getApplicationContext(),G_Store.class));

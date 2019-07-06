@@ -17,6 +17,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.digital.gnsbook.Activity.Activity_GNSProduct;
 import com.digital.gnsbook.Activity.Companypage;
 import com.digital.gnsbook.Activity.New_Post;
 import com.digital.gnsbook.Activity.UploadProduct;
@@ -97,15 +98,17 @@ public class Fragment_Post extends Fragment {
 
     private void showDialoge() {
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
-        View inflate = getLayoutInflater().inflate(R.layout.transactionmode, null);
+        View inflate = getLayoutInflater().inflate(R.layout.compony_upload_dialoge, null);
         builder.setView(inflate);
         TextView headTitle = (TextView) inflate.findViewById(R.id.headTitle);
         TextView textView = (TextView) inflate.findViewById(R.id.new_FundTrans);
         TextView textView2 = (TextView) inflate.findViewById(R.id.old_FundTrans);
+        TextView textView3 = (TextView) inflate.findViewById(R.id.thirdOption);
 
         headTitle.setText("SELECT POSTING TYPE");
         textView.setText("Normal Posting");
         textView2.setText("Product Posting");
+        textView3.setText("Sell GNS product");
         builder.create().show();
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,6 +120,12 @@ public class Fragment_Post extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), UploadProduct.class));
+            }
+        });
+        textView3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), Activity_GNSProduct.class));
             }
         });
     }

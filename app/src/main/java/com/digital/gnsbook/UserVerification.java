@@ -55,7 +55,8 @@ public class UserVerification {
 
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
-                UserVerification.this.context.startActivity(new Intent(UserVerification.this.context, ProfilePage.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+
+                context.startActivity(new Intent(UserVerification.this.context, ProfilePage.class).putExtra("type",3).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         }
 
@@ -79,7 +80,8 @@ public class UserVerification {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-                    context.startActivity(new Intent(context,ProfilePage.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+
+                    context.startActivity(new Intent(context,ProfilePage.class).putExtra("type",3).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 }
             });
 

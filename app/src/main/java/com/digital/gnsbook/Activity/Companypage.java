@@ -40,7 +40,12 @@ import com.digital.gnsbook.Fragement.Fragement_companypost;
 import com.digital.gnsbook.Fragement.Fragment_Post;
 import com.digital.gnsbook.Fragement.Frg_ComponySubs;
 import com.digital.gnsbook.Adapter.FragmentViewPagerAdapter;
+import com.digital.gnsbook.Fragment.Frg_CompanyAbout;
+import com.digital.gnsbook.Fragment.Frg_CompanyOrder;
+import com.digital.gnsbook.Fragment.Frg_Company_Chat;
 import com.digital.gnsbook.Global;
+import com.digital.gnsbook.GnsChat.ChatRoomActivity;
+import com.digital.gnsbook.GnsChat.CompanyChatActivity;
 import com.digital.gnsbook.Model.ComponyModel;
 import com.google.gson.JsonObject;
 import com.httpgnsbook.gnsbook.R;
@@ -71,7 +76,7 @@ public class Companypage extends AppCompatActivity {
     ViewDialog dialog;
     TextView name, desc, subText;
     ImageView banner, logo;
-    CardView fabSubsCribe, fabSetting, cardProduct;
+    CardView fabSubsCribe, fabSetting, cardProduct,fabchat;
     private PopupMenu popupMenu;
     Bitmap bitmap;
     int subCount = 0;
@@ -93,6 +98,7 @@ public class Companypage extends AppCompatActivity {
         logo = findViewById(R.id.company_logo);
         fabSubsCribe = findViewById(R.id.fabSubsCribe);
         fabSetting = findViewById(R.id.fabAccountSetting);
+        fabchat = findViewById(R.id.fabchat);
         cardProduct = findViewById(R.id.product);
 
         cardProduct.setOnClickListener(new View.OnClickListener() {
@@ -183,11 +189,28 @@ public class Companypage extends AppCompatActivity {
 
                 if (Global.Company_Admin_Id == Integer.parseInt(Global.customerid)) {
                     fabSetting.setEnabled(true);
+                    fabSetting.setVisibility(View.VISIBLE);
+                    fabchat.setVisibility(View.GONE);
                 } else {
                     fabSetting.setEnabled(false);
+                    fabSetting.setVisibility(View.GONE);
+                    fabchat.setVisibility(View.VISIBLE );
                 }
 
                 prepareDataResource();
+
+                fabchat.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(), CompanyChatActivity.class);
+                        intent.putExtra(CompanyChatActivity.CHAT_ROOM_ID, Global.Company_Id+"_"+Global.customerid);
+                        intent.putExtra(CompanyChatActivity.CHAT_cdp, Global.Company_Logo);
+                        intent.putExtra(CompanyChatActivity.CHAT_fid, Global.customerid);
+                        intent.putExtra(CompanyChatActivity.CHAT_ROOM_NAME,Global.Company_Name );
+                        intent.putExtra(CompanyChatActivity.TYPE,"0" );
+                        startActivity(intent);
+                    }
+                });
 
 
             }
@@ -223,13 +246,23 @@ public class Companypage extends AppCompatActivity {
 
         fragments.add(new Fragement_companypost());
         fragments.add(new Fragment_Post());
-        fragments.add(new Frg_ComponySubs());
+        fragments.add(new Frg_CompanyAbout());
 
 
         titles.add("Timeline");
         titles.add("Post");
-        titles.add("Subscribed");
+        titles.add("About");
 
+        if(Global.Company_Admin_Id == Integer.parseInt(Global.customerid) ) {
+
+            tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+            fragments.add(new Frg_ComponySubs());
+            fragments.add(new Frg_Company_Chat());
+            fragments.add(new Frg_CompanyOrder());
+            titles.add("Users");
+            titles.add("Chat");
+            titles.add("Orders");
+        }
 
         FragmentViewPagerAdapter adapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), fragments, titles);
         viewPager.setAdapter(adapter);

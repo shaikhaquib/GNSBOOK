@@ -97,7 +97,13 @@ public class ProfilePage extends AppCompatActivity implements NavigationView.OnN
         });
 
         fragment = fragmentManager.findFragmentById(R.id.pfragmentContainer);
-        fragment = new Fragement_Setting();
+
+
+        if (getIntent().getIntExtra("type",0)==3) {
+            fragment = new Fragement_Createpage();
+        }else {
+            fragment = new Fragement_Setting();
+        }
         fragmentTransaction=fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.pfragmentContainer,fragment,"demofragment");
         fragmentTransaction.addToBackStack(null);

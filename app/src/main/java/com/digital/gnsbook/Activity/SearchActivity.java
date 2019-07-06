@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -166,6 +167,8 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 try {
+
+                    Log.d("Responce",response);
 
                     searchProgress.setVisibility(View.GONE);
                     commentModel.clear();

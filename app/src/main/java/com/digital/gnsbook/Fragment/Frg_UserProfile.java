@@ -85,6 +85,7 @@ public class Frg_UserProfile extends Fragment {
         activity = (MainActivity) getActivity();
 
 
+
 /*
         Initialize
 */
@@ -99,6 +100,8 @@ public class Frg_UserProfile extends Fragment {
         More = view.findViewById(R.id.more);
         upBanner = view.findViewById(R.id.upaBanner);
         upDp = view.findViewById(R.id.upDp);
+
+
 
 /*
          Setting Value
@@ -135,7 +138,7 @@ public class Frg_UserProfile extends Fragment {
         AccountSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ProfilePage.class));
+                startActivity(new Intent(getActivity(), ProfilePage.class).putExtra("type",1));
             }
         });
         More.setOnClickListener(new View.OnClickListener() {

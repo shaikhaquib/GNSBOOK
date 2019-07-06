@@ -252,7 +252,7 @@ public class ProfileFragment extends Fragment {
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.upAccountsetting:
-                   startActivity(new Intent(getActivity(), ProfilePage.class));
+                    startActivity(new Intent(getActivity(), ProfilePage.class).putExtra("type",1));
                     break;
                 case R.id.upBp:
                     CroperinoFileUtil.setupDirectory(ProfileFragment.this.getActivity());

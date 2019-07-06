@@ -42,6 +42,7 @@ public class MyCompany extends AppCompatActivity {
     List<Result_Company_list> componyModel = new ArrayList();
     ViewDialog dialog;
     RecyclerView recyclerView;
+    CardView CreateCompony;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +51,18 @@ public class MyCompany extends AppCompatActivity {
 
         dialog = new ViewDialog(this);
         recyclerView = findViewById(R.id.rvclist);
+        CreateCompony = findViewById(R.id.CreateCompony);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setAdapter(new ReacyclerAdapter());
+
+
+        CreateCompony.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ProfilePage.class).putExtra("type",3));
+
+            }
+        });
         getComponyData();
     }
 

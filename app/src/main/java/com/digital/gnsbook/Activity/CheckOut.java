@@ -249,7 +249,6 @@ public class CheckOut extends AppCompatActivity implements PaymentResultWithData
         final Dialog dialog = new Dialog(CheckOut.this);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
         dialog.setContentView(R.layout.recyclerview);
 
         RecyclerView recyclerView = dialog.findViewById(R.id.recyclerview);

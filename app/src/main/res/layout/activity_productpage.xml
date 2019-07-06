@@ -83,7 +83,8 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:layout_gravity="center_vertical"
-        android:background="@color/orange">
+        android:background="@color/orange"
+        android:onClick="addtocart">
 
         <TextView
             android:layout_width="match_parent"

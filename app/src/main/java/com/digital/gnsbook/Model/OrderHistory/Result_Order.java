@@ -14,6 +14,9 @@ public class Result_Order {
     @SerializedName("customer_id")
     @Expose
     private String customerId;
+    @SerializedName("company_id")
+    @Expose
+    private String companyId;
     @SerializedName("quantity")
     @Expose
     private Integer quantity;
@@ -29,15 +32,21 @@ public class Result_Order {
     @SerializedName("order_id")
     @Expose
     private String orderId;
+    @SerializedName("tracking_id")
+    @Expose
+    private String trackingId;
+    @SerializedName("tracking_link")
+    @Expose
+    private String trackingLink;
     @SerializedName("created_at")
     @Expose
     private String createdAt;
     @SerializedName("updated_at")
     @Expose
     private String updatedAt;
-    @SerializedName("company_id")
+    @SerializedName("stock_id")
     @Expose
-    private String companyId;
+    private Integer stockId;
     @SerializedName("product_name")
     @Expose
     private String productName;
@@ -53,24 +62,24 @@ public class Result_Order {
     @SerializedName("product_link")
     @Expose
     private String productLink;
-    @SerializedName("type")
-    @Expose
-    private Integer type;
     @SerializedName("images")
     @Expose
     private String images;
     @SerializedName("like_count")
     @Expose
     private Integer likeCount;
-    @SerializedName("sell_type")
-    @Expose
-    private Integer sellType;
-    @SerializedName("reward_points")
-    @Expose
-    private Integer rewardPoints;
     @SerializedName("comment_count")
     @Expose
     private Integer commentCount;
+    @SerializedName("type")
+    @Expose
+    private Integer type;
+    @SerializedName("reward_points")
+    @Expose
+    private Integer rewardPoints;
+    @SerializedName("sell_type")
+    @Expose
+    private Integer sellType;
     @SerializedName("customer_name")
     @Expose
     private String customerName;
@@ -120,6 +129,14 @@ public class Result_Order {
         this.customerId = customerId;
     }
 
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
     public Integer getQuantity() {
         return quantity;
     }
@@ -160,6 +177,22 @@ public class Result_Order {
         this.orderId = orderId;
     }
 
+    public String getTrackingId() {
+        return trackingId;
+    }
+
+    public void setTrackingId(String trackingId) {
+        this.trackingId = trackingId;
+    }
+
+    public String getTrackingLink() {
+        return trackingLink;
+    }
+
+    public void setTrackingLink(String trackingLink) {
+        this.trackingLink = trackingLink;
+    }
+
     public String getCreatedAt() {
         return createdAt;
     }
@@ -176,12 +209,12 @@ public class Result_Order {
         this.updatedAt = updatedAt;
     }
 
-    public String getCompanyId() {
-        return companyId;
+    public Integer getStockId() {
+        return stockId;
     }
 
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
+    public void setStockId(Integer stockId) {
+        this.stockId = stockId;
     }
 
     public String getProductName() {
@@ -224,14 +257,6 @@ public class Result_Order {
         this.productLink = productLink;
     }
 
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
     public String getImages() {
         return images;
     }
@@ -248,12 +273,20 @@ public class Result_Order {
         this.likeCount = likeCount;
     }
 
-    public Integer getSellType() {
-        return sellType;
+    public Integer getCommentCount() {
+        return commentCount;
     }
 
-    public void setSellType(Integer sellType) {
-        this.sellType = sellType;
+    public void setCommentCount(Integer commentCount) {
+        this.commentCount = commentCount;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public Integer getRewardPoints() {
@@ -264,12 +297,12 @@ public class Result_Order {
         this.rewardPoints = rewardPoints;
     }
 
-    public Integer getCommentCount() {
-        return commentCount;
+    public Integer getSellType() {
+        return sellType;
     }
 
-    public void setCommentCount(Integer commentCount) {
-        this.commentCount = commentCount;
+    public void setSellType(Integer sellType) {
+        this.sellType = sellType;
     }
 
     public String getCustomerName() {

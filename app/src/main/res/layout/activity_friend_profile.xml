@@ -11,162 +11,184 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:focusableInTouchMode="true"
-        android:background="@color/white"
         android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="200dp">
 
         <ImageView
             android:id="@+id/prBanner"
             android:layout_width="fill_parent"
-            android:layout_height="150.0dip"
+            android:layout_height="199.5dp"
             android:adjustViewBounds="true"
-            android:background="@color/white"
-            android:scaleType="fitXY" />
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/prDP"
-            android:layout_gravity="center"
-            android:layout_width="125.0dip"
-            android:layout_height="125.0dip"
-            android:layout_marginTop="-50dp"
-            app:civ_border_color="@color/borderline"
-            app:civ_border_width="1.0dip" />
+            android:scaleType="centerCrop" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/borderline"/>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/pr"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="-80dp"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+
+
+        <RelativeLayout
+            android:layout_width="150.0dip"
+            android:layout_height="150.0dip"
+            android:src="@drawable/photo">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/prDP"
+                android:layout_width="150.0dip"
+                android:layout_height="150.0dip"
+                android:layout_centerInParent="true"
+                android:layout_margin="8.0dip"
+                android:src="@drawable/photo"
+                app:civ_border_color="@color/borderline"
+                app:civ_border_width="1.0dip" />
+
+
+
+
+        </RelativeLayout>
 
 
         <LinearLayout
-            android:id="@+id/pr"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@color/white"
-            android:gravity="center"
+            android:layout_marginStart="12.0dip"
+            android:layout_marginEnd="12.0dip"
+            android:layout_marginBottom="30.0dip"
             android:orientation="vertical">
 
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/prName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="12.0dip"
-                android:layout_marginEnd="12.0dip"
-                android:layout_marginBottom="@dimen/font_15sp"
-                android:orientation="vertical">
+                android:fontFamily="sans-serif-light"
+                android:singleLine="true"
+                android:text="User Name"
+                android:textColor="@android:color/black"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/prName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:singleLine="true"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/font_20sp" />
-
-                <TextView
-                    android:id="@+id/prcity"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="center_horizontal"
-                    android:text="Sofware Engineer"
-                    android:textSize="12.0sp" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/prcity"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center_horizontal"
+                android:text="Sofware Engineer"
+                android:textSize="12.0sp" />
         </LinearLayout>
 
+    </LinearLayout>
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingBottom="15sp">
+            android:layout_marginBottom="@dimen/dimen_16">
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/fabaddfreind"
-                android:visibility="gone"
-                android:layout_width="wrap_content"
+
+
+            <RelativeLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
-                app:cardBackgroundColor="#2196F3">
+                android:layout_weight="1">
 
+
+                    <ImageView
+                        android:id="@+id/fabaddfreind"
+                        android:tint="#444950"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_addfreind"
+                        android:visibility="gone"
+                        android:background="@drawable/circle_back" />
+
+
+                    <ImageView
+                        android:id="@+id/fabremoove"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/circle_back"
+                        android:tint="#444950"
+                        android:visibility="gone"
+                        android:src="@drawable/ic_happyface_minus" />
+                <ImageView
+                        android:id="@+id/fabfriend"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/circle_back"
+                        android:tint="#444950"
+                        android:visibility="gone"
+                        android:src="@drawable/ic_friend" />
+
+
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="4dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_addfreind"/>
+                    android:id="@+id/fabChat"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_chaticon"
+                    android:background="@drawable/circle_back" />
+            </RelativeLayout>
 
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
-                android:id="@+id/fabremoove"
-                android:layout_width="wrap_content"
+
+            <RelativeLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
-                android:visibility="gone"
-                app:cardBackgroundColor="#6D2196F3">
-
+                android:layout_weight="1">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="9dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_happyface_minus"/>
+                    android:id="@+id/fababout"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_more_horiz"
+                    android:tint="#444950"
+                    android:background="@drawable/circle_back" />
 
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/fabfriend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
-                android:layout_marginLeft="@dimen/margin_16"
-                android:visibility="gone"
-                app:cardBackgroundColor="#E3F2FD">
+            </RelativeLayout>
 
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="9dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_friend"/>
-
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
-                android:id="@+id/fabChat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
-                android:layout_marginLeft="@dimen/margin_16"
-                app:cardBackgroundColor="#FF5722">
-
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="9dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_chat_icon"/>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/fababout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
-                android:layout_marginLeft="@dimen/margin_16"
-                app:cardBackgroundColor="#673AB7">
-
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="11dp"
-                    android:layout_gravity="center"
-                    android:tint="@color/white"
-                    android:src="@drawable/ic_settings_icon"/>
-
-            </android.support.v7.widget.CardView>
         </LinearLayout>
+
+
 
         <LinearLayout
             android:visibility="gone"
@@ -229,6 +251,11 @@
 
 
         </LinearLayout>
+        </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvprofile_wire"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
 </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
