@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -440,9 +441,11 @@ public class Companypage extends AppCompatActivity {
 
                     JSONObject object = new JSONObject(response);
                     if (object.getString("Subscribe_status").equals("1")) {
-                        fabSubsCribe.setCardBackgroundColor(Color.BLUE);
                         subText.setText("Subscribed");
                         subCount = Integer.parseInt(object.getString("count"));
+                        Drawable img = getResources().getDrawable( R.drawable.ic_check_black_24dp);
+                        img.setBounds( 0, 0, 60, 60 );
+                        subText.setCompoundDrawables( img, null, null, null );
                     }
 
 
@@ -478,8 +481,10 @@ public class Companypage extends AppCompatActivity {
 
                     if (jsonObject.getBoolean("status")){
                       //  Global.successDilogue(Companypage.this,"");
-                        fabSubsCribe.setCardBackgroundColor(Color.BLUE);
                         subText.setText("Subscribed");
+                        Drawable img = getResources().getDrawable( R.drawable.ic_check_black_24dp);
+                        img.setBounds( 0, 0, 60, 60 );
+                        subText.setCompoundDrawables( img, null, null, null );
                         Toast.makeText(Companypage.this, "You have successfully Subscribed the plan", Toast.LENGTH_SHORT).show();
                     }else {
                         Toast.makeText(Companypage.this, response, Toast.LENGTH_SHORT).show();

@@ -88,6 +88,7 @@ public class UpdateProfile extends AppCompatActivity {
                     if (object.getBoolean("status")){
                       //  Global.successDilogue(UpdateProfile.this,"You have Successfully updated your profile");
                         Toast.makeText(UpdateProfile.this, "You have Successfully updated your profile", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(),MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
                     }else {
                         Global.failedDilogue(UpdateProfile.this,object.getString("result"));
                     }

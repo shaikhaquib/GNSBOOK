@@ -174,12 +174,7 @@ public class UploadProduct extends AppCompatActivity {
                     strLink = "-";
                 }
                 Reward = edtreward.getText().toString();
-                if (Reward.isEmpty()) {
-                    prdLink.setError(getString(R.string.error_field_required));
-                    focusView = prdLink;
-                    cancel = true;
-
-                } else if (TextUtils.isEmpty(strLink)) {
+                if (TextUtils.isEmpty(strLink)) {
                     prdLink.setError(getString(R.string.error_field_required));
                     focusView = prdLink;
                     cancel = true;
@@ -451,6 +446,7 @@ public class UploadProduct extends AppCompatActivity {
                     JSONObject jSONObject = new JSONObject(json);
                     if (jSONObject.getBoolean("status")) {
                         Toast.makeText(UploadProduct.this, "You have Successfully post.", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(),MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
                     } else {
                         Global.failedDilogue(UploadProduct.this, jSONObject.getString("result"));
                     }
@@ -504,14 +500,13 @@ public class UploadProduct extends AppCompatActivity {
                 // file name could found file base or direct access from real path
                 //for now just get bitmap data from ImageView
 
-                File uploads[] = new File[arrayList.size()];
                 for (int i = 0; i < arrayList.size(); i++) {
 
                     try {
                         InputStream iStream = getContentResolver().openInputStream(arrayList.get(i));
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), arrayList.get(i));
 
-                        params.put("images[" + i + "]", new DataPart(getFileName(arrayList.get(i)), getFileDataFromDrawable(bitmap)));
+                            params.put("images[" + i + "]", new DataPart(getFileName(arrayList.get(i)), getFileDataFromDrawable(bitmap)));
 
                     } catch (Exception e) {
                         e.printStackTrace();

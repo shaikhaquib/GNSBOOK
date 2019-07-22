@@ -34,6 +34,7 @@ import com.bumptech.glide.Glide;
 import com.chahinem.pageindicator.PageIndicator;
 import com.digital.gnsbook.Activity.Comment;
 import com.digital.gnsbook.Activity.Companypage;
+import com.digital.gnsbook.Activity.FriendProfile;
 import com.digital.gnsbook.Activity.New_Post;
 import com.digital.gnsbook.Activity.ProductDetail;
 import com.digital.gnsbook.Activity.ProfilePage;
@@ -277,11 +278,11 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
             prdDesc.setText(postmodel.getProductDesc());
             prdcat.setText(postmodel.getProductCat());
 
-            if (postmodel.getRewardPoints() > 0) {
+          /*  if (postmodel.getRewardPoints() > 0) {
                 reward.setText("Reward Points : " + postmodel.getRewardPoints());
             } else {
                 reward.setVisibility(View.GONE);
-            }
+            }*/
             String[] imageArray = null;
 
             if (postmodel.getImages() != null) {
@@ -360,8 +361,21 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
 
             if (position == timeLineItems.size() - 1) {
                 // When last item is reached.
-             //   Toast.makeText(context, "Last", Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(context, "Last", Toast.LENGTH_SHORT).show();
             }
+
+            if (item.getType()==2 && Global.Company_Admin_Id==Integer.parseInt(Global.customerid)){
+          //      postMenu.setVisibility(View.VISIBLE);
+            }
+
+/*
+            postMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MenuDialoge(item);
+                }
+            });
+*/
 
             likesItems = item.getLikes();
 
@@ -383,7 +397,7 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
                     Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
                     StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                     StrictMode.setVmPolicy(builder.build());
-                    if (item.getType().equals("1")) {
+                    if (item.getType()==1) {
 
                         Bitmap image = getBitmapFromURL(APIs.Dp + item.getImage());
 
@@ -503,7 +517,7 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
 
         public void bindCutomerPost(TimeLineItem postmodel, int position) {
 
-           // main(postmodel, position);
+            // main(postmodel, position);
 
 
             name.setText(postmodel.getName()+" "+postmodel.getLastName());
@@ -715,6 +729,14 @@ public class WallAdapt extends RecyclerView.Adapter<WallAdapt.Holder> {
                 } else {
                     holder.Location.setText(model.getCity());
                 }
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        context.startActivity(new Intent(context, FriendProfile.class).putExtra("id",model.getCustomerId()).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+
+                    }
+                });
             }
 
             @Override

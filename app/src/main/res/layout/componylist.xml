@@ -146,27 +146,35 @@
             android:gravity="center"
             android:layout_marginTop="@dimen/margin_10"
             android:paddingBottom="4.0dip"
-            android:visibility="gone">
+            android:visibility="visible">
 
-            <android.support.design.widget.FloatingActionButton
+
+
+
+            <ImageView
                 android:id="@+id/fabcommunity"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_happy_faces_icon"
-                android:tint="@color/white"
-                app:backgroundTint="#ff38a9ff"
-                app:elevation="0.0dip"
-                app:fabSize="mini" />
+                android:layout_width="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_editprofile"
+                android:tint="#444950"
+                android:background="@drawable/circle_back" />
 
-            <android.support.design.widget.FloatingActionButton
-                android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/fabChat"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_16"
-                android:src="@drawable/ic_chat_icon"
-                app:backgroundTint="#ff7c5ac2"
-                app:elevation="0.0dip"
-                app:fabSize="mini" />
+                android:layout_width="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_chaticon"
+                android:tint="#444950"
+                android:layout_marginLeft="@dimen/dimen_16"
+                android:background="@drawable/circle_back" />
+
+
+
+
+
+
         </LinearLayout>
 
     </LinearLayout>

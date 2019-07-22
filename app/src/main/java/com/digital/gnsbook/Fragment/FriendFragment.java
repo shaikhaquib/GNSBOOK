@@ -25,6 +25,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.digital.gnsbook.Activity.FriendProfile;
 import com.digital.gnsbook.Config.APIs;
 import com.digital.gnsbook.Config.AppController;
 import com.digital.gnsbook.Config.DbHelper;
@@ -51,6 +52,8 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import in.juspay.godel.ui.uber.FloatingActionButton;
 
 public class FriendFragment extends Fragment {
     ArrayList<Top_Performer> componyModel = new ArrayList();
@@ -110,7 +113,7 @@ public class FriendFragment extends Fragment {
                 {
                     model.friendID = String.valueOf(model.getCustomeridFrom());
                 }
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                holder.fabChat.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Log.d("Channel_id",model.friendID);
@@ -128,6 +131,13 @@ public class FriendFragment extends Fragment {
                     }
                 });
 
+                holder.fabcommunity.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getActivity(), FriendProfile.class).putExtra("id",Integer.parseInt(model.friendID)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    }
+                });
+
             }
 
             @Override
@@ -140,6 +150,7 @@ public class FriendFragment extends Fragment {
                 LinearLayout view1;
                 ImageView dp,bg;
                 TextView name;
+                ImageView fabcommunity,fabChat;
 
                 public Holder(@NonNull View view) {
                     super(view);
@@ -150,6 +161,9 @@ public class FriendFragment extends Fragment {
                     this.batchclose = (TextView) view.findViewById(R.id.batchclose);
                     this.bg = (ImageView) view.findViewById(R.id.bg);
                     this.view1 = (LinearLayout) view.findViewById(R.id.view);
+
+                    fabChat = view.findViewById(R.id.fabChat);
+                    fabcommunity = view.findViewById(R.id.fabcommunity);
 
 
                     view1.setVisibility(View.VISIBLE);

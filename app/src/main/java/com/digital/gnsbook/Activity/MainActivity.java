@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
             R.drawable.ic_user_avatar,
             R.drawable.ic_happy_faces_icon
             ,R.drawable.ic_friends ,
-            R.drawable.ic_co};
+            R.drawable.ic_team};
     private TabLayout tabLayout;
     private List<String> titles = new ArrayList();
     HashMap<String, String> user;

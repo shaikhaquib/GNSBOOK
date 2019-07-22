@@ -273,11 +273,8 @@ public class Company_WallAdapt extends RecyclerView.Adapter<Company_WallAdapt.Ho
             prdDesc.setText(postmodel.getProductDesc());
             prdcat.setText(postmodel.getProductCat());
 
-            if (postmodel.getRewardPoints() > 0) {
                 reward.setText("Reward Points : " + postmodel.getRewardPoints());
-            } else {
-                reward.setVisibility(View.GONE);
-            }
+
             String[] imageArray = null;
 
             if (postmodel.getImages() != null) {
@@ -383,7 +380,7 @@ public class Company_WallAdapt extends RecyclerView.Adapter<Company_WallAdapt.Ho
                     Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
                     StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                     StrictMode.setVmPolicy(builder.build());
-                    if (item.getType().equals("1")) {
+                    if (item.getType()==1) {
 
                         Bitmap image = getBitmapFromURL(APIs.Dp + item.getImage());
 
@@ -486,20 +483,6 @@ public class Company_WallAdapt extends RecyclerView.Adapter<Company_WallAdapt.Ho
 
         }
 
-        public void bindHead(int position) {
-
-            LinearLayout NewPost = itemView.findViewById(R.id.newPost);
-            ImageView logo = itemView.findViewById(R.id.componyLogo);
-            Picasso.get().load(APIs.Dp + Global.DP).into(logo);
-
-            NewPost.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    context.startActivity(new Intent(context, New_Post.class).putExtra("type","1"));
-                }
-            });
-
-        }
 
     }
 

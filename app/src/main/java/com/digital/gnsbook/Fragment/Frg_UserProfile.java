@@ -386,8 +386,8 @@ public class Frg_UserProfile extends Fragment {
                     Global.premium_status = object.getInt("premium_status");
 
 
-                    DP.setImageDrawable(activity.profileImage.getDrawable());
                     Picasso.get().load(APIs.Banner + Global.Banner).error(R.drawable.landing_bg).into(banner);
+                    Picasso.get().load(APIs.Dp + Global.DP).error(R.drawable.landing_bg).into(DP);
                     Name.setText(Global.name);
                     city.setText(Global.City);
                     getPost();

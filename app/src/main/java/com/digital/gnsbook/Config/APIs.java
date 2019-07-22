@@ -2,10 +2,10 @@ package com.digital.gnsbook.Config;
 
 public class APIs {
 
-    public static String DevDomain  = "http://development.gnsbook.com/api/";
-    public static String Domain     = "http://development.gnsbook.com/";
-    /*public static String DevDomain  = "https://www.gnsbook.com/api/";
-    public static String Domain = "https://www.gnsbook.com/";*/
+   /* public static String DevDomain  = "http://development.gnsbook.com/api/";
+    public static String Domain     = "http://development.gnsbook.com/";*/
+    public static String DevDomain  = "https://www.gnsbook.com/api/";
+    public static String Domain = "https://www.gnsbook.com/";
 
     public static String LoginAPI                               = Domain+"login";
     public static String UpdatePassword                         = Domain+"update_password";

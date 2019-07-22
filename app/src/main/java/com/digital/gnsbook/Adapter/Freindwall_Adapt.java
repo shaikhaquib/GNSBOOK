@@ -314,20 +314,6 @@ public class Freindwall_Adapt extends RecyclerView.Adapter<Freindwall_Adapt.Hold
 
         }
 
-        public void bindHead(int position) {
-
-            LinearLayout NewPost = itemView.findViewById(R.id.newPost);
-            ImageView logo = itemView.findViewById(R.id.componyLogo);
-            Picasso.get().load(APIs.Dp + Global.DP).into(logo);
-
-            NewPost.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    context.startActivity(new Intent(context, New_Post.class).putExtra("type","1"));
-                }
-            });
-
-        }
 
         public void bindCutomerPost(final TimeLineItem postmodel, int position) {
 

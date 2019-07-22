@@ -206,8 +206,21 @@ public class Profile_wallpostAdapt extends RecyclerView.Adapter<Profile_wallpost
 
             if (position == timeLineItems.size() - 1) {
                 // When last item is reached.
-                Toast.makeText(context, "Last", Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(context, "Last", Toast.LENGTH_SHORT).show();
             }
+
+            if (item.getType()==2 && Global.Company_Admin_Id==Integer.parseInt(Global.customerid)){
+                //      postMenu.setVisibility(View.VISIBLE);
+            }
+
+/*
+            postMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MenuDialoge(item);
+                }
+            });
+*/
 
             likesItems = item.getLikes();
 
@@ -229,7 +242,7 @@ public class Profile_wallpostAdapt extends RecyclerView.Adapter<Profile_wallpost
                     Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
                     StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                     StrictMode.setVmPolicy(builder.build());
-                    if (item.getType().equals("1")) {
+                    if (item.getType()==1) {
 
                         Bitmap image = getBitmapFromURL(APIs.Dp + item.getImage());
 

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/prdlt"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
     android:layout_marginBottom="2.0dip"
-    app:cardCornerRadius="4.0dip"
-    android:id="@+id/prdlt">
+    app:cardCornerRadius="4.0dip">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,10 +24,10 @@
                 android:layout_width="40.0dip"
                 android:layout_height="40.0dip"
                 android:layout_gravity="center"
-                android:src="@drawable/c2yc_sample"
+                android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
+                android:src="@drawable/c2yc_sample"
                 app:civ_border_color="@color/borderline"
                 app:civ_border_width="1.0dip" />
 
@@ -47,13 +47,14 @@
                         android:id="@+id/wpcname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:fontFamily="@font/roboto_bold"
                         android:gravity="center_vertical"
                         android:maxLength="15"
                         android:text="C2YC"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:background="?android:attr/selectableItemBackground"                        android:textColor="@color/nav_textcolor"
+                        android:textColor="@color/nav_textcolor"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -71,59 +72,51 @@
                 android:id="@+id/postMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:visibility="gone"
-                android:src="@drawable/ic_more_vert_black"/>
+                android:src="@drawable/ic_more_vert_black"
+                android:visibility="gone" />
 
         </LinearLayout>
-
-
 
 
         <LinearLayout
             android:id="@+id/prdPostView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
-            android:orientation="vertical">
-
-
-
-
+            android:orientation="vertical"
+            android:visibility="visible">
 
 
             <ImageView
                 android:id="@+id/ProductImage"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:visibility="gone"
-                android:adjustViewBounds="true"
                 android:layout_marginTop="@dimen/margin_16"
-                android:layout_marginBottom="@dimen/margin_16" />
+                android:layout_marginBottom="@dimen/margin_16"
+                android:adjustViewBounds="true"
+                android:visibility="gone" />
 
             <RelativeLayout
+                android:id="@+id/ggg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/ggg"
-                android:layout_gravity="center_vertical"
-                >
+                android:layout_gravity="center_vertical">
 
                 <com.digital.gnsbook.Extra.WrapContentDraweeView
                     android:id="@+id/my_image_view"
                     android:layout_width="300dp"
                     android:layout_height="300dp"
-                    app:fadeDuration="50"
-                    app:placeholderImage="@drawable/ic_image_not_found_"
                     android:layout_centerHorizontal="true"
-                    />
+                    app:fadeDuration="50"
+                    app:placeholderImage="@drawable/ic_image_not_found_" />
 
                 <com.chahinem.pageindicator.PageIndicator
-                android:id="@+id/pageIndicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" android:layout_below="@+id/wpImageRec"
-                android:layout_marginBottom="@dimen/margin_16"
+                    android:id="@+id/pageIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/margin_16"
 
-                />
+                    />
 
             </RelativeLayout>
 
@@ -143,17 +136,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:textStyle="bold"
                         android:textColor="#CD000000"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
 
                     <TextView
                         android:id="@+id/prdcat"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Category"
                         android:layout_marginTop="4dp"
+                        android:text="Category"
                         android:textColor="#CD646363"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -230,24 +223,24 @@
                         android:paddingRight="8dp"
                         android:paddingBottom="4dp"
                         android:text="4.3"
-                        android:visibility="gone"
                         android:textColor="@color/orange"
-                        android:textSize="16dp" />
+                        android:textSize="16dp"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_weight="3"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_height="wrap_content">
+                    android:layout_weight="3">
 
                     <android.support.v7.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
                         android:layout_gravity="center_vertical"
                         app:cardBackgroundColor="@color/orange"
-                        android:layout_centerInParent="true"
                         app:cardCornerRadius="@dimen/dimen_16">
 
                         <TextView
@@ -255,14 +248,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_centerVertical="true"
+                            android:layout_gravity="center"
                             android:layout_marginLeft="@dimen/margin_10"
                             android:layout_marginRight="@dimen/margin_10"
                             android:layout_weight="2"
                             android:gravity="center"
                             android:paddingTop="4dp"
-                            android:singleLine="true"
-                            android:layout_gravity="center"
                             android:paddingBottom="4dp"
+                            android:singleLine="true"
                             android:textColor="#FFFFFF"
                             android:textStyle="bold" />
                     </android.support.v7.widget.CardView>
@@ -273,21 +266,21 @@
             </LinearLayout>
 
 
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_16"
             android:layout_marginTop="3dp"
+            android:layout_marginBottom="@dimen/margin_16"
             android:orientation="vertical">
+
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="0.5dip"
-                android:background="@color/borderline"
                 android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp"/>
+                android:layout_marginRight="6dp"
+                android:background="@color/borderline" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -343,19 +336,19 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginLeft="@dimen/margin_10"
-                        android:src="@drawable/ic_share"
+                        android:background="?android:attr/selectableItemBackground"
                         android:clickable="true"
                         android:focusable="true"
-                        android:background="?android:attr/selectableItemBackground"                        android:textColor="@color/nav_textcolor"
-                        />
+                        android:src="@drawable/ic_share"
+                        android:textColor="@color/nav_textcolor" />
 
                     <TextView
                         android:id="@+id/ShareCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="@dimen/margin_10"
+                        android:layout_weight="1"
                         android:textColor="@color/nav_textcolor"
                         android:textSize="@dimen/margin_10"
                         android:textStyle="bold" />
@@ -375,36 +368,37 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin_16"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <com.digital.gnsbook.Extra.WrapContentDraweeView
                             android:id="@+id/ovimage"
                             android:layout_width="30.0dip"
                             android:layout_height="30.0dip"
                             android:layout_centerInParent="true"
                             android:layout_gravity="center"
-                            app:roundedCornerRadius="30.0dip"
                             app:civ_border_color="@color/borderline"
-                            app:civ_border_width="1dip" />
+                            app:civ_border_width="1dip"
+                            app:roundedCornerRadius="30.0dip" />
+
                         <com.digital.gnsbook.Extra.WrapContentDraweeView
                             android:id="@+id/ovimage1"
                             android:layout_width="30.0dip"
                             android:layout_height="30.0dip"
                             android:layout_centerInParent="true"
                             android:layout_gravity="center"
-                            app:roundedCornerRadius="30.0dip"
-                            android:src="@drawable/c2yc_sample"
                             android:layout_marginLeft="-16dp"
+                            android:src="@drawable/c2yc_sample"
                             app:civ_border_color="@color/borderline"
-                            app:civ_border_width="1dip" />
+                            app:civ_border_width="1dip"
+                            app:roundedCornerRadius="30.0dip" />
 
 
                     </LinearLayout>
-
 
 
                     <TextView

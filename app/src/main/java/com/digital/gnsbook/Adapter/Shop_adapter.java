@@ -149,11 +149,11 @@ public class Shop_adapter extends RecyclerView.Adapter<Shop_adapter.Holder> {
             prdName.setText(postmodel.getProductName());
             prdDesc.setText(postmodel.getProductDesc());
 
-            if (postmodel.getRewardPoints() > 0) {
+           /* if (postmodel.getRewardPoints() > 0) {
                 reward.setText("Reward Points : " + postmodel.getRewardPoints());
             }else {
                 reward.setVisibility(View.GONE);
-            }
+            }*/
             String[] imageArray = null;
 
             if (postmodel.getImages() != null) {

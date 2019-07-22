@@ -115,12 +115,12 @@ public class Fragement_companypost extends Fragment {
         headTitle.setText("SELECT POSTING TYPE");
         textView.setText("Normal Posting");
         textView2.setText("Product Posting");
-        textView2.setText("Sell GNS product");
+        textView3.setText("Sell GNS product");
         builder.create().show();
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), New_Post.class));
+                startActivity(new Intent(getActivity(), New_Post.class).putExtra("type","2"));
             }
         });
         textView2.setOnClickListener(new View.OnClickListener() {

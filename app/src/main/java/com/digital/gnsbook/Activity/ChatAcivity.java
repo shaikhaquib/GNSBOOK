@@ -120,6 +120,10 @@ public class ChatAcivity extends AppCompatActivity {
                 if (sqlLastMessage.doesTableExist()) {
                     user=sqlLastMessage.getMessage(model.getChannelId());
                     if (!user.isEmpty()) {
+
+                        if (sqlLastMessage.COLUMN_MESSAGE.isEmpty()){
+                            holder.city.setText("Click here to start chat");
+                        }
                         holder.city.setText(user.get(sqlLastMessage.COLUMN_MESSAGE));
 
                         Log.d(sqlLastMessage.COLUMN_MESSAGE,user.get(sqlLastMessage.COLUMN_MESSAGE));
